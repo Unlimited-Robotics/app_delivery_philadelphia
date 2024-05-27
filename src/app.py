@@ -2,8 +2,6 @@ import re
 # TODO (Camilo): Do we actually need to import argparse?
 import argparse
 
-# TODO (Camilo): Importing RayaApplicationBase twice
-from raya.application_base import RayaApplicationBase
 from raya.application_base import RayaApplicationBase
 from raya.controllers.navigation_controller import NavigationController
 from raya.controllers.leds_controller import LedsController
