@@ -32,17 +32,13 @@ class RayaApplication(RayaApplicationBase):
             )
 
 
-    # TODO (Camilo): Consider using "main" instead of "loop" and remofe
-    # finish app.
-    async def loop(self):
+    async def main(self):
         # TODO (Camilo): Why not using "run_and_await" instead, so you can 
         # remove the "is_running" poling.
         await self.fsm_main_task.run_in_background()
         
         while self.fsm_main_task.is_running():
             await self.sleep(0.5)
-
-        self.finish_app()
 
 
     async def finish(self):
