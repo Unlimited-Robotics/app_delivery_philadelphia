@@ -9,6 +9,7 @@ from raya.controllers.sound_controller import SoundController
 from raya.controllers.ui_controller import UIController
 from raya.controllers.fleet_controller import FleetController
 
+from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
 
 class RayaApplication(RayaApplicationBase):
@@ -33,23 +34,16 @@ class RayaApplication(RayaApplicationBase):
 
 
     async def main(self):
-        # TODO (Camilo): Why not using "run_and_await" instead, so you can 
-        # remove the "is_running" poling.
-        await self.fsm_main_task.run_in_background()
-        
-        while self.fsm_main_task.is_running():
-            await self.sleep(0.5)
+        try:
+            await self.fsm_main_task.run_and_await()
+        except RayaFSMAborted as e:
+            self.log.error(
+                f'Fsm Aborted with error [{e.error_code}]: {e.error_msg}'
+            )
 
 
     async def finish(self):
-        if self.fsm_main_task.was_successful():
-            self.log.info('App correctly finished')
-        else:
-            # fsm_error[0]: error code, fsm_error[1]: error message
-            fsm_error_code, fsm_error_msg = self.fsm_main_task.get_error()
-            self.log.error(
-                f'App finished with error [{fsm_error_code}]: {fsm_error_msg}'
-            )
+        self.log.info('App finished')
 
 
     def parse_location_list(self, arg):
