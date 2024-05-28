@@ -82,6 +82,16 @@ UI_PACKAGE_NOT_CONFIRMED = {
         'subtitle':'No confirmation received on fleet page',
     }
 
+UI_SCREEN_GARY_NEEDS_HELP = {
+        'title':'Gary needs help',
+        'subtitle':'Contacting the fleet...',
+    }
+
+UI_SCREEN_GARY_NEEDS_HELP_TO_CONTINUE = {
+        'title':'I need help to continue',
+        'subtitle':'Please press the chest button to release the cart',
+    }
+
 UI_SCREEN_FAILED = {
         'title':'Failed',
     }

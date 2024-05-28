@@ -25,7 +25,7 @@ LEDS_WAIT_FOR_BUTTON_CHEST_HEAD = {
 LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON = {
     'group': 'chest',
     'color': 'YELLOW',
-    'animation': 'STANDBY',
+    'animation': 'PROGRAMMING',
     'speed': 1,
     'repetitions': 0,
 }

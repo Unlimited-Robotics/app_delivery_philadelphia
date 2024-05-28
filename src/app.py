@@ -6,7 +6,7 @@ from raya.controllers.ui_controller import UIController
 from raya.controllers.fleet_controller import FleetController
 from raya.controllers.sensors_controller import SensorsController
 
-from raya.exceptions import RayaArgumentError
+from raya.enumerations import FLEET_FINISH_STATUS
 from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
 
@@ -36,7 +36,18 @@ class RayaApplication(RayaApplicationBase):
     async def main(self):
         try:
             await self.fsm_main_task.run_and_await()
+            await self.fleet.finish_task(
+                result=FLEET_FINISH_STATUS.SUCCESS,
+                message='Task finished successfully'
+            )
         except RayaFSMAborted as e:
+            await self.fleet.finish_task(
+                result=FLEET_FINISH_STATUS.FAILED,
+                message=(
+                    'Fsm Aborted with error '
+                    f'[{e.error_code}]: {e.error_msg}'
+                )
+            )
             self.log.error(
                 f'Fsm Aborted with error [{e.error_code}]: {e.error_msg}'
             )

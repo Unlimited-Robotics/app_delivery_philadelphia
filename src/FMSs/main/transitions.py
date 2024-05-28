@@ -1,4 +1,5 @@
 from raya.tools.fsm import BaseTransitions
+from raya.exceptions import RayaFleetTimeout
 
 from src.app import RayaApplication
 from src.static.app_errors import *
@@ -8,7 +9,6 @@ from src.static.leds import *
 from src.static.sound import *
 from .helpers import Helpers
 from .errors import *
-
 
 class Transitions(BaseTransitions):
 
@@ -118,13 +118,15 @@ class Transitions(BaseTransitions):
             **SOUND_WAIT_FOR_FLEET_CONFIRMATION,
             wait=True,
         )
-        self.set_state('PACKAGE_DELIVERED')
-        
-        # response = await self.app.fleet.request_action(
-        #     **FLEET_REQUEST_CONFIRMATION_PACKAGE
-        # )
-        # if response == 'ok':
-        #     self.set_state('PACKAGE_DELIVERED')
+        try:
+            response = await self.app.fleet.request_action(
+                **FLEET_REQUEST_CONFIRMATION_PACKAGE,
+            )
+            data = response['data']
+            self.app.log.warn(f'Fleet response: {data}')
+            self.set_state('PACKAGE_DELIVERED')
+        except RayaFleetTimeout:
+            self.set_state('PACKAGE_NOT_CONFIRMED')
 
         
     async def PACKAGE_DELIVERED(self):
@@ -164,7 +166,18 @@ class Transitions(BaseTransitions):
     
     
     async def REQUEST_FOR_HELP(self):
-        self.set_state('RELEASE_CART')
+        response = await self.app.fleet.request_action(
+            **FLEET_REQUEST_HELP,
+            timeout=60.0
+        )
+        self.set_state('WAIT_FOR_CHEST_BY_OPERATOR')
+
+
+    async def WAIT_FOR_CHEST_BY_OPERATOR(self):
+        sensors_data = self.app.sensors.get_all_sensors_values()
+        button_chest = sensors_data['chest_button']
+        if button_chest!=0:
+            self.set_state('RELEASE_CART')
 
 
     async def RELEASE_CART(self):
@@ -172,7 +185,12 @@ class Transitions(BaseTransitions):
 
 
     async def DE_ATTACH_CART_SKILL(self):
-        self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
+        if not self.app.nav.is_navigating():
+            nav_error = self.app.nav.get_last_result()
+            if nav_error[0] == 0:
+                self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
+            else:
+                self.set_state('REQUEST_FOR_HELP')
 
 
     async def NOTIFY_ALL_PACKAGES_STATUS(self):
