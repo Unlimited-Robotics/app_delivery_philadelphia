@@ -28,7 +28,9 @@ class Helpers:
 
 
     async def check_if_robot_in_delivery_floor(self):
-        is_localized,_,_,map_name = await self.app.nav.get_status()
+        result = await self.app.nav.get_status()
+        is_localized = result['localized']
+        map_name = result['map_name']
         if is_localized and map_name == self.current_package[1]:
             return True
         return False
@@ -69,4 +71,5 @@ class Helpers:
                 wait=True,
             )
             await self.app.sleep(2)
+            break
 

@@ -1,19 +1,27 @@
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
-NAV_WAREHOUSE_MAP_NAME = 'tags_floor.03'
+NAV_WAREHOUSE_MAP_NAME = 'minigary.101'
 
-NAV_WAREHOUSE = {
-        'x':        609.0,
-        'y':        317.0,
-        'angle':    -1.23, 
+NAV_WAREHOUSE_ENTRACE = {
+        'x':        343.0,
+        'y':        430.0,
+        'angle':    66.88, 
+        'pos_unit': POSITION_UNIT.PIXELS, 
+        'ang_unit': ANGLE_UNIT.DEGREES,
+    }
+
+NAV_WAREHOUSE_EXIT = {
+        'x':        379.0,
+        'y':        314.0,
+        'angle':    -106.36, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
     }
 
 NAV_CART_POINT = {
-        'x':        616.0,
-        'y':        188.0,
-        'angle':    -2.63, 
+        'x':        453.0,
+        'y':        274.0,
+        'angle':    -2.35, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
     }

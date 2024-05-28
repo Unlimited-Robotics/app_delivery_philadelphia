@@ -17,6 +17,11 @@ UI_SCREEN_NAV_TO_WAREHOUSE = {
         'subtitle':'Going to warehouse',
     }
 
+UI_SCREEN_NAV_TO_WAREHOUSE_EXIT = {
+        'title':'Navigating', 
+        'subtitle':'Leaving warehouse',
+    }
+
 UI_SCREEN_NAV_TO_WAREHOUSE_RETURN = {
         'title':'Navigating', 
         'subtitle':'Going back to warehouse',

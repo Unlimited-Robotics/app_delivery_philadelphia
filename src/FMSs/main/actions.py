@@ -29,12 +29,26 @@ class Actions(BaseActions):
         UI_SCREEN_NAV_TO_WAREHOUSE_FLOOR['subtitle'] = \
             f'Navigating to warehouse floor {floor}' 
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE_FLOOR)
+        await self.app.nav.navigate_to_position(
+                **NAV_WAREHOUSE_ENTRACE,
+                callback_feedback_async=self.helpers.nav_feedback_async,
+                callback_finish_async=self.helpers.nav_finish_async,
+            )
 
 
     async def enter_NAV_TO_WAREHOUSE(self):
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
-                **NAV_WAREHOUSE,
+                **NAV_WAREHOUSE_ENTRACE,
+                callback_feedback_async=self.helpers.nav_feedback_async,
+                callback_finish_async=self.helpers.nav_finish_async,
+            )
+
+
+    async def enter_NAV_TO_WAREHOUSE_EXIT(self):
+        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE_EXIT)
+        await self.app.nav.navigate_to_position(
+                **NAV_WAREHOUSE_EXIT,
                 callback_feedback_async=self.helpers.nav_feedback_async,
                 callback_finish_async=self.helpers.nav_finish_async,
             )
@@ -54,8 +68,8 @@ class Actions(BaseActions):
     
     async def exit_ATTACH_TO_CART_SKILL(self):
         self.app.cancel_task('task_approaching_to_cart_audio')
-        self.app.sound.cancel_all_sounds()
-        self.app.leds.turn_off_all()
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
 
 
     async def enter_NAV_TO_DELIVERY_FLOOR_SKILL(self):
@@ -71,52 +85,14 @@ class Actions(BaseActions):
             'pos_unit': POSITION_UNIT.PIXELS, 
             'ang_unit': ANGLE_UNIT.DEGREES,
         }
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_PACKAGE_FLOOR)
         await self.app.nav.navigate_to_position(
-                **point,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
-
-
-    async def enter_NOTIFY_ORDER_ARRIVED(self):
-        await self.app.leds.animation(
-            **LEDS_NOTIFY_ORDER_ARRIVED, 
-            wait=False
+            **point,
+            callback_feedback_async=self.helpers.nav_feedback_async,
+            callback_finish_async=self.helpers.nav_finish_async,
         )
-        await self.app.sound.play_sound(
-            **SOUND_NOTIFY_ORDER_ARRIVED,
-            wait=True,
-        )
-        self.app.leds.turn_off_all()
-
-
-    async def enter_WAIT_FOR_CHEST_CONFIRMATION(self):
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_ARRIVE)
-
-
-    async def exit_WAIT_FOR_CHEST_CONFIRMATION(self):
-        self.app.sound.cancel_all_sounds()
-        self.app.leds.turn_off_all()
-
-
-    async def enter_CONFIRMATION_ON_FLEET(self):
-        await self.app.ui.display_screen(
-            **UI_SCREEN_DELIVERING_CONFIRMATION_ON_FLEET
-        )
-
-  
-    async def exit_CONFIRMATION_ON_FLEET(self):
-        self.app.sound.cancel_all_sounds()
-        self.app.leds.turn_off_all()
+        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_PACKAGE_FLOOR)
 
     
-    async def enter_PACKAGE_DELIVERED(self):
-        await self.app.ui.display_screen(
-            **UI_SCREEN_DELIVERING_CONFIRMATION_ON_FLEET
-        )    
-
-
     async def enter_NAV_TO_DELIVERY_POINT(self):
         UI_SCREEN_DELIVERING_PACKAGE['subtitle'] = \
             f'Delivering package {self.helpers.index_package + 1} \
@@ -130,10 +106,48 @@ class Actions(BaseActions):
             'angle': 90, 
         }
         await self.app.nav.navigate_to_position(
-                **delivery_location,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
+            **delivery_location,
+            callback_feedback_async=self.helpers.nav_feedback_async,
+            callback_finish_async=self.helpers.nav_finish_async,
+        )
+
+
+    async def enter_NOTIFY_ORDER_ARRIVED(self):
+        await self.app.leds.animation(
+            **LEDS_NOTIFY_ORDER_ARRIVED, 
+            wait=False
+        )
+        await self.app.sound.play_sound(
+            **SOUND_NOTIFY_ORDER_ARRIVED,
+            wait=True,
+        )
+        await self.app.leds.turn_off_all()
+
+
+    async def enter_WAIT_FOR_CHEST_CONFIRMATION(self):
+        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_ARRIVE)
+
+
+    async def exit_WAIT_FOR_CHEST_CONFIRMATION(self):
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
+
+
+    async def enter_CONFIRMATION_ON_FLEET(self):
+        await self.app.ui.display_screen(
+            **UI_SCREEN_DELIVERING_CONFIRMATION_ON_FLEET
+        )
+
+  
+    async def exit_CONFIRMATION_ON_FLEET(self):
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
+
+    
+    async def enter_PACKAGE_DELIVERED(self):
+        await self.app.ui.display_screen(
+            **UI_SCREEN_DELIVERING_CONFIRMATION_ON_FLEET
+        )
 
 
     async def enter_NAV_TO_WAREHOUSE_FLOOR_SKILL_RETURN(self):
@@ -147,7 +161,7 @@ class Actions(BaseActions):
             wait=True,
         )
         await self.app.nav.navigate_to_position(
-                **NAV_WAREHOUSE,
+                **NAV_WAREHOUSE_ENTRACE,
                 callback_feedback_async=self.helpers.nav_feedback_async,
                 callback_finish_async=self.helpers.nav_finish_async,
             )

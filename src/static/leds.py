@@ -35,7 +35,7 @@ LEDS_WAIT_FOR_FLEET_CONFIRMATION = {
     'color': 'CYAN',
     'animation': 'MOTION_12_IN',
     'speed': 1,
-    'repetitions': 0,
+    'repetitions': 1,
 }
 
 LEDS_PACKAGE_DELIVERED = {
