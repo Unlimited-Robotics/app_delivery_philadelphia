@@ -62,8 +62,8 @@ class RayaApplication(RayaApplicationBase):
                 ),
                 required=False,
                 default='',
-                list=True
             )
+            self.log.info(f'Location: {location}')
             floor = self.get_argument(
                 f'--floor{index}',
                 type=str,
@@ -73,18 +73,9 @@ class RayaApplication(RayaApplicationBase):
                 required=False,
                 default='',
             )
-            location_list = []
-            for i, element in enumerate(location):
-                element = element.strip().strip(',')
-                if i == 0:
-                    element = element.lstrip('[')
-                if i == len(location) - 1:
-                    element = element.rstrip(']')
-                try:
-                    location_list.append(float(element))
-                except ValueError:
-                    location_list.append(element)
-            
+            location = location.strip('[]')
+            location = location.split(',')
+            location_list = [float(axys.strip()) for axys in location]
             if floor != '':
                 self.locations.append(location_list)
                 self.floor.append(floor)
