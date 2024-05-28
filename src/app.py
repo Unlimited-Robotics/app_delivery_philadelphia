@@ -6,6 +6,7 @@ from raya.controllers.ui_controller import UIController
 from raya.controllers.fleet_controller import FleetController
 from raya.controllers.sensors_controller import SensorsController
 
+from raya.exceptions import RayaArgumentError
 from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
 
@@ -33,6 +34,7 @@ class RayaApplication(RayaApplicationBase):
 
 
     async def main(self):
+        return
         try:
             await self.fsm_main_task.run_and_await()
         except RayaFSMAborted as e:
@@ -46,32 +48,46 @@ class RayaApplication(RayaApplicationBase):
 
     
     def get_arguments(self):
-        # TODO (Camilo): Change to --location1 X.X,X.X --floor1 basement ...
-        n = 2
+        max_packages = 2
         self.locations = []
         self.floor = []
         
-        for index in range(1, n+1):
+        for index in range(1, max_packages+1):
             location = self.get_argument(
                 f'--location{index}',
                 type=str,
                 help=('Location to deliver the packages, '
-                      f'ex: --location{index} ""'
+                    f'ex: --location{index} '
+                    '"[381, 655, 1.57, \'point{index}\']"'
                 ),
-                required=True,
+                required=False,
+                default='',
+                list=True
             )
             floor = self.get_argument(
                 f'--floor{index}',
                 type=str,
                 help=('Floor to deliver the packages, '
-                      f'ex: --floor{index} ""'
+                    f'ex: --floor{index} ""'
                 ),
-                required=True,
+                required=False,
+                default='',
             )
-            location = location.strip("()")
-            location = list(map(float, location.split(",")))
-            self.locations.append(location)
-            self.floor.append(floor)
+            location_list = []
+            for i, element in enumerate(location):
+                element = element.strip().strip(',')
+                if i == 0:
+                    element = element.lstrip('[')
+                if i == len(location) - 1:
+                    element = element.rstrip(']')
+                try:
+                    location_list.append(float(element))
+                except ValueError:
+                    location_list.append(element)
+            
+            if floor != '':
+                self.locations.append(location_list)
+                self.floor.append(floor)
         
         self.log.info('App is running with there args:')
         self.log.info(f'\tLocations: {self.locations}')
