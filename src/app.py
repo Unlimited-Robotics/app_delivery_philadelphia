@@ -34,7 +34,6 @@ class RayaApplication(RayaApplicationBase):
 
 
     async def main(self):
-        return
         try:
             await self.fsm_main_task.run_and_await()
         except RayaFSMAborted as e:
