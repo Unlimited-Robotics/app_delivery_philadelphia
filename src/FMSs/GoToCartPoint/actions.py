@@ -100,6 +100,10 @@ class Actions(BaseActions):
             'pos_unit': POSITION_UNIT.PIXELS, 
             'ang_unit': ANGLE_UNIT.DEGREES,
         }
+        text = (   
+            f'Delivering package 1 of {len(self.app.locations)}'
+        )
+        UI_SCREEN_LEAVE_WAREHOUSE['subtitle'] = text
         await self.app.ui.display_screen(**UI_SCREEN_LEAVE_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **point,
