@@ -2,6 +2,9 @@ import time
 
 from .constants import TIME_BEFORE_PASSING_DOOR
 from src.app import RayaApplication
+from src.static.leds import *
+from src.static.sound import *
+from raya.exceptions import RayaCommandAlreadyRunning
 
 class Helpers:
 
@@ -32,28 +35,60 @@ class Helpers:
 
 
     async def nav_feedback_async(self, code, msg, distance_to_goal, speed):
-        if code == 9:
-            self.app.log.debug('Obstacle detected')
-            await self.app.sound.play_sound(name='error', wait=True)
-            
         self.app.log.debug(
             f'nav_feedback_async: {code}, {msg}, {distance_to_goal}, {speed}'
         )
+        if code == 9:
+            await self.gary_play_audio(
+                audio=SOUND_OBSTACLE_DETECTED,
+                animation_head_leds=LEDS_NOTIFY_OBSTACLE
+            )
 
 
     async def nav_feedback_door_async(self, code, msg, distance, speed):
-        if code == 9:
-            await self.app.sound.play_sound(name='error', wait=True)
-            if not self.check_timer(TIME_BEFORE_PASSING_DOOR):
-                self.app.log.warn('Obstacle detected, the door is closed')
-                await self.app.nav.cancel_navigation()
         self.app.log.debug(
             'nav_feedback_door_async: '
             f'{code}, {msg}, {distance}, {speed}'
         )
+        if code == 9:
+            if not self.check_timer(TIME_BEFORE_PASSING_DOOR):
+                self.app.log.warn('Obstacle detected, the door is closed')
+                await self.app.nav.cancel_navigation()
+            await self.gary_play_audio(
+                audio=SOUND_OBSTACLE_DETECTED,
+                animation_head_leds=LEDS_NOTIFY_OBSTACLE
+            )
 
         
     async def nav_finish_async(self, code, msg):
         self.app.log.debug(
             f'nav_finish_async: {code}, {msg}'
         )
+        
+
+    async def gary_play_audio(self, 
+            audio: dict, 
+            animation_head_leds: dict = LEDS_WAIT_FOR_BUTTON_CHEST_HEAD
+        ):
+        try:
+            if not self.app.sound.is_playing():
+                await self.app.leds.turn_off_group(group='head')
+                await self.app.sound.play_sound(
+                    **audio,
+                    wait=False,
+                    callback_finish=self.sound_finish_callback
+                )
+            else:
+                await self.app.leds.animation(
+                    **animation_head_leds, 
+                    wait=True
+                )
+        except RayaCommandAlreadyRunning:
+            pass
+
+
+    def sound_finish_callback(self, code, msg):
+        self.app.log.debug(
+            f'sound_finish_callback: {code}, {msg}'
+        )
+

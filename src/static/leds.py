@@ -11,7 +11,15 @@ LEDS_NOTIFY_ORDER_ARRIVED = {
     'color': 'CYAN',
     'animation': 'MOTION_12_IN',
     'speed': 1,
-    'repetitions': 0,
+    'repetitions': 1,
+}
+
+LEDS_NOTIFY_OBSTACLE = {
+    'group': 'head',
+    'color': 'RED',
+    'animation': 'MOTION_12_IN',
+    'speed': 1,
+    'repetitions': 1,
 }
 
 LEDS_WAIT_FOR_BUTTON_CHEST_HEAD = {

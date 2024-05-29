@@ -9,6 +9,7 @@ from src.static.leds import *
 from src.static.sound import *
 from .helpers import Helpers
 from .errors import *
+from .constants import *
 
 class Transitions(BaseTransitions):
 
@@ -50,27 +51,23 @@ class Transitions(BaseTransitions):
 
 
     async def WAIT_FOR_CHEST_CONFIRMATION(self):
-        sensors_data = self.app.sensors.get_all_sensors_values()
-        button_chest = sensors_data['chest_button']
-        if button_chest!=0:
-            await self.app.sleep(2)
+        await self.helpers.gary_play_audio(
+            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
+            leds=LEDS_WAIT_FOR_BUTTON_CHEST_HEAD,
+        )
+        
+        if await self.helpers.check_for_chest_button(): 
+            await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('PACKAGE_DELIVERED')
 
-        if not self.app.sound.is_playing():
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_HEAD, 
-                wait=False
-            )
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-                wait=False
-            )
-            await self.app.sound.play_sound(
-                **SOUND_WAIT_FOR_CHEST_BUTTON,
-                wait=False,
-            )
-
         
+        
+        # await self.app.leds.animation(
+        #     **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
+        #     wait=True
+        # )
+
+
     async def PACKAGE_DELIVERED(self):
         await self.app.leds.animation(
             **LEDS_PACKAGE_DELIVERED,

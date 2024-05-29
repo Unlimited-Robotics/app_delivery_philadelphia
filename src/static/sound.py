@@ -28,3 +28,8 @@ SOUND_ALL_PACKAGES_DELIVERED = {
         'volume': 100,
     }
 
+SOUND_OBSTACLE_DETECTED = {
+        'path': 'res:Obstacle_detected.mp3',
+        'volume': 100,
+    }
+

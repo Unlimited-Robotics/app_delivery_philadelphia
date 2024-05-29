@@ -4,6 +4,9 @@ from .helpers import Helpers
 from .errors import *
 from .constants import *
 
+from src.static.leds import *
+from src.static.sound import *
+
 class Transitions(BaseTransitions):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
@@ -41,6 +44,10 @@ class Transitions(BaseTransitions):
 
     
     async def WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
+        await self.helpers.gary_play_audio(
+            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
+        )
+        
         if await self.helpers.check_for_chest_button():
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('ENTER_WAREHOUSE')
@@ -56,6 +63,10 @@ class Transitions(BaseTransitions):
 
     
     async def WAIT_FOR_LOAD_PACKAGE(self):
+        await self.helpers.gary_play_audio(
+            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
+        )
+        
         if await self.helpers.check_for_chest_button():
             self.app.log.info('Package loaded')
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
@@ -84,6 +95,10 @@ class Transitions(BaseTransitions):
 
 
     async def WAIT_FOR_BUTTON_EXITING(self):
+        await self.helpers.gary_play_audio(
+            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
+        )
+        
         if await self.helpers.check_for_chest_button():
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('LEAVE_WAREHOUSE')
