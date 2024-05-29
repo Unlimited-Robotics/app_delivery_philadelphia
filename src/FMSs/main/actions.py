@@ -10,6 +10,7 @@ from src.static.leds import *
 from src.static.sound import *
 from .helpers import Helpers
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
+from raya.exceptions import RayaCommandAlreadyRunning
 
 
 class Actions(BaseActions):
@@ -67,6 +68,12 @@ class Actions(BaseActions):
                     'has arrived at the delivery point.'
                 )
             )
+        await self.helpers.gary_play_audio(
+            audio=SOUND_NOTIFY_ORDER_ARRIVED,
+            animation_head_leds=LEDS_NOTIFY_ORDER_ARRIVED,
+            wait=True
+        )
+        self.app.log.warn('NOTIFY_ORDER_ARRIVED')
 
 
     async def leave_NOTIFY_ORDER_ARRIVED(self):
@@ -76,31 +83,40 @@ class Actions(BaseActions):
 
     async def enter_WAIT_FOR_CHEST_CONFIRMATION(self):
         await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_ARRIVE)
-        await self.app.leds.animation(
-            **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-            wait=True
-        )
+        try:
+            await self.app.leds.animation(
+                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
+                wait=True
+            )
+        except RayaCommandAlreadyRunning:
+            pass
 
 
-    async def exit_WAIT_FOR_CHEST_CONFIRMATION(self):
+    async def leave_WAIT_FOR_CHEST_CONFIRMATION(self):
         await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
 
 
-    async def WAIT_FOR_CHEST_CONFIRMATION_to_PACKAGE_DELIVERED(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.SUCCESS,
-                message=(
-                    f'The package {self.helpers.index_package + 1} '
-                    'was delivered successfully.'
-                )
-            )
-
-    
     async def enter_PACKAGE_DELIVERED(self):
-        await self.app.ui.display_screen(
-            **UI_SCREEN_DELIVERING_CONFIRMATION_ON_FLEET
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.SUCCESS,
+            message=(
+                f'The package {self.helpers.index_package + 1} '
+                'was delivered successfully.'
+            )
         )
+        await self.app.ui.display_screen(
+            **UI_SCREEN_DELIVERING_SUCCESS
+        )
+        await self.helpers.gary_play_audio(
+            audio=SOUND_PACKAGE_DELIVERED,
+            wait=True
+        )
+
+
+    async def leave_PACKAGE_DELIVERED(self):
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
 
 
     async def enter_PACKAGE_NOT_DELIVERED(self):
@@ -112,6 +128,15 @@ class Actions(BaseActions):
                 )
             )
         await self.app.ui.display_screen(**UI_PACKAGE_NOT_DELIVERED)
+        await self.helpers.gary_play_audio(
+            audio=SOUND_PACKAGE_NOT_DELIVERED,
+            wait=True
+        )
+
+
+    async def leave_PACKAGE_NOT_DELIVERED(self):
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
 
 
     async def enter_RETURN_TO_WAREHOUSE(self):
@@ -128,11 +153,17 @@ class Actions(BaseActions):
                 callback_feedback_async=self.helpers.nav_feedback_async,
                 callback_finish_async=self.helpers.nav_finish_async,
             )
+        await self.helpers.gary_play_audio(
+            audio=SOUND_ALL_PACKAGES_DELIVERED,
+            animation_head_leds=LEDS_ALL_PACKAGES_DELIVERED,
+            wait=True
+        )
 
 
     async def leave_RETURN_TO_WAREHOUSE(self):
         await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
+        self.app.log.warn('leave_RETURN_TO_WAREHOUSE')
 
 
     async def enter_GO_TO_RELEASE_POINT(self):
@@ -153,7 +184,12 @@ class Actions(BaseActions):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message='All packages were delivered successfully.'
             )
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCESS)
+        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
+        await self.helpers.gary_play_audio(
+            audio=SOUND_ALL_PACKAGES_DELIVERED,
+            animation_head_leds=LEDS_ALL_PACKAGES_DELIVERED,
+            wait=True
+        )
 
 
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
@@ -176,6 +212,13 @@ class Actions(BaseActions):
                 message='Waiting for operator.'
         )
         await self.app.ui.display_screen(**UI_SCREEN_GARY_NEEDS_HELP_TO_CONTINUE)
+        try:
+            await self.app.leds.animation(
+                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
+                wait=True
+            )
+        except RayaCommandAlreadyRunning:
+            pass
 
 
     async def enter_RELEASE_CART(self):

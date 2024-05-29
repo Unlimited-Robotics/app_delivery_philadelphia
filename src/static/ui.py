@@ -72,7 +72,7 @@ UI_SCREEN_DELIVERING_CONFIRMATION_ON_FLEET = {
         'subtitle':'Please confirm the delivery using the fleet',
     }
 
-UI_SCREEN_DELIVERING_SUCESS = {
+UI_SCREEN_DELIVERING_SUCCESS = {
         'title':'Delivering Success ✅', 
         'subtitle':'The package was delivered successfully',
     }

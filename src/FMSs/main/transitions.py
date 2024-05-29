@@ -45,12 +45,6 @@ class Transitions(BaseTransitions):
 
 
     async def NOTIFY_ORDER_ARRIVED(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_NOTIFY_ORDER_ARRIVED,
-            animation_head_leds=LEDS_NOTIFY_ORDER_ARRIVED,
-            wait=True
-        )
-        
         self.set_state('WAIT_FOR_CHEST_CONFIRMATION')
 
 
@@ -66,22 +60,10 @@ class Transitions(BaseTransitions):
 
 
     async def PACKAGE_DELIVERED(self):
-        await self.app.leds.animation(
-            **LEDS_PACKAGE_DELIVERED,
-                wait=False
-            )
-        await self.app.sound.play_sound(
-            **SOUND_PACKAGE_DELIVERED,
-            wait=True,
-        )
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
 
     async def PACKAGE_NOT_DELIVERED(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_PACKAGE_NOT_DELIVERED,
-            wait=True
-        )
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
     
@@ -94,11 +76,6 @@ class Transitions(BaseTransitions):
 
 
     async def RETURN_TO_WAREHOUSE(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_ALL_PACKAGES_DELIVERED,
-            animation_head_leds=LEDS_ALL_PACKAGES_DELIVERED,
-            wait=True
-        )
         self.set_state('GO_TO_RELEASE_POINT')
 
 
@@ -107,11 +84,6 @@ class Transitions(BaseTransitions):
         
     
     async def NOTIFY_ALL_PACKAGES_STATUS(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_ALL_PACKAGES_DELIVERED,
-            animation_head_leds=LEDS_ALL_PACKAGES_DELIVERED,
-            wait=True
-        )
         self.set_state('END')
     
     

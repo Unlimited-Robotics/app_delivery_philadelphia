@@ -98,13 +98,13 @@ class Helpers:
             else:
                 await self.app.leds.animation(
                     **animation_head_leds, 
-                    wait=True
+                    wait=False
                 )
             
             if wait:
                 await self.app.leds.animation(
                     **animation_head_leds, 
-                    wait=True
+                    wait=False
                 )
                 while self.app.sound.is_playing():
                     await self.app.sleep(0.5)
