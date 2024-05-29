@@ -21,7 +21,7 @@ STATES = [
 
 # First state of FSM, if not defined, the FSM starts in the first element of
 # the STATES list
-INITIAL_STATE = 'NAV_TO_DELIVERY_POINT'
+INITIAL_STATE = 'SETUP_ACTIONS'
 
 
 # If the FSM falls into one of these states, the execution finishes.
