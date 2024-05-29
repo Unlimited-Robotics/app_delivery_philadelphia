@@ -83,6 +83,10 @@ class Actions(BaseActions):
 
     async def enter_WAIT_FOR_CHEST_CONFIRMATION(self):
         await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_ARRIVE)
+        self.app.create_task(
+            name='Notify Task',
+            afunc=self.helpers.task_to_notify
+        )
         try:
             await self.app.leds.animation(
                 **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
@@ -93,6 +97,10 @@ class Actions(BaseActions):
 
 
     async def leave_WAIT_FOR_CHEST_CONFIRMATION(self):
+        self.app.cancel_task(
+            name='Notify Task'
+        )
+        self.app.log.warn('task canceled')
         await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
 

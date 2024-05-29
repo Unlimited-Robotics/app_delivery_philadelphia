@@ -21,12 +21,12 @@ STATES = [
 
 # First state of FSM, if not defined, the FSM starts in the first element of
 # the STATES list
-INITIAL_STATE = 'SETUP_ACTIONS'
+INITIAL_STATE = 'NOTIFY_ORDER_ARRIVED'
 
 
 # If the FSM falls into one of these states, the execution finishes.
 END_STATES = [
-    'END',
+    'CHECK_IF_MORE_PACKAGES',
 ]
 
 STATES_TRANSITION_TIMEOUTS = {

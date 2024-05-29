@@ -9,7 +9,8 @@ from src.static.sound import *
 
 from src.FMSs.GoToCartPoint import GoToCartPointFSM
 from src.FMSs.ParkCart import ParkCartFSM
-
+from raya.enumerations import FLEET_UPDATE_STATUS
+from .constants import TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED
 
 class Helpers:
 
@@ -122,3 +123,17 @@ class Helpers:
         self.app.log.debug(
             f'sound_finish_callback: {code}, {msg}'
         )
+
+
+    async def task_to_notify(self):
+        text = (
+            f'This is a reminder that the package {self.index_package + 1} '
+            'has arrived at the delivery point and hasn\'t been confirmed.'
+        )
+        while True:
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=text
+            )
+            self.app.log.warn(text)
+            await self.app.sleep(TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED)
