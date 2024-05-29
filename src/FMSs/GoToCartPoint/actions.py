@@ -2,7 +2,9 @@ from raya.tools.fsm import BaseActions
 from src.app import RayaApplication
 from src.static.navigation import *
 from src.static.ui import *
+from raya.enumerations import FLEET_UPDATE_STATUS, POSITION_UNIT, ANGLE_UNIT
 
+from .constants import *
 from .helpers import Helpers
 
 class Actions(BaseActions):
@@ -20,7 +22,8 @@ class Actions(BaseActions):
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
         )
-        
+
+
     async def enter_ENTER_WAREHOUSE(self):
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
@@ -29,8 +32,13 @@ class Actions(BaseActions):
             callback_finish_async=self.helpers.nav_finish_async,
         )
         self.helpers.start_timer()
-    
+
+
     async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=FLEET_MESSAGE_OPEN_DOOR
+            )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
 
 
@@ -44,6 +52,10 @@ class Actions(BaseActions):
 
 
     async def enter_WAIT_FOR_LOAD_PACKAGE(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=FLEET_MESSAGE_WAITING_PACKAGE_LOAD
+            )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_PACKAGE_LOAD)
 
     
@@ -54,7 +66,8 @@ class Actions(BaseActions):
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
         )
-    
+
+
     async def enter_LEAVE_WAREHOUSE(self):
         package = self.app.locations[0]
         point = {
@@ -74,6 +87,10 @@ class Actions(BaseActions):
 
 
     async def enter_WAIT_FOR_BUTTON_EXITING(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=FLEET_MESSAGE_CLOSED_DOOR
+            )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
 
 
