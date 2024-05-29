@@ -29,87 +29,11 @@ class Actions(BaseActions):
         await self.app.nav.set_map(NAV_WAREHOUSE_MAP_NAME)
 
 
-    async def enter_NAV_TO_WAREHOUSE_FLOOR_SKILL(self):
-        floor = self.helpers.current_package[1]
-        UI_SCREEN_NAV_TO_WAREHOUSE_FLOOR['subtitle'] = \
-            f'Navigating to warehouse floor {floor}' 
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE_FLOOR)
-        await self.app.nav.navigate_to_position(
-                **NAV_WAREHOUSE_ENTRACE,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message='Navigating to warehouse floor'
-            )
-    
-    async def exit_NAV_TO_WAREHOUSE_FLOOR_SKILL(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.SUCCESS,
-                message='The robot is in the warehouse floor'
-            )
+    async def enter_GO_TO_CART_POINT(self):
+        await self.helpers.fsm_go_to_cart_point.run_in_background()
 
 
-    async def enter_NAV_TO_WAREHOUSE(self):
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE)
-        await self.app.nav.navigate_to_position(
-                **NAV_WAREHOUSE_ENTRACE,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message='The robot is navigating to the warehouse'
-            )
-    
-    async def exit_NAV_TO_WAREHOUSE(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.SUCCESS,
-                message='The robot is in the warehouse'
-            )
-
-
-    async def enter_NAV_TO_WAREHOUSE_EXIT(self):
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE_EXIT)
-        await self.app.nav.navigate_to_position(
-                **NAV_WAREHOUSE_EXIT,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
-    
-    
-    async def enter_ATTACH_TO_CART_SKILL(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message='The robot is attaching to the cart'
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_ATTACHING_TO_CART)
-        self.app.create_task(
-            name='task_approaching_to_cart_audio', 
-            afunc=self.helpers.task_approaching_to_cart_audio
-        )
-        await self.app.nav.navigate_to_position(
-                **NAV_CART_POINT,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
-    
-    async def exit_ATTACH_TO_CART_SKILL(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.SUCCESS,
-                message='The robot is attached to the cart'
-            )
-        self.app.cancel_task('task_approaching_to_cart_audio')
-        await self.app.sound.cancel_all_sounds()
-        await self.app.leds.turn_off_all()
-
-
-    async def enter_NAV_TO_DELIVERY_FLOOR_SKILL(self):
-        floor = self.helpers.current_package[1]
-        UI_SCREEN_NAV_TO_PACKAGE_FLOOR['subtitle'] = \
-            f'Delivering package on the floor: {floor}' 
-        
+    async def enter_NAV_TO_DELIVERY_POINT(self):
         package , floor = self.helpers.current_package
         point = {
             'x': package[0],
@@ -118,43 +42,18 @@ class Actions(BaseActions):
             'pos_unit': POSITION_UNIT.PIXELS, 
             'ang_unit': ANGLE_UNIT.DEGREES,
         }
-        await self.app.nav.navigate_to_position(
-            **point,
-            callback_feedback_async=self.helpers.nav_feedback_async,
-            callback_finish_async=self.helpers.nav_finish_async,
+        text = (   
+            f'Delivering package {self.helpers.index_package + 1} '
+            f'of {len(self.app.locations)}'
         )
+        UI_SCREEN_NAV_TO_PACKAGE_FLOOR['subtitle'] = text
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_PACKAGE_FLOOR)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
-                message=(
-                    f'Delivering package {self.helpers.index_package +1} '
-                    f'to the floor {floor}.'
-                )
+                message=text
             )
-
-    
-    async def enter_NAV_TO_DELIVERY_POINT(self):
-        UI_SCREEN_DELIVERING_PACKAGE['subtitle'] = \
-            f'Delivering package {self.helpers.index_package + 1} \
-                of {len(self.app.locations)}'
-        
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=(
-                    f'Delivering package {self.helpers.index_package + 1} '
-                    f'of {len(self.app.locations)}'
-                )
-            )
-
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_PACKAGE)
-        delivery_point, _ = self.helpers.current_package
-        delivery_location = {
-            'x': delivery_point[0],
-            'y': delivery_point[1],
-            'angle': 90, 
-        }
         await self.app.nav.navigate_to_position(
-            **delivery_location,
+            **point,
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
         )
@@ -189,12 +88,7 @@ class Actions(BaseActions):
         await self.app.leds.turn_off_all()
 
 
-    async def enter_CONFIRMATION_ON_FLEET(self):
-        await self.app.ui.display_screen(
-            **UI_SCREEN_DELIVERING_CONFIRMATION_ON_FLEET
-        )
-
-    async def CONFIRMATION_ON_FLEET_to_PACKAGE_DELIVERED(self):
+    async def WAIT_FOR_CHEST_CONFIRMATION_to_PACKAGE_DELIVERED(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.SUCCESS,
                 message=(
@@ -202,10 +96,6 @@ class Actions(BaseActions):
                     'was delivered successfully.'
                 )
             )
-  
-    async def exit_CONFIRMATION_ON_FLEET(self):
-        await self.app.sound.cancel_all_sounds()
-        await self.app.leds.turn_off_all()
 
     
     async def enter_PACKAGE_DELIVERED(self):
@@ -214,7 +104,18 @@ class Actions(BaseActions):
         )
 
 
-    async def enter_NAV_TO_WAREHOUSE_FLOOR_SKILL_RETURN(self):
+    async def enter_PACKAGE_NOT_DELIVERED(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.ERROR,
+                message=(
+                    f'The package {self.helpers.index_package + 1} '
+                    'was not delivered.'
+                )
+            )
+        await self.app.ui.display_screen(**UI_PACKAGE_NOT_DELIVERED)
+
+
+    async def enter_RETURN_TO_WAREHOUSE(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=(
@@ -232,18 +133,13 @@ class Actions(BaseActions):
             wait=True,
         )
         await self.app.nav.navigate_to_position(
-                **NAV_WAREHOUSE_ENTRACE,
+                **NAV_WAREHOUSE_ENTRANCE,
                 callback_feedback_async=self.helpers.nav_feedback_async,
                 callback_finish_async=self.helpers.nav_finish_async,
             )
-    
-    async def enter_NAV_TO_WAREHOUSE_RETURN(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.SUCCESS,
-                message='The robot is in the warehouse floor.'
-            )
 
-    async def enter_DE_ATTACH_CART_SKILL(self):
+
+    async def enter_GO_TO_RELEASE_POINT(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message='The robot is deattaching from the cart.'
@@ -285,32 +181,6 @@ class Actions(BaseActions):
     async def enter_RELEASE_CART(self):
         await self.app.ui.display_screen(**UI_SCREEN_RELEASE_CART)
 
-
-    async def enter_MAX_RETRIES_ON_NOTIFICATION(self):
-        await self.app.ui.display_screen(**UI_TRIES_ON_NOTIFICATION)
-
-
-    async def enter_PACKAGE_NOT_DELIVERED(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.ERROR,
-                message=(
-                    f'The package {self.helpers.index_package + 1} '
-                    'was not delivered.'
-                )
-            )
-        await self.app.ui.display_screen(**UI_PACKAGE_NOT_DELIVERED)
-
-
-    async def enter_PACKAGE_NOT_CONFIRMED(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.ERROR,
-                message=(
-                    f'The package {self.helpers.index_package + 1} '
-                    'was not confirmed.'
-                )
-            )
-        await self.app.ui.display_screen(**UI_PACKAGE_NOT_CONFIRMED)
-        
     
     async def aborted(self, error, msg):
         await self.app.fleet.update_app_status(

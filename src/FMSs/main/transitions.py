@@ -17,68 +17,29 @@ class Transitions(BaseTransitions):
         self.app = app
         self.helpers = helpers
 
+
     async def SETUP_ACTIONS(self):
         if await self.app.nav.is_localized():
-            self.set_state('NAV_TO_WAREHOUSE_FLOOR_SKILL')
+            self.set_state('GO_TO_CART_POINT')
         else:
             self.abort(*ERR_COULD_NOT_LOCALIZE)
 
 
-    async def NAV_TO_WAREHOUSE_FLOOR_SKILL(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0 and \
-                await self.helpers.check_if_robot_in_warehouse_floor():
-                self.set_state('NAV_TO_WAREHOUSE')
+    async def GO_TO_CART_POINT(self):
+        if self.helpers.fsm_go_to_cart_point.has_finished():
+            if self.helpers.fsm_go_to_cart_point.was_successful():
+                self.set_state('NAV_TO_DELIVERY_POINT')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
-
-    
-    async def NAV_TO_WAREHOUSE(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('ATTACH_TO_CART_SKILL')
-            else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
+                self.abort(*self.helpers.fsm_go_to_cart_point.get_error())
 
 
-    async def ATTACH_TO_CART_SKILL(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('NAV_TO_WAREHOUSE_EXIT')
-            else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_CART)
-                
-
-    async def NAV_TO_WAREHOUSE_EXIT(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('NAV_TO_DELIVERY_FLOOR_SKILL')
-            else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE_EXIT)
-
-
-    async def NAV_TO_DELIVERY_FLOOR_SKILL(self):
+    async def NAV_TO_DELIVERY_POINT(self):
         if self.app.nav.is_navigating():
             return
 
         nav_error = self.app.nav.get_last_result()
         if nav_error[0] == 0 and \
                 await self.helpers.check_if_robot_in_delivery_floor():
-            self.set_state('NAV_TO_DELIVERY_POINT')
-        else:
-            self.abort(*ERR_COULD_NOT_NAV_TO_DELIVERY_POINT)
-            
-    
-    async def NAV_TO_DELIVERY_POINT(self):
-        if self.app.nav.is_navigating():
-            return
-        
-        nav_error = self.app.nav.get_last_result()
-        if nav_error[0] == 0:
             self.set_state('NOTIFY_ORDER_ARRIVED')
         else:
             self.abort(*ERR_COULD_NOT_NAV_TO_DELIVERY_POINT)
@@ -93,7 +54,7 @@ class Transitions(BaseTransitions):
         button_chest = sensors_data['chest_button']
         if button_chest!=0:
             await self.app.sleep(2)
-            self.set_state('CONFIRMATION_ON_FLEET')
+            self.set_state('PACKAGE_DELIVERED')
 
         if not self.app.sound.is_playing():
             await self.app.leds.animation(
@@ -108,25 +69,6 @@ class Transitions(BaseTransitions):
                 **SOUND_WAIT_FOR_CHEST_BUTTON,
                 wait=False,
             )
-        
-    async def CONFIRMATION_ON_FLEET(self):
-        await self.app.leds.animation(
-            **LEDS_WAIT_FOR_FLEET_CONFIRMATION,
-            wait=False
-        )
-        await self.app.sound.play_sound(
-            **SOUND_WAIT_FOR_FLEET_CONFIRMATION,
-            wait=True,
-        )
-        try:
-            response = await self.app.fleet.request_action(
-                **FLEET_REQUEST_CONFIRMATION_PACKAGE,
-            )
-            data = response['data']
-            self.app.log.warn(f'Fleet response: {data}')
-            self.set_state('PACKAGE_DELIVERED')
-        except RayaFleetTimeout:
-            self.set_state('PACKAGE_NOT_CONFIRMED')
 
         
     async def PACKAGE_DELIVERED(self):
@@ -140,29 +82,29 @@ class Transitions(BaseTransitions):
         )
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
+
+    async def PACKAGE_NOT_DELIVERED(self):
+        self.set_state('CHECK_IF_MORE_PACKAGES')
+
     
     async def CHECK_IF_MORE_PACKAGES(self):
         if await self.helpers.check_if_more_packages():
             await self.helpers.set_next_package()
-            self.set_state('NAV_TO_DELIVERY_FLOOR_SKILL')
+            self.set_state('NAV_TO_DELIVERY_POINT')
         else:
-            self.set_state('NAV_TO_WAREHOUSE_FLOOR_SKILL_RETURN')
+            self.set_state('RETURN_TO_WAREHOUSE')
 
 
-    async def NAV_TO_WAREHOUSE_FLOOR_SKILL_RETURN(self):
-        if await self.helpers.check_if_robot_in_warehouse_floor():
-            self.set_state('NAV_TO_WAREHOUSE_RETURN')
-        else:
-            self.set_state('REQUEST_FOR_HELP')
+    async def RETURN_TO_WAREHOUSE(self):
+        self.set_state('GO_TO_RELEASE_POINT')
 
+
+    async def GO_TO_RELEASE_POINT(self):
+        self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
+        
     
-    async def NAV_TO_WAREHOUSE_RETURN(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('DE_ATTACH_CART_SKILL')
-            else:
-                self.set_state('REQUEST_FOR_HELP')
+    async def NOTIFY_ALL_PACKAGES_STATUS(self):
+        self.set_state('END')
     
     
     async def REQUEST_FOR_HELP(self):
@@ -184,28 +126,5 @@ class Transitions(BaseTransitions):
         self.abort(*ERR_NAV_RETURN_WAREHOUSE_FAILED)
 
 
-    async def DE_ATTACH_CART_SKILL(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
-            else:
-                self.set_state('REQUEST_FOR_HELP')
-
-
-    async def NOTIFY_ALL_PACKAGES_STATUS(self):
-        self.set_state('END')
-
-
-    async def PACKAGE_NOT_CONFIRMED(self):
-        self.set_state('CHECK_IF_MORE_PACKAGES')
-
-
-    async def MAX_RETRIES_ON_NOTIFICATION(self):
-        await self.app.sleep(5)
-        self.set_state('PACKAGE_NOT_DELIVERED')
-
-
-    async def PACKAGE_NOT_DELIVERED(self):
-        await self.app.sleep(5)
-        self.set_state('CHECK_IF_MORE_PACKAGES')
+    async def END(self):
+        pass

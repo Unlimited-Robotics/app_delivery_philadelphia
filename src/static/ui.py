@@ -17,7 +17,27 @@ UI_SCREEN_NAV_TO_WAREHOUSE = {
         'subtitle':'Going to warehouse',
     }
 
+UI_SCREEN_ENTERING_TO_WAREHOUSE = {
+        'title':'Navigating', 
+        'subtitle':'Entering warehouse',
+    }
+
+UI_SCREEN_WAIT_FOR_PACKAGE_LOAD = {
+        'title':'Waiting for package', 
+        'subtitle':'Please load the package and press the chest button to continue',
+    }
+
+UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
+        'title':'Waiting for door to open', 
+        'subtitle':'Please open the door and press the chest button to continue, and step aside',
+    }
+
 UI_SCREEN_NAV_TO_WAREHOUSE_EXIT = {
+        'title':'Navigating', 
+        'subtitle':'Navigating to warehouse exit',
+    }
+
+UI_SCREEN_LEAVE_WAREHOUSE = {
         'title':'Navigating', 
         'subtitle':'Leaving warehouse',
     }

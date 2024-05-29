@@ -4,27 +4,19 @@ from src.static.app_errors import *
 # The first state is always the initial one
 STATES = [
         'SETUP_ACTIONS',
-        'NAV_TO_WAREHOUSE_FLOOR_SKILL',
-        'NAV_TO_WAREHOUSE',
-        'ATTACH_TO_CART_SKILL',
-        'NAV_TO_WAREHOUSE_EXIT',
-        'NAV_TO_DELIVERY_FLOOR_SKILL',
+        'GO_TO_CART_POINT',
         'NAV_TO_DELIVERY_POINT',
         'NOTIFY_ORDER_ARRIVED',
         'WAIT_FOR_CHEST_CONFIRMATION',
-        'CONFIRMATION_ON_FLEET',
         'PACKAGE_DELIVERED',
-        'PACKAGE_NOT_CONFIRMED',
-        'MAX_RETRIES_ON_NOTIFICATION',
         'PACKAGE_NOT_DELIVERED',
         
         'CHECK_IF_MORE_PACKAGES',
-        'NAV_TO_WAREHOUSE_FLOOR_SKILL_RETURN',
-        'NAV_TO_WAREHOUSE_RETURN',
+        'RETURN_TO_WAREHOUSE',
         'REQUEST_FOR_HELP',
         'WAIT_FOR_CHEST_BY_OPERATOR',
         'RELEASE_CART',
-        'DE_ATTACH_CART_SKILL',
+        'GO_TO_RELEASE_POINT',
         'NOTIFY_ALL_PACKAGES_STATUS',
         'END',
     ]
@@ -37,7 +29,7 @@ INITIAL_STATE = 'SETUP_ACTIONS'
 
 # If the FSM falls into one of these states, the execution finishes.
 END_STATES = [
-    'END',
+    'NAV_TO_DELIVERY_POINT',
 ]
 
 

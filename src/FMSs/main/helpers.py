@@ -7,6 +7,8 @@ from src.static.navigation import *
 from src.static.leds import *
 from src.static.sound import *
 
+from src.FMSs.GoToCartPoint import GoToCartPointFSM
+
 
 class Helpers:
 
@@ -17,6 +19,11 @@ class Helpers:
             self.app.locations[self.index_package], 
             self.app.floor[self.index_package]
         )
+        self.fsm_go_to_cart_point = GoToCartPointFSM(
+            name='GoToCartPoint', 
+            log_transitions=True
+        )
+
 
     async def check_if_robot_in_warehouse_floor(self):
         result = await self.app.nav.get_status()
