@@ -59,5 +59,5 @@ LEDS_ALL_PACKAGES_DELIVERED = {
     'color': 'CYAN',
     'animation': 'MOTION_12_IN',
     'speed': 1,
-    'repetitions': 0,
+    'repetitions': 1,
 }

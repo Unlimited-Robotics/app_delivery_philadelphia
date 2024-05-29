@@ -33,3 +33,8 @@ SOUND_OBSTACLE_DETECTED = {
         'volume': 100,
     }
 
+SOUND_PACKAGE_NOT_DELIVERED = {
+        'path': 'res:package_not_confirmed.mp3',
+        'volume': 100,
+    }
+

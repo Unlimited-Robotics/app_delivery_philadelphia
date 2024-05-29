@@ -43,7 +43,7 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
         await self.app.leds.animation(
             **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-            wait=False
+            wait=True
         )
 
     
@@ -117,7 +117,7 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
         await self.app.leds.animation(
             **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-            wait=False
+            wait=True
         )
 
 

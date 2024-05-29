@@ -67,20 +67,19 @@ class Actions(BaseActions):
                     'has arrived at the delivery point.'
                 )
             )
-        
-        await self.app.leds.animation(
-            **LEDS_NOTIFY_ORDER_ARRIVED, 
-            wait=False
-        )
-        await self.app.sound.play_sound(
-            **SOUND_NOTIFY_ORDER_ARRIVED,
-            wait=True,
-        )
+
+
+    async def leave_NOTIFY_ORDER_ARRIVED(self):
+        await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
 
 
     async def enter_WAIT_FOR_CHEST_CONFIRMATION(self):
         await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_ARRIVE)
+        await self.app.leds.animation(
+            **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
+            wait=True
+        )
 
 
     async def exit_WAIT_FOR_CHEST_CONFIRMATION(self):
@@ -124,19 +123,16 @@ class Actions(BaseActions):
                 )
             )
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE_RETURN)
-        await self.app.leds.animation(
-            **LEDS_ALL_PACKAGES_DELIVERED,
-            wait=False
-        )
-        await self.app.sound.play_sound(
-            **SOUND_ALL_PACKAGES_DELIVERED,
-            wait=True,
-        )
         await self.app.nav.navigate_to_position(
                 **NAV_WAREHOUSE_ENTRANCE,
                 callback_feedback_async=self.helpers.nav_feedback_async,
                 callback_finish_async=self.helpers.nav_finish_async,
             )
+
+
+    async def leave_RETURN_TO_WAREHOUSE(self):
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
 
 
     async def enter_GO_TO_RELEASE_POINT(self):
@@ -158,7 +154,11 @@ class Actions(BaseActions):
                 message='All packages were delivered successfully.'
             )
         await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCESS)
-        await self.app.sound.play_sound(name='success', wait=True)
+
+
+    async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
 
 
     async def enter_REQUEST_FOR_HELP(self):
@@ -167,7 +167,7 @@ class Actions(BaseActions):
                 message='Gary needs help.'
         )
         await self.app.ui.display_screen(**UI_SCREEN_GARY_NEEDS_HELP)
-        await self.app.sound.play_sound(name='error')
+        await self.app.sound.play_sound(name='attention')
 
 
     async def enter_WAIT_FOR_CHEST_BY_OPERATOR(self):
@@ -191,4 +191,4 @@ class Actions(BaseActions):
                 subtitle=f'ERROR {error}: {msg}',
                 **UI_SCREEN_FAILED
             )
-        await self.app.sound.play_sound(name='error')
+        await self.app.sound.play_sound(name='attention')

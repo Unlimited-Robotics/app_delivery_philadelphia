@@ -24,17 +24,14 @@ STATES = [
 
 # First state of FSM, if not defined, the FSM starts in the first element of
 # the STATES list
-INITIAL_STATE = 'SETUP_ACTIONS'
+INITIAL_STATE = 'NAV_TO_DELIVERY_POINT'
 
 
 # If the FSM falls into one of these states, the execution finishes.
 END_STATES = [
-    'NAV_TO_DELIVERY_POINT',
+    'END',
 ]
 
-
-# If one of the states takes more than an especified time, it aborts.
-# Format: 'STATE': (<timeout>, <error_tuple>)
-# STATES_TIMEOUTS = {
-#     'LOCALIZING' : (10.0, APPERR_COULD_NOT_LOCALIZE),
-# }
+STATES_TRANSITION_TIMEOUTS = {
+    'WAIT_FOR_CHEST_CONFIRMATION': (30.0, 'PACKAGE_NOT_DELIVERED'),
+}

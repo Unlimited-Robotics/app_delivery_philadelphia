@@ -68,7 +68,8 @@ class Helpers:
 
     async def gary_play_audio(self, 
             audio: dict, 
-            animation_head_leds: dict = LEDS_WAIT_FOR_BUTTON_CHEST_HEAD
+            animation_head_leds: dict = LEDS_WAIT_FOR_BUTTON_CHEST_HEAD,
+            wait: bool = False
         ):
         try:
             if not self.app.sound.is_playing():
@@ -83,6 +84,15 @@ class Helpers:
                     **animation_head_leds, 
                     wait=True
                 )
+            
+            if wait:
+                await self.app.leds.animation(
+                    **animation_head_leds, 
+                    wait=True
+                )
+                while self.app.sound.is_playing():
+                    await self.app.sleep(0.5)
+                await self.app.leds.turn_off_group(group='head')
         except RayaCommandAlreadyRunning:
             pass
 

@@ -55,6 +55,7 @@ class RayaApplication(RayaApplicationBase):
 
     async def finish(self):
         self.log.info('App finished')
+        await self.sleep(5)
 
     
     def get_arguments(self):

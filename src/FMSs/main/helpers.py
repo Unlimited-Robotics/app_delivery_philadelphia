@@ -25,6 +25,15 @@ class Helpers:
         )
 
 
+    async def check_for_chest_button(self):
+        sensors_data = self.app.sensors.get_all_sensors_values()
+        button_chest = sensors_data['chest_button']
+        if button_chest!=0:
+            await self.app.sound.play_sound(name='success', wait=True)
+            return True
+        return False
+
+
     async def check_if_robot_in_warehouse_floor(self):
         result = await self.app.nav.get_status()
         is_localized = result['localized']
@@ -55,28 +64,56 @@ class Helpers:
         )
 
 
-    async def nav_feedback_async(self, code, msg, distance_to_goal, speed):
+    async def nav_feedback_async(self, code, msg, distance, speed):
         self.app.log.debug(
-            f'nav_feedback_async: {code}, {msg}, {distance_to_goal}, {speed}'
+            'nav_feedback_async: '
+            f'{code}, {msg}, {distance}, {speed}'
         )
-        # if code == 9:
-        #     await self.app.sound.play_sound(
-        #         name='error'
-        #     )
-        
+        if code == 9:
+            await self.gary_play_audio(
+                audio=SOUND_OBSTACLE_DETECTED,
+                animation_head_leds=LEDS_NOTIFY_OBSTACLE
+            )
+
+
     async def nav_finish_async(self, code, msg):
         self.app.log.debug(
             f'nav_finish_async: {code}, {msg}'
         )
 
 
-    async def task_approaching_to_cart_audio(self):
-        while True:
-            await self.app.leds.animation(**LEDS_ATTACHING_TO_CART)
-            await self.app.sound.play_sound(
-                **SOUND_ATTACHING_TO_CART,
-                wait=True,
-            )
-            await self.app.sleep(2)
-            break
+    async def gary_play_audio(self, 
+            audio: dict, 
+            animation_head_leds: dict = LEDS_WAIT_FOR_BUTTON_CHEST_HEAD,
+            wait: bool = False
+        ):
+        try:
+            if not self.app.sound.is_playing():
+                await self.app.leds.turn_off_group(group='head')
+                await self.app.sound.play_sound(
+                    **audio,
+                    wait=False,
+                    callback_finish=self.sound_finish_callback
+                )
+            else:
+                await self.app.leds.animation(
+                    **animation_head_leds, 
+                    wait=True
+                )
+            
+            if wait:
+                await self.app.leds.animation(
+                    **animation_head_leds, 
+                    wait=True
+                )
+                while self.app.sound.is_playing():
+                    await self.app.sleep(0.5)
+                await self.app.leds.turn_off_group(group='head')
+        except RayaCommandAlreadyRunning:
+            pass
 
+
+    def sound_finish_callback(self, code, msg):
+        self.app.log.debug(
+            f'sound_finish_callback: {code}, {msg}'
+        )
