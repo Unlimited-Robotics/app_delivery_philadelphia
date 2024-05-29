@@ -24,10 +24,11 @@ class Actions(BaseActions):
     async def enter_ENTER_WAREHOUSE(self):
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
-            **NAV_WAREHOUSE_EXIT,
+            **NAV_CART_POINT,
             callback_feedback_async=self.helpers.nav_feedback_door_async,
             callback_finish_async=self.helpers.nav_finish_async,
         )
+        self.helpers.start_timer()
     
     async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
@@ -69,6 +70,7 @@ class Actions(BaseActions):
             callback_feedback_async=self.helpers.nav_feedback_door_async,
             callback_finish_async=self.helpers.nav_finish_async,
         )
+        self.helpers.start_timer()
 
 
     async def enter_WAIT_FOR_BUTTON_EXITING(self):

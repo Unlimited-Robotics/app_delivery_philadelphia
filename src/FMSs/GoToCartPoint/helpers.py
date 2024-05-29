@@ -1,3 +1,6 @@
+import time
+
+from .constants import TIME_BEFORE_PASSING_DOOR
 from src.app import RayaApplication
 
 class Helpers:
@@ -8,6 +11,15 @@ class Helpers:
 
     async def check_if_inside_zone(self):
         return await self.app.nav.is_in_zone(zone_name='warehouse')
+
+
+    def start_timer(self):
+        self.start_time = time.time()
+
+
+    def check_timer(self, time_to_check):
+        self.app.log.debug(f'check_timer: {time.time() - self.start_time} >= {time_to_check}')
+        return time.time() - self.start_time >= time_to_check
 
 
     async def check_for_chest_button(self):
@@ -31,9 +43,10 @@ class Helpers:
 
     async def nav_feedback_door_async(self, code, msg, distance, speed):
         if code == 9:
-            self.app.log.debug('Obstacle detected, the door is closed')
             await self.app.sound.play_sound(name='error', wait=True)
-            await self.app.nav.cancel_navigation()
+            if not self.check_timer(TIME_BEFORE_PASSING_DOOR):
+                self.app.log.warn('Obstacle detected, the door is closed')
+                await self.app.nav.cancel_navigation()
         self.app.log.debug(
             'nav_feedback_door_async: '
             f'{code}, {msg}, {distance}, {speed}'
