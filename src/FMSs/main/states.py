@@ -12,11 +12,8 @@ STATES = [
         'PACKAGE_NOT_DELIVERED',
         
         'CHECK_IF_MORE_PACKAGES',
-        'RETURN_TO_WAREHOUSE',
-        'REQUEST_FOR_HELP',
-        'WAIT_FOR_CHEST_BY_OPERATOR',
-        'RELEASE_CART',
-        'GO_TO_RELEASE_POINT',
+        'RETURN_TO_WAREHOUSE_ENTRANCE',
+        'PARK_CART',
         'NOTIFY_ALL_PACKAGES_STATUS',
         'END',
     ]

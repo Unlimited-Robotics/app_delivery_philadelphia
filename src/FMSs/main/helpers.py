@@ -8,6 +8,7 @@ from src.static.leds import *
 from src.static.sound import *
 
 from src.FMSs.GoToCartPoint import GoToCartPointFSM
+from src.FMSs.ParkCart import ParkCartFSM
 
 
 class Helpers:
@@ -20,7 +21,11 @@ class Helpers:
             self.app.floor[self.index_package]
         )
         self.fsm_go_to_cart_point = GoToCartPointFSM(
-            name='GoToCartPoint', 
+            name='GoToCartPointFSM', 
+            log_transitions=True
+        )
+        self.fsm_park_cart = ParkCartFSM(
+            name='ParkCartFSM', 
             log_transitions=True
         )
 

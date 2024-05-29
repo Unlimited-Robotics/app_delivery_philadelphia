@@ -139,7 +139,7 @@ class Actions(BaseActions):
         await self.app.leds.turn_off_all()
 
 
-    async def enter_RETURN_TO_WAREHOUSE(self):
+    async def enter_RETURN_TO_WAREHOUSE_ENTRANCE(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=(
@@ -160,23 +160,13 @@ class Actions(BaseActions):
         )
 
 
-    async def leave_RETURN_TO_WAREHOUSE(self):
+    async def leave_RETURN_TO_WAREHOUSE_ENTRANCE(self):
         await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
-        self.app.log.warn('leave_RETURN_TO_WAREHOUSE')
 
 
-    async def enter_GO_TO_RELEASE_POINT(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message='The robot is deattaching from the cart.'
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_DEATTACHING_TO_CART)
-        await self.app.nav.navigate_to_position(
-                **NAV_CART_POINT,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
+    async def enter_PARK_CART(self):
+        await self.helpers.fsm_park_cart.run_in_background()
 
 
     async def enter_NOTIFY_ALL_PACKAGES_STATUS(self):
@@ -184,9 +174,9 @@ class Actions(BaseActions):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message='All packages were delivered successfully.'
             )
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
+        await self.app.ui.display_screen(**UI_SCREEN_ALL_PACKAGES_DONE)
         await self.helpers.gary_play_audio(
-            audio=SOUND_ALL_PACKAGES_DELIVERED,
+            audio=SOUND_APP_COMPLETED,
             animation_head_leds=LEDS_ALL_PACKAGES_DELIVERED,
             wait=True
         )
@@ -195,34 +185,6 @@ class Actions(BaseActions):
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
         await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
-
-
-    async def enter_REQUEST_FOR_HELP(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.ERROR,
-                message='Gary needs help.'
-        )
-        await self.app.ui.display_screen(**UI_SCREEN_GARY_NEEDS_HELP)
-        await self.app.sound.play_sound(name='attention')
-
-
-    async def enter_WAIT_FOR_CHEST_BY_OPERATOR(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message='Waiting for operator.'
-        )
-        await self.app.ui.display_screen(**UI_SCREEN_GARY_NEEDS_HELP_TO_CONTINUE)
-        try:
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-                wait=True
-            )
-        except RayaCommandAlreadyRunning:
-            pass
-
-
-    async def enter_RELEASE_CART(self):
-        await self.app.ui.display_screen(**UI_SCREEN_RELEASE_CART)
 
     
     async def aborted(self, error, msg):

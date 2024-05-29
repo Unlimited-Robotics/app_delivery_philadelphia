@@ -38,3 +38,9 @@ SOUND_PACKAGE_NOT_DELIVERED = {
         'volume': 100,
     }
 
+
+SOUND_APP_COMPLETED = {
+        'path': 'res:all_points_visited.mp3',
+        'volume': 100,
+    }
+

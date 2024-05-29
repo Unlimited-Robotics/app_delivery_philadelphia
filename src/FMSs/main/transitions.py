@@ -37,8 +37,7 @@ class Transitions(BaseTransitions):
     async def NAV_TO_DELIVERY_POINT(self):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0 and \
-                    await self.helpers.check_if_robot_in_delivery_floor():
+            if nav_error[0] == 0:
                 self.set_state('NOTIFY_ORDER_ARRIVED')
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_DELIVERY_POINT)
@@ -72,39 +71,29 @@ class Transitions(BaseTransitions):
             await self.helpers.set_next_package()
             self.set_state('NAV_TO_DELIVERY_POINT')
         else:
-            self.set_state('RETURN_TO_WAREHOUSE')
+            self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
 
 
-    async def RETURN_TO_WAREHOUSE(self):
-        self.set_state('GO_TO_RELEASE_POINT')
+    async def RETURN_TO_WAREHOUSE_ENTRANCE(self):
+        if not self.app.nav.is_navigating():
+            nav_error = self.app.nav.get_last_result()
+            if nav_error[0] == 0:
+                self.set_state('PARK_CART')
+            else:
+                self.abort(*ERR_COULD_NOT_NAV_TO_DELIVERY_POINT)
 
 
-    async def GO_TO_RELEASE_POINT(self):
-        self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
-        
+    async def PARK_CART(self):
+        if self.helpers.fsm_park_cart.has_finished():
+            if self.helpers.fsm_park_cart.was_successful():
+                self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
+            else:
+                self.abort(*self.helpers.fsm_park_cart.get_error())
+
     
     async def NOTIFY_ALL_PACKAGES_STATUS(self):
         self.set_state('END')
     
-    
-    async def REQUEST_FOR_HELP(self):
-        response = await self.app.fleet.request_action(
-            **FLEET_REQUEST_HELP,
-            timeout=60.0
-        )
-        self.set_state('WAIT_FOR_CHEST_BY_OPERATOR')
-
-
-    async def WAIT_FOR_CHEST_BY_OPERATOR(self):
-        sensors_data = self.app.sensors.get_all_sensors_values()
-        button_chest = sensors_data['chest_button']
-        if button_chest!=0:
-            self.set_state('RELEASE_CART')
-
-
-    async def RELEASE_CART(self):
-        self.abort(*ERR_NAV_RETURN_WAREHOUSE_FAILED)
-
 
     async def END(self):
         pass

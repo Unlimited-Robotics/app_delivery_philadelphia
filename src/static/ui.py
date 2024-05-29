@@ -27,6 +27,11 @@ UI_SCREEN_WAIT_FOR_PACKAGE_LOAD = {
         'subtitle':'Please load the package and press the chest button to continue',
     }
 
+UI_SCREEN_WAIT_FOR_CART_UNLOAD = {
+        'title':'Waiting for Cart Unload', 
+        'subtitle':'Please unload the cart and press the chest button to continue',
+    }
+
 UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
         'title':'Waiting for door to open', 
         'subtitle':'Please open the door and press the chest button to continue, and step aside',
@@ -77,6 +82,11 @@ UI_SCREEN_DELIVERING_SUCCESS = {
         'subtitle':'The package was delivered successfully',
     }
 
+UI_SCREEN_ALL_PACKAGES_DONE = {
+        'title':'Delivering finished', 
+        'subtitle':'The app went through all the packages and parked the cart.',
+    }
+
 UI_SCREEN_DEATTACHING_TO_CART = {
         'title':'Delivering complete', 
         'subtitle':'Deattaching cart...',
@@ -93,7 +103,7 @@ UI_TRIES_ON_NOTIFICATION = {
     }
 
 UI_PACKAGE_NOT_DELIVERED = {
-        'title':'Package not delivered', 
+        'title':'Package not delivered 🚫', 
         'subtitle':'No confirmation received',
     }
 
