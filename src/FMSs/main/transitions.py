@@ -10,6 +10,10 @@ from src.static.sound import *
 from .helpers import Helpers
 from .errors import *
 from .constants import *
+from raya.exceptions import RayaFleetTimeout, RayaTaskAlreadyRunning
+from raya.enumerations import FLEET_UPDATE_STATUS
+from src.static.ui import *
+from raya.tools.fsm import RayaFSMAborted
 
 class Transitions(BaseTransitions):
 
@@ -27,11 +31,16 @@ class Transitions(BaseTransitions):
 
 
     async def GO_TO_CART_POINT(self):
-        if self.helpers.fsm_go_to_cart_point.has_finished():
-            if self.helpers.fsm_go_to_cart_point.was_successful():
+        try:
+            await self.helpers.fsm_go_to_cart_point.raise_last_execution_exception()
+        except RayaFSMAborted:
+            self.app.log.error('FSM Aborted')
+            self.helpers.set_last_failed_state('GO_TO_CART_POINT')
+            self.set_state('REQUEST_FOR_HELP')
+        else:
+            if self.helpers.fsm_go_to_cart_point.has_finished() and \
+                self.helpers.fsm_go_to_cart_point.was_successful():
                 self.set_state('NAV_TO_DELIVERY_POINT')
-            else:
-                self.abort(*self.helpers.fsm_go_to_cart_point.get_error())
 
 
     async def NAV_TO_DELIVERY_POINT(self):
@@ -40,7 +49,8 @@ class Transitions(BaseTransitions):
             if nav_error[0] == 0:
                 self.set_state('NOTIFY_ORDER_ARRIVED')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_DELIVERY_POINT)
+                self.helpers.set_last_failed_state('NAV_TO_DELIVERY_POINT')
+                self.set_state('REQUEST_FOR_HELP')
 
 
     async def NOTIFY_ORDER_ARRIVED(self):
@@ -80,15 +90,21 @@ class Transitions(BaseTransitions):
             if nav_error[0] == 0:
                 self.set_state('PARK_CART')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_DELIVERY_POINT)
+                self.helpers.set_last_failed_state('RETURN_TO_WAREHOUSE_ENTRANCE')
+                self.set_state('REQUEST_FOR_HELP')
 
 
     async def PARK_CART(self):
-        if self.helpers.fsm_park_cart.has_finished():
-            if self.helpers.fsm_park_cart.was_successful():
+        try:
+            await self.helpers.fsm_go_to_cart_point.raise_last_execution_exception()
+        except RayaFSMAborted:
+            self.app.log.error('FSM Aborted')
+            self.helpers.set_last_failed_state('PARK_CART')
+            self.set_state('REQUEST_FOR_HELP')
+        else:
+            if self.helpers.fsm_park_cart.has_finished() and \
+                self.helpers.fsm_park_cart.was_successful():
                 self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
-            else:
-                self.abort(*self.helpers.fsm_park_cart.get_error())
 
     
     async def NOTIFY_ALL_PACKAGES_STATUS(self):
@@ -97,3 +113,56 @@ class Transitions(BaseTransitions):
 
     async def END(self):
         pass
+
+    # REQUEST_FOR_HELP STATES
+    
+    async def REQUEST_FOR_HELP(self):
+        # TODO: remove
+        # self.set_state('WAIT_FOR_HELP')
+        try:
+            response = await self.app.fleet.request_action(
+                title='Request for Help',
+                message='I need help, please come to my location.',
+                timeout=TIMEOUT_REQUEST_FOR_HELP
+            )
+            response = response['data']
+            text = f'Fleet responded to the request for help, with {response}'
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=text
+            )
+        except RayaFleetTimeout:
+            text = ('\'RayaFleetTimeout\' reached, operator did not respond '
+                    'to the request for help.')
+            await self.app.fleet.update_app_status(
+                    status=FLEET_UPDATE_STATUS.WARNING,
+                    message=text
+                )
+        self.set_state('WAIT_FOR_HELP')
+
+
+    async def WAIT_FOR_HELP(self):
+        try:
+            self.app.create_task(
+                name='task_to_wait_for_help', 
+                afunc=self.helpers.task_to_wait_for_help
+            )
+        except RayaTaskAlreadyRunning:
+            self.app.log.warn('task \'task_to_wait_for_help\' already running')
+        else:
+            response = await self.app.ui.display_choice_selector(
+                **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
+                wait=True
+            )
+            self.app.log.warn(f'User selected: {response}')
+            selected_option = response['selected_option']
+            if selected_option['name'] == 'Abort App 🚫':
+                self.set_state('RELEASE_CART')
+            elif selected_option['name'] == 'Continue 🚶‍♂️':
+                await self.app.sleep(1)
+                self.set_state(self.helpers.get_last_failed_state())
+
+    
+    async def RELEASE_CART(self):
+        self.app.log.warn('Releasing cart...')
+        self.abort(*ERR_NAVIGATION_ABORTED_BY_USER)

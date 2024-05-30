@@ -29,6 +29,7 @@ class Helpers:
             name='ParkCartFSM', 
             log_transitions=True
         )
+        self._last_failed_state = ''
 
 
     async def check_for_chest_button(self):
@@ -137,3 +138,19 @@ class Helpers:
             )
             self.app.log.warn(text)
             await self.app.sleep(TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED)
+
+
+    async def task_to_wait_for_help(self):
+        while True:
+            await self.gary_play_audio(
+                audio=SOUND_REQUEST_FOR_HELP,
+            )
+            await self.app.sleep(5)
+
+
+    def set_last_failed_state(self, state: str):
+        self._last_failed_state = state
+
+
+    def get_last_failed_state(self):
+        return self._last_failed_state

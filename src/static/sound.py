@@ -44,3 +44,7 @@ SOUND_APP_COMPLETED = {
         'volume': 100,
     }
 
+SOUND_REQUEST_FOR_HELP = {
+        'path': 'res:SOUND_REQUEST_FOR_HELP.mp3',
+        'volume': 100,
+    }

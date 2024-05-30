@@ -86,6 +86,7 @@ class RayaApplication(RayaApplicationBase):
             )
             location = location.strip('[]')
             location = location.split(',')
+            location = location[:3]
             location_list = [float(axys.strip()) for axys in location]
             if floor != '':
                 self.locations.append(location_list)

@@ -16,6 +16,10 @@ STATES = [
         'PARK_CART',
         'NOTIFY_ALL_PACKAGES_STATUS',
         'END',
+        
+        'REQUEST_FOR_HELP',
+        'WAIT_FOR_HELP',
+        'RELEASE_CART',
     ]
 
 

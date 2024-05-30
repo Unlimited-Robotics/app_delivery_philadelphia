@@ -16,6 +16,8 @@ class Transitions(BaseTransitions):
 
 
     async def CHECK_IF_INSIDE_ZONE(self):
+        # TODO: remove
+        # self.abort(*ERR_COULD_NOT_LOCALIZE)
         if await self.helpers.check_if_inside_zone():
             self.set_state('GO_TO_CART_POINT')
         else:

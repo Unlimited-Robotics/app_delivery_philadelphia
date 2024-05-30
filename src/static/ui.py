@@ -125,3 +125,18 @@ UI_SCREEN_GARY_NEEDS_HELP_TO_CONTINUE = {
 UI_SCREEN_FAILED = {
         'title':'Failed',
     }
+
+UI_SCREEN_REQUEST_FOR_HELP = {
+        'title':'Request for Help',
+        'subtitle':'I\'m stuck, contacting the fleet...',
+    }
+
+UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
+        'title':'I\'m stuck, please help me, and choose an option',
+        'back_button_text': '',
+        'max_items_shown': 2,
+        'data': [
+                {'id': 1, 'name': 'Abort App 🚫'}, 
+                {'id': 2, 'name': 'Continue 🚶‍♂️'},
+            ]
+    }

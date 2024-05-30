@@ -9,9 +9,9 @@ from src.static.fleet import *
 from src.static.leds import *
 from src.static.sound import *
 from .helpers import Helpers
+from .constants import *
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
-from raya.exceptions import RayaCommandAlreadyRunning
-
+from raya.exceptions import RayaCommandAlreadyRunning, RayaTaskAlreadyRunning
 
 class Actions(BaseActions):
 
@@ -31,7 +31,9 @@ class Actions(BaseActions):
 
 
     async def enter_GO_TO_CART_POINT(self):
+        self.helpers.fsm_go_to_cart_point.restart()
         await self.helpers.fsm_go_to_cart_point.run_in_background()
+        
 
 
     async def enter_NAV_TO_DELIVERY_POINT(self):
@@ -174,6 +176,7 @@ class Actions(BaseActions):
 
 
     async def enter_PARK_CART(self):
+        self.helpers.fsm_park_cart.restart()
         await self.helpers.fsm_park_cart.run_in_background()
 
 
@@ -205,3 +208,30 @@ class Actions(BaseActions):
                 **UI_SCREEN_FAILED
             )
         await self.app.sound.play_sound(name='attention')
+    
+    # REQUEST_FOR_HELP STATES
+    
+    async def enter_REQUEST_FOR_HELP(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message='Im requesting for help.'
+            )
+        await self.app.ui.display_screen(**UI_SCREEN_REQUEST_FOR_HELP)     
+
+
+    async def enter_WAIT_FOR_HELP(self):
+        pass
+
+
+    async def leave_WAIT_FOR_HELP(self):
+        self.app.cancel_task(
+            name='task_to_wait_for_help'
+        )
+        self.app.log.warn('task \'task_to_wait_for_help\' canceled')
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
+
+
+    async def enter_RELEASE_CART(self):
+        await self.app.ui.display_screen(**UI_SCREEN_RELEASE_CART)
+        await self.app.sleep(TIME_TO_RELEASE_CART)
