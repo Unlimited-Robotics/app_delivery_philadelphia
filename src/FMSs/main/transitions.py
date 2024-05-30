@@ -9,7 +9,7 @@ from src.static.leds import *
 from src.static.sound import *
 from .helpers import Helpers
 from .errors import *
-from .constants import *
+from src.static.constants import *
 from raya.exceptions import RayaFleetTimeout, RayaTaskAlreadyRunning
 from raya.enumerations import FLEET_UPDATE_STATUS
 from src.static.ui import *

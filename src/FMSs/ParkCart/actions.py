@@ -5,7 +5,7 @@ from src.static.ui import *
 from src.static.leds import *
 from raya.enumerations import FLEET_UPDATE_STATUS, POSITION_UNIT, ANGLE_UNIT
 
-from .constants import *
+from src.static.constants import *
 from .helpers import Helpers
 
 class Actions(BaseActions):

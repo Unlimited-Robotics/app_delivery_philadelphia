@@ -1,6 +1,6 @@
 import time
 
-from .constants import TIME_BEFORE_PASSING_DOOR
+from src.static.constants import *
 from src.app import RayaApplication
 from src.static.leds import *
 from src.static.sound import *

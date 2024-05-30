@@ -10,7 +10,7 @@ from src.static.sound import *
 from src.FMSs.GoToCartPoint import GoToCartPointFSM
 from src.FMSs.ParkCart import ParkCartFSM
 from raya.enumerations import FLEET_UPDATE_STATUS
-from .constants import TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED
+from src.static.constants import *
 
 class Helpers:
 

@@ -9,7 +9,7 @@ from src.static.fleet import *
 from src.static.leds import *
 from src.static.sound import *
 from .helpers import Helpers
-from .constants import *
+from src.static.constants import *
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 from raya.exceptions import RayaCommandAlreadyRunning, RayaTaskAlreadyRunning
 
