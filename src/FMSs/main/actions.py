@@ -141,7 +141,7 @@ class Actions(BaseActions):
             )
         await self.app.ui.display_screen(**UI_PACKAGE_NOT_DELIVERED)
         await self.helpers.gary_play_audio(
-            audio=SOUND_PACKAGE_NOT_DELIVERED,
+            audio=SOUND_PACKAGE_NOT_CONFIRMED,
             wait=True
         )
 
@@ -163,7 +163,7 @@ class Actions(BaseActions):
                 callback_finish_async=self.helpers.nav_finish_async,
             )
         await self.helpers.gary_play_audio(
-            audio=SOUND_ALL_PACKAGES_DELIVERED,
+            audio=SOUND_RETURNING_TO_WAREHOUSE,
             wait=True
         )
 
@@ -185,7 +185,7 @@ class Actions(BaseActions):
             )
         await self.app.ui.display_screen(**UI_SCREEN_ALL_PACKAGES_DONE)
         await self.helpers.gary_play_audio(
-            audio=SOUND_APP_COMPLETED,
+            audio=SOUND_ALL_POINTS_VISITED,
             wait=True
         )
 

@@ -1,8 +1,3 @@
-SOUND_ATTACHING_TO_CART = {
-        'path': 'res:gary_attaching_cart.mp3',
-        'volume': 100,
-    }
-
 SOUND_NOTIFY_ORDER_ARRIVED = {
         'path': 'res:package_arrived.mp3',
         'volume': 100,
@@ -13,17 +8,12 @@ SOUND_WAIT_FOR_CHEST_BUTTON = {
         'volume': 100,
     }
 
-SOUND_WAIT_FOR_FLEET_CONFIRMATION = {
-        'path': 'res:fleet_waiting_confirmation.mp3',
-        'volume': 100,
-    }
-
 SOUND_PACKAGE_DELIVERED = {
         'path': 'res:package_delivered.mp3',
         'volume': 100,
     }
 
-SOUND_ALL_PACKAGES_DELIVERED = {
+SOUND_RETURNING_TO_WAREHOUSE = {
         'path': 'res:returning_to_warehouse.mp3',
         'volume': 100,
     }
@@ -33,18 +23,17 @@ SOUND_OBSTACLE_DETECTED = {
         'volume': 100,
     }
 
-SOUND_PACKAGE_NOT_DELIVERED = {
+SOUND_PACKAGE_NOT_CONFIRMED = {
         'path': 'res:package_not_confirmed.mp3',
         'volume': 100,
     }
 
-
-SOUND_APP_COMPLETED = {
+SOUND_ALL_POINTS_VISITED = {
         'path': 'res:all_points_visited.mp3',
         'volume': 100,
     }
 
 SOUND_REQUEST_FOR_HELP = {
-        'path': 'res:SOUND_REQUEST_FOR_HELP.mp3',
+        'path': 'res:sound_request_for_help.mp3',
         'volume': 100,
     }
