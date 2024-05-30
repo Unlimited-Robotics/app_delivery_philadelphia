@@ -1,0 +1,1 @@
+NAV_WAREHOUSE_ZONE_NAME = 'warehouse'

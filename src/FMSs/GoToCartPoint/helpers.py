@@ -5,6 +5,7 @@ from src.app import RayaApplication
 from src.static.leds import *
 from src.static.sound import *
 from raya.exceptions import RayaCommandAlreadyRunning
+from src.static.constants import NAV_WAREHOUSE_ZONE_NAME
 
 class Helpers:
 
@@ -13,7 +14,7 @@ class Helpers:
 
 
     async def check_if_inside_zone(self):
-        return await self.app.nav.is_in_zone(zone_name='warehouse')
+        return await self.app.nav.is_in_zone(zone_name=NAV_WAREHOUSE_ZONE_NAME)
 
 
     def start_timer(self):
