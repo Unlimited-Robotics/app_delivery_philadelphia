@@ -7,11 +7,6 @@ UI_SCREEN_LOCALIZING = {
         'subtitle':'Localizing 🕵',
     }
 
-UI_SCREEN_NAV_TO_WAREHOUSE_FLOOR = {
-        'title':'Navigating', 
-        'subtitle':'Going to the warehouse floor',
-    }
-
 UI_SCREEN_NAV_TO_WAREHOUSE = {
         'title':'Navigating', 
         'subtitle':'Going to warehouse',
@@ -52,29 +47,9 @@ UI_SCREEN_NAV_TO_WAREHOUSE_RETURN = {
         'subtitle':'Going back to warehouse',
     }
 
-UI_SCREEN_ATTACHING_TO_CART = {
-        'title':'Navigating', 
-        'subtitle':'Attaching to cart',
-    }
-
-UI_SCREEN_NAV_TO_PACKAGE_FLOOR = {
-        'title':'Navigating', 
-        'subtitle':'Delivering package',
-    }
-
-UI_SCREEN_DELIVERING_PACKAGE = {
-        'title':'Delivering', 
-        'subtitle':'Delivering package',
-    }
-
 UI_SCREEN_DELIVERING_ARRIVE = {
         'title':'Delivering', 
         'subtitle':'Delivering complete, please confirm pressing the chest button',
-    }
-
-UI_SCREEN_DELIVERING_CONFIRMATION_ON_FLEET = {
-        'title':'Delivering', 
-        'subtitle':'Please confirm the delivery using the fleet',
     }
 
 UI_SCREEN_DELIVERING_SUCCESS = {
@@ -87,43 +62,14 @@ UI_SCREEN_ALL_PACKAGES_DONE = {
         'subtitle':'The app went through all the packages and parked the cart.',
     }
 
-UI_SCREEN_DEATTACHING_TO_CART = {
-        'title':'Delivering complete', 
-        'subtitle':'Deattaching cart...',
-    }
-
 UI_SCREEN_RELEASE_CART = {
         'title':'Releasing Cart', 
         'subtitle':'Please wait while the cart is being released.',
     }
 
-UI_TRIES_ON_NOTIFICATION = {
-        'title':'Timeout waiting for confirmation', 
-        'subtitle':'Sending notification again...',
-    }
-
 UI_PACKAGE_NOT_DELIVERED = {
         'title':'Package not delivered 🚫', 
         'subtitle':'No confirmation received',
-    }
-
-UI_PACKAGE_NOT_CONFIRMED = {
-        'title':'Package not confirmed on fleet', 
-        'subtitle':'No confirmation received on fleet page',
-    }
-
-UI_SCREEN_GARY_NEEDS_HELP = {
-        'title':'Gary needs help',
-        'subtitle':'Contacting the fleet...',
-    }
-
-UI_SCREEN_GARY_NEEDS_HELP_TO_CONTINUE = {
-        'title':'I need help to continue',
-        'subtitle':'Please press the chest button to release the cart',
-    }
-
-UI_SCREEN_FAILED = {
-        'title':'Failed',
     }
 
 UI_SCREEN_REQUEST_FOR_HELP = {
@@ -139,4 +85,8 @@ UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
                 {'id': 1, 'name': 'Abort App 🚫'}, 
                 {'id': 2, 'name': 'Continue 🚶‍♂️'},
             ]
+    }
+
+UI_SCREEN_FAILED = {
+        'title':'Failed',
     }
