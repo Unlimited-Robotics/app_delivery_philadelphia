@@ -75,7 +75,6 @@ class Actions(BaseActions):
             )
         await self.helpers.gary_play_audio(
             audio=SOUND_NOTIFY_ORDER_ARRIVED,
-            animation_head_leds=LEDS_NOTIFY_ORDER_ARRIVED,
             wait=True
         )
         self.app.log.warn('NOTIFY_ORDER_ARRIVED')
@@ -168,7 +167,6 @@ class Actions(BaseActions):
             )
         await self.helpers.gary_play_audio(
             audio=SOUND_ALL_PACKAGES_DELIVERED,
-            animation_head_leds=LEDS_ALL_PACKAGES_DELIVERED,
             wait=True
         )
 
@@ -191,7 +189,6 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_ALL_PACKAGES_DONE)
         await self.helpers.gary_play_audio(
             audio=SOUND_APP_COMPLETED,
-            animation_head_leds=LEDS_ALL_PACKAGES_DELIVERED,
             wait=True
         )
 
