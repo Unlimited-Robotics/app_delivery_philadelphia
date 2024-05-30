@@ -131,10 +131,11 @@ class Actions(BaseActions):
 
 
     async def LEAVE_WAREHOUSE_to_END(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_DOOR_OPEN
-            )
+        # await self.app.fleet.update_app_status(
+        #         status=FLEET_UPDATE_STATUS.INFO,
+        #         message=FLEET_DOOR_OPEN
+        #     )
+        pass
 
 
     async def aborted(self, error, msg):

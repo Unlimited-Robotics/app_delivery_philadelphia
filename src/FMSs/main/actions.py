@@ -31,6 +31,9 @@ class Actions(BaseActions):
 
 
     async def enter_GO_TO_CART_POINT(self):
+        await self.app.fleet.update_app_status(
+            **FLEET_STATUS_GOING_TO_CART_POINT
+            )
         self.helpers.fsm_go_to_cart_point.restart()
         await self.helpers.fsm_go_to_cart_point.run_in_background()
         
@@ -153,7 +156,7 @@ class Actions(BaseActions):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=(
-                    'All packages were delivered, '
+                    'All deliveries point were reached, '
                     'returning to the warehouse floor.'
                 )
             )
