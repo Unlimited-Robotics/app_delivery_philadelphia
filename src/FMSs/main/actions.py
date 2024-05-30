@@ -24,7 +24,7 @@ class Actions(BaseActions):
     async def enter_SETUP_ACTIONS(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
-                message='Checking if robot is localized'
+                message=FLEET_CHECK_IF_LOCALIZED
             )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
         await self.app.nav.set_map(NAV_WAREHOUSE_MAP_NAME)
@@ -154,10 +154,7 @@ class Actions(BaseActions):
     async def enter_RETURN_TO_WAREHOUSE_ENTRANCE(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
-                message=(
-                    'All deliveries point were reached, '
-                    'returning to the warehouse floor.'
-                )
+                message=FLEET_RETURNING_TO_WAREHOUSE
             )
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE_RETURN)
         await self.app.nav.navigate_to_position(
@@ -184,7 +181,7 @@ class Actions(BaseActions):
     async def enter_NOTIFY_ALL_PACKAGES_STATUS(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
-                message='All packages were delivered successfully.'
+                message=FLEET_ALL_POINTS_REACHED
             )
         await self.app.ui.display_screen(**UI_SCREEN_ALL_PACKAGES_DONE)
         await self.helpers.gary_play_audio(
@@ -214,7 +211,7 @@ class Actions(BaseActions):
     async def enter_REQUEST_FOR_HELP(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
-                message='Im requesting for help.'
+                message=FLEET_REQUESTING_FOR_HELP
             )
         await self.app.ui.display_screen(**UI_SCREEN_REQUEST_FOR_HELP)     
 

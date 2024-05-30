@@ -52,7 +52,7 @@ class Helpers:
             f'{code}, {msg}, {distance}, {speed}'
         )
         if code == 9:
-            if not self.check_timer(TIME_BEFORE_PASSING_DOOR):
+            if not self.check_timer(TIME_PASSING_THROUGH_DOOR):
                 self.app.log.warn('Obstacle detected, the door is closed')
                 await self.app.nav.cancel_navigation()
             await self.gary_play_audio(

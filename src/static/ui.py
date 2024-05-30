@@ -47,6 +47,11 @@ UI_SCREEN_NAV_TO_WAREHOUSE_RETURN = {
         'subtitle':'Going back to warehouse',
     }
 
+UI_SCREEN_NAV_TO_PACKAGE_FLOOR = {
+        'title':'Navigating', 
+        'subtitle':'Delivering package',
+    }
+
 UI_SCREEN_DELIVERING_ARRIVE = {
         'title':'Delivering', 
         'subtitle':'Delivering complete, please confirm pressing the chest button',

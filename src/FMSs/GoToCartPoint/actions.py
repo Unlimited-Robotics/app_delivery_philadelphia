@@ -3,6 +3,7 @@ from src.app import RayaApplication
 from src.static.navigation import *
 from src.static.ui import *
 from src.static.leds import *
+from src.static.fleet import *
 from raya.enumerations import FLEET_UPDATE_STATUS, POSITION_UNIT, ANGLE_UNIT
 
 from src.static.constants import *

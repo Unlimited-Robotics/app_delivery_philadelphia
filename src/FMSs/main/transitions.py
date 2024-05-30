@@ -126,17 +126,14 @@ class Transitions(BaseTransitions):
                 timeout=TIMEOUT_REQUEST_FOR_HELP
             )
             response = response['data']
-            text = f'Fleet responded to the request for help, with {response}'
             await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
-                message=text
+                message=f'{FLEET_RESPONSE_TO_REQUEST_FOR_HELP} {response}'
             )
         except RayaFleetTimeout:
-            text = ('\'RayaFleetTimeout\' reached, operator did not respond '
-                    'to the request for help.')
             await self.app.fleet.update_app_status(
                     status=FLEET_UPDATE_STATUS.WARNING,
-                    message=text
+                    message=FLEET_TIMEOUT_REQUEST_FOR_HELP
                 )
         self.set_state('WAIT_FOR_HELP')
 
