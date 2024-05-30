@@ -96,7 +96,7 @@ class Transitions(BaseTransitions):
 
     async def PARK_CART(self):
         try:
-            await self.helpers.fsm_go_to_cart_point.raise_last_execution_exception()
+            await self.helpers.fsm_park_cart.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
             self.helpers.set_last_failed_state('PARK_CART')
