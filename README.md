@@ -35,7 +35,7 @@ Timely, essential deliveries for patient care.
 
     ![alt text](/doc/img/save_zone.png)
 
-    After that just clicl the X to close the window and wait for the zone to get saved (it can take some time).
+    After that just click the X to close the window and wait for the zone to get saved (it can take some time).
 
     If you need to delete a zone, open the `map.yaml` file inside the map folder and delete it from the list of zones.
 
