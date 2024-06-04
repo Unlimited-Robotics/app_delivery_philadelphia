@@ -59,9 +59,32 @@ class Transitions(BaseTransitions):
 
     async def WAIT_FOR_CHEST_CONFIRMATION(self):
         await self.helpers.gary_play_audio(
-            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
+            audio=SOUND_PACKAGE_DELIVER_ARRIVE,
             animation_head_leds=LEDS_WAIT_FOR_BUTTON_CHEST_HEAD,
         )
+        
+        if self.helpers.selected_option_delivery_ui is not None:
+            selected_option = self.helpers.selected_option_delivery_ui
+            self.app.log.warn(f'User selected: {selected_option}')
+            await self.app.sound.cancel_all_sounds()
+            await self.helpers.gary_play_audio(
+                audio=SOUND_STEP_ASIDE,
+                wait=True,
+            )
+            # Only id 1 is considered as a successful delivery
+            # UI_SCREEN_OPTIONS_DELIVERY_ARRIVED
+            if selected_option['id'] == 1:
+                await self.app.fleet.update_app_status(
+                    status=FLEET_UPDATE_STATUS.SUCCESS,
+                    message=f'Package status:{selected_option["name"]}',
+                )
+                self.set_state('PACKAGE_DELIVERED')
+            else:
+                await self.app.fleet.update_app_status(
+                    status=FLEET_UPDATE_STATUS.ERROR,
+                    message=f'Package status: {selected_option["name"]}',
+                )
+                self.set_state('PACKAGE_NOT_DELIVERED')
         
         if await self.helpers.check_for_chest_button():
             await self.app.sound.cancel_all_sounds()
@@ -69,7 +92,6 @@ class Transitions(BaseTransitions):
                 audio=SOUND_STEP_ASIDE,
                 wait=True,
             )
-            await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('PACKAGE_DELIVERED')
 
 

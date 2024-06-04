@@ -27,6 +27,7 @@ class Helpers:
             log_transitions=True
         )
         self._last_failed_state = ''
+        self.selected_option_delivery_ui = None
 
 
     async def check_for_chest_button(self):
@@ -148,3 +149,7 @@ class Helpers:
 
     def get_last_failed_state(self):
         return self._last_failed_state
+
+
+    def cb_delivery_arrived_ui_response(self, response):
+        self.selected_option_delivery_ui = response['selected_option']

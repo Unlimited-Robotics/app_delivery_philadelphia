@@ -23,8 +23,13 @@ SOUND_OBSTACLE_DETECTED = {
         'volume': 100,
     }
 
-SOUND_PACKAGE_NOT_CONFIRMED = {
-        'path': 'res:package_not_confirmed.mp3',
+SOUND_PACKAGE_DELIVER_ARRIVE = {
+        'path': 'res:package_arrived_wait_for_input.mp3',
+        'volume': 100,
+    }
+
+SOUND_PACKAGE_DELIVER_FAILED = {
+        'path': 'res:package_not_deliver.mp3',
         'volume': 100,
     }
 

@@ -87,7 +87,12 @@ class Actions(BaseActions):
 
 
     async def enter_WAIT_FOR_CHEST_CONFIRMATION(self):
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_ARRIVE)
+        self.helpers.selected_option_delivery_ui = None
+        await self.app.ui.display_choice_selector(
+                **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
+                wait=False,
+                callback=self.helpers.cb_delivery_arrived_ui_response
+            )
         self.app.create_task(
             name='Notify Task',
             afunc=self.helpers.task_to_notify
@@ -142,7 +147,7 @@ class Actions(BaseActions):
             )
         await self.app.ui.display_screen(**UI_PACKAGE_NOT_DELIVERED)
         await self.helpers.gary_play_audio(
-            audio=SOUND_PACKAGE_NOT_CONFIRMED,
+            audio=SOUND_PACKAGE_DELIVER_FAILED,
             wait=True
         )
 

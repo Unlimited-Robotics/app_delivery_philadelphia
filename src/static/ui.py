@@ -59,12 +59,6 @@ UI_SCREEN_NAV_TO_PACKAGE_POINT = {
     'back_button_text': '',
 }
 
-UI_SCREEN_DELIVERING_ARRIVE = {
-    'title':'Delivering', 
-    'subtitle':'Delivering complete, please confirm pressing the chest button',
-    'back_button_text': '',
-}
-
 UI_SCREEN_DELIVERING_SUCCESS = {
     'title':'Delivering Success ✅', 
     'subtitle':'The package was delivered successfully',
@@ -84,8 +78,7 @@ UI_SCREEN_RELEASE_CART = {
 }
 
 UI_PACKAGE_NOT_DELIVERED = {
-    'title':'Package not delivered 🚫', 
-    'subtitle':'No confirmation received',
+    'title':'Package deliver failed 🚫', 
     'back_button_text': '',
 }
 
@@ -102,6 +95,18 @@ UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
     'data': [
             {'id': 1, 'name': 'Abort App 🚫'}, 
             {'id': 2, 'name': 'Continue 🚶‍♂️'},
+        ]
+}
+
+UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
+    'title':'Deliver complete, please press one of the following options',
+    'back_button_text': '',
+    'max_items_shown': 4,
+    'data': [
+            {'id': 1, 'name': 'My package was delivered successfully'}, 
+            {'id': 2, 'name': 'My package is not the one that i ordered'},
+            {'id': 3, 'name': 'My package is damaged'},
+            {'id': 4, 'name': 'My package is missing'},
         ]
 }
 
