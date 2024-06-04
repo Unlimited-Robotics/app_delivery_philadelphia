@@ -40,7 +40,7 @@ class Actions(BaseActions):
 
 
     async def enter_NAV_TO_DELIVERY_POINT(self):
-        package , floor = self.helpers.current_package
+        package = self.helpers.current_package
         point = {
             'x': package[0],
             'y': package[1],
@@ -52,8 +52,8 @@ class Actions(BaseActions):
             f'Delivering package {self.helpers.index_package + 1} '
             f'of {len(self.app.locations)}'
         )
-        UI_SCREEN_NAV_TO_PACKAGE_FLOOR['subtitle'] = text
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_PACKAGE_FLOOR)
+        UI_SCREEN_NAV_TO_PACKAGE_POINT['subtitle'] = text
+        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_PACKAGE_POINT)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=text

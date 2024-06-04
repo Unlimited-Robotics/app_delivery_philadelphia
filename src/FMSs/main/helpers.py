@@ -17,10 +17,7 @@ class Helpers:
     def __init__(self, app: RayaApplication):        
         self.app = app
         self.index_package = 0
-        self.current_package = (
-            self.app.locations[self.index_package], 
-            self.app.floor[self.index_package]
-        )
+        self.current_package = self.app.locations[self.index_package]
         self.fsm_go_to_cart_point = GoToCartPointFSM(
             name='GoToCartPointFSM', 
             log_transitions=True
@@ -65,10 +62,7 @@ class Helpers:
 
     async def set_next_package(self):
         self.index_package += 1
-        self.current_package = (
-            self.app.locations[self.index_package], 
-            self.app.floor[self.index_package]
-        )
+        self.current_package = self.app.locations[self.index_package]
 
 
     async def nav_feedback_async(self, code, msg, distance, speed):

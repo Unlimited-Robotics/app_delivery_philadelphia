@@ -26,7 +26,7 @@ FLEET_MESSAGE_CLOSED_DOOR = 'The robot tried to leave the warehouse but the door
 FLEET_DOOR_OPEN = 'The door is open.'
 FLEET_CHECK_IF_LOCALIZED = 'Checking if robot is localized.'
 FLEET_ALL_POINTS_REACHED = 'All packages delivered.'
-FLEET_RETURNING_TO_WAREHOUSE = 'Returning to the warehouse floor.'
+FLEET_RETURNING_TO_WAREHOUSE = 'Returning to the warehouse.'
 
 FLEET_REQUESTING_FOR_HELP = 'Gary is requesting for help.'
 FLEET_TIMEOUT_REQUEST_FOR_HELP = '\'RayaFleetTimeout\' reached, operator did not respond to the request for help.'

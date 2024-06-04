@@ -53,7 +53,7 @@ UI_SCREEN_NAV_TO_WAREHOUSE_RETURN = {
     'back_button_text': '',
 }
 
-UI_SCREEN_NAV_TO_PACKAGE_FLOOR = {
+UI_SCREEN_NAV_TO_PACKAGE_POINT = {
     'title':'Navigating', 
     'subtitle':'Delivering package',
     'back_button_text': '',

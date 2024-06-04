@@ -55,9 +55,7 @@ Just run:
 
 ```
 rayasdk run \
-    --floor1 "Bogota_Office__minigary.101" \
     --location1 \"[260, 609, -78.39]\" \
-    --floor2 "Bogota_Office__minigary.101" \
     --location2 \"[381, 655, 1.57]\" 
 ```
 
