@@ -158,9 +158,9 @@ class Transitions(BaseTransitions):
             )
             self.app.log.warn(f'User selected: {response}')
             selected_option = response['selected_option']
-            if selected_option['name'] == 'Abort App 🚫':
+            if selected_option['id'] == 1:
                 self.set_state('RELEASE_CART')
-            elif selected_option['name'] == 'Continue 🚶‍♂️':
+            elif selected_option['id'] == 2:
                 await self.app.sleep(1)
                 self.set_state(self.helpers.get_last_failed_state())
 
