@@ -63,7 +63,12 @@ class Transitions(BaseTransitions):
             animation_head_leds=LEDS_WAIT_FOR_BUTTON_CHEST_HEAD,
         )
         
-        if await self.helpers.check_for_chest_button(): 
+        if await self.helpers.check_for_chest_button():
+            await self.app.sound.cancel_all_sounds()
+            await self.helpers.gary_play_audio(
+                audio=SOUND_STEP_ASIDE,
+                wait=True,
+            )
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('PACKAGE_DELIVERED')
 

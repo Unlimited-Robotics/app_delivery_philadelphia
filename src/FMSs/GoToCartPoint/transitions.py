@@ -51,6 +51,11 @@ class Transitions(BaseTransitions):
         )
         
         if await self.helpers.check_for_chest_button():
+            await self.app.sound.cancel_all_sounds()
+            await self.helpers.gary_play_audio(
+                audio=SOUND_STEP_ASIDE,
+                wait=True,
+            )
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('ENTER_WAREHOUSE')
 
@@ -71,6 +76,11 @@ class Transitions(BaseTransitions):
         
         if await self.helpers.check_for_chest_button():
             self.app.log.info('Package loaded')
+            await self.app.sound.cancel_all_sounds()
+            await self.helpers.gary_play_audio(
+                audio=SOUND_STEP_ASIDE,
+                wait=True,
+            )
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('GO_TO_WAREHOUSE_EXIT')
 
@@ -102,5 +112,10 @@ class Transitions(BaseTransitions):
         )
         
         if await self.helpers.check_for_chest_button():
+            await self.app.sound.cancel_all_sounds()
+            await self.helpers.gary_play_audio(
+                audio=SOUND_STEP_ASIDE,
+                wait=True,
+            )
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('LEAVE_WAREHOUSE')

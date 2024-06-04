@@ -37,3 +37,8 @@ SOUND_REQUEST_FOR_HELP = {
         'path': 'res:sound_request_for_help.mp3',
         'volume': 100,
     }
+
+SOUND_STEP_ASIDE = {
+        'path': 'res:pls_step_aside.mp3',
+        'volume': 100,
+    }
