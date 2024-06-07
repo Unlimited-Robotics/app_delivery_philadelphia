@@ -76,6 +76,9 @@ class Helpers:
                 audio=SOUND_OBSTACLE_DETECTED,
                 animation_head_leds=LEDS_NOTIFY_OBSTACLE
             )
+        
+        if not self.app.sound.is_playing():
+            await self.app.leds.turn_off_all()
 
 
     async def nav_finish_async(self, code, msg):
