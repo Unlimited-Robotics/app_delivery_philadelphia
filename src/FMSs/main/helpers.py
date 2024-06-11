@@ -28,15 +28,29 @@ class Helpers:
         )
         self._last_failed_state = ''
         self.selected_option_delivery_ui = None
+        try:
+            self.chest_pressed = False
+            self.app.sensors.create_threshold_listener(
+                listener_name='chest_button_MAIN',
+                callback_async=self.cb_chest_button,
+                sensors_paths=CHEST_LISTENER_PATHS,
+                lower_bound=1.0
+            )
+        except RayaListenerAlreadyCreated:
+            pass
 
 
     async def check_for_chest_button(self):
-        sensors_data = self.app.sensors.get_all_sensors_values()
-        button_chest = sensors_data['chest_button']
-        if button_chest!=0:
-            await self.app.sound.play_sound(name='success', wait=True)
+        if self.chest_pressed:
+            self.chest_pressed = False
             return True
         return False
+
+    
+    async def cb_chest_button(self):
+        if self.app.sensors.get_all_sensors_values()["chest_button"] != 0:
+            await self.app.sound.play_sound(name='success', wait=True)
+            self.chest_pressed = True
 
 
     async def check_if_robot_in_warehouse_floor(self):
