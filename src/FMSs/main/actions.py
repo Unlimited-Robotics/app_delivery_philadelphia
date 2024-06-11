@@ -185,6 +185,16 @@ class Actions(BaseActions):
         await self.helpers.fsm_park_cart.run_in_background()
 
 
+    async def enter_GO_TO_HOME_LOCATION(self):
+        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
+        await self.app.nav.navigate_to_location(
+            location_name=NAV_HOME_POSITION_NAME,
+            callback_feedback_async=self.helpers.nav_feedback_async,
+            callback_finish_async=self.helpers.nav_finish_async,
+            wait=False
+        )
+
+
     async def enter_NOTIFY_ALL_PACKAGES_STATUS(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,

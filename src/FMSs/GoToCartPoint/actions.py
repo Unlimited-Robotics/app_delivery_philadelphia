@@ -53,6 +53,16 @@ class Actions(BaseActions):
         await self.app.leds.turn_off_all()
 
 
+    async def enter_GO_TO_HOME_LOCATION(self):
+        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
+        await self.app.nav.navigate_to_location(
+            location_name=NAV_HOME_POSITION_NAME,
+            callback_feedback_async=self.helpers.nav_feedback_async,
+            callback_finish_async=self.helpers.nav_finish_async,
+            wait=False
+        )
+
+
     async def enter_GO_TO_CART_POINT(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,

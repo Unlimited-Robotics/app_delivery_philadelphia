@@ -55,12 +55,13 @@ class Transitions(BaseTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
-                self.set_state('WAIT_FOR_UNLOAD_PACKAGE')
+                self.set_state('DETACH_CART')
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_CART)
 
     
-    async def WAIT_FOR_UNLOAD_PACKAGE(self):
+    async def DETACH_CART(self):
+        # TODO: replace detach cart with the actual action
         await self.helpers.gary_play_audio(
             audio=SOUND_WAIT_FOR_CHEST_BUTTON,
         )

@@ -16,6 +16,18 @@ FLEET_STATUS_GOING_TO_CART_POINT  = {
     'status': FLEET_UPDATE_STATUS.INFO
     }
 
+FLEET_REQUEST_ACTION_USER = {
+    'title': 'I need help',
+    'subtitle': 'can you help me?',
+    'buttons': [
+        'My package was delivered successfully', 
+        'My package is not the one that i ordered',
+        'My package is damaged',
+        'My package is missing'
+    ],
+    'timeout': 60
+}
+
 # FLEET STATUS
 
 FLEET_MESSAGE_OPEN_DOOR = 'The robot tried to enter the warehouse but the door was closed. Waiting for the door to open.'

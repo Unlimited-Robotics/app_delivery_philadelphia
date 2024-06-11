@@ -58,7 +58,7 @@ class Actions(BaseActions):
         )
 
 
-    async def enter_WAIT_FOR_UNLOAD_PACKAGE(self):
+    async def enter_DETACH_CART(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
                 message=FLEET_MESSAGE_WAITING_CART_UNLOAD
@@ -70,7 +70,7 @@ class Actions(BaseActions):
         )
 
 
-    async def WAIT_FOR_UNLOAD_PACKAGE_to_END(self):
+    async def DETACH_CART_to_END(self):
         await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
         await self.app.fleet.update_app_status(

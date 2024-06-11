@@ -41,6 +41,12 @@ UI_SCREEN_NAV_TO_WAREHOUSE_EXIT = {
     'back_button_text': '',
 }
 
+UI_SCREEN_NAV_TO_HOME = {
+    'title':'Navigating', 
+    'subtitle':'Navigating to home position',
+    'back_button_text': '',
+}
+
 UI_SCREEN_LEAVE_WAREHOUSE = {
     'title':'Navigating', 
     'subtitle':'Leaving warehouse',

@@ -5,7 +5,7 @@ STATES = [
         'ENTER_WAREHOUSE',
         'WAIT_FOR_BUTTON_OPEN_ENTRANCE',
         'GO_TO_CART_POINT',
-        'WAIT_FOR_UNLOAD_PACKAGE',
+        'DETACH_CART',
         'END',
     ]
 

@@ -14,6 +14,7 @@ STATES = [
         'CHECK_IF_MORE_PACKAGES',
         'RETURN_TO_WAREHOUSE_ENTRANCE',
         'PARK_CART',
+        'GO_TO_HOME_LOCATION',
         'NOTIFY_ALL_PACKAGES_STATUS',
         'END',
         

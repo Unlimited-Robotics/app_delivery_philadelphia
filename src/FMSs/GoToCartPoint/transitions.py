@@ -41,9 +41,18 @@ class Transitions(BaseTransitions):
             if nav_error[0] == 18:
                 self.set_state('WAIT_FOR_BUTTON_OPEN_ENTRANCE')
             elif nav_error[0] == 0:
-                self.set_state('GO_TO_CART_POINT')
+                self.set_state('GO_TO_HOME_LOCATION')
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
+
+
+    async def GO_TO_HOME_LOCATION(self):
+        if not self.app.nav.is_navigating():
+            nav_error = self.app.nav.get_last_result()
+            if nav_error[0] == 0:
+                self.set_state('GO_TO_CART_POINT')
+            else:
+                self.abort(*ERR_COULD_NOT_NAV_TO_HOME)
 
     
     async def WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
