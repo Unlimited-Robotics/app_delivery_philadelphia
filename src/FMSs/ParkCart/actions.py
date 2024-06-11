@@ -7,6 +7,7 @@ from src.static.ui import *
 from src.static.leds import *
 from src.static.fleet import *
 from src.static.constants import *
+from src.static.skills import *
 
 from .helpers import Helpers
 
@@ -59,6 +60,15 @@ class Actions(BaseActions):
 
 
     async def enter_DETACH_CART(self):
+        await self.app.skill_detach.execute_main(
+            execute_args=EXECUTION_ARG_DETACH_SKILL,
+            callback_done=self.helpers.cb_skill_detach_done,
+            callback_feedback=self.helpers.cb_skill_attach_feedback,
+            wait=False
+        )
+        
+    
+    async def enter_WAIT_FOR_UNLOAD_PACKAGE(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
                 message=FLEET_MESSAGE_WAITING_CART_UNLOAD

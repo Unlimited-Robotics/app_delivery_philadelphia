@@ -7,6 +7,7 @@ from src.app import RayaApplication
 from src.static.leds import *
 from src.static.sound import *
 from src.static.constants import NAV_WAREHOUSE_ZONE_NAME
+from skills.attach_to_cart import SkillAttachToCart
 
 class Helpers:
 
@@ -110,3 +111,17 @@ class Helpers:
             f'sound_finish_callback: {code}, {msg}'
         )
 
+
+    async def cb_skill_attach_done(self, exception, result):
+        self.app.log.info(f'cb_skill_attach_done, result: {result}')
+        if exception is None:
+            await self.app.skill_att2cart.execute_finish()
+        else: 
+            self.app.log.warn(
+                    'error occured while attaching, exception type: '
+                    f'{type(exception)} {exception}'
+                )
+
+
+    async def cb_skill_attach_feedback(self, feedback):
+        self.app.log.info(feedback)

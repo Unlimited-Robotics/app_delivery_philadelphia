@@ -2,10 +2,15 @@
     "name": "Philadelphia app",
     "description": "Optimize hospital logistics with our delivery app. Automate item transportation, relieving staff burden. Timely, essential deliveries for patient care.",
     "type": "app",
-    "version" : "0.0.1",
-    "dependencies" : {
+    "version": "0.0.1",
+    "dependencies": {
         "pip": [],
-        "skills": []
+        "skills": [
+            {
+                "name": "attach_to_cart",
+                "version": "==3.0.0.dev"
+            }
+        ]
     },
     "repository": {
         "type": "git",

@@ -1,4 +1,5 @@
 from raya.tools.fsm import BaseTransitions
+from raya.enumerations import SKILL_STATE
 
 from src.app import RayaApplication
 from src.static.constants import *
@@ -74,11 +75,46 @@ class Transitions(BaseTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
-                self.set_state('WAIT_FOR_LOAD_PACKAGE')
+                if self.app.enable_attach:
+                    self.set_state('ATTACH_TO_CART')
+                else:
+                    self.set_state('WAIT_FOR_LOAD_PACKAGE')
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_CART)
 
-    
+
+    async def ATTACH_TO_CART(self):
+        state = self.app.skill_att2cart.get_execution_state()
+        
+        if state == SKILL_STATE.EXECUTED:
+            result_main = await self.app.skill_att2cart.wait_main()
+            self.app.log.debug(f'ATTACH_TO_CART result_main: {result_main}')
+        elif state == SKILL_STATE.ERROR_EXECUTING:
+            try:
+                await self.app.skill_att2cart.wait_main()
+            except Exception as e:
+                self.app.log.error(
+                    f'Error while waiting main for ATTACH_TO_CART: {e}'
+                )
+            finally:
+                self.abort(*ERR_COULD_NOT_ATTACH_TO_CART)
+        elif state == SKILL_STATE.ERROR_FINISHING:
+            try:
+                await self.app.skill_att2cart.wait_finish()
+            except Exception as e:
+                self.app.log.error(
+                    f'Error while waiting finish for ATTACH_TO_CART: {e}'
+                )
+            finally:
+                self.abort(*ERR_COULD_NOT_ATTACH_TO_CART)        
+        elif state == SKILL_STATE.FINISHED:
+            result_finish = await self.app.skill_att2cart.wait_finish()
+            self.app.log.debug(
+                f'ATTACH_TO_CART result_finish: {result_finish}'
+            )
+            self.set_state('GO_TO_WAREHOUSE_EXIT')
+
+
     async def WAIT_FOR_LOAD_PACKAGE(self):
         await self.helpers.gary_play_audio(
             audio=SOUND_WAIT_FOR_CHEST_BUTTON,

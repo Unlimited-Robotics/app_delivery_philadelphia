@@ -9,6 +9,9 @@ from raya.controllers.sensors_controller import SensorsController
 from raya.enumerations import FLEET_FINISH_STATUS
 from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
+from src.static.skills import SETUP_ARG_ATTACH_SKILL, SETUP_ARG_DETACH_SKILL
+
+from skills.attach_to_cart import SkillAttachToCart, SkillDetachCart
 
 class RayaApplication(RayaApplicationBase):
 
@@ -31,6 +34,30 @@ class RayaApplication(RayaApplicationBase):
         self.fsm_main_task = MainFSM(
                 log_transitions=True,
             )
+
+
+        self.skill_att2cart = None
+        self.skill_detach = None
+        if self.enable_attach:
+            self.log.info('Attaching and detaching skills enabled')
+            
+            self.log.info('Registering attach skill')
+            self.skill_att2cart = self.register_skill(SkillAttachToCart)
+            self.log.info('Executing setup for attach skill')
+            result = await self.skill_att2cart.execute_setup(
+                setup_args=SETUP_ARG_ATTACH_SKILL,
+                wait=True
+            )
+            self.log.info(f'Attach skill setup result: {result}')
+            
+            self.log.info('Registering detach skill')
+            self.skill_detach = self.register_skill(SkillDetachCart)
+            self.log.info('Executing setup for detach skill')
+            result = await self.skill_detach.execute_setup(
+                setup_args=SETUP_ARG_DETACH_SKILL,
+                wait=True
+            )
+            self.log.info(f'Detach skill setup result: {result}')
 
 
     async def main(self):
@@ -61,6 +88,17 @@ class RayaApplication(RayaApplicationBase):
     def get_arguments(self):
         max_packages = 2
         self.locations = []
+        
+        self.enable_attach = self.get_argument(
+            '--enable_attach',
+            type=bool,
+            help=(
+                'Enable attach the cart packages to the robot otherwhise '
+                'the robot will wait for the chest to be pressed.'
+            ),
+            required=False,
+            default=True,
+        )
         
         for index in range(1, max_packages+1):
             location = self.get_argument(

@@ -2,6 +2,7 @@ from raya.tools.fsm import BaseActions
 from raya.enumerations import FLEET_UPDATE_STATUS, POSITION_UNIT, ANGLE_UNIT
 
 from src.app import RayaApplication
+from src.static.skills import *
 from src.static.navigation import *
 from src.static.ui import *
 from src.static.leds import *
@@ -73,6 +74,15 @@ class Actions(BaseActions):
             **NAV_CART_POINT,
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
+        )
+
+
+    async def enter_ATTACH_TO_CART(self):
+        await self.app.skill_att2cart.execute_main(
+            execute_args=EXECUTION_ARG_ATTACH_SKILL,
+            callback_done=self.helpers.cb_skill_attach_done,
+            callback_feedback=self.helpers.cb_skill_attach_feedback,
+            wait=False
         )
 
 

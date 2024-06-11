@@ -6,6 +6,7 @@ STATES = [
         'WAIT_FOR_BUTTON_OPEN_ENTRANCE',
         'GO_TO_CART_POINT',
         'DETACH_CART',
+        'WAIT_FOR_UNLOAD_PACKAGE',
         'END',
     ]
 

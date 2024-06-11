@@ -1,4 +1,5 @@
 from raya.tools.fsm import BaseTransitions
+from raya.enumerations import SKILL_STATE
 
 from src.app import RayaApplication
 from src.static.constants import *
@@ -55,23 +56,57 @@ class Transitions(BaseTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
-                self.set_state('DETACH_CART')
+                if self.app.enable_attach:
+                    self.set_state('DETACH_CART')
+                else:
+                    self.set_state('WAIT_FOR_UNLOAD_PACKAGE')
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_CART)
 
     
-    async def DETACH_CART(self):
-        # TODO: replace detach cart with the actual action
+    async def WAIT_FOR_UNLOAD_PACKAGE(self):
         await self.helpers.gary_play_audio(
             audio=SOUND_WAIT_FOR_CHEST_BUTTON,
         )
         
         if await self.helpers.check_for_chest_button():
-            self.app.log.info('Package loaded')
+            self.app.log.info('Package unloaded')
             await self.app.sound.cancel_all_sounds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_STEP_ASIDE,
                 wait=True,
             )
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
+            self.set_state('END')
+
+
+    async def DETACH_TO_CART(self):
+        state = self.app.skill_detach.get_execution_state()
+        
+        if state == SKILL_STATE.EXECUTED:
+            result_main = await self.app.skill_detach.wait_main()
+            self.app.log.debug(f'DETACH_TO_CART result_main: {result_main}')
+        elif state == SKILL_STATE.ERROR_EXECUTING:
+            try:
+                await self.app.skill_detach.wait_main()
+            except Exception as e:
+                self.app.log.error(
+                    f'Error while waiting main for DETACH_TO_CART: {e}'
+                )
+            finally:
+                self.abort(*ERR_COULD_NOT_DETACH_CART)
+        elif state == SKILL_STATE.ERROR_FINISHING:
+            try:
+                await self.app.skill_detach.wait_finish()
+            except Exception as e:
+                self.app.log.error(
+                    f'Error while waiting finish for DETACH_TO_CART: {e}'
+                )
+            finally:
+                self.abort(*ERR_COULD_NOT_DETACH_CART)        
+        elif state == SKILL_STATE.FINISHED:
+            result_finish = await self.app.skill_detach.wait_finish()
+            self.app.log.debug(
+                f'DETACH_TO_CART result_finish: {result_finish}'
+            )
             self.set_state('END')
