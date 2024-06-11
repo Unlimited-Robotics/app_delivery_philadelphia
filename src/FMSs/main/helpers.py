@@ -156,3 +156,22 @@ class Helpers:
 
     def cb_delivery_arrived_ui_response(self, response):
         self.selected_option_delivery_ui = response['selected_option']
+
+
+    async def get_home_position(self):
+        self.home_location = await self.app.nav.get_location(
+            location_name = NAV_HOME_POSITION_NAME,
+            map_name = NAV_WAREHOUSE_MAP_NAME,
+            pos_unit = POSITION_UNIT.PIXELS,
+        )
+        return self.home_location
+
+
+    async def nav_to_home_position(self, wait=True):
+        await self.get_home_position()
+        await self.app.nav.navigate_to_location(
+            location_name=NAV_HOME_POSITION_NAME,
+            callback_feedback=self.nav_feedback_async,
+            callback_finish_async=self.nav_finish_async,
+            wait=wait
+        )

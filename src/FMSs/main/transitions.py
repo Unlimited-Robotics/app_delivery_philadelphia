@@ -1,5 +1,8 @@
 from raya.tools.fsm import BaseTransitions
-from raya.exceptions import RayaFleetTimeout
+from raya.exceptions import RayaFleetTimeout, RayaTaskAlreadyRunning
+from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound
+from raya.enumerations import FLEET_UPDATE_STATUS
+from raya.tools.fsm import RayaFSMAborted
 
 from src.app import RayaApplication
 from src.static.app_errors import *
@@ -7,13 +10,12 @@ from src.static.constants import *
 from src.static.fleet import *
 from src.static.leds import *
 from src.static.sound import *
+from src.static.navigation import *
+from src.static.constants import *
+from src.static.ui import *
 from .helpers import Helpers
 from .errors import *
-from src.static.constants import *
-from raya.exceptions import RayaFleetTimeout, RayaTaskAlreadyRunning
-from raya.enumerations import FLEET_UPDATE_STATUS
-from src.static.ui import *
-from raya.tools.fsm import RayaFSMAborted
+
 
 class Transitions(BaseTransitions):
 
@@ -25,9 +27,27 @@ class Transitions(BaseTransitions):
 
     async def SETUP_ACTIONS(self):
         if await self.app.nav.is_localized():
-            self.set_state('GO_TO_CART_POINT')
-        else:
             self.abort(*ERR_COULD_NOT_LOCALIZE)
+        
+        try:
+            await self.helpers.get_home_position()
+        except RayaNavLocationNotFound:
+            self.app.log.error((
+                'Could not get home position from navigation, '
+                'check if the location exist in the navigation map.'
+            ))
+            self.abort(*ERR_COULD_NOT_GET_HOME_POSITION)
+        
+        try:
+            await self.app.nav.get_zones_list(map_name=NAV_WAREHOUSE_MAP_NAME)
+        except RayaNavZoneNotFound:
+            self.app.log.error((
+                'Could not get warehouse entrance position from navigation, '
+                'check if the zone exist in the navigation map.'
+            ))
+            self.abort(*ERR_COULD_NOT_GET_WAREHOUSE_ZONE)
+        
+        self.set_state('GO_TO_CART_POINT')
 
 
     async def GO_TO_CART_POINT(self):

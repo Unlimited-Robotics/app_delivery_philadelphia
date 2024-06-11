@@ -1,6 +1,7 @@
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
 NAV_WAREHOUSE_MAP_NAME = 'Bogota_Office__minigary.101'
+NAV_HOME_POSITION_NAME = 'Home'
 
 NAV_WAREHOUSE_ENTRANCE = {
         'x':        343.0,

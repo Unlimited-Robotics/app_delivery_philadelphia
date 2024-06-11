@@ -1,10 +1,11 @@
 import time
 
+from raya.exceptions import RayaCommandAlreadyRunning
+
 from src.static.constants import *
 from src.app import RayaApplication
 from src.static.leds import *
 from src.static.sound import *
-from raya.exceptions import RayaCommandAlreadyRunning
 from src.static.constants import NAV_WAREHOUSE_ZONE_NAME
 
 class Helpers:
