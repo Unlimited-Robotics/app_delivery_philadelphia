@@ -19,7 +19,7 @@ Optimize hospital logistics with our delivery app. Automate item transportation,
 
     * `NAV_WAREHOUSE_EXIT`: Just in front of the door, INSIDE the warehouse, and facing the door.
 
-    * `NAV_HOME_POSITION_NAME`: Location name saved in the map where the robot will start and finish the app. This point should be close to the docking station.
+    * `HOME`: Location name saved in the map where the robot will start and finish the app.
 
 ![alt text](/doc/img/nav_points.png)
 
