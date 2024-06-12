@@ -1,3 +1,5 @@
+DELAY_BEETWEEN_SOUND_LOOP = 0.5
+
 SOUND_NOTIFY_ORDER_ARRIVED = {
         'path': 'res:package_arrived.mp3',
         'volume': 100,

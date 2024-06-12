@@ -97,6 +97,7 @@ class Helpers:
         try:
             if not self.app.sound.is_playing():
                 await self.app.leds.turn_off_group(group='head')
+                await self.app.sleep(DELAY_BEETWEEN_SOUND_LOOP)
                 await self.app.sound.play_sound(
                     **audio,
                     wait=False,
