@@ -33,8 +33,9 @@ class Actions(BaseActions):
 
     async def enter_GO_TO_CART_POINT(self):
         await self.app.fleet.update_app_status(
-            **FLEET_STATUS_GOING_TO_CART_POINT
-            )
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_STATUS_GOING_TO_CART_POINT
+        )
         self.helpers.fsm_go_to_cart_point.restart()
         await self.helpers.fsm_go_to_cart_point.run_in_background()
         
@@ -105,6 +106,10 @@ class Actions(BaseActions):
             )
         except RayaCommandAlreadyRunning:
             pass
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_WAIT_FOR_PACKAGE_CONFIRMATION
+        )
 
 
     async def leave_WAIT_FOR_CHEST_CONFIRMATION(self):
@@ -181,11 +186,19 @@ class Actions(BaseActions):
 
 
     async def enter_PARK_CART(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_PARKING_CART
+            )
         self.helpers.fsm_park_cart.restart()
         await self.helpers.fsm_park_cart.run_in_background()
 
 
     async def enter_GO_TO_HOME_LOCATION(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_GOING_TO_HOME_LOCATION
+            )
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
         await self.app.nav.navigate_to_location(
             location_name=NAV_HOME_POSITION_NAME,
@@ -234,7 +247,10 @@ class Actions(BaseActions):
 
 
     async def enter_WAIT_FOR_HELP(self):
-        pass
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.WARNING,
+            message=FLEET_WAITING_FOR_HELP
+        )
 
 
     async def leave_WAIT_FOR_HELP(self):
@@ -246,6 +262,11 @@ class Actions(BaseActions):
         await self.app.leds.turn_off_all()
 
 
+
     async def enter_RELEASE_CART(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=FLEET_ABORT_APP_RELEASE_CART
+            )
         await self.app.ui.display_screen(**UI_SCREEN_RELEASE_CART)
         await self.app.sleep(TIME_TO_RELEASE_CART)

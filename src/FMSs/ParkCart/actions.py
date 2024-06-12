@@ -20,6 +20,10 @@ class Actions(BaseActions):
 
 
     async def enter_ENTER_WAREHOUSE(self):
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_ENTERING_WAREHOUSE
+        )
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **NAV_CART_POINT,
@@ -31,9 +35,9 @@ class Actions(BaseActions):
 
     async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
         await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_MESSAGE_OPEN_DOOR
-            )
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_WAIT_FOR_BUTTON_DOOR
+        )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
         await self.app.leds.animation(
             **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
@@ -48,9 +52,9 @@ class Actions(BaseActions):
 
     async def enter_GO_TO_CART_POINT(self):
         await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_DOOR_OPEN
-            )
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_ROBOT_MOVING_TO_DETACH_POINT
+        )
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **NAV_CART_POINT,
@@ -60,6 +64,10 @@ class Actions(BaseActions):
 
 
     async def enter_DETACH_CART(self):
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_ROBOT_DETACHING_TO_CART
+        )
         await self.app.skill_detach.execute_main(
             execute_args=EXECUTION_ARG_DETACH_SKILL,
             callback_done=self.helpers.cb_skill_detach_done,
@@ -85,7 +93,7 @@ class Actions(BaseActions):
         await self.app.leds.turn_off_all()
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_DOOR_OPEN
+                message=FLEET_CART_RELEASED
             )
 
 

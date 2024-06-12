@@ -87,6 +87,10 @@ class Transitions(BaseTransitions):
             selected_option = self.helpers.selected_option_delivery_ui
             self.app.log.warn(f'User selected: {selected_option}')
             await self.app.sound.cancel_all_sounds()
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_PACKAGE_CONFIRM_USING_UI,
+            )
             await self.helpers.gary_play_audio(
                 audio=SOUND_STEP_ASIDE,
                 wait=True,
@@ -111,6 +115,14 @@ class Transitions(BaseTransitions):
             await self.helpers.gary_play_audio(
                 audio=SOUND_STEP_ASIDE,
                 wait=True,
+            )
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_PACKAGE_CONFIRM_USING_CHEST,
+            )
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.SUCCESS,
+                message=f'Package status:{selected_option["name"]}',
             )
             self.set_state('PACKAGE_DELIVERED')
 
@@ -206,6 +218,14 @@ class Transitions(BaseTransitions):
             response = await self.app.ui.display_choice_selector(
                 **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
                 wait=True
+            )
+            text = (
+                'Gary recieved help, and the option selected was: '
+                f'{response['selected_option']}'
+            )
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=text
             )
             self.app.log.warn(f'User selected: {response}')
             selected_option = response['selected_option']

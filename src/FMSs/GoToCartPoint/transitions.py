@@ -1,10 +1,11 @@
 from raya.tools.fsm import BaseTransitions
-from raya.enumerations import SKILL_STATE
+from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
 
 from src.app import RayaApplication
 from src.static.constants import *
 from src.static.leds import *
 from src.static.sound import *
+from src.static.fleet import *
 
 from .helpers import Helpers
 from .errors import *
@@ -62,6 +63,10 @@ class Transitions(BaseTransitions):
         )
         
         if await self.helpers.check_for_chest_button():
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_BUTTON_WAS_PRESS
+            )
             await self.app.sound.cancel_all_sounds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_STEP_ASIDE,
@@ -121,6 +126,10 @@ class Transitions(BaseTransitions):
         )
         
         if await self.helpers.check_for_chest_button():
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_BUTTON_WAS_PRESS
+            )
             self.app.log.info('Package loaded')
             await self.app.sound.cancel_all_sounds()
             await self.helpers.gary_play_audio(
@@ -162,6 +171,10 @@ class Transitions(BaseTransitions):
         )
         
         if await self.helpers.check_for_chest_button():
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_BUTTON_WAS_PRESS
+            )
             await self.app.sound.cancel_all_sounds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_STEP_ASIDE,

@@ -19,6 +19,10 @@ class Actions(BaseActions):
 
     
     async def enter_GO_TO_WAREHOUSE_ENTRANCE(self):
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_GOING_TO_WAREHOUSE_ENTRANCE
+        )
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **NAV_WAREHOUSE_ENTRANCE,
@@ -28,6 +32,10 @@ class Actions(BaseActions):
 
 
     async def enter_ENTER_WAREHOUSE(self):
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_ENTERING_WAREHOUSE
+        )
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **NAV_CART_POINT,
@@ -39,9 +47,9 @@ class Actions(BaseActions):
 
     async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
         await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_MESSAGE_OPEN_DOOR
-            )
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_WAIT_FOR_BUTTON_DOOR
+        )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
         await self.app.leds.animation(
             **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
@@ -55,6 +63,10 @@ class Actions(BaseActions):
 
 
     async def enter_GO_TO_HOME_LOCATION(self):
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_ROBOT_NAVIGATING_TO_HOME
+        )
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
         await self.app.nav.navigate_to_location(
             location_name=NAV_HOME_POSITION_NAME,
@@ -66,9 +78,9 @@ class Actions(BaseActions):
 
     async def enter_GO_TO_CART_POINT(self):
         await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_DOOR_OPEN
-            )
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_ROBOT_MOVING_TO_ATTACH_POINT
+        )
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **NAV_CART_POINT,
@@ -78,6 +90,10 @@ class Actions(BaseActions):
 
 
     async def enter_ATTACH_TO_CART(self):
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_ROBOT_ATTACHING_TO_CART
+        )
         await self.app.skill_att2cart.execute_main(
             execute_args=EXECUTION_ARG_ATTACH_SKILL,
             callback_done=self.helpers.cb_skill_attach_done,
@@ -104,6 +120,10 @@ class Actions(BaseActions):
 
     
     async def enter_GO_TO_WAREHOUSE_EXIT(self):
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_GOING_TO_WAREHOUSE_EXIT
+        )
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE_EXIT)
         await self.app.nav.navigate_to_position(
             **NAV_WAREHOUSE_EXIT,
@@ -113,6 +133,10 @@ class Actions(BaseActions):
 
 
     async def enter_LEAVE_WAREHOUSE(self):
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_LEAVING_WAREHOUSE
+        )
         package = self.app.locations[0]
         point = {
             'x': package[0],
@@ -136,9 +160,9 @@ class Actions(BaseActions):
 
     async def enter_WAIT_FOR_BUTTON_EXITING(self):
         await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_MESSAGE_CLOSED_DOOR
-            )
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_WAIT_FOR_BUTTON_DOOR
+        )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
         await self.app.leds.animation(
             **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
@@ -152,10 +176,10 @@ class Actions(BaseActions):
 
 
     async def LEAVE_WAREHOUSE_to_END(self):
-        # await self.app.fleet.update_app_status(
-        #         status=FLEET_UPDATE_STATUS.INFO,
-        #         message=FLEET_DOOR_OPEN
-        #     )
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_ROBOT_OUTSIDE_WAREHOUSE
+        )
         pass
 
 
