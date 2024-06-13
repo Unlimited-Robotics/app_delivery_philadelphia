@@ -26,7 +26,7 @@ class Transitions(BaseTransitions):
 
 
     async def SETUP_ACTIONS(self):
-        if await self.app.nav.is_localized():
+        if not await self.app.nav.is_localized():
             self.abort(*ERR_COULD_NOT_LOCALIZE)
         
         try:
@@ -219,10 +219,11 @@ class Transitions(BaseTransitions):
                 **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
                 wait=True
             )
-            text = (
-                'Gary recieved help, and the option selected was: '
-                f'{response['selected_option']}'
-            )
+            # text = (
+            #     'Gary recieved help, and the option selected was: '
+            #     f'{response['selected_option']}'
+            # )
+            text = ""
             await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
                 message=text

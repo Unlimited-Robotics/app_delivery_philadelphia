@@ -1,28 +1,28 @@
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
-NAV_WAREHOUSE_MAP_NAME = 'Bogota_Office__minigary.101'
-NAV_HOME_POSITION_NAME = 'Home'
+NAV_WAREHOUSE_MAP_NAME = 'elisha__part1'
+NAV_HOME_POSITION_NAME = 'home'
 
 NAV_WAREHOUSE_ENTRANCE = {
-        'x':        343.0,
-        'y':        430.0,
-        'angle':    66.88, 
+        'x':        324.0,
+        'y':        217.0,
+        'angle':    178.69,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
     }
 
 NAV_WAREHOUSE_EXIT = {
-        'x':        367.0,
-        'y':        365.0,
-        'angle':    -105.5634, 
+        'x':        234.0,
+        'y':        217.0,
+        'angle':    -6.19,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
     }
 
 NAV_CART_POINT = {
-        'x':        453.0,
-        'y':        274.0,
-        'angle':    -2.35, 
+        'x':        170.0,
+        'y':        217.0,
+        'angle':    -93.94,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
     }

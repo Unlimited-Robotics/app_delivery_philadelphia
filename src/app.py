@@ -112,18 +112,19 @@ class RayaApplication(RayaApplicationBase):
                 default='',
             )
             self.log.info(f'Location: {location}')
-            
-            location = location.strip('[]')
-            location = location.split(',')
-            location_coordinates = [float(axys.strip()) for axys in location[:3]]\
-            
-            location_name = location[3].strip() if len(location) > 3 else ''
-            location_map = location[4].strip() if len(location) > 4 else ''
-            location_coordinates.append(location_name)
-            location_coordinates.append(location_map)
-            
-            self.locations.append(location_coordinates)
-        
+            if location != '':
+                self.log.warn(f'locations:{location}')
+                location = location.strip('[]')
+                location = location.split(',')
+                location_coordinates = [float(axys.strip()) for axys in location[:3]]\
+
+                location_name = location[3].strip() if len(location) > 3 else ''
+                location_map = location[4].strip() if len(location) > 4 else ''
+                location_coordinates.append(location_name)
+                location_coordinates.append(location_map)
+
+                self.locations.append(location_coordinates)
+        self.locations = [[565.0, 218.0, 0.0]]
         self.log.info('App is running with there args:')
         for location in zip(self.locations):
             self.log.info(f'\tLocation: {location}')

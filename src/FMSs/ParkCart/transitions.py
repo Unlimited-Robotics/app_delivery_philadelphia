@@ -89,7 +89,7 @@ class Transitions(BaseTransitions):
             self.set_state('END')
 
 
-    async def DETACH_TO_CART(self):
+    async def DETACH_CART(self):
         state = self.app.skill_detach.get_execution_state()
         
         if state == SKILL_STATE.EXECUTED:
