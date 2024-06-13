@@ -1,5 +1,6 @@
 from raya.tools.fsm import BaseActions
 from raya.enumerations import FLEET_UPDATE_STATUS
+from raya.exceptions import RayaCommandAlreadyRunning
 
 from src.app import RayaApplication
 from src.static.navigation import *
@@ -47,7 +48,10 @@ class Actions(BaseActions):
     
     async def leave_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
         await self.app.sound.cancel_all_sounds()
-        await self.app.leds.turn_off_all()
+        try:
+            await self.app.leds.turn_off_all()
+        except RayaCommandAlreadyRunning:
+            pass
 
 
     async def enter_GO_TO_CART_POINT(self):
@@ -90,7 +94,10 @@ class Actions(BaseActions):
 
     async def DETACH_CART_to_END(self):
         await self.app.sound.cancel_all_sounds()
-        await self.app.leds.turn_off_all()
+        try:
+            await self.app.leds.turn_off_all()
+        except RayaCommandAlreadyRunning:
+            pass
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_CART_RELEASED

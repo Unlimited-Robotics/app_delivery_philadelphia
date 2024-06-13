@@ -9,6 +9,7 @@ from src.static.leds import *
 from src.static.fleet import *
 from src.static.constants import *
 from .helpers import Helpers
+from raya.exceptions import RayaCommandAlreadyRunning
 
 class Actions(BaseActions):
 
@@ -59,7 +60,10 @@ class Actions(BaseActions):
     
     async def leave_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
         await self.app.sound.cancel_all_sounds()
-        await self.app.leds.turn_off_all()
+        try:
+            await self.app.leds.turn_off_all()
+        except RayaCommandAlreadyRunning:
+            pass
 
 
     async def enter_GO_TO_HOME_LOCATION(self):
@@ -116,7 +120,10 @@ class Actions(BaseActions):
 
     async def leave_WAIT_FOR_LOAD_PACKAGE(self):
         await self.app.sound.cancel_all_sounds()
-        await self.app.leds.turn_off_all()
+        try:
+            await self.app.leds.turn_off_all()
+        except RayaCommandAlreadyRunning:
+            pass
 
     
     async def enter_GO_TO_WAREHOUSE_EXIT(self):
@@ -172,7 +179,10 @@ class Actions(BaseActions):
 
     async def leave_WAIT_FOR_BUTTON_EXITING(self):
         await self.app.sound.cancel_all_sounds()
-        await self.app.leds.turn_off_all()
+        try:
+            await self.app.leds.turn_off_all()
+        except RayaCommandAlreadyRunning:
+            pass
 
 
     async def LEAVE_WAREHOUSE_to_END(self):

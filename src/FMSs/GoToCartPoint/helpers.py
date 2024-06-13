@@ -62,7 +62,10 @@ class Helpers:
             )
         
         if not self.app.sound.is_playing():
-            await self.app.leds.turn_off_all()
+            try:
+                await self.app.leds.turn_off_all()
+            except RayaCommandAlreadyRunning:
+                pass
 
 
     async def nav_feedback_door_async(self, code, msg, distance, speed):
@@ -80,7 +83,11 @@ class Helpers:
             )
         
         if not self.app.sound.is_playing():
-            await self.app.leds.turn_off_all()
+            try:
+                await self.app.leds.turn_off_all()
+            except RayaCommandAlreadyRunning:
+                pass
+                
 
         
     async def nav_finish_async(self, code, msg):
