@@ -33,7 +33,7 @@ class Transitions(BaseTransitions):
         except RayaListenerAlreadyCreated:
             pass
         if await self.helpers.check_if_inside_zone():
-            self.set_state('GO_TO_CART_POINT')
+            self.set_state('GO_TO_HOME_LOCATION')
         else:
             self.set_state('GO_TO_WAREHOUSE_ENTRANCE')
 
