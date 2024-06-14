@@ -162,7 +162,7 @@ class Transitions(BaseTransitions):
     
     async def LEAVE_WAREHOUSE(self):
         if self.app.nav.is_navigating() and \
-            await self.helpers.check_if_inside_zone() == True:
+            not await self.helpers.check_if_inside_zone() == True:
                 self.set_state('END')
         
         if not self.app.nav.is_navigating():
