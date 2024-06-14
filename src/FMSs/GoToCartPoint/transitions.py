@@ -1,5 +1,6 @@
 from raya.tools.fsm import BaseTransitions
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
+from raya.exceptions import RayaListenerAlreadyCreated
 
 from src.app import RayaApplication
 from src.static.constants import *
@@ -21,6 +22,16 @@ class Transitions(BaseTransitions):
     async def CHECK_IF_INSIDE_ZONE(self):
         # TODO: remove
         # self.abort(*ERR_COULD_NOT_LOCALIZE)
+        try:
+            self.chest_pressed = False
+            self.app.sensors.create_threshold_listener(
+                listener_name='chest_button_GO_TO_CART_POINT',
+                callback_async=self.helpers.cb_chest_button,
+                sensors_paths=CHEST_LISTENER_PATHS,
+                lower_bound=0.1
+            )
+        except RayaListenerAlreadyCreated:
+            pass
         if await self.helpers.check_if_inside_zone():
             self.set_state('GO_TO_CART_POINT')
         else:

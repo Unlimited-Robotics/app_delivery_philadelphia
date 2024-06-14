@@ -91,6 +91,7 @@ class Actions(BaseActions):
             pass
 
     async def enter_WAIT_FOR_CHEST_CONFIRMATION(self):
+        self.helpers.reset_chest_button()
         self.helpers.selected_option_delivery_ui = None
         await self.app.ui.display_choice_selector(
                 **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,

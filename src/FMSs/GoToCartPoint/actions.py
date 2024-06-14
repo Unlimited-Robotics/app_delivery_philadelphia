@@ -47,6 +47,7 @@ class Actions(BaseActions):
 
 
     async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
+        self.helpers.reset_chest_button()
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_WAIT_FOR_BUTTON_DOOR
@@ -107,6 +108,7 @@ class Actions(BaseActions):
 
 
     async def enter_WAIT_FOR_LOAD_PACKAGE(self):
+        self.helpers.reset_chest_button()
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
                 message=FLEET_MESSAGE_WAITING_PACKAGE_LOAD
@@ -166,6 +168,7 @@ class Actions(BaseActions):
 
 
     async def enter_WAIT_FOR_BUTTON_EXITING(self):
+        self.helpers.reset_chest_button()
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_WAIT_FOR_BUTTON_DOOR

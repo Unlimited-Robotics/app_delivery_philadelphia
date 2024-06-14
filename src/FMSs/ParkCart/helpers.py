@@ -13,16 +13,7 @@ class Helpers:
 
     def __init__(self, app: RayaApplication):        
         self.app = app
-        try:
-            self.chest_pressed = False
-            self.app.sensors.create_threshold_listener(
-                listener_name='chest_button_PARK_CART',
-                callback_async=self.cb_chest_button,
-                sensors_paths=CHEST_LISTENER_PATHS,
-                lower_bound=1.0
-            )
-        except RayaListenerAlreadyCreated:
-            pass
+        self.chest_pressed = False
 
 
     async def check_if_inside_zone(self):
@@ -40,6 +31,7 @@ class Helpers:
 
     async def check_for_chest_button(self):
         if self.chest_pressed:
+            await self.app.sound.play_sound(name='success', wait=True)
             self.chest_pressed = False
             return True
         return False
@@ -47,8 +39,12 @@ class Helpers:
 
     async def cb_chest_button(self):
         if self.app.sensors.get_all_sensors_values()["chest_button"] != 0:
-            await self.app.sound.play_sound(name='success', wait=True)
+            self.app.log.warn('Chest button pressed')
             self.chest_pressed = True
+
+
+    def reset_chest_button(self):
+        self.chest_pressed = False
 
 
     async def nav_feedback_async(self, code, msg, distance_to_goal, speed):

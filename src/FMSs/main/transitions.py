@@ -1,6 +1,7 @@
 from raya.tools.fsm import BaseTransitions
 from raya.exceptions import RayaFleetTimeout, RayaTaskAlreadyRunning
-from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound
+from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound, RayaListenerAlreadyCreated
+from raya.exceptions import RayaListenerAlreadyCreated
 from raya.enumerations import FLEET_UPDATE_STATUS
 from raya.tools.fsm import RayaFSMAborted
 
@@ -26,6 +27,16 @@ class Transitions(BaseTransitions):
 
 
     async def SETUP_ACTIONS(self):
+        try:
+            self.chest_pressed = False
+            self.app.sensors.create_threshold_listener(
+                listener_name='chest_button_MAIN',
+                callback_async=self.helpers.cb_chest_button,
+                sensors_paths=CHEST_LISTENER_PATHS,
+                lower_bound=0.1
+            )
+        except RayaListenerAlreadyCreated:
+            pass
         if not await self.app.nav.is_localized():
             self.abort(*ERR_COULD_NOT_LOCALIZE)
         
