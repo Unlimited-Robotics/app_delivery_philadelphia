@@ -28,6 +28,7 @@ class Actions(BaseActions):
                 message=FLEET_CHECK_IF_LOCALIZED
             )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
+        self.app.log.warn(f'Setting map: {NAV_WAREHOUSE_MAP_NAME}')
         await self.app.nav.set_map(NAV_WAREHOUSE_MAP_NAME)
 
 
