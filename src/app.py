@@ -10,6 +10,7 @@ from raya.enumerations import FLEET_FINISH_STATUS
 from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
 from src.static.skills import SETUP_ARG_ATTACH_SKILL, SETUP_ARG_DETACH_SKILL
+from src.static.navigation import GARY_FOOTPRINT
 
 from skills.attach_to_cart import SkillAttachToCart, SkillDetachCart
 
@@ -30,11 +31,12 @@ class RayaApplication(RayaApplicationBase):
         self.sensors:SensorsController = \
                 await self.enable_controller('sensors')
     
+        await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
+    
         # FSMs
         self.fsm_main_task = MainFSM(
                 log_transitions=True,
             )
-
 
         self.skill_att2cart = None
         self.skill_detach = None
@@ -127,3 +129,11 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('App is running with there args:')
         for location in zip(self.locations):
             self.log.info(f'\tLocation: {location}')
+
+
+    async def set_gary_footprint(self, footprint):
+        self.log.info(f'Setting robot footprint')
+        await self.nav.update_robot_footprint(
+            points=footprint
+        )
+        self.log.info('Robot footprint updated')

@@ -250,4 +250,8 @@ class Transitions(BaseTransitions):
     
     async def RELEASE_CART(self):
         self.app.log.warn('Releasing cart...')
+        # TODO: de attach skill should do this?
+        await self.app.set_gary_footprint(
+            footprint=GARY_FOOTPRINT
+        )
         self.abort(*ERR_NAVIGATION_ABORTED_BY_USER)

@@ -7,6 +7,7 @@ from src.static.constants import *
 from src.static.leds import *
 from src.static.sound import *
 from src.static.fleet import *
+from src.static.navigation import *
 
 from .helpers import Helpers
 from .errors import *
@@ -128,5 +129,9 @@ class Transitions(BaseTransitions):
             result_finish = await self.app.skill_detach.wait_finish()
             self.app.log.debug(
                 f'DETACH_TO_CART result_finish: {result_finish}'
+            )
+            # TODO: de attach skill should do this?
+            await self.app.set_gary_footprint(
+                footprint=GARY_FOOTPRINT
             )
             self.set_state('END')

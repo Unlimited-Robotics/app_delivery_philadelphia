@@ -2,6 +2,36 @@ from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
 NAV = dict()
 
+GARY_FOOTPRINT = [
+    [-0.25,  0.32],
+    [ 0.25,  0.32],
+    [ 0.25, -0.32],
+    [-0.25, -0.32]
+]
+
+GARY_FOOTPRINT_BIG_CART = [
+    [-1.60,  0.32],
+    [ 0.25,  0.32],
+    [ 0.25, -0.32],
+    [-1.60, -0.32]
+]
+
+GARY_FOOTPRINT_MEDIUM_CART = [
+    [-1.28,  0.32],
+    [ 0.25,  0.32],
+    [ 0.25, -0.32],
+    [-1.28, -0.32]
+]
+
+GARY_FOOTPRINT_SMALL_CART = [
+    [-1.23,  0.32],
+    [ 0.25,  0.32],
+    [ 0.25, -0.32],
+    [-1.23, -0.32]
+]
+
+GARY_SELECTED_CART_FOOTPRINT = GARY_FOOTPRINT_MEDIUM_CART
+
 def set_nav_data(map_name):
     global NAV_HOME_POSITION_NAME, NAV_WAREHOUSE_ENTRANCE
     global NAV_WAREHOUSE_EXIT, NAV_CART_POINT
