@@ -14,6 +14,8 @@ from src.static.sound import *
 from src.static.navigation import *
 from src.static.constants import *
 from src.static.ui import *
+from src.static.sensors import *
+
 from .helpers import Helpers
 from .errors import *
 
@@ -33,7 +35,7 @@ class Transitions(BaseTransitions):
                 listener_name='chest_button_MAIN',
                 callback_async=self.helpers.cb_chest_button,
                 sensors_paths=CHEST_LISTENER_PATHS,
-                lower_bound=0.1
+                lower_bound=LOWER_BOUNDS_CHEST_THRESHOLD
             )
         except RayaListenerAlreadyCreated:
             pass
