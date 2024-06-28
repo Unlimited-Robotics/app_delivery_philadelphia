@@ -28,7 +28,7 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **NAV_CART_POINT,
-            callback_feedback_async=self.helpers.nav_feedback_door_async,
+            callback_feedback_async=self.helpers.nav_feedback_wrapper,
             callback_finish_async=self.helpers.nav_finish_async,
         )
         self.helpers.start_timer()

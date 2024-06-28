@@ -11,7 +11,7 @@ from src.static.constants import NAV_WAREHOUSE_ZONE_NAME
 
 class Helpers:
 
-    def __init__(self, app: RayaApplication):        
+    def __init__(self, app: RayaApplication):
         self.app = app
         self.chest_pressed = False
 
@@ -45,6 +45,13 @@ class Helpers:
         if self.app.sensors.get_all_sensors_values()["chest_button"] != 0:
             self.app.log.warn('Chest button pressed')
             self.chest_pressed = True
+
+
+    async def nav_feedback_wrapper(self, code, msg, distance, speed):
+        if self.check_if_inside_zone():
+            await self.nav_feedback_door_async(code, msg, distance, speed)
+        else:
+            await self.nav_feedback_async(code, msg, distance, speed)
 
 
     async def nav_feedback_async(self, code, msg, distance_to_goal, speed):
@@ -83,7 +90,6 @@ class Helpers:
                 await self.app.leds.turn_off_all()
             except RayaCommandAlreadyRunning:
                 pass
-                
 
         
     async def nav_finish_async(self, code, msg):

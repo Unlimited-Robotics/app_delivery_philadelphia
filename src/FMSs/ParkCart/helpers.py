@@ -62,7 +62,14 @@ class Helpers:
                 await self.app.leds.turn_off_all()
             except RayaCommandAlreadyRunning:
                 pass
-
+    
+    
+    async def nav_feedback_wrapper(self, code, msg, distance, speed):
+        if self.check_if_inside_zone():
+            await self.nav_feedback_door_async(code, msg, distance, speed)
+        else:
+            await self.nav_feedback_async(code, msg, distance, speed)
+    
 
     async def nav_feedback_door_async(self, code, msg, distance, speed):
         self.app.log.debug(
