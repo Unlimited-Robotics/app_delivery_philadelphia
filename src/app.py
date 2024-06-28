@@ -124,7 +124,6 @@ class RayaApplication(RayaApplicationBase):
                 location_coordinates.append(location_map)
 
                 self.locations.append(location_coordinates)
-        self.locations = [[565.0, 218.0, 0.0]]
         self.log.info('App is running with there args:')
         for location in zip(self.locations):
             self.log.info(f'\tLocation: {location}')
