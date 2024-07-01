@@ -17,7 +17,8 @@ class Helpers:
 
 
     async def check_if_inside_zone(self):
-        return await self.app.nav.is_in_zone(zone_name=NAV_WAREHOUSE_ZONE_NAME)
+        result = await self.app.nav.is_in_zone(zone_name=NAV_WAREHOUSE_ZONE_NAME)
+        return result
 
 
     def start_timer(self):
@@ -48,7 +49,7 @@ class Helpers:
 
 
     async def nav_feedback_wrapper(self, code, msg, distance, speed):
-        if self.check_if_inside_zone():
+        if await self.check_if_inside_zone():
             await self.nav_feedback_door_async(code, msg, distance, speed)
         else:
             await self.nav_feedback_async(code, msg, distance, speed)

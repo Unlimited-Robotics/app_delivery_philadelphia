@@ -40,6 +40,7 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         await self.app.nav.navigate_to_location(
             location_name=NAV_HOME_POSITION_NAME,
+            **NAVIGATION_OPTIONS,
             callback_feedback_async=self.helpers.nav_feedback_wrapper,
             callback_finish_async=self.helpers.nav_finish_async,
             wait=False
@@ -76,6 +77,7 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
         await self.app.nav.navigate_to_location(
             location_name=NAV_HOME_POSITION_NAME,
+            **NAVIGATION_OPTIONS,
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
             wait=False
@@ -88,6 +90,7 @@ class Actions(BaseActions):
             message=FLEET_ROBOT_MOVING_TO_ATTACH_POINT
         )
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
+        self.app.log.debug(f'navigate_to_position {NAV_CART_POINT}')
         await self.app.nav.navigate_to_position(
             **NAV_CART_POINT,
             callback_feedback_async=self.helpers.nav_feedback_async,
@@ -159,6 +162,7 @@ class Actions(BaseActions):
             'angle': package[2],
             'pos_unit': POSITION_UNIT.PIXELS, 
             'ang_unit': ANGLE_UNIT.DEGREES,
+            **NAVIGATION_OPTIONS
         }
         text = (   
             f'Delivering package 1 of {len(self.app.locations)}'

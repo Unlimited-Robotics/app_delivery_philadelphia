@@ -44,6 +44,12 @@ def set_nav_data(map_name):
     NAV_CART_POINT = NAV[map_name]["data"]["NAV_CART_POINT"]
     # return NAV_HOME_POSITION_NAME, NAV_WAREHOUSE_ENTRANCE, NAV_WAREHOUSE_EXIT, NAV_CART_POINT
 
+NAVIGATION_OPTIONS = {
+    'options': {
+        'behavior_tree': 'navigate_long_footprint'
+    }
+}
+
 # --------------------------------------------------
 #                  elisha__part1
 # --------------------------------------------------
@@ -56,6 +62,7 @@ NAV_WAREHOUSE_ENTRANCE = {
         'angle':    178.69,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 NAV_WAREHOUSE_EXIT = {
         'x':        234.0,
@@ -63,6 +70,7 @@ NAV_WAREHOUSE_EXIT = {
         'angle':    -6.19,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 NAV_CART_POINT = {
         'x':        170.0,
@@ -70,6 +78,7 @@ NAV_CART_POINT = {
         'angle':    -93.94,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 
 NAV[NAV_WAREHOUSE_MAP_NAME] = {
@@ -86,7 +95,7 @@ NAV[NAV_WAREHOUSE_MAP_NAME] = {
 #             philly_hospital__basement
 # --------------------------------------------------
 
-NAV_WAREHOUSE_MAP_NAME = 'philly_hospital__basement'
+NAV_WAREHOUSE_MAP_NAME = 'hospital_02'
 NAV_HOME_POSITION_NAME = 'home'
 NAV_WAREHOUSE_ENTRANCE = {
         'x':        1683.0,
@@ -94,6 +103,7 @@ NAV_WAREHOUSE_ENTRANCE = {
         'angle':    146.95,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 NAV_WAREHOUSE_EXIT = {
         'x':        1518.0,
@@ -101,13 +111,15 @@ NAV_WAREHOUSE_EXIT = {
         'angle':    -0.03853223357465533,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 NAV_CART_POINT = {
-        'x':        1437.0,
+        'x':        1457.0,
         'y':        631.0,
         'angle':    -0.0048924850246489515,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 
 NAV[NAV_WAREHOUSE_MAP_NAME] = {
@@ -133,6 +145,7 @@ NAV_WAREHOUSE_ENTRANCE = {
         'angle':    66.88, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 
 NAV_WAREHOUSE_EXIT = {
@@ -141,6 +154,7 @@ NAV_WAREHOUSE_EXIT = {
         'angle':    -105.5634, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 
 NAV_CART_POINT = {
@@ -149,7 +163,11 @@ NAV_CART_POINT = {
         'angle':    -2.35, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS
     }
 
 
-set_nav_data('philly_hospital__basement')
+set_nav_data('hospital_02')
+
+
+

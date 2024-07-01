@@ -65,7 +65,7 @@ class Helpers:
     
     
     async def nav_feedback_wrapper(self, code, msg, distance, speed):
-        if self.check_if_inside_zone():
+        if await self.check_if_inside_zone():
             await self.nav_feedback_door_async(code, msg, distance, speed)
         else:
             await self.nav_feedback_async(code, msg, distance, speed)

@@ -50,6 +50,7 @@ class Actions(BaseActions):
             'angle': package[2],
             'pos_unit': POSITION_UNIT.PIXELS, 
             'ang_unit': ANGLE_UNIT.DEGREES,
+            **NAVIGATION_OPTIONS
         }
         text = (   
             f'Delivering package {self.helpers.index_package + 1} '
@@ -218,6 +219,7 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
         await self.app.nav.navigate_to_location(
             location_name=NAV_HOME_POSITION_NAME,
+            **NAVIGATION_OPTIONS,
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
             wait=False
