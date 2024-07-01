@@ -30,7 +30,7 @@ GARY_FOOTPRINT_SMALL_CART = [
     [-1.23, -0.32]
 ]
 
-GARY_SELECTED_CART_FOOTPRINT = GARY_FOOTPRINT_MEDIUM_CART
+GARY_SELECTED_CART_FOOTPRINT = GARY_FOOTPRINT_SMALL_CART
 
 def set_nav_data(map_name):
     global NAV_HOME_POSITION_NAME, NAV_WAREHOUSE_ENTRANCE
@@ -46,7 +46,7 @@ def set_nav_data(map_name):
 
 NAVIGATION_OPTIONS = {
     'options': {
-        'behavior_tree': 'navigate_long_footprint'
+        'behavior_tree': 'replan_if_needed_long_footprint'
     }
 }
 
