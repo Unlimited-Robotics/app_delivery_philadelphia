@@ -2,7 +2,7 @@
 LEDS_NOTIFY_OBSTACLE = {
     'group': 'head',
     'color': 'RED',
-    'animation': 'MOTION_12_IN',
+    'animation': 'MALFUNCTION_VER_1',
     'speed': 1,
     'repetitions': 0,
 }
@@ -10,7 +10,7 @@ LEDS_NOTIFY_OBSTACLE = {
 LEDS_WAIT_FOR_BUTTON_CHEST_HEAD = {
     'group': 'head',
     'color': 'CYAN',
-    'animation': 'MOTION_12_IN',
+    'animation': 'MOTION_4',
     'speed': 1,
     'repetitions': 0,
 }
@@ -19,8 +19,8 @@ LEDS_WAIT_FOR_BUTTON_CHEST_HEAD = {
 
 LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON = {
     'group': 'chest',
-    'color': 'YELLOW',
-    'animation': 'PROGRAMMING',
+    'color': 'white',
+    'animation': 'MOTION_7',
     'speed': 1,
     'repetitions': 0,
 }
