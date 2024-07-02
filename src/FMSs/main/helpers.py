@@ -87,9 +87,7 @@ class CommonHelpers:
 
 
     def sound_finish_callback(self, code, msg):
-        self.app.log.debug(
-            f'sound_finish_callback: {code}, {msg}'
-        )
+        pass
 
 
 class Helpers(CommonHelpers):
