@@ -1,6 +1,6 @@
 from raya.tools.fsm import BaseTransitions
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
-from raya.exceptions import RayaListenerAlreadyCreated
+from raya.exceptions import RayaListenerAlreadyCreated, RayaCommandAlreadyRunning
 
 from src.app import RayaApplication
 from src.static.constants import *
@@ -169,7 +169,17 @@ class Transitions(BaseTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
-            if nav_error[0] == 18:
+            if nav_error[0] == 18 or nav_error[0] == 116:
+                # TODO: change this audio to could not leave the warehouse
+                await self.helpers.gary_play_audio(
+                    audio=SOUND_OBSTACLE_DETECTED,
+                    animation_head_leds=LEDS_NOTIFY_OBSTACLE,
+                    wait=True
+                )
+                try:
+                    await self.app.leds.turn_off_all()
+                except RayaCommandAlreadyRunning:
+                    pass
                 self.set_state('WAIT_FOR_BUTTON_EXITING')
             elif nav_error[0] == 0:
                 self.set_state('END')

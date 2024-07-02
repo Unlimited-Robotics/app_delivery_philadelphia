@@ -77,26 +77,12 @@ class Helpers:
             'nav_feedback_door_async: '
             f'{code}, {msg}, {distance}, {speed}'
         )
-        if code == 9:
-            if not self.check_timer(TIME_PASSING_THROUGH_DOOR):
-                self.app.log.warn('Obstacle detected, the door is closed')
-                await self.app.nav.cancel_navigation()
-            await self.gary_play_audio(
-                audio=SOUND_OBSTACLE_DETECTED,
-                animation_head_leds=LEDS_NOTIFY_OBSTACLE
-            )
-        
-        if not self.app.sound.is_playing():
-            try:
-                await self.app.leds.turn_off_all()
-            except RayaCommandAlreadyRunning:
-                pass
 
         
     async def nav_finish_async(self, code, msg):
         self.app.log.debug(
             f'nav_finish_async: {code}, {msg}'
-        )
+        )   
         
 
     async def gary_play_audio(self, 

@@ -43,7 +43,7 @@ class Transitions(BaseTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
-            if nav_error[0] == 18:
+            if nav_error[0] == 18 or nav_error[0] == 116:
                 self.set_state('WAIT_FOR_BUTTON_OPEN_ENTRANCE')
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_CART_POINT')
