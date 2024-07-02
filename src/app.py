@@ -5,12 +5,12 @@ from raya.controllers.sound_controller import SoundController
 from raya.controllers.ui_controller import UIController
 from raya.controllers.fleet_controller import FleetController
 from raya.controllers.sensors_controller import SensorsController
+from raya.controllers.motion_controller import MotionController
 
 from raya.enumerations import FLEET_FINISH_STATUS
 from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
-from src.static.skills import SETUP_ARG_ATTACH_SKILL, SETUP_ARG_DETACH_SKILL
-from src.static.navigation import GARY_FOOTPRINT
+from src.static import *
 
 from skills.attach_to_cart import SkillAttachToCart, SkillDetachCart
 
@@ -30,8 +30,18 @@ class RayaApplication(RayaApplicationBase):
                 await self.enable_controller('fleet')
         self.sensors:SensorsController = \
                 await self.enable_controller('sensors')
+        self.motion:MotionController = \
+                await self.enable_controller('motion')
     
         await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
+        
+        self.chest_pressed = False
+        self.sensors.create_threshold_listener(
+            listener_name='chest_button',
+            callback_async=self.cb_chest_button,
+            sensors_paths=CHEST_LISTENER_PATHS,
+            lower_bound=LOWER_BOUNDS_CHEST_THRESHOLD
+        )
     
         # FSMs
         self.fsm_main_task = MainFSM(
@@ -99,7 +109,7 @@ class RayaApplication(RayaApplicationBase):
                 'the robot will wait for the chest to be pressed.'
             ),
             required=False,
-            default=True,
+            default=False,
         )
         
         for index in range(1, max_packages+1):
@@ -116,7 +126,7 @@ class RayaApplication(RayaApplicationBase):
             self.log.info(f'Location: {location}')
             if location != '':
                 self.log.warn(f'locations:{location}')
-                location = location.strip('[]')
+                location = location.strip('[]"')
                 location = location.split(',')
                 location_coordinates = [float(axys.strip()) for axys in location[:3]]\
 
@@ -137,3 +147,9 @@ class RayaApplication(RayaApplicationBase):
             points=footprint
         )
         self.log.info('Robot footprint updated')
+
+
+    async def cb_chest_button(self):
+        self.log.warn('Chest button pressed')
+        await self.sound.play_sound(name='success', wait=True)
+        self.chest_pressed = True

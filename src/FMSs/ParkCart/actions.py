@@ -76,7 +76,7 @@ class Actions(BaseActions):
         await self.app.skill_detach.execute_main(
             execute_args=EXECUTION_ARG_DETACH_SKILL,
             callback_done=self.helpers.cb_skill_detach_done,
-            callback_feedback=self.helpers.cb_skill_attach_feedback,
+            callback_feedback=self.helpers.cb_skill_dettach_feedback,
             wait=False
         )
         

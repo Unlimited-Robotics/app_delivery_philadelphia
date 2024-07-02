@@ -12,70 +12,24 @@ from src.FMSs.ParkCart import ParkCartFSM
 from raya.enumerations import FLEET_UPDATE_STATUS
 from src.static.constants import *
 
-class Helpers:
-
+class CommonHelpers:
+    
     def __init__(self, app: RayaApplication):        
         self.app = app
-        self.index_package = 0
-        self.current_package = self.app.locations[self.index_package]
-        self.fsm_go_to_cart_point = GoToCartPointFSM(
-            name='GoToCartPointFSM', 
-            log_transitions=True
-        )
-        self.fsm_park_cart = ParkCartFSM(
-            name='ParkCartFSM', 
-            log_transitions=True
-        )
-        self._last_failed_state = ''
-        self.selected_option_delivery_ui = None
-        self.chest_pressed = False
+        self.reset_chest_button()
 
 
     async def check_for_chest_button(self):
-        if self.chest_pressed:
-            await self.app.sound.play_sound(name='success', wait=True)
-            self.chest_pressed = False
+        if self.app.chest_pressed:
+            self.reset_chest_button()
             return True
         return False
 
 
     def reset_chest_button(self):
-        self.chest_pressed = False
+        self.app.chest_pressed = False
 
-
-    async def cb_chest_button(self):
-        if self.app.sensors.get_all_sensors_values()["chest_button"] != 0:
-            self.app.log.warn('Chest button pressed')
-            self.chest_pressed = True
-
-
-    async def check_if_robot_in_warehouse_floor(self):
-        result = await self.app.nav.get_status()
-        is_localized = result['localized']
-        map_name = result['map_name']
-        if is_localized and map_name == NAV_WAREHOUSE_MAP_NAME:
-            return True
-        return False
-
-
-    async def check_if_robot_in_delivery_floor(self):
-        result = await self.app.nav.get_status()
-        is_localized = result['localized']
-        map_name = result['map_name']
-        if is_localized and map_name == self.current_package[1]:
-            return True
-        return False
-
-
-    async def check_if_more_packages(self):
-        return self.index_package < len(self.app.locations) - 1
-
-
-    async def set_next_package(self):
-        self.index_package += 1
-        self.current_package = self.app.locations[self.index_package]
-
-
+  
     async def nav_feedback_async(self, code, msg, distance, speed):
         self.app.log.debug(
             'nav_feedback_async: '
@@ -136,6 +90,53 @@ class Helpers:
         self.app.log.debug(
             f'sound_finish_callback: {code}, {msg}'
         )
+
+
+class Helpers(CommonHelpers):
+
+    def __init__(self, app: RayaApplication):        
+        self.app = app
+        super().__init__(app)
+        
+        self.index_package = 0
+        self.current_package = self.app.locations[self.index_package]
+        self.fsm_go_to_cart_point = GoToCartPointFSM(
+            name='GoToCartPointFSM', 
+            log_transitions=True
+        )
+        self.fsm_park_cart = ParkCartFSM(
+            name='ParkCartFSM', 
+            log_transitions=True
+        )
+        self._last_failed_state = ''
+        self.selected_option_delivery_ui = None
+
+
+    async def check_if_robot_in_warehouse_floor(self):
+        result = await self.app.nav.get_status()
+        is_localized = result['localized']
+        map_name = result['map_name']
+        if is_localized and map_name == NAV_WAREHOUSE_MAP_NAME:
+            return True
+        return False
+
+
+    async def check_if_robot_in_delivery_floor(self):
+        result = await self.app.nav.get_status()
+        is_localized = result['localized']
+        map_name = result['map_name']
+        if is_localized and map_name == self.current_package[1]:
+            return True
+        return False
+
+
+    async def check_if_more_packages(self):
+        return self.index_package < len(self.app.locations) - 1
+
+
+    async def set_next_package(self):
+        self.index_package += 1
+        self.current_package = self.app.locations[self.index_package]
 
 
     async def task_to_notify(self):

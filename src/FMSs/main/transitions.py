@@ -29,16 +29,6 @@ class Transitions(BaseTransitions):
 
 
     async def SETUP_ACTIONS(self):
-        try:
-            self.chest_pressed = False
-            self.app.sensors.create_threshold_listener(
-                listener_name='chest_button_MAIN',
-                callback_async=self.helpers.cb_chest_button,
-                sensors_paths=CHEST_LISTENER_PATHS,
-                lower_bound=LOWER_BOUNDS_CHEST_THRESHOLD
-            )
-        except RayaListenerAlreadyCreated:
-            pass
         if not await self.app.nav.is_localized():
             self.abort(*ERR_COULD_NOT_LOCALIZE)
         
