@@ -157,6 +157,7 @@ class Helpers(CommonHelpers):
         while True:
             await self.gary_play_audio(
                 audio=SOUND_REQUEST_FOR_HELP,
+                wait=True
             )
             await self.app.sleep(5)
 
