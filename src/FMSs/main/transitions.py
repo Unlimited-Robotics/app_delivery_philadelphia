@@ -114,6 +114,7 @@ class Transitions(BaseTransitions):
                 self.set_state('PACKAGE_NOT_DELIVERED')
         
         if await self.helpers.check_for_chest_button():
+            selected_option = UI_SCREEN_OPTIONS_DELIVERY_ARRIVED['data'][0]
             await self.app.sound.cancel_all_sounds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_STEP_ASIDE,
