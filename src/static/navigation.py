@@ -45,6 +45,7 @@ def set_nav_data(map_name):
     # return NAV_HOME_POSITION_NAME, NAV_WAREHOUSE_ENTRANCE, NAV_WAREHOUSE_EXIT, NAV_CART_POINT
 
 NAVIGATION_OPTIONS = {
+    'yaw_tolerance': 0.1,
     'options': {
         'behavior_tree': 'replan_if_needed_long_footprint'
     }
