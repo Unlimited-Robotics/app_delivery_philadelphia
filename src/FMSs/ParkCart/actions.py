@@ -41,10 +41,13 @@ class Actions(BaseActions):
             message=FLEET_WAIT_FOR_BUTTON_DOOR
         )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
-        await self.app.leds.animation(
-            **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-            wait=True
-        )
+        try:
+            await self.app.leds.animation(
+                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
+                wait=True
+            )
+        except RayaCommandAlreadyRunning:
+            pass
 
     
     async def leave_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
@@ -88,10 +91,13 @@ class Actions(BaseActions):
                 message=FLEET_MESSAGE_WAITING_CART_UNLOAD
             )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_CART_UNLOAD)
-        await self.app.leds.animation(
-            **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON, 
-            wait=True
-        )
+        try:
+            await self.app.leds.animation(
+                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON, 
+                wait=True
+            )
+        except RayaCommandAlreadyRunning:
+            pass
 
 
     async def DETACH_CART_to_END(self):

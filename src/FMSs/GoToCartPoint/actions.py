@@ -55,10 +55,13 @@ class Actions(BaseActions):
             message=FLEET_WAIT_FOR_BUTTON_DOOR
         )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
-        await self.app.leds.animation(
-            **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-            wait=True
-        )
+        try:
+            await self.app.leds.animation(
+                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
+                wait=True
+            )
+        except RayaCommandAlreadyRunning:
+            pass
 
     
     async def leave_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
@@ -77,7 +80,6 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
         await self.app.nav.navigate_to_location(
             location_name=NAV_HOME_POSITION_NAME,
-            **NAVIGATION_OPTIONS,
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
             wait=False
@@ -123,10 +125,13 @@ class Actions(BaseActions):
                 message=FLEET_MESSAGE_WAITING_PACKAGE_LOAD
             )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_PACKAGE_LOAD)
-        await self.app.leds.animation(
-            **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON, 
-            wait=True
-        )
+        try:
+            await self.app.leds.animation(
+                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON, 
+                wait=True
+            )
+        except RayaCommandAlreadyRunning:
+            pass
 
 
     async def leave_WAIT_FOR_LOAD_PACKAGE(self):
@@ -184,10 +189,13 @@ class Actions(BaseActions):
             message=FLEET_WAIT_FOR_BUTTON_DOOR
         )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
-        await self.app.leds.animation(
-            **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-            wait=True
-        )
+        try:
+            await self.app.leds.animation(
+                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
+                wait=True
+            )
+        except RayaCommandAlreadyRunning:
+            pass
 
 
     async def leave_WAIT_FOR_BUTTON_EXITING(self):

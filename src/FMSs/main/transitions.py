@@ -167,7 +167,7 @@ class Transitions(BaseTransitions):
         else:
             if self.helpers.fsm_park_cart.has_finished() and \
                 self.helpers.fsm_park_cart.was_successful():
-                self.set_state('GO_TO_HOME_LOCATION')
+                self.set_state('END')
 
 
     async def GO_TO_HOME_LOCATION(self):

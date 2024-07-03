@@ -69,16 +69,22 @@ class CommonHelpers:
                     callback_finish=self.sound_finish_callback
                 )
             else:
-                await self.app.leds.animation(
-                    **animation_head_leds, 
-                    wait=False
-                )
+                try:
+                    await self.app.leds.animation(
+                        **animation_head_leds, 
+                        wait=False
+                    )
+                except RayaCommandAlreadyRunning:
+                    pass
             
             if wait:
-                await self.app.leds.animation(
-                    **animation_head_leds, 
-                    wait=False
-                )
+                try:
+                    await self.app.leds.animation(
+                        **animation_head_leds, 
+                        wait=False
+                    )
+                except RayaCommandAlreadyRunning:
+                    pass
                 while self.app.sound.is_playing():
                     await self.app.sleep(0.5)
                 await self.app.leds.turn_off_group(group='head')
