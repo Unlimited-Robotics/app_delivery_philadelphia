@@ -1,20 +1,12 @@
 from raya.tools.fsm import BaseTransitions
 from raya.exceptions import RayaFleetTimeout, RayaTaskAlreadyRunning
-from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound, RayaListenerAlreadyCreated
-from raya.exceptions import RayaListenerAlreadyCreated
+from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound
+from raya.exceptions import RayaSkillAborted
 from raya.enumerations import FLEET_UPDATE_STATUS
 from raya.tools.fsm import RayaFSMAborted
 
 from src.app import RayaApplication
-from src.static.app_errors import *
-from src.static.constants import *
-from src.static.fleet import *
-from src.static.leds import *
-from src.static.sound import *
-from src.static.navigation import *
-from src.static.constants import *
-from src.static.ui import *
-from src.static.sensors import *
+from src.static import *
 
 from .helpers import Helpers
 from .errors import *
@@ -49,7 +41,16 @@ class Transitions(BaseTransitions):
                 'check if the zone exist in the navigation map.'
             ))
             self.abort(*ERR_COULD_NOT_GET_WAREHOUSE_ZONE)
-        
+            
+        try:
+            self.app.log.debug('Executing detach skill')
+            await self.app.skill_detach.execute_main(
+                execute_args=EXECUTION_ARG_DETACH_SKILL,
+                wait=True
+            )
+            self.app.log.debug('Detach skill executed')
+        except RayaSkillAborted as e:
+            self.app.log.error(f'Detach skill aborted: {e}')
         self.set_state('GO_TO_CART_POINT')
 
 

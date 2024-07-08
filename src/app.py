@@ -8,6 +8,7 @@ from raya.controllers.sensors_controller import SensorsController
 from raya.controllers.motion_controller import MotionController
 
 from raya.enumerations import FLEET_FINISH_STATUS
+from raya.exceptions import RayaSkillAborted
 from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
 from src.static import *
@@ -94,6 +95,15 @@ class RayaApplication(RayaApplicationBase):
 
     async def finish(self):
         self.log.info('App finished')
+        try:
+            self.log.debug('Executing detach skill')
+            await self.skill_detach.execute_main(
+                execute_args=EXECUTION_ARG_DETACH_SKILL,
+                wait=True
+            )
+            self.log.debug('Detach skill executed')
+        except RayaSkillAborted as e:
+            self.log.error(f'Detach skill aborted: {e}')
         await self.sleep(5)
 
     
