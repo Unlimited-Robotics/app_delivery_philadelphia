@@ -109,7 +109,7 @@ class RayaApplication(RayaApplicationBase):
                 'the robot will wait for the chest to be pressed.'
             ),
             required=False,
-            default=False,
+            default=True,
         )
         
         for index in range(1, max_packages+1):

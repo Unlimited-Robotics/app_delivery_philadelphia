@@ -194,3 +194,7 @@ class Transitions(BaseTransitions):
             )
             await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
             self.set_state('LEAVE_WAREHOUSE')
+
+
+    async def END(self):
+        self.app.log.info('Task finished successfully')
