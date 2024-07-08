@@ -160,12 +160,6 @@ class Transitions(BaseTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                # TODO: change this audio to could not leave the warehouse
-                await self.helpers.gary_play_audio(
-                    audio=SOUND_OBSTACLE_DETECTED,
-                    animation_head_leds=LEDS_NOTIFY_OBSTACLE,
-                    wait=True
-                )
                 try:
                     await self.app.leds.turn_off_all()
                 except RayaCommandAlreadyRunning:
