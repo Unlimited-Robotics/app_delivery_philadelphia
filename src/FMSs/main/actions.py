@@ -123,6 +123,8 @@ class Actions(BaseActions):
         )
         self.app.log.warn('task canceled')
         await self.app.sound.cancel_all_sounds()
+        # TODO: remove this
+        # await self.app.motion.rotate(angle=-90.0, angular_speed=45.0, wait=True, enable_obstacles=False)
         try:
             await self.app.leds.turn_off_all()
         except RayaCommandAlreadyRunning:
