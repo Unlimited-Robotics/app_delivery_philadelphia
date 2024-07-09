@@ -3,7 +3,7 @@ SETUP_ARG_ATTACH_SKILL = {
 
 EXECUTION_ARG_ATTACH_SKILL = {
     'tag_size': 0.12,
-    'target_tags': ['5'],
+    'target_tags': ['4', '5'],
     'reverse': True,
 }
 
