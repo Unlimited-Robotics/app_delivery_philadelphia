@@ -30,8 +30,7 @@ UI_SCREEN_WAIT_FOR_CART_UNLOAD = {
 }
 
 UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
-    'title':'Waiting for door to open', 
-    'subtitle':'Please open the door and press the chest button to continue, and step aside',
+    'title':'Waiting for door to open',
     'back_button_text': '',
 }
 
