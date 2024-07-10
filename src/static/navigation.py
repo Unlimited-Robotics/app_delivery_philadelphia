@@ -45,7 +45,6 @@ def set_nav_data(map_name):
     # return NAV_HOME_POSITION_NAME, NAV_WAREHOUSE_ENTRANCE, NAV_WAREHOUSE_EXIT, NAV_CART_POINT
 
 NAVIGATION_OPTIONS = {
-    'yaw_tolerance': 0.1,
     'options': {
         'behavior_tree': 'replan_if_needed_long_footprint'
     }
@@ -99,25 +98,25 @@ NAV[NAV_WAREHOUSE_MAP_NAME] = {
 NAV_WAREHOUSE_MAP_NAME = 'philly_hospital__basement'
 NAV_HOME_POSITION_NAME = 'home'
 NAV_WAREHOUSE_ENTRANCE = {
-        'x':        1683.0,
-        'y':        701.0,
-        'angle':    146.95,
+        'x':        1841.0,
+        'y':        436.0,
+        'angle':    -0.4119695245183761,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS
     }
 NAV_WAREHOUSE_EXIT = {
-        'x':        1518.0,
-        'y':        633.0,
-        'angle':    -0.03853223357465533,
+        'x':        2019.0,
+        'y':        472.0,
+        'angle':    3.133528312283026,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS
     }
 NAV_CART_POINT = {
-        'x':        1457.0,
-        'y':        631.0,
-        'angle':    -0.0048924850246489515,
+        'x':        3572.0,
+        'y':        388.0,
+        'angle':    -1.6657480331376529,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS
