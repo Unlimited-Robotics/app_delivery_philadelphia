@@ -1,6 +1,6 @@
 from raya.tools.fsm import BaseTransitions
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
-from raya.exceptions import RayaListenerAlreadyCreated
+from raya.exceptions import RayaCommandAlreadyRunning
 
 from src.app import RayaApplication
 from src.static.constants import *
@@ -34,29 +34,18 @@ class Transitions(BaseTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                self.set_state('WAIT_FOR_BUTTON_OPEN_ENTRANCE')
+                self.set_state('WAIT_FOR_ENTRANCE_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_CART_POINT')
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
 
     
-    async def WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
-        )
-        
-        if await self.helpers.check_for_chest_button():
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_BUTTON_WAS_PRESS
-            )
-            await self.app.sound.cancel_all_sounds()
-            await self.helpers.gary_play_audio(
-                audio=SOUND_STEP_ASIDE,
-                wait=True,
-            )
-            await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
+    async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
+        tag = DOOR_TAG_ENTRANCE
+        tag_visible = await self.helpers.tag_door_visible(tag=tag)
+        if not tag_visible:
+            self.app.log.debug('The door is open, Entering the warehouse')
             self.set_state('ENTER_WAREHOUSE')
 
 

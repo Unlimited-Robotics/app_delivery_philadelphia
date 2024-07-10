@@ -47,7 +47,7 @@ class Actions(BaseActions):
         )
 
 
-    async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
+    async def enter_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_WAIT_FOR_DOOR
@@ -56,8 +56,7 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
 
   
-    async def leave_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
-        await self.helpers._disable_door_detection()
+    async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.sound.cancel_all_sounds()
         try:
             await self.app.leds.turn_off_all()

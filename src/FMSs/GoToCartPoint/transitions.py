@@ -47,7 +47,7 @@ class Transitions(BaseTransitions):
                     await self.app.leds.turn_off_all()
                 except RayaCommandAlreadyRunning:
                     pass
-                self.set_state('WAIT_FOR_BUTTON_OPEN_ENTRANCE')
+                self.set_state('WAIT_FOR_ENTRANCE_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_HOME_LOCATION')
             else:
@@ -63,24 +63,11 @@ class Transitions(BaseTransitions):
                 self.abort(*ERR_COULD_NOT_NAV_TO_HOME)
 
     
-    async def WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
+    async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         tag = DOOR_TAG_ENTRANCE
-        tag_is_visible = await self.helpers.tag_door_visible(tag=tag)
-        if tag_is_visible:
-            self.app.log.debug('The door is closed, pls open it')
-            
-        if not tag_is_visible and \
-                self.helpers.tag_was_visible_at_least_one_time(tag=tag):
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_BUTTON_WAS_PRESS
-            )
-            await self.app.sound.cancel_all_sounds()
-            await self.helpers.gary_play_audio(
-                audio=SOUND_STEP_ASIDE,
-                wait=True,
-            )
-            await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
+        tag_visible = await self.helpers.tag_door_visible(tag=tag)
+        if not tag_visible:
+            self.app.log.debug('The door is open, Entering the warehouse')
             self.set_state('ENTER_WAREHOUSE')
 
 
@@ -158,12 +145,10 @@ class Transitions(BaseTransitions):
 
 
     async def WAIT_FOR_EXIT_DOOR_OPEN(self):
-        tag=DOOR_TAG_EXIT
+        tag = DOOR_TAG_EXIT
         tag_visible = await self.helpers.tag_door_visible(tag=tag)
-        # TODO remove this
-        self.app.log.debug(f'Tag {tag} is visible: {tag_visible}')
         if not tag_visible:
-            self.app.log.debug('The door is open')
+            self.app.log.debug('The door is open, leaving the warehouse')
             self.set_state('LEAVE_WAREHOUSE')
 
 

@@ -39,23 +39,16 @@ class Actions(BaseActions):
         )
 
 
-    async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
-        self.helpers.reset_chest_button()
+    async def enter_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_WAIT_FOR_DOOR
         )
+        await self.helpers._enable_door_detection()
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
-        try:
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-                wait=True
-            )
-        except RayaCommandAlreadyRunning:
-            pass
 
-    
-    async def leave_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
+
+    async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.sound.cancel_all_sounds()
         try:
             await self.app.leds.turn_off_all()
@@ -110,7 +103,9 @@ class Actions(BaseActions):
             pass
 
 
-    async def DETACH_CART_to_END(self):
+    async def enter_END(self):
+        # TODO: disable detector
+        await self.helpers._disable_door_detection()
         await self.app.sound.cancel_all_sounds()
         try:
             await self.app.leds.turn_off_all()
