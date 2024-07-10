@@ -6,6 +6,8 @@ from raya.controllers.ui_controller import UIController
 from raya.controllers.fleet_controller import FleetController
 from raya.controllers.sensors_controller import SensorsController
 from raya.controllers.motion_controller import MotionController
+from raya.controllers.cameras_controller import CamerasController
+from raya.controllers.cv_controller import CVController
 
 from raya.enumerations import FLEET_FINISH_STATUS
 from raya.exceptions import RayaSkillAborted
@@ -33,8 +35,15 @@ class RayaApplication(RayaApplicationBase):
                 await self.enable_controller('sensors')
         self.motion:MotionController = \
                 await self.enable_controller('motion')
+        self.cameras: CamerasController = \
+                await self.enable_controller('cameras')
+        self.cv: CVController = await self.enable_controller('cv')
     
         await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
+        
+        self.log.debug('Enabling cameras')
+        for camera in CAMERAS_DETECTING_DOOR:
+            await self.cameras.enable_camera(camera_name=camera)
         
         self.chest_pressed = False
         self.sensors.create_threshold_listener(
