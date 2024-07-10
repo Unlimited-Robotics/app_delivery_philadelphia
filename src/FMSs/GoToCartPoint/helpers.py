@@ -21,15 +21,6 @@ class Helpers(CommonHelpers):
         return result
 
 
-    def start_timer(self):
-        self.start_time = time.time()
-
-
-    def check_timer(self, time_to_check):
-        self.app.log.debug(f'check_timer: {time.time() - self.start_time} >= {time_to_check}')
-        return time.time() - self.start_time >= time_to_check
-
-
     async def nav_feedback_wrapper(self, code, msg, distance, speed):
         if await self.check_if_inside_zone():
             await self.nav_feedback_door_async(code, msg, distance, speed)

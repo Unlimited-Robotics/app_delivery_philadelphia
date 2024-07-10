@@ -1,5 +1,7 @@
 from raya.exceptions import *
 from raya.tools.fsm import FSM
+from raya.handlers.cv.detectors.tags_detector_handler import \
+                                                            TagsDetectorHandler
 
 from src.app import RayaApplication
 from src.static.app_errors import *
@@ -12,10 +14,16 @@ from src.FMSs.ParkCart import ParkCartFSM
 from raya.enumerations import FLEET_UPDATE_STATUS
 from src.static.constants import *
 
+from time import time
+import datetime
+
 class CommonHelpers:
     
     def __init__(self, app: RayaApplication):        
         self.app = app
+        self.detectors = dict()
+        self._tags = dict()
+        self.task_timer_name = 'timer_tag_door'
         self.reset_chest_button()
 
 
@@ -94,6 +102,93 @@ class CommonHelpers:
 
     def sound_finish_callback(self, code, msg):
         pass
+
+
+    async def _enable_door_detection(self, 
+            wait: bool = False, 
+            callback: callable = None
+        ):
+        await self.__reset_door_tags_values()
+
+        if len(self.detectors.keys()) > 0:
+            self.app.log.error('Detectors already enabled')
+            return
+        
+        # timers
+        self.app.log.debug('Enabling timers')
+        self.app.create_task(
+            name=self.task_timer_name,
+            afunc=self.timer_reset_tags_values
+        )
+
+        # models
+        self.app.log.debug('Enabling models')
+        self.detectors = dict()
+        for camera in CAMERAS_DETECTING_DOOR:
+            detector: TagsDetectorHandler = await self.app.cv.enable_model(
+                model='detector',type='tag',
+                name='apriltags', 
+                source=camera,
+                model_params = DOOR_MODEL_PARAM
+            )
+            self.detectors[camera] = detector
+        
+        # detectors listener
+        self.app.log.debug('Enabling detectors listener')
+        for detector in self.detectors:
+            self.detectors[detector].set_img_detections_callback(
+                callback=self._door_state_tag_listener,
+                as_dict=True,
+                call_without_detections=True,
+                cameras_controller=self.app.cameras
+            )
+
+
+    async def _disable_door_detection(self):
+        # timers
+        self.app.cancel_task(name=self.task_timer_name)        
+
+        # models
+        self.app.log.debug('Disabling models')
+        for detector in self.detectors:
+            await self.app.cv.disable_model(model_obj=self.detectors[detector])
+        await self.__reset_door_tags_values()
+
+
+    async def __reset_door_tags_values(self):
+        for tag in DOOR_TAGS['tag36h11']:
+            self._tags[tag] = {
+                'visible': False,
+                'last_time': datetime.datetime.min,
+            }
+
+
+    def _door_state_tag_listener(self, detections, image):
+        if detections:
+            for tag in detections:
+                tag_id = tag['tag_id']
+                if tag_id in DOOR_TAGS['tag36h11']:
+                    self._tags[tag_id] = {
+                        'visible': True,
+                        'last_time': datetime.datetime.now(),
+                    }
+
+
+    async def timer_reset_tags_values(self):
+        while True:
+            for tag in DOOR_TAGS['tag36h11']:
+                last_time = self._tags[tag]['last_time']
+                current_time = datetime.datetime.now()
+                if current_time - last_time >= \
+                        datetime.timedelta(
+                            seconds=DOOR_TAG_TIMEOUT
+                        ):
+                    self._tags[tag]['visible'] = False
+            await self.app.sleep(DOOR_TAG_CALLBACK_TIMER)
+
+
+    async def tag_door_visible(self, tag: int):
+        return self._tags[tag]['visible']
 
 
 class Helpers(CommonHelpers):

@@ -37,14 +37,13 @@ class Actions(BaseActions):
             callback_feedback_async=self.helpers.nav_feedback_wrapper,
             callback_finish_async=self.helpers.nav_finish_async,
         )
-        self.helpers.start_timer()
 
 
     async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
         self.helpers.reset_chest_button()
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_WAIT_FOR_BUTTON_DOOR
+            message=FLEET_WAIT_FOR_DOOR
         )
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
         try:

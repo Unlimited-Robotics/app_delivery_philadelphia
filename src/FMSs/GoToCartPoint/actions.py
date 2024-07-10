@@ -45,26 +45,19 @@ class Actions(BaseActions):
             callback_finish_async=self.helpers.nav_finish_async,
             wait=False
         )
-        self.helpers.start_timer()
 
 
     async def enter_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
-        self.helpers.reset_chest_button()
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_WAIT_FOR_BUTTON_DOOR
+            message=FLEET_WAIT_FOR_DOOR
         )
+        await self.helpers._enable_door_detection()
         await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
-        try:
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-                wait=True
-            )
-        except RayaCommandAlreadyRunning:
-            pass
 
-    
+  
     async def leave_WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
+        await self.helpers._disable_door_detection()
         await self.app.sound.cancel_all_sounds()
         try:
             await self.app.leds.turn_off_all()
@@ -155,7 +148,24 @@ class Actions(BaseActions):
         )
 
 
+    async def enter_WAIT_FOR_EXIT_DOOR_OPEN(self):
+        # TODO: enable detector
+        await self.helpers._enable_door_detection()
+        await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
+        # TODO check if this is ok
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_WAIT_FOR_DOOR
+        )
+
+
+    async def leave_WAIT_FOR_EXIT_DOOR_OPEN(self):
+        pass
+
+
+
     async def enter_LEAVE_WAREHOUSE(self):
+        # TODO check if this is ok
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_LEAVING_WAREHOUSE
@@ -179,34 +189,11 @@ class Actions(BaseActions):
             callback_feedback_async=self.helpers.nav_feedback_wrapper,
             callback_finish_async=self.helpers.nav_finish_async,
         )
-        self.helpers.start_timer()
-
-
-    async def enter_WAIT_FOR_BUTTON_EXITING(self):
-        self.helpers.reset_chest_button()
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_WAIT_FOR_BUTTON_DOOR
-        )
-        await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
-        try:
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-                wait=True
-            )
-        except RayaCommandAlreadyRunning:
-            pass
-
-
-    async def leave_WAIT_FOR_BUTTON_EXITING(self):
-        await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
 
 
     async def LEAVE_WAREHOUSE_to_END(self):
+        # TODO: disable detector
+        await self.helpers._disable_door_detection()
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_OUTSIDE_WAREHOUSE

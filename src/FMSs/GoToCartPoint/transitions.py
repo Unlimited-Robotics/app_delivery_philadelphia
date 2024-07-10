@@ -42,7 +42,11 @@ class Transitions(BaseTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
-            if nav_error[0] == 18:
+            if nav_error[0] == 18 or nav_error[0] == 116:
+                try:
+                    await self.app.leds.turn_off_all()
+                except RayaCommandAlreadyRunning:
+                    pass
                 self.set_state('WAIT_FOR_BUTTON_OPEN_ENTRANCE')
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_HOME_LOCATION')
@@ -60,11 +64,13 @@ class Transitions(BaseTransitions):
 
     
     async def WAIT_FOR_BUTTON_OPEN_ENTRANCE(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
-        )
-        
-        if await self.helpers.check_for_chest_button():
+        tag = DOOR_TAG_ENTRANCE
+        tag_is_visible = await self.helpers.tag_door_visible(tag=tag)
+        if tag_is_visible:
+            self.app.log.debug('The door is closed, pls open it')
+            
+        if not tag_is_visible and \
+                self.helpers.tag_was_visible_at_least_one_time(tag=tag):
             await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_BUTTON_WAS_PRESS
@@ -146,11 +152,21 @@ class Transitions(BaseTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
-                self.set_state('LEAVE_WAREHOUSE')
+                self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE_EXIT)
 
-    
+
+    async def WAIT_FOR_EXIT_DOOR_OPEN(self):
+        tag=DOOR_TAG_EXIT
+        tag_visible = await self.helpers.tag_door_visible(tag=tag)
+        # TODO remove this
+        self.app.log.debug(f'Tag {tag} is visible: {tag_visible}')
+        if not tag_visible:
+            self.app.log.debug('The door is open')
+            self.set_state('LEAVE_WAREHOUSE')
+
+
     async def LEAVE_WAREHOUSE(self):
         if self.app.nav.is_navigating() and \
             not await self.helpers.check_if_inside_zone() == True:
@@ -164,30 +180,11 @@ class Transitions(BaseTransitions):
                     await self.app.leds.turn_off_all()
                 except RayaCommandAlreadyRunning:
                     pass
-                self.set_state('WAIT_FOR_BUTTON_EXITING')
+                self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('END')
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
-
-
-    async def WAIT_FOR_BUTTON_EXITING(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
-        )
-        
-        if await self.helpers.check_for_chest_button():
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_BUTTON_WAS_PRESS
-            )
-            await self.app.sound.cancel_all_sounds()
-            await self.helpers.gary_play_audio(
-                audio=SOUND_STEP_ASIDE,
-                wait=True,
-            )
-            await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
-            self.set_state('LEAVE_WAREHOUSE')
 
 
     async def END(self):
