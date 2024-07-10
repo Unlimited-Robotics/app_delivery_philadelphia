@@ -96,7 +96,7 @@ NAV[NAV_WAREHOUSE_MAP_NAME] = {
 #             philly_hospital__basement
 # --------------------------------------------------
 
-NAV_WAREHOUSE_MAP_NAME = 'hospital_02'
+NAV_WAREHOUSE_MAP_NAME = 'philly_hospital__basement'
 NAV_HOME_POSITION_NAME = 'home'
 NAV_WAREHOUSE_ENTRANCE = {
         'x':        1683.0,
@@ -168,7 +168,7 @@ NAV_CART_POINT = {
     }
 
 
-set_nav_data('hospital_02')
+set_nav_data('philly_hospital__basement')
 
 
 
