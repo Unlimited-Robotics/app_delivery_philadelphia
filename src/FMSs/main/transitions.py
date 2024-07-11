@@ -90,10 +90,6 @@ class Transitions(BaseTransitions):
 
 
     async def WAIT_FOR_UI_CONFIRMATION(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_PACKAGE_DELIVER_ARRIVE,
-        )
-        
         if self.helpers.selected_option_delivery_ui is not None:
             await self.app.leds.animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
             selected_option = self.helpers.selected_option_delivery_ui
@@ -102,10 +98,6 @@ class Transitions(BaseTransitions):
             await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_PACKAGE_CONFIRM_USING_UI,
-            )
-            await self.helpers.gary_play_audio(
-                audio=SOUND_STEP_ASIDE,
-                wait=True,
             )
             # Only id 1 is considered as a successful delivery
             # UI_SCREEN_OPTIONS_DELIVERY_ARRIVED
@@ -203,34 +195,26 @@ class Transitions(BaseTransitions):
 
 
     async def WAIT_FOR_HELP(self):
-        try:
-            self.app.create_task(
-                name='task_to_wait_for_help', 
-                afunc=self.helpers.task_to_wait_for_help
-            )
-        except RayaTaskAlreadyRunning:
-            self.app.log.warn('task \'task_to_wait_for_help\' already running')
-        else:
-            response = await self.app.ui.display_choice_selector(
-                **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
-                wait=True
-            )
-            # text = (
-            #     'Gary recieved help, and the option selected was: '
-            #     f'{response['selected_option']}'
-            # )
-            text = ""
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=text
-            )
-            self.app.log.warn(f'User selected: {response}')
-            selected_option = response['selected_option']
-            if selected_option['id'] == 1:
-                self.set_state('RELEASE_CART')
-            elif selected_option['id'] == 2:
-                await self.app.sleep(1)
-                self.set_state(self.helpers.get_last_failed_state())
+        response = await self.app.ui.display_choice_selector(
+            **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
+            wait=True
+        )
+        # text = (
+        #     'Gary recieved help, and the option selected was: '
+        #     f'{response['selected_option']}'
+        # )
+        text = ""
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.WARNING,
+            message=text
+        )
+        self.app.log.warn(f'User selected: {response}')
+        selected_option = response['selected_option']
+        if selected_option['id'] == 1:
+            self.set_state('RELEASE_CART')
+        elif selected_option['id'] == 2:
+            await self.app.sleep(1)
+            self.set_state(self.helpers.get_last_failed_state())
 
     
     async def RELEASE_CART(self):

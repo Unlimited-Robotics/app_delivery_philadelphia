@@ -287,15 +287,6 @@ class Helpers(CommonHelpers):
             await self.app.sleep(TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED)
 
 
-    async def task_to_wait_for_help(self):
-        while True:
-            await self.gary_play_audio(
-                audio=SOUND_REQUEST_FOR_HELP,
-                wait=True
-            )
-            await self.app.sleep(5)
-
-
     def set_last_failed_state(self, state: str):
         self._last_failed_state = state
 

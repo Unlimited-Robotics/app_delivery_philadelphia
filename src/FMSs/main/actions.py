@@ -79,15 +79,10 @@ class Actions(BaseActions):
                     'has arrived at the delivery point.'
                 )
             )
-        await self.helpers.gary_play_audio(
-            audio=SOUND_NOTIFY_ORDER_ARRIVED,
-            wait=True
-        )
         self.app.log.warn('NOTIFY_ORDER_ARRIVED')
 
 
     async def leave_NOTIFY_ORDER_ARRIVED(self):
-        await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
 
 
@@ -131,14 +126,9 @@ class Actions(BaseActions):
         await self.app.ui.display_screen(
             **UI_SCREEN_DELIVERING_SUCCESS
         )
-        await self.helpers.gary_play_audio(
-            audio=SOUND_PACKAGE_DELIVERED,
-            wait=True
-        )
 
 
     async def leave_PACKAGE_DELIVERED(self):
-        await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
 
 
@@ -151,10 +141,6 @@ class Actions(BaseActions):
                 )
             )
         await self.app.ui.display_screen(**UI_PACKAGE_NOT_DELIVERED)
-        await self.helpers.gary_play_audio(
-            audio=SOUND_PACKAGE_DELIVER_FAILED,
-            wait=True
-        )
 
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
@@ -173,14 +159,9 @@ class Actions(BaseActions):
                 callback_feedback_async=self.helpers.nav_feedback_async,
                 callback_finish_async=self.helpers.nav_finish_async,
             )
-        await self.helpers.gary_play_audio(
-            audio=SOUND_RETURNING_TO_WAREHOUSE,
-            wait=True
-        )
 
 
     async def leave_RETURN_TO_WAREHOUSE_ENTRANCE(self):
-        await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
 
 
@@ -214,14 +195,9 @@ class Actions(BaseActions):
                 message=FLEET_ALL_POINTS_REACHED
             )
         await self.app.ui.display_screen(**UI_SCREEN_ALL_PACKAGES_DONE)
-        await self.helpers.gary_play_audio(
-            audio=SOUND_ALL_POINTS_VISITED,
-            wait=True
-        )
 
 
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
-        await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
 
     
@@ -254,11 +230,6 @@ class Actions(BaseActions):
 
 
     async def leave_WAIT_FOR_HELP(self):
-        self.app.cancel_task(
-            name='task_to_wait_for_help'
-        )
-        self.app.log.warn('task \'task_to_wait_for_help\' canceled')
-        await self.app.sound.cancel_all_sounds()
         await self.app.leds.turn_off_all()
 
 
