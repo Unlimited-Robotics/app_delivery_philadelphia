@@ -54,7 +54,10 @@ class CommonHelpers:
             # navigating
             self.__navigating_tries += 1
             if self.__navigating_tries >= NAVIGATION_TRY_LIMIT:
-                self.app.log.warn('Navigation tries limit reached, resetting obstacle tries to 0')
+                self.app.log.warn(
+                        'Navigation tries limit reached, '
+                        'resetting obstacle tries to 0'
+                    )
                 self.__obstacle_tries = 0
                 await self.app.sound.cancel_all_sounds()
 
@@ -66,13 +69,19 @@ class CommonHelpers:
 
         elif code == 9:
             if self.__obstacle_tries >= OBSTACLE_DETECTION_THRESHOLDS[1]:
-                self.app.log.error(f'Obstacle detected more than {OBSTACLE_DETECTION_THRESHOLDS[1]} times')
+                self.app.log.error(
+                    'Obstacle detected more than' 
+                    f' {OBSTACLE_DETECTION_THRESHOLDS[1]} times'
+                )
                 await self.gary_play_audio(
                     audio=SOUNDS_OBSTACLES_DETECTED[1],
                     animation_head_leds=LEDS_NOTIFY_OBSTACLE,
                 )
             elif self.__obstacle_tries >= OBSTACLE_DETECTION_THRESHOLDS[0]:
-                self.app.log.error(f'Obstacle detected more than {OBSTACLE_DETECTION_THRESHOLDS[0]} times')
+                self.app.log.error(
+                    'Obstacle detected more than '
+                    f'{OBSTACLE_DETECTION_THRESHOLDS[0]} times'
+                )
                 await self.gary_play_audio(
                     audio=SOUNDS_OBSTACLES_DETECTED[0],
                     animation_head_leds=LEDS_NOTIFY_OBSTACLE
