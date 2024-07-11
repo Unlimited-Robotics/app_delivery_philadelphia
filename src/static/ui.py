@@ -60,8 +60,8 @@ UI_SCREEN_NAV_TO_WAREHOUSE_RETURN = {
 }
 
 UI_SCREEN_NAV_TO_PACKAGE_POINT = {
-    'title':'Navigating', 
-    'subtitle':'Delivering package',
+    'title':'Delivering items to [department_name]',
+    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
     **UI_COMMON_OPTIONS
 }
 

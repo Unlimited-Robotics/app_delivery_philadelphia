@@ -52,12 +52,9 @@ class Actions(BaseActions):
             'ang_unit': ANGLE_UNIT.DEGREES,
             **NAVIGATION_OPTIONS
         }
-        text = (   
-            f'Delivering package {self.helpers.index_package + 1} '
-            f'of {len(self.app.locations)}'
-        )
-        UI_SCREEN_NAV_TO_PACKAGE_POINT['subtitle'] = text
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        # TODO add department name to the title
+        text = UI_SCREEN_NAV_TO_PACKAGE_POINT['title'] 
+        await self.app.ui.display_animation(**UI_SCREEN_NAV_TO_PACKAGE_POINT)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=text
