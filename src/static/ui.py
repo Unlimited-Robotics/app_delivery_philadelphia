@@ -6,6 +6,9 @@ UI_COMMON_OPTIONS = {
     'back_button_text': '',
 }
 
+UI_LOTTIE_DOOR = 'res:lottie_door.json'
+UI_LOTTIE_DELIVERING_PACKAGE = 'res:lottie_package_walking.json'
+
 
 UI_SCREEN_LOCALIZING = {
     'title':'Starting Application', 
@@ -25,8 +28,10 @@ UI_SCREEN_ENTERING_TO_WAREHOUSE = {
     **UI_COMMON_OPTIONS
 }
 
+# TODO add sound for this interaction
 UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
-    'title':'Waiting for door to open',
+    'title':'Please open the door',
+    'lottie': UI_LOTTIE_DOOR,
     **UI_COMMON_OPTIONS
 }
 

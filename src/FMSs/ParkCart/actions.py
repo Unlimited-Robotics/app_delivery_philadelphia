@@ -45,7 +45,7 @@ class Actions(BaseActions):
             message=FLEET_WAIT_FOR_DOOR
         )
         await self.helpers._enable_door_detection()
-        await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
+        await self.app.ui.show_animation(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
 
 
     async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):

@@ -15,7 +15,7 @@ SOUND_RETURNING_TO_WAREHOUSE = {
         'volume': 100,
     }
 
-SOUND_OBSTACLE_DETECTED = {
+SOUND_OBSTACLE_DETECTED_ONCE = {
         'path': 'res:Obstacle_detected.mp3',
         'volume': 100,
     }
