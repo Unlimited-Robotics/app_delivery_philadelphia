@@ -1,7 +1,6 @@
 import time
 
 from src.FMSs.main.helpers import CommonHelpers
-from raya.exceptions import RayaCommandAlreadyRunning
 
 from src.static.constants import *
 from src.app import RayaApplication

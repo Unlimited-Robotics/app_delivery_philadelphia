@@ -9,7 +9,6 @@ from src.static.leds import *
 from src.static.fleet import *
 from src.static.constants import *
 from .helpers import Helpers
-from raya.exceptions import RayaCommandAlreadyRunning
 
 class Actions(BaseActions):
 
@@ -58,10 +57,7 @@ class Actions(BaseActions):
   
     async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
 
     async def enter_GO_TO_HOME_LOCATION(self):

@@ -67,6 +67,10 @@ class Actions(BaseActions):
             )
 
 
+    async def leave_NAV_TO_DELIVERY_POINT(self):
+        await self.app.leds.turn_off_all()
+
+
     async def enter_NOTIFY_ORDER_ARRIVED(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
@@ -84,10 +88,7 @@ class Actions(BaseActions):
 
     async def leave_NOTIFY_ORDER_ARRIVED(self):
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
         self.helpers.selected_option_delivery_ui = None
@@ -114,10 +115,7 @@ class Actions(BaseActions):
         await self.app.sound.cancel_all_sounds()
         # TODO: remove this
         # await self.app.motion.rotate(angle=-90.0, angular_speed=45.0, wait=True, enable_obstacles=False)
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
 
     async def enter_PACKAGE_DELIVERED(self):
@@ -139,10 +137,7 @@ class Actions(BaseActions):
 
     async def leave_PACKAGE_DELIVERED(self):
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
 
     async def enter_PACKAGE_NOT_DELIVERED(self):
@@ -162,10 +157,7 @@ class Actions(BaseActions):
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
 
     async def enter_RETURN_TO_WAREHOUSE_ENTRANCE(self):
@@ -187,10 +179,7 @@ class Actions(BaseActions):
 
     async def leave_RETURN_TO_WAREHOUSE_ENTRANCE(self):
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
 
     async def enter_PARK_CART(self):
@@ -231,10 +220,7 @@ class Actions(BaseActions):
 
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
     
     async def aborted(self, error, msg):
@@ -271,10 +257,7 @@ class Actions(BaseActions):
         )
         self.app.log.warn('task \'task_to_wait_for_help\' canceled')
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
 
 

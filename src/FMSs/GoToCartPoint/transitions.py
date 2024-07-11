@@ -1,6 +1,5 @@
 from raya.tools.fsm import BaseTransitions
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
-from raya.exceptions import RayaListenerAlreadyCreated, RayaCommandAlreadyRunning
 
 from src.app import RayaApplication
 from src.static.constants import *
@@ -43,10 +42,7 @@ class Transitions(BaseTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                try:
-                    await self.app.leds.turn_off_all()
-                except RayaCommandAlreadyRunning:
-                    pass
+                await self.app.leds.turn_off_all()
                 self.set_state('WAIT_FOR_ENTRANCE_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_HOME_LOCATION')
@@ -145,10 +141,7 @@ class Transitions(BaseTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                try:
-                    await self.app.leds.turn_off_all()
-                except RayaCommandAlreadyRunning:
-                    pass
+                await self.app.leds.turn_off_all()
                 self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('END')

@@ -52,10 +52,7 @@ class CommonHelpers:
             )
         
         if not self.app.sound.is_playing():
-            try:
-                await self.app.leds.turn_off_all()
-            except RayaCommandAlreadyRunning:
-                pass
+            await self.app.leds.turn_off_all()
 
 
     async def nav_finish_async(self, code, msg):

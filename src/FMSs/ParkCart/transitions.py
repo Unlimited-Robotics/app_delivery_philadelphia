@@ -1,6 +1,5 @@
 from raya.tools.fsm import BaseTransitions
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
-from raya.exceptions import RayaCommandAlreadyRunning
 
 from src.app import RayaApplication
 from src.static.constants import *

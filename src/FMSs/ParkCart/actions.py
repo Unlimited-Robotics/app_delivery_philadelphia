@@ -2,7 +2,6 @@ from copy import copy
 
 from raya.tools.fsm import BaseActions
 from raya.enumerations import FLEET_UPDATE_STATUS
-from raya.exceptions import RayaCommandAlreadyRunning
 
 from src.app import RayaApplication
 from src.static.navigation import *
@@ -50,10 +49,7 @@ class Actions(BaseActions):
 
     async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
 
 
     async def enter_GO_TO_CART_POINT(self):
@@ -91,10 +87,7 @@ class Actions(BaseActions):
         # TODO: disable detector
         await self.helpers._disable_door_detection()
         await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
+        await self.app.leds.turn_off_all()
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_CART_RELEASED

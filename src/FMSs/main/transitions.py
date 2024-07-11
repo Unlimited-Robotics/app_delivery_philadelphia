@@ -70,6 +70,12 @@ class Transitions(BaseTransitions):
 
 
     async def NAV_TO_DELIVERY_POINT(self):
+        if self.app.nav.is_navigating():
+            await self.app.leds.animation(
+                **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                wait=True
+            )
+        
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
