@@ -105,35 +105,6 @@ class Actions(BaseActions):
             wait=False
         )
 
-
-    async def enter_WAIT_FOR_LOAD_PACKAGE(self):
-        # TODO: attach skill should do this?
-        await self.app.set_gary_footprint(
-            footprint=GARY_SELECTED_CART_FOOTPRINT
-        )
-        
-        self.helpers.reset_chest_button()
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_MESSAGE_WAITING_PACKAGE_LOAD
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_PACKAGE_LOAD)
-        try:
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON, 
-                wait=True
-            )
-        except RayaCommandAlreadyRunning:
-            pass
-
-
-    async def leave_WAIT_FOR_LOAD_PACKAGE(self):
-        await self.app.sound.cancel_all_sounds()
-        try:
-            await self.app.leds.turn_off_all()
-        except RayaCommandAlreadyRunning:
-            pass
-
     
     async def enter_GO_TO_WAREHOUSE_EXIT(self):
         await self.app.fleet.update_app_status(

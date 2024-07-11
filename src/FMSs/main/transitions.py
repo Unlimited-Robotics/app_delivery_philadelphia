@@ -80,13 +80,12 @@ class Transitions(BaseTransitions):
 
 
     async def NOTIFY_ORDER_ARRIVED(self):
-        self.set_state('WAIT_FOR_CHEST_CONFIRMATION')
+        self.set_state('WAIT_FOR_UI_CONFIRMATION')
 
 
-    async def WAIT_FOR_CHEST_CONFIRMATION(self):
+    async def WAIT_FOR_UI_CONFIRMATION(self):
         await self.helpers.gary_play_audio(
             audio=SOUND_PACKAGE_DELIVER_ARRIVE,
-            animation_head_leds=LEDS_WAIT_FOR_BUTTON_CHEST_HEAD,
         )
         
         if self.helpers.selected_option_delivery_ui is not None:
@@ -115,23 +114,6 @@ class Transitions(BaseTransitions):
                     message=f'Package status: {selected_option["name"]}',
                 )
                 self.set_state('PACKAGE_NOT_DELIVERED')
-        
-        if await self.helpers.check_for_chest_button():
-            selected_option = UI_SCREEN_OPTIONS_DELIVERY_ARRIVED['data'][0]
-            await self.app.sound.cancel_all_sounds()
-            await self.helpers.gary_play_audio(
-                audio=SOUND_STEP_ASIDE,
-                wait=True,
-            )
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_PACKAGE_CONFIRM_USING_CHEST,
-            )
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.SUCCESS,
-                message=f'Package status:{selected_option["name"]}',
-            )
-            self.set_state('PACKAGE_DELIVERED')
 
 
     async def PACKAGE_DELIVERED(self):

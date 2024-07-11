@@ -92,8 +92,7 @@ class Actions(BaseActions):
         except RayaCommandAlreadyRunning:
             pass
 
-    async def enter_WAIT_FOR_CHEST_CONFIRMATION(self):
-        self.helpers.reset_chest_button()
+    async def enter_WAIT_FOR_UI_CONFIRMATION(self):
         self.helpers.selected_option_delivery_ui = None
         await self.app.ui.display_choice_selector(
                 **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
@@ -104,20 +103,13 @@ class Actions(BaseActions):
             name='Notify Task',
             afunc=self.helpers.task_to_notify
         )
-        try:
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON,
-                wait=True
-            )
-        except RayaCommandAlreadyRunning:
-            pass
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_WAIT_FOR_PACKAGE_CONFIRMATION
         )
 
 
-    async def leave_WAIT_FOR_CHEST_CONFIRMATION(self):
+    async def leave_WAIT_FOR_UI_CONFIRMATION(self):
         self.app.cancel_task(
             name='Notify Task'
         )

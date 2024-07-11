@@ -24,7 +24,6 @@ class CommonHelpers:
         self.detectors = dict()
         self._tags = dict()
         self.task_timer_name = 'timer_tag_door'
-        self.reset_chest_button()
 
 
     async def get_home_position(self):
@@ -39,17 +38,6 @@ class CommonHelpers:
             'angle': self.home_location[2],
         }
         return home
-
-
-    async def check_for_chest_button(self):
-        if self.app.chest_pressed:
-            self.reset_chest_button()
-            return True
-        return False
-
-
-    def reset_chest_button(self):
-        self.app.chest_pressed = False
 
   
     async def nav_feedback_async(self, code, msg, distance, speed):
@@ -78,7 +66,7 @@ class CommonHelpers:
 
     async def gary_play_audio(self, 
             audio: dict, 
-            animation_head_leds: dict = LEDS_WAIT_FOR_BUTTON_CHEST_HEAD,
+            animation_head_leds: dict = LEDS_GARY_SPEAKING,
             wait: bool = False
         ):
         try:

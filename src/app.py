@@ -44,14 +44,14 @@ class RayaApplication(RayaApplicationBase):
         self.log.debug('Enabling cameras')
         for camera in CAMERAS_DETECTING_DOOR:
             await self.cameras.enable_camera(camera_name=camera)
-        
-        self.chest_pressed = False
-        self.sensors.create_threshold_listener(
-            listener_name='chest_button',
-            callback_async=self.cb_chest_button,
-            sensors_paths=CHEST_LISTENER_PATHS,
-            lower_bound=LOWER_BOUNDS_CHEST_THRESHOLD
-        )
+
+        # TODO: Chest disabled
+        # self.sensors.create_threshold_listener(
+        #     listener_name='chest_button',
+        #     callback_async=self.cb_chest_button,
+        #     sensors_paths=CHEST_LISTENER_PATHS,
+        #     lower_bound=LOWER_BOUNDS_CHEST_THRESHOLD
+        # )
     
         # FSMs
         self.fsm_main_task = MainFSM(
@@ -171,4 +171,3 @@ class RayaApplication(RayaApplicationBase):
     async def cb_chest_button(self):
         self.log.warn('Chest button pressed')
         await self.sound.play_sound(name='success', wait=True)
-        self.chest_pressed = True

@@ -62,23 +62,7 @@ class Transitions(BaseTransitions):
 
     
     async def WAIT_FOR_UNLOAD_PACKAGE(self):
-        await self.helpers.gary_play_audio(
-            audio=SOUND_WAIT_FOR_CHEST_BUTTON,
-        )
-        
-        if await self.helpers.check_for_chest_button():
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_BUTTON_WAS_PRESS
-            )
-            self.app.log.info('Package unloaded')
-            await self.app.sound.cancel_all_sounds()
-            await self.helpers.gary_play_audio(
-                audio=SOUND_STEP_ASIDE,
-                wait=True,
-            )
-            await self.app.sleep(TIME_TO_WAIT_AFTER_BUTTON_PRESS)
-            self.set_state('END')
+        self.set_state('END')
 
 
     async def DETACH_CART(self):

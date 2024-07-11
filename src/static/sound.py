@@ -5,11 +5,6 @@ SOUND_NOTIFY_ORDER_ARRIVED = {
         'volume': 100,
     }
 
-SOUND_WAIT_FOR_CHEST_BUTTON = {
-        'path': 'res:press_the_button_to_continue.mp3',
-        'volume': 100,
-    }
-
 SOUND_PACKAGE_DELIVERED = {
         'path': 'res:package_delivered.mp3',
         'volume': 100,

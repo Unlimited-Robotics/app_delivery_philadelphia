@@ -85,22 +85,6 @@ class Actions(BaseActions):
             callback_feedback=self.helpers.cb_skill_dettach_feedback,
             wait=False
         )
-        
-    
-    async def enter_WAIT_FOR_UNLOAD_PACKAGE(self):
-        self.helpers.reset_chest_button()
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_MESSAGE_WAITING_CART_UNLOAD
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_WAIT_FOR_CART_UNLOAD)
-        try:
-            await self.app.leds.animation(
-                **LEDS_WAIT_FOR_BUTTON_CHEST_BUTTON, 
-                wait=True
-            )
-        except RayaCommandAlreadyRunning:
-            pass
 
 
     async def enter_END(self):
