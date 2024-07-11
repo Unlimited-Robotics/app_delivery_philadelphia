@@ -15,10 +15,20 @@ SOUND_RETURNING_TO_WAREHOUSE = {
         'volume': 100,
     }
 
-SOUND_OBSTACLE_DETECTED_ONCE = {
-        'path': 'res:Obstacle_detected.mp3',
+SOUND_OBSTACLE_DETECTED_1 = {
+        'path': 'res:Clear_the_way.mp3',
         'volume': 100,
     }
+SOUND_OBSTACLE_DETECTED_2 = {
+        'path': 'res:Clear_the_way2.mp3',
+        'volume': 100,
+    }
+
+SOUNDS_OBSTACLES_DETECTED = [
+    SOUND_OBSTACLE_DETECTED_1, 
+    SOUND_OBSTACLE_DETECTED_2
+]
+
 
 SOUND_PACKAGE_DELIVER_ARRIVE = {
         'path': 'res:package_arrived_wait_for_input.mp3',

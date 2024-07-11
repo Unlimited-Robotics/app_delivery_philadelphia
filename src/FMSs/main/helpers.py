@@ -5,9 +5,7 @@ from raya.handlers.cv.detectors.tags_detector_handler import \
 
 from src.app import RayaApplication
 from src.static.app_errors import *
-from src.static.navigation import *
-from src.static.leds import *
-from src.static.sound import *
+from src.static import *
 
 from src.FMSs.GoToCartPoint import GoToCartPointFSM
 from src.FMSs.ParkCart import ParkCartFSM
@@ -24,6 +22,9 @@ class CommonHelpers:
         self.detectors = dict()
         self._tags = dict()
         self.task_timer_name = 'timer_tag_door'
+        self.last_ui: callable = None
+        self.__obstacle_tries = 0
+        self.__navigating_tries = 0
 
 
     async def get_home_position(self):
@@ -36,6 +37,9 @@ class CommonHelpers:
             'x': self.home_location[0],
             'y': self.home_location[1],
             'angle': self.home_location[2],
+            'options': {
+                'behavior_tree': 'replan_if_needed_with_footprint',
+            }
         }
         return home
 
@@ -45,11 +49,34 @@ class CommonHelpers:
             'nav_feedback_async: '
             f'{code}, {msg}, {distance}, {speed}'
         )
-        if code == 9:
-            await self.gary_play_audio(
-                audio=SOUND_OBSTACLE_DETECTED,
-                animation_head_leds=LEDS_NOTIFY_OBSTACLE
-            )
+
+        if code == 30:
+            # navigating
+            self.__navigating_tries += 1
+            if self.__navigating_tries >= NAVIGATION_TRY_LIMIT:
+                self.app.log.warn('Navigation tries limit reached, resetting obstacle tries to 0')
+                self.__obstacle_tries = 0
+                await self.app.sound.cancel_all_sounds()
+
+        elif code == 167:
+            # obstacle detected
+            self.__obstacle_tries += 1
+            self.__navigating_tries = 0
+            await self.app.ui.show_animation(**UI_SCREEN_OBSTACLE_DETECTED)
+
+        elif code == 9:
+            if self.__obstacle_tries >= OBSTACLE_DETECTION_THRESHOLDS[1]:
+                self.app.log.error(f'Obstacle detected more than {OBSTACLE_DETECTION_THRESHOLDS[1]} times')
+                await self.gary_play_audio(
+                    audio=SOUNDS_OBSTACLES_DETECTED[1],
+                    animation_head_leds=LEDS_NOTIFY_OBSTACLE,
+                )
+            elif self.__obstacle_tries >= OBSTACLE_DETECTION_THRESHOLDS[0]:
+                self.app.log.error(f'Obstacle detected more than {OBSTACLE_DETECTION_THRESHOLDS[0]} times')
+                await self.gary_play_audio(
+                    audio=SOUNDS_OBSTACLES_DETECTED[0],
+                    animation_head_leds=LEDS_NOTIFY_OBSTACLE
+                )
         
         if not self.app.sound.is_playing():
             await self.app.leds.turn_off_all()

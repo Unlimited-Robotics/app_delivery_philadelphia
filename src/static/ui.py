@@ -1,5 +1,5 @@
 # SCREENS
-from raya.enumerations import UI_THEME_TYPE
+from raya.enumerations import UI_THEME_TYPE, UI_ANIMATION_TYPE
 
 UI_COMMON_OPTIONS = {
     'theme': UI_THEME_TYPE.WHITE,
@@ -8,6 +8,7 @@ UI_COMMON_OPTIONS = {
 
 UI_LOTTIE_DOOR = 'res:lottie_door.json'
 UI_LOTTIE_DELIVERING_PACKAGE = 'res:lottie_package_walking.json'
+UI_OBSTACLE_DETECTED = 'res:caution.gif'
 
 
 UI_SCREEN_LOCALIZING = {
@@ -36,8 +37,8 @@ UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
 }
 
 UI_SCREEN_NAV_TO_WAREHOUSE_EXIT = {
-    'title':'Navigating', 
-    'subtitle':'Navigating to warehouse exit',
+    'title':'Hello! i`m Gary, your delivery robot', 
+    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
     **UI_COMMON_OPTIONS
 }
 
@@ -114,6 +115,15 @@ UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
         ],
     **UI_COMMON_OPTIONS
 }
+
+UI_SCREEN_OBSTACLE_DETECTED = {
+    'title': 'Please clear the way',
+    'subtitle': 'i`m on duty',
+    'path': UI_OBSTACLE_DETECTED,
+    'format': UI_ANIMATION_TYPE.GIF,
+    **UI_COMMON_OPTIONS
+}
+
 
 UI_SCREEN_FAILED = {
     'title':'Failed',

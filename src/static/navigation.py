@@ -2,6 +2,9 @@ from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
 NAV = dict()
 
+NAVIGATION_TRY_LIMIT = 1
+OBSTACLE_DETECTION_THRESHOLDS = [2, 7]
+
 GARY_FOOTPRINT = [
     [-0.25,  0.32],
     [ 0.25,  0.32],
@@ -113,12 +116,22 @@ NAV_WAREHOUSE_EXIT = {
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS
     }
+# NAV_CART_POINT = {
+#         'x':        3589.0,
+#         'y':        420.0,
+#         'angle':    -90.53716280923052,
+#         'pos_unit': POSITION_UNIT.PIXELS, 
+#         'ang_unit': ANGLE_UNIT.DEGREES,
+#     }
 NAV_CART_POINT = {
-        'x':        3589.0,
-        'y':        420.0,
-        'angle':    -90.53716280923052,
+        'x':        3527.0,
+        'y':        419.0,
+        'angle':    -92.12,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        'options': {
+            'behavior_tree': 'replan_if_needed_with_footprint'
+        }
     }
 
 NAV[NAV_WAREHOUSE_MAP_NAME] = {

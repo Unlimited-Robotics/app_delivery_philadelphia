@@ -54,7 +54,7 @@ class Actions(BaseActions):
         }
         # TODO add department name to the title
         text = UI_SCREEN_NAV_TO_PACKAGE_POINT['title'] 
-        await self.app.ui.display_animation(**UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_PACKAGE_POINT)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=text
@@ -167,7 +167,7 @@ class Actions(BaseActions):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_RETURNING_TO_WAREHOUSE
             )
-        await self.app.ui.display_animation(**UI_SCREEN_NAV_TO_WAREHOUSE_RETURN)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE_RETURN)
         await self.app.nav.navigate_to_position(
                 **NAV_WAREHOUSE_ENTRANCE,
                 callback_feedback_async=self.helpers.nav_feedback_async,

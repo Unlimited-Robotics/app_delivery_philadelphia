@@ -3,7 +3,7 @@ from raya.enumerations import LEDS_EXECUTION_CONTROL
 
 LEDS_NOTIFY_OBSTACLE = {
     'group': 'head',
-    'color': 'RED',
+    'color': 'YELLOW',
     'animation': 'MALFUNCTION_VER_1',
     'speed': 1,
     'repetitions': 0,
