@@ -21,17 +21,9 @@ class Helpers(CommonHelpers):
 
 
     async def nav_feedback_wrapper(self, code, msg, distance, speed):
-        if await self.check_if_inside_zone():
-            await self.nav_feedback_door_async(code, msg, distance, speed)
-        else:
-            await self.nav_feedback_async(code, msg, distance, speed)
-
-
-    async def nav_feedback_door_async(self, code, msg, distance, speed):
-        self.app.log.debug(
-            'nav_feedback_door_async: '
-            f'{code}, {msg}, {distance}, {speed}'
-        )
+        # if await self.check_if_inside_zone():
+        #     await self.nav_feedback_door_async(code, msg, distance, speed)
+        await self.nav_feedback_async(code, msg, distance, speed)
 
 
     async def cb_skill_attach_done(self, exception, result):
