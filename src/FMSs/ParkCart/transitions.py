@@ -45,7 +45,19 @@ class Transitions(BaseTransitions):
         tag_visible = await self.helpers.tag_door_visible(tag=tag)
         if not tag_visible:
             self.app.log.debug('The door is open, Entering the warehouse')
+            await self.app.sound.cancel_all_sounds()
+            await self.app.leds.turn_off_all()
+            await self.helpers.gary_play_audio(
+                audio=SOUND_OPEN_DOOR_REQUEST,
+                animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
+                wait=True
+            )
             self.set_state('ENTER_WAREHOUSE')
+        
+        self.app.log.debug('The door is closed, waiting for it to open')
+        await self.helpers.gary_play_audio(
+            audio=SOUND_OPEN_DOOR_REQUEST,
+        )
 
 
     async def GO_TO_CART_POINT(self):

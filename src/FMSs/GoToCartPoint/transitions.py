@@ -27,7 +27,16 @@ class Transitions(BaseTransitions):
         else:
             self.set_state('GO_TO_WAREHOUSE_ENTRANCE')
 
-    
+
+    async def GO_TO_HOME_LOCATION(self):
+        if not self.app.nav.is_navigating():
+            nav_error = self.app.nav.get_last_result()
+            if nav_error[0] == 0:
+                self.set_state('GO_TO_CART_POINT')
+            else:
+                self.abort(*ERR_COULD_NOT_NAV_TO_HOME)
+
+        
     async def GO_TO_WAREHOUSE_ENTRANCE(self):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
@@ -49,22 +58,25 @@ class Transitions(BaseTransitions):
             else:
                 self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
 
-
-    async def GO_TO_HOME_LOCATION(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('GO_TO_CART_POINT')
-            else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_HOME)
-
     
     async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         tag = DOOR_TAG_ENTRANCE
         tag_visible = await self.helpers.tag_door_visible(tag=tag)
         if not tag_visible:
             self.app.log.debug('The door is open, Entering the warehouse')
+            await self.app.sound.cancel_all_sounds()
+            await self.app.leds.turn_off_all()
+            await self.helpers.gary_play_audio(
+                audio=SOUND_OPEN_DOOR_REQUEST,
+                animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
+                wait=True
+            )
             self.set_state('ENTER_WAREHOUSE')
+        
+        self.app.log.debug('The door is closed, waiting for it to open')
+        await self.helpers.gary_play_audio(
+            audio=SOUND_OPEN_DOOR_REQUEST,
+        )
 
 
     async def GO_TO_CART_POINT(self):
@@ -129,7 +141,19 @@ class Transitions(BaseTransitions):
         tag_visible = await self.helpers.tag_door_visible(tag=tag)
         if not tag_visible:
             self.app.log.debug('The door is open, leaving the warehouse')
+            await self.app.sound.cancel_all_sounds()
+            await self.app.leds.turn_off_all()
+            await self.helpers.gary_play_audio(
+                audio=SOUND_OPEN_DOOR_REQUEST,
+                animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
+                wait=True
+            )
             self.set_state('LEAVE_WAREHOUSE')
+        
+        self.app.log.debug('The door is closed, waiting for it to open')
+        await self.helpers.gary_play_audio(
+            audio=SOUND_OPEN_DOOR_REQUEST,
+        )
 
 
     async def LEAVE_WAREHOUSE(self):

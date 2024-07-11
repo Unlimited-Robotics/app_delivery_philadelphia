@@ -126,7 +126,8 @@ class Actions(BaseActions):
 
 
     async def leave_WAIT_FOR_EXIT_DOOR_OPEN(self):
-        pass
+        await self.app.sound.cancel_all_sounds()
+        await self.app.leds.turn_off_all()
 
 
 
