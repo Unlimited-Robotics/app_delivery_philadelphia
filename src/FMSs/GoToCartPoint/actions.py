@@ -23,7 +23,7 @@ class Actions(BaseActions):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_GOING_TO_WAREHOUSE_ENTRANCE
         )
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.display_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **NAV_WAREHOUSE_ENTRANCE,
             callback_feedback_async=self.helpers.nav_feedback_async,
@@ -36,7 +36,6 @@ class Actions(BaseActions):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ENTERING_WAREHOUSE
         )
-        await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         home = await self.helpers.get_home_position()
         await self.app.nav.navigate_to_position(
             **home,
@@ -107,7 +106,7 @@ class Actions(BaseActions):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_GOING_TO_WAREHOUSE_EXIT
         )
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_WAREHOUSE_EXIT)
+        await self.app.ui.display_animation(**UI_SCREEN_NAV_TO_WAREHOUSE_EXIT)
         await self.app.nav.navigate_to_position(
             **NAV_WAREHOUSE_EXIT,
             callback_feedback_async=self.helpers.nav_feedback_async,

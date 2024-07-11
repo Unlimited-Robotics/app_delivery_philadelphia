@@ -17,8 +17,8 @@ UI_SCREEN_LOCALIZING = {
 }
 
 UI_SCREEN_NAV_TO_WAREHOUSE = {
-    'title':'Navigating', 
-    'subtitle':'Going to warehouse',
+    'title':'Hello! i`m Gary, your delivery robot',
+    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
     **UI_COMMON_OPTIONS
 }
 
