@@ -38,9 +38,9 @@ class Actions(BaseActions):
             message=FLEET_ENTERING_WAREHOUSE
         )
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
-        await self.app.nav.navigate_to_location(
-            location_name=NAV_HOME_POSITION_NAME,
-            **NAVIGATION_OPTIONS,
+        home = await self.helpers.get_home_position()
+        await self.app.nav.navigate_to_position(
+            **home,
             callback_feedback_async=self.helpers.nav_feedback_wrapper,
             callback_finish_async=self.helpers.nav_finish_async,
             wait=False
@@ -70,8 +70,9 @@ class Actions(BaseActions):
             message=FLEET_ROBOT_NAVIGATING_TO_HOME
         )
         await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
-        await self.app.nav.navigate_to_location(
-            location_name=NAV_HOME_POSITION_NAME,
+        home = await self.helpers.get_home_position()
+        await self.app.nav.navigate_to_position(
+            **home,
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
             wait=False

@@ -26,6 +26,8 @@ class Transitions(BaseTransitions):
         
         try:
             await self.helpers.get_home_position()
+            self.app.log.debug('Home position obtained')
+            self.app.log.debug(f'Home position: {self.helpers.home_location}')
         except RayaNavLocationNotFound:
             self.app.log.error((
                 'Could not get home position from navigation, '

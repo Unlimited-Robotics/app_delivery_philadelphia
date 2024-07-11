@@ -27,6 +27,20 @@ class CommonHelpers:
         self.reset_chest_button()
 
 
+    async def get_home_position(self):
+        self.home_location = await self.app.nav.get_location(
+            location_name = NAV_HOME_POSITION_NAME,
+            map_name = NAV_WAREHOUSE_MAP_NAME,
+            pos_unit = POSITION_UNIT.PIXELS,
+        )
+        home = {
+            'x': self.home_location[0],
+            'y': self.home_location[1],
+            'angle': self.home_location[2],
+        }
+        return home
+
+
     async def check_for_chest_button(self):
         if self.app.chest_pressed:
             self.reset_chest_button()
@@ -272,11 +286,3 @@ class Helpers(CommonHelpers):
     def cb_delivery_arrived_ui_response(self, response):
         self.selected_option_delivery_ui = response['selected_option']
 
-
-    async def get_home_position(self):
-        self.home_location = await self.app.nav.get_location(
-            location_name = NAV_HOME_POSITION_NAME,
-            map_name = NAV_WAREHOUSE_MAP_NAME,
-            pos_unit = POSITION_UNIT.PIXELS,
-        )
-        return self.home_location
