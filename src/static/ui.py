@@ -105,13 +105,12 @@ UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
 }
 
 UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
-    'title':'Deliver complete, please press one of the following options',
-    'max_items_shown': 4,
+    'title':'Delivery Confirmation',
+    'max_items_shown': 3,
     'data': [
-            {'id': 1, 'name': 'My package was delivered successfully'}, 
-            {'id': 2, 'name': 'My package is not the one that i ordered'},
-            {'id': 3, 'name': 'My package is damaged'},
-            {'id': 4, 'name': 'My package is missing'},
+            {'id': 1, 'name': 'Confirm delivery package 📦'}, 
+            {'id': 2, 'name': 'Package not found'},
+            {'id': 3, 'name': 'Problem with my package'},
         ],
     **UI_COMMON_OPTIONS
 }

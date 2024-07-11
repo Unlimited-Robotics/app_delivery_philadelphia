@@ -95,6 +95,7 @@ class Transitions(BaseTransitions):
         )
         
         if self.helpers.selected_option_delivery_ui is not None:
+            await self.app.leds.animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
             selected_option = self.helpers.selected_option_delivery_ui
             self.app.log.warn(f'User selected: {selected_option}')
             await self.app.sound.cancel_all_sounds()

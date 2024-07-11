@@ -25,3 +25,21 @@ LEDS_NAVIGATING_TO_DELIVERY_POINT = {
     'repetitions': 0,
     'execution_control': LEDS_EXECUTION_CONTROL.AFTER_CURRENT, 
 }
+
+LEDS_WAITING_FOR_DELIVERY_RESPONSE = {
+    'group': 'head',
+    'color': 'GREEN',
+    'animation': 'MOTION_1',
+    'speed': 1,
+    'repetitions': 0,
+    'execution_control': LEDS_EXECUTION_CONTROL.AFTER_CURRENT, 
+}
+
+LEDS_WAITING_FOR_DELIVERY_CHECK = {
+    'group': 'head',
+    'color': 'CYAN',
+    'animation': 'MOTION_10_VER_3',
+    'speed': 1,
+    'repetitions': 1,
+    'execution_control': LEDS_EXECUTION_CONTROL.OVERRIDE, 
+}
