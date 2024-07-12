@@ -95,6 +95,36 @@ class CommonHelpers:
         )
 
 
+    async def cb_skill_attach_done(self, exception, result):
+        self.app.log.info(f'cb_skill_attach_done, result: {result}')
+        if exception is None:
+            await self.app.skill_att2cart.execute_finish()
+        else: 
+            self.app.log.warn(
+                    'error occured while attaching, exception type: '
+                    f'{type(exception)} {exception}'
+                )
+
+
+    async def cb_skill_attach_feedback(self, feedback):
+        self.app.log.info(feedback)
+        
+
+    async def cb_skill_detach_done(self, exception, result):
+        self.app.log.info(f'cb_skill_detach_done, result: {result}')
+        if exception is None:
+            await self.app.skill_att2cart.execute_finish()
+        else: 
+            self.app.log.warn(
+                'error occured while attaching, exception type: '
+                f'{type(exception)} {exception}'
+            )
+
+
+    async def cb_skill_dettach_feedback(self, feedback):
+        self.app.log.info(feedback)
+
+
     async def gary_play_audio(self, 
             audio: dict, 
             animation_head_leds: dict = LEDS_GARY_SPEAKING,

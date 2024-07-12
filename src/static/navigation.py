@@ -122,21 +122,21 @@ NAV_WAREHOUSE_EXIT = {
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS
     }
-# NAV_CART_POINT = {
-#         'x':        3589.0,
-#         'y':        420.0,
-#         'angle':    -90.53716280923052,
-#         'pos_unit': POSITION_UNIT.PIXELS, 
-#         'ang_unit': ANGLE_UNIT.DEGREES,
-#     }
 NAV_CART_POINT = {
-        'x':        3527.0,
-        'y':        419.0,
-        'angle':    -92.12,
+        'x':        3589.0,
+        'y':        420.0,
+        'angle':    -90.53716280923052,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_HOME
     }
+# NAV_CART_POINT = {
+#         'x':        3527.0,
+#         'y':        419.0,
+#         'angle':    -92.12,
+#         'pos_unit': POSITION_UNIT.PIXELS, 
+#         'ang_unit': ANGLE_UNIT.DEGREES,
+#         **NAVIGATION_OPTIONS_HOME
+#     }
 
 NAV[NAV_WAREHOUSE_MAP_NAME] = {
     "data": {

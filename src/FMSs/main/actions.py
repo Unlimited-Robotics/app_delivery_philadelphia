@@ -3,13 +3,7 @@ from raya.enumerations import POSITION_UNIT, ANGLE_UNIT, FLEET_UPDATE_STATUS
 from raya.exceptions import RayaCommandAlreadyRunning
 
 from src.app import RayaApplication
-from src.static.navigation import *
-from src.static.ui import *
-from src.static.constants import *
-from src.static.fleet import *
-from src.static.leds import *
-from src.static.sound import *
-from src.static.constants import *
+from src.static import *
 
 from .helpers import Helpers
 
@@ -240,4 +234,9 @@ class Actions(BaseActions):
                 message=FLEET_ABORT_APP_RELEASE_CART
             )
         await self.app.ui.display_screen(**UI_SCREEN_RELEASE_CART)
-        await self.app.sleep(TIME_TO_RELEASE_CART)
+        await self.app.skill_detach.execute_main(
+            execute_args=EXECUTION_ARG_DETACH_SKILL,
+            callback_done=self.helpers.cb_skill_detach_done,
+            callback_feedback=self.helpers.cb_skill_dettach_feedback,
+            wait=False
+        )

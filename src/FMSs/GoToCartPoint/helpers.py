@@ -24,18 +24,3 @@ class Helpers(CommonHelpers):
         # if await self.check_if_inside_zone():
         #     await self.nav_feedback_door_async(code, msg, distance, speed)
         await self.nav_feedback_async(code, msg, distance, speed)
-
-
-    async def cb_skill_attach_done(self, exception, result):
-        self.app.log.info(f'cb_skill_attach_done, result: {result}')
-        if exception is None:
-            await self.app.skill_att2cart.execute_finish()
-        else: 
-            self.app.log.warn(
-                    'error occured while attaching, exception type: '
-                    f'{type(exception)} {exception}'
-                )
-
-
-    async def cb_skill_attach_feedback(self, feedback):
-        self.app.log.info(feedback)
