@@ -199,11 +199,10 @@ class Transitions(BaseTransitions):
             **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
             wait=True
         )
-        # text = (
-        #     'Gary recieved help, and the option selected was: '
-        #     f'{response['selected_option']}'
-        # )
-        text = ""
+        text = (
+            'Gary recieved help, and the option selected was: '
+            f'{response['selected_option']}'
+        )
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.WARNING,
             message=text

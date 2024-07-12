@@ -29,7 +29,6 @@ UI_SCREEN_ENTERING_TO_WAREHOUSE = {
     **UI_COMMON_OPTIONS
 }
 
-# TODO add sound for this interaction
 UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
     'title':'Please open the door',
     'lottie': UI_LOTTIE_DOOR,
