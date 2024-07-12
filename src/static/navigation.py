@@ -53,6 +53,12 @@ NAVIGATION_OPTIONS = {
     }
 }
 
+NAVIGATION_OPTIONS_HOME = {
+    'options': {
+        'behavior_tree': 'navigate_and_replan_if_needed'
+    }
+}
+
 # --------------------------------------------------
 #                  elisha__part1
 # --------------------------------------------------
@@ -129,9 +135,7 @@ NAV_CART_POINT = {
         'angle':    -92.12,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        'options': {
-            'behavior_tree': 'replan_if_needed_with_footprint'
-        }
+        **NAVIGATION_OPTIONS_HOME
     }
 
 NAV[NAV_WAREHOUSE_MAP_NAME] = {

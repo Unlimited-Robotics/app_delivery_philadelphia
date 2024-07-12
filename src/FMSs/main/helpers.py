@@ -37,9 +37,7 @@ class CommonHelpers:
             'x': self.home_location[0],
             'y': self.home_location[1],
             'angle': self.home_location[2],
-            'options': {
-                'behavior_tree': 'replan_if_needed_with_footprint',
-            }
+            **NAVIGATION_OPTIONS_HOME
         }
         return home
 
