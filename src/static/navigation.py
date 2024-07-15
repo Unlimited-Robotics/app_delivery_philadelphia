@@ -27,10 +27,14 @@ GARY_FOOTPRINT_MEDIUM_CART = [
 ]
 
 GARY_FOOTPRINT_SMALL_CART = [
-    [-1.23,  0.32],
-    [ 0.25,  0.32],
-    [ 0.25, -0.32],
-    [-1.23, -0.32]
+        [-1.13,  0.20],
+        [-0.24,  0.20],
+        [-0.24,  0.225],
+        [ 0.24,  0.225],
+        [ 0.24, -0.225],
+        [-0.24, -0.225],
+        [-0.24, -0.20],
+        [-1.13,  -0.20],
 ]
 
 GARY_SELECTED_CART_FOOTPRINT = GARY_FOOTPRINT_SMALL_CART
@@ -117,17 +121,18 @@ NAV_WAREHOUSE_ENTRANCE = {
 NAV_WAREHOUSE_EXIT = {
         'x':        2019.0,
         'y':        472.0,
-        'angle':    3.133528312283026,
+        'angle':    179.133528312283026,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS
     }
 NAV_CART_POINT = {
-        'x':        3589.0,
-        'y':        420.0,
-        'angle':    -90.53716280923052,
+        'x':        3595.0,
+        'y':        411.0,
+        'angle':    -97.7,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS_HOME
     }
 # NAV_CART_POINT = {
 #         'x':        3527.0,
