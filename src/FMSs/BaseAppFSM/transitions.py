@@ -59,7 +59,7 @@ class CommonTransitions(BaseTransitions):
             self.set_state('RELEASE_CART')
         elif selected_option['id'] == 2:
             await self.app.sleep(1)
-            self.set_state(self.helpers.get_last_failed_state())
+            self.set_state(self.helpers._get_last_failed_state())
 
     
     async def RELEASE_CART(self):

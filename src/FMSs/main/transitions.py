@@ -165,7 +165,11 @@ class Transitions(CommonTransitions):
             if nav_error[0] == 0:
                 self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_HOME)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_HOME_LOCATION',
+                    transitions=self
+                )
 
 
     async def NOTIFY_ALL_PACKAGES_STATUS(self):

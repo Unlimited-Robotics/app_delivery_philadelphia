@@ -37,7 +37,11 @@ class Transitions(CommonTransitions):
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_CART_POINT')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='ENTER_WAREHOUSE',
+                    transitions=self
+                )
 
     
     async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
@@ -69,7 +73,11 @@ class Transitions(CommonTransitions):
                 else:
                     self.set_state('WAIT_FOR_UNLOAD_PACKAGE')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_CART)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='ENTER_WAREHOUSE',
+                    transitions=self
+                )
 
     
     async def WAIT_FOR_UNLOAD_PACKAGE(self):
@@ -90,7 +98,11 @@ class Transitions(CommonTransitions):
                     f'Error while waiting main for DETACH_TO_CART: {e}'
                 )
             finally:
-                self.abort(*ERR_COULD_NOT_DETACH_CART)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='DETACH_CART',
+                    transitions=self
+                )
         elif state == SKILL_STATE.ERROR_FINISHING:
             try:
                 await self.app.skill_detach.wait_finish()
@@ -99,7 +111,11 @@ class Transitions(CommonTransitions):
                     f'Error while waiting finish for DETACH_TO_CART: {e}'
                 )
             finally:
-                self.abort(*ERR_COULD_NOT_DETACH_CART)        
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='DETACH_CART',
+                    transitions=self
+                )    
         elif state == SKILL_STATE.FINISHED:
             result_finish = await self.app.skill_detach.wait_finish()
             self.app.log.debug(

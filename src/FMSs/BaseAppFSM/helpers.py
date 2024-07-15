@@ -250,11 +250,11 @@ class CommonHelpers:
         return self._tags[tag]['visible']
     
     
-    def set_last_failed_state(self, state: str):
+    def __set_last_failed_state(self, state: str):
         self._last_failed_state = state
 
 
-    def get_last_failed_state(self):
+    def _get_last_failed_state(self):
         return self._last_failed_state
 
 
@@ -264,7 +264,7 @@ class CommonHelpers:
             last_state:str = ''
         ) -> NoReturn:
         if last_state != '':
-            self.set_last_failed_state(last_state)
+            self.__set_last_failed_state(last_state)
         transitions.set_state(new_state)
         
 
