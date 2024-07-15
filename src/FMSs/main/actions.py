@@ -103,7 +103,7 @@ class Actions(BaseActions):
             name='Notify Task'
         )
         self.app.log.warn('task canceled')
-        await self.app.sound.cancel_all_sounds()
+        await self.app.custom_cancel_sound()
         # TODO: remove this
         # await self.app.motion.rotate(angle=-90.0, angular_speed=45.0, wait=True, enable_obstacles=False)
         await self.app.leds.turn_off_all()
@@ -138,7 +138,7 @@ class Actions(BaseActions):
 
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
-        await self.app.sound.cancel_all_sounds()
+        await self.app.custom_cancel_sound()
         await self.app.leds.turn_off_all()
 
 

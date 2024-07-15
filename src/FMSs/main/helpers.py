@@ -58,7 +58,7 @@ class CommonHelpers:
                         'resetting obstacle tries to 0'
                     )
                 self.__obstacle_tries = 0
-                await self.app.sound.cancel_all_sounds()
+                await self.app.custom_cancel_sound()
 
         elif code == 167:
             # obstacle detected

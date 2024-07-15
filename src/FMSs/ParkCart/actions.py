@@ -48,7 +48,7 @@ class Actions(BaseActions):
 
 
     async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
-        await self.app.sound.cancel_all_sounds()
+        await self.app.custom_cancel_sound()
         await self.app.leds.turn_off_all()
 
 
@@ -86,7 +86,7 @@ class Actions(BaseActions):
     async def enter_END(self):
         # TODO: disable detector
         await self.helpers._disable_door_detection()
-        await self.app.sound.cancel_all_sounds()
+        await self.app.custom_cancel_sound()
         await self.app.leds.turn_off_all()
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,

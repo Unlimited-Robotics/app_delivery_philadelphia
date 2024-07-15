@@ -162,3 +162,10 @@ class RayaApplication(RayaApplicationBase):
     async def cb_chest_button(self):
         self.log.warn('Chest button pressed')
         await self.sound.play_sound(name='success', wait=True)
+
+
+    async def custom_cancel_sound(self):
+        try:
+            await self.sound.cancel_all_sounds()
+        except Exception:
+            pass

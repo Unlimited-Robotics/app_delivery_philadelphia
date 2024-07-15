@@ -60,7 +60,7 @@ class Transitions(BaseTransitions):
         tag_visible = await self.helpers.tag_door_visible(tag=tag)
         if not tag_visible:
             self.app.log.debug('The door is open, Entering the warehouse')
-            await self.app.sound.cancel_all_sounds()
+            await self.app.custom_cancel_sound()
             await self.app.leds.turn_off_all()
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
@@ -140,7 +140,7 @@ class Transitions(BaseTransitions):
         tag_visible = await self.helpers.tag_door_visible(tag=tag)
         if not tag_visible:
             self.app.log.debug('The door is open, leaving the warehouse')
-            await self.app.sound.cancel_all_sounds()
+            await self.app.custom_cancel_sound()
             await self.app.leds.turn_off_all()
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
