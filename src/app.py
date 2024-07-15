@@ -39,7 +39,10 @@ class RayaApplication(RayaApplicationBase):
                 await self.enable_controller('cameras')
         self.cv: CVController = await self.enable_controller('cv')
     
-        await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
+        if not self.continue_cart:
+            await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
+        else:
+            await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
         
         self.log.debug('Enabling cameras')
         for camera in CAMERAS_DETECTING_DOOR:
@@ -110,6 +113,11 @@ class RayaApplication(RayaApplicationBase):
     def get_arguments(self):
         max_packages = 2
         self.locations = []
+        
+        self.continue_cart = self.get_flag_argument(
+            '-c',
+            help='If enabled it will set start the app with the footprint of gary with cart attached'
+        )
         
         self.enable_attach = self.get_argument(
             '--enable_attach',
