@@ -1,6 +1,6 @@
 from copy import copy
 
-from raya.tools.fsm import BaseActions
+from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import FLEET_UPDATE_STATUS
 
 from src.app import RayaApplication
@@ -13,10 +13,10 @@ from src.static.skills import *
 
 from .helpers import Helpers
 
-class Actions(BaseActions):
+class Actions(CommonAction):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__()
+        super().__init__(app=app,helpers=helpers)
         self.app = app
         self.helpers = helpers
 

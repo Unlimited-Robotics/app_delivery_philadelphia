@@ -1,16 +1,16 @@
-from raya.tools.fsm import BaseTransitions
-from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
+from raya.enumerations import SKILL_STATE
 
 from src.app import RayaApplication
 from src.static import *
 
 from .helpers import Helpers
 from .errors import *
+from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
-class Transitions(BaseTransitions):
+class Transitions(CommonTransitions):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__()
+        super().__init__(app=app, helpers=helpers)
         self.app = app
         self.helpers = helpers
 

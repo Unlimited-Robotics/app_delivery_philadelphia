@@ -1,4 +1,4 @@
-from raya.tools.fsm import BaseActions
+from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT, FLEET_UPDATE_STATUS
 from raya.exceptions import RayaCommandAlreadyRunning
 
@@ -8,10 +8,10 @@ from src.static import *
 from .helpers import Helpers
 
 
-class Actions(BaseActions):
+class Actions(CommonAction):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__()
+        super().__init__(app=app,helpers=helpers)
         self.app = app
         self.helpers = helpers
 
@@ -193,49 +193,3 @@ class Actions(BaseActions):
 
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
         await self.app.leds.turn_off_all()
-
-    
-    async def aborted(self, error, msg):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.ERROR,
-                message=f'The App was aborted, error [{error}]: {msg}'
-            )
-        await self.app.ui.display_screen(
-                subtitle=f'ERROR {error}: {msg}',
-                **UI_SCREEN_FAILED
-            )
-        await self.app.sound.play_sound(name='attention')
-    
-    # REQUEST_FOR_HELP STATES
-    
-    async def enter_REQUEST_FOR_HELP(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_REQUESTING_FOR_HELP
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_REQUEST_FOR_HELP)     
-
-
-    async def enter_WAIT_FOR_HELP(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.WARNING,
-            message=FLEET_WAITING_FOR_HELP
-        )
-
-
-    async def leave_WAIT_FOR_HELP(self):
-        await self.app.leds.turn_off_all()
-
-
-    async def enter_RELEASE_CART(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_ABORT_APP_RELEASE_CART
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_RELEASE_CART)
-        await self.app.skill_detach.execute_main(
-            execute_args=EXECUTION_ARG_DETACH_SKILL,
-            callback_done=self.helpers.cb_skill_detach_done,
-            callback_feedback=self.helpers.cb_skill_dettach_feedback,
-            wait=False
-        )

@@ -1,5 +1,4 @@
-from src.static.app_errors import *
-
+from src.FMSs.BaseAppFSM.states import STATES as BASE_STATES
 
 # The first state is always the initial one
 STATES = [
@@ -24,6 +23,7 @@ STATES = [
         'WAIT_FOR_HELP',
         'RELEASE_CART',
     ]
+STATES.extend(BASE_STATES)
 
 
 # First state of FSM, if not defined, the FSM starts in the first element of
@@ -36,6 +36,6 @@ END_STATES = [
     'END',
 ]
 
-STATES_TRANSITION_TIMEOUTS = {
-    'WAIT_FOR_UI_CONFIRMATION': (30.0, 'PACKAGE_NOT_DELIVERED'),
-}
+# STATES_TRANSITION_TIMEOUTS = {
+#     'WAIT_FOR_UI_CONFIRMATION': (30.0, 'PACKAGE_NOT_DELIVERED'),
+# }

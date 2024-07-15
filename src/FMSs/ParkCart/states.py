@@ -1,3 +1,4 @@
+from src.FMSs.BaseAppFSM.states import STATES as BASE_STATES
 
 # The first state is always the initial one
 STATES = [
@@ -9,7 +10,7 @@ STATES = [
         'WAIT_FOR_UNLOAD_PACKAGE',
         'END',
     ]
-
+STATES.extend(BASE_STATES)
 
 # First state of FSM, if not defined, the FSM starts in the first element of
 # the STATES list
