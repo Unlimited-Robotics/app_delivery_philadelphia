@@ -1,7 +1,7 @@
 from raya.tools.fsm import BaseTransitions
 from raya.exceptions import RayaFleetTimeout
 from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound
-from raya.exceptions import RayaSkillAborted
+from raya.exceptions import RayaSkillAborted, RayaCommandAlreadyRunning
 from raya.enumerations import FLEET_UPDATE_STATUS, SKILL_STATE
 from raya.tools.fsm import RayaFSMAborted
 
@@ -62,10 +62,13 @@ class Transitions(BaseTransitions):
 
     async def NAV_TO_DELIVERY_POINT(self):
         if self.app.nav.is_navigating():
-            await self.app.leds.animation(
-                **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                wait=True
-            )
+            try:
+                await self.app.leds.animation(
+                    **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                    wait=True
+                )
+            except RayaCommandAlreadyRunning:
+                pass
         
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
@@ -237,7 +240,6 @@ class Transitions(BaseTransitions):
             self.app.log.debug(
                 f'DETACH_TO_CART result_finish: {result_finish}'
             )
-            # TODO: de attach skill should do this?
             await self.app.set_gary_footprint(
                 footprint=GARY_FOOTPRINT
             )
