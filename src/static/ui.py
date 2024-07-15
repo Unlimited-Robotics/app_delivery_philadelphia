@@ -54,8 +54,8 @@ UI_SCREEN_LEAVE_WAREHOUSE = {
 }
 
 UI_SCREEN_NAV_TO_WAREHOUSE_RETURN = {
-    'title':'Navigating', 
-    'subtitle':'Going back to warehouse',
+    'title':'Hello! i`m Gary, your delivery robot', 
+    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
     **UI_COMMON_OPTIONS
 }
 
