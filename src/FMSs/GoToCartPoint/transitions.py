@@ -2,11 +2,7 @@ from raya.tools.fsm import BaseTransitions
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
 
 from src.app import RayaApplication
-from src.static.constants import *
-from src.static.leds import *
-from src.static.sound import *
-from src.static.fleet import *
-from src.static.sensors import *
+from src.static import *
 
 from .helpers import Helpers
 from .errors import *
@@ -119,6 +115,9 @@ class Transitions(BaseTransitions):
             result_finish = await self.app.skill_att2cart.wait_finish()
             self.app.log.debug(
                 f'ATTACH_TO_CART result_finish: {result_finish}'
+            )
+            await self.app.set_gary_footprint(
+                footprint=GARY_SELECTED_CART_FOOTPRINT
             )
             self.set_state('GO_TO_WAREHOUSE_EXIT')
 
