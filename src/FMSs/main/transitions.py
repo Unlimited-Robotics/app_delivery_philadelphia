@@ -43,16 +43,7 @@ class Transitions(BaseTransitions):
                 'check if the zone exist in the navigation map.'
             ))
             self.abort(*ERR_COULD_NOT_GET_WAREHOUSE_ZONE)
-            
-        try:
-            self.app.log.debug('Executing detach skill')
-            await self.app.skill_detach.execute_main(
-                execute_args=EXECUTION_ARG_DETACH_SKILL,
-                wait=True
-            )
-            self.app.log.debug('Detach skill executed')
-        except RayaSkillAborted as e:
-            self.app.log.error(f'Detach skill aborted: {e}')
+
         self.set_state('GO_TO_CART_POINT')
 
 

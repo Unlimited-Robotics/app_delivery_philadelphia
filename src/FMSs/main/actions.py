@@ -227,7 +227,6 @@ class Actions(BaseActions):
         await self.app.leds.turn_off_all()
 
 
-
     async def enter_RELEASE_CART(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
