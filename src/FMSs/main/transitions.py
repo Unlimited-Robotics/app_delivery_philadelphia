@@ -192,7 +192,7 @@ class Transitions(BaseTransitions):
         )
         text = (
             'Gary recieved help, and the option selected was: '
-            f'{response['selected_option']}'
+            f'{response["selected_option"]}'
         )
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.WARNING,
