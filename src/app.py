@@ -115,7 +115,7 @@ class RayaApplication(RayaApplicationBase):
         self.locations = []
         
         self.continue_cart = self.get_flag_argument(
-            '-c',
+            '--cart',
             help='If enabled it will set start the app with the footprint of gary with cart attached'
         )
         
