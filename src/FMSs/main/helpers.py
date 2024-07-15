@@ -51,7 +51,8 @@ class CommonHelpers:
         if code == 30:
             # navigating
             self.__navigating_tries += 1
-            if self.__navigating_tries >= NAVIGATION_TRY_LIMIT:
+            if self.__navigating_tries >= NAVIGATION_TRY_LIMIT and \
+                    self.__obstacle_tries != 0:
                 self.app.log.warn(
                         'Navigation tries limit reached, '
                         'resetting obstacle tries to 0'
