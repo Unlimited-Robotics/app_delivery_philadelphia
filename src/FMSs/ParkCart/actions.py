@@ -59,10 +59,10 @@ class Actions(CommonAction):
         )
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
         
-        point = copy(NAV_CART_POINT)
-        self.app.log.warn(f'NAV_CART_POINT point: {point}')
+        point = copy(NAV_CART_UNLOAD_POINT)
+        self.app.log.warn(f'NAV_CART_UNLOAD_POINT point: {point}')
         point['angle'] += 180.0
-        self.app.log.warn(f'NAV_CART_POINT point: {point}')
+        self.app.log.warn(f'NAV_CART_UNLOAD_POINT point: {point}')
         await self.app.nav.navigate_to_position(
             **point,
             callback_feedback_async=self.helpers.nav_feedback_async,

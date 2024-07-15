@@ -80,9 +80,9 @@ class Actions(CommonAction):
             message=FLEET_ROBOT_MOVING_TO_ATTACH_POINT
         )
         await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
-        self.app.log.debug(f'navigate_to_position {NAV_CART_POINT}')
+        self.app.log.debug(f'navigate_to_position {NAV_CART_LOAD_POINT}')
         await self.app.nav.navigate_to_position(
-            **NAV_CART_POINT,
+            **NAV_CART_LOAD_POINT,
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
         )
