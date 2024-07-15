@@ -75,7 +75,7 @@ class Transitions(CommonTransitions):
             else:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
-                    last_state='ENTER_WAREHOUSE',
+                    last_state='GO_TO_CART_POINT',
                     transitions=self
                 )
 
@@ -100,7 +100,7 @@ class Transitions(CommonTransitions):
             finally:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
-                    last_state='DETACH_CART',
+                    last_state='GO_TO_CART_POINT',
                     transitions=self
                 )
         elif state == SKILL_STATE.ERROR_FINISHING:
@@ -113,7 +113,7 @@ class Transitions(CommonTransitions):
             finally:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
-                    last_state='DETACH_CART',
+                    last_state='GO_TO_CART_POINT',
                     transitions=self
                 )    
         elif state == SKILL_STATE.FINISHED:
