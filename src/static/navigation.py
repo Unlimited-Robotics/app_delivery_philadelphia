@@ -153,6 +153,7 @@ NAV[NAV_WAREHOUSE_MAP_NAME] = {
         "NAV_WAREHOUSE_ENTRANCE": NAV_WAREHOUSE_ENTRANCE,
         "NAV_WAREHOUSE_EXIT": NAV_WAREHOUSE_EXIT,
         "NAV_CART_LOAD_POINT": NAV_CART_LOAD_POINT,
+        "NAV_CART_UNLOAD_POINT": NAV_CART_UNLOAD_POINT
     }
 }
 
@@ -187,18 +188,10 @@ NAV_CART_LOAD_POINT = {
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS_HOME
     }
-# NAV_CART_LOAD_POINT = {
-#         'x':        3527.0,
-#         'y':        419.0,
-#         'angle':    -92.12,
-#         'pos_unit': POSITION_UNIT.PIXELS, 
-#         'ang_unit': ANGLE_UNIT.DEGREES,
-#         **NAVIGATION_OPTIONS_HOME
-#     }
 NAV_CART_UNLOAD_POINT = {
-        'x':        3591.0,
-        'y':        310.0,
-        'angle':    -0.1,
+        'x':        3232.0,
+        'y':        -3.90,
+        'angle':    7.40,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS
@@ -210,6 +203,7 @@ NAV[NAV_WAREHOUSE_MAP_NAME] = {
         "NAV_WAREHOUSE_ENTRANCE": NAV_WAREHOUSE_ENTRANCE,
         "NAV_WAREHOUSE_EXIT": NAV_WAREHOUSE_EXIT,
         "NAV_CART_LOAD_POINT": NAV_CART_LOAD_POINT,
+        "NAV_CART_UNLOAD_POINT": NAV_CART_UNLOAD_POINT
     }
 }
 set_nav_data('philly_hospital__basement')
