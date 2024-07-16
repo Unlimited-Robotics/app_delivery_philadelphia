@@ -28,6 +28,13 @@ class Transitions(CommonTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
+                try:
+                    await self.app.motion.move_linear(
+                        **MOTION_HOME_BACKWARD,
+                        wait=True,
+                    )
+                except Exception:
+                    pass
                 self.set_state('GO_TO_CART_POINT')
             else:
                 self.helpers.set_state_wrapper(

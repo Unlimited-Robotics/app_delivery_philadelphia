@@ -7,3 +7,4 @@ from src.static.sensors import *
 from src.static.skills import *
 from src.static.sound import *
 from src.static.ui import *
+from src.static.motion import *
