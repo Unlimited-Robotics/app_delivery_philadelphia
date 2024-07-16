@@ -31,7 +31,7 @@ class CommonAction(BaseActions):
 
 
     async def leave_WAIT_FOR_HELP(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_RELEASE_CART(self):

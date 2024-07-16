@@ -177,3 +177,10 @@ class RayaApplication(RayaApplicationBase):
             await self.sound.cancel_all_sounds()
         except Exception:
             pass
+
+
+    async def custome_turn_off_leds(self):
+        try:
+            await self.leds.turn_off_all()
+        except Exception:
+            pass

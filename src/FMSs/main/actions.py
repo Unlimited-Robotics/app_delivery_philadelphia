@@ -62,7 +62,7 @@ class Actions(CommonAction):
 
 
     async def leave_NAV_TO_DELIVERY_POINT(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_NOTIFY_ORDER_ARRIVED(self):
@@ -77,7 +77,7 @@ class Actions(CommonAction):
 
 
     async def leave_NOTIFY_ORDER_ARRIVED(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
@@ -106,7 +106,7 @@ class Actions(CommonAction):
         await self.app.custom_cancel_sound()
         # TODO: remove this
         # await self.app.motion.rotate(angle=-90.0, angular_speed=45.0, wait=True, enable_obstacles=False)
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_PACKAGE_DELIVERED(self):
@@ -123,7 +123,7 @@ class Actions(CommonAction):
 
 
     async def leave_PACKAGE_DELIVERED(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_PACKAGE_NOT_DELIVERED(self):
@@ -139,7 +139,7 @@ class Actions(CommonAction):
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
         await self.app.custom_cancel_sound()
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_RETURN_TO_WAREHOUSE_ENTRANCE(self):
@@ -156,7 +156,7 @@ class Actions(CommonAction):
 
 
     async def leave_RETURN_TO_WAREHOUSE_ENTRANCE(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_PARK_CART(self):
@@ -192,4 +192,4 @@ class Actions(CommonAction):
 
 
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()

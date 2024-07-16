@@ -49,7 +49,7 @@ class Actions(CommonAction):
 
     async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.custom_cancel_sound()
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_GO_TO_CART_POINT(self):
@@ -87,7 +87,7 @@ class Actions(CommonAction):
         # TODO: disable detector
         await self.helpers._disable_door_detection()
         await self.app.custom_cancel_sound()
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_CART_RELEASED

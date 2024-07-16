@@ -85,7 +85,7 @@ class CommonHelpers:
                 )
         
         if not self.app.sound.is_playing():
-            await self.app.leds.turn_off_all()
+            await self.app.custome_turn_off_leds()
 
 
     async def nav_finish_async(self, code, msg):

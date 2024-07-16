@@ -50,7 +50,7 @@ class Transitions(CommonTransitions):
         if not tag_visible:
             self.app.log.debug('The door is open, Entering the warehouse')
             await self.app.custom_cancel_sound()
-            await self.app.leds.turn_off_all()
+            await self.app.custome_turn_off_leds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,

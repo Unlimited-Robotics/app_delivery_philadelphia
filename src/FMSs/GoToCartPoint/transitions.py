@@ -55,7 +55,7 @@ class Transitions(CommonTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                await self.app.leds.turn_off_all()
+                await self.app.custome_turn_off_leds()
                 self.set_state('WAIT_FOR_ENTRANCE_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_HOME_LOCATION')
@@ -73,7 +73,7 @@ class Transitions(CommonTransitions):
         if not tag_visible:
             self.app.log.debug('The door is open, Entering the warehouse')
             await self.app.custom_cancel_sound()
-            await self.app.leds.turn_off_all()
+            await self.app.custome_turn_off_leds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
@@ -169,7 +169,7 @@ class Transitions(CommonTransitions):
         if not tag_visible:
             self.app.log.debug('The door is open, leaving the warehouse')
             await self.app.custom_cancel_sound()
-            await self.app.leds.turn_off_all()
+            await self.app.custome_turn_off_leds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
@@ -192,7 +192,7 @@ class Transitions(CommonTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                await self.app.leds.turn_off_all()
+                await self.app.custome_turn_off_leds()
                 self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('END')
