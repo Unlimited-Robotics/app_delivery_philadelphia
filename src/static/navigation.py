@@ -60,7 +60,8 @@ NAVIGATION_OPTIONS = {
 NAVIGATION_OPTIONS_HOME = {
     'options': {
         'behavior_tree': 'navigate_and_replan_if_needed'
-    }
+    },
+    'xy_tolerance': 0.05,
 }
 
 
