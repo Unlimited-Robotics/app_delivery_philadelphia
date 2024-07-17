@@ -17,8 +17,6 @@ class Helpers(CommonHelpers):
         self.app = app
         super().__init__(app)
         
-        self.index_package = 0
-        self.current_package = self.app.locations[self.index_package]
         self.fsm_go_to_cart_point = GoToCartPointFSM(
             name='GoToCartPointFSM', 
             log_transitions=True
@@ -48,14 +46,7 @@ class Helpers(CommonHelpers):
         return False
 
 
-    async def check_if_more_packages(self):
-        return self.index_package < len(self.app.locations) - 1
-
-
-    async def set_next_package(self):
-        self.index_package += 1
-        self.current_package = self.app.locations[self.index_package]
-
+    
 
     async def task_to_notify(self):
         text = (

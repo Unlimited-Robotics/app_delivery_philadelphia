@@ -37,15 +37,7 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_DELIVERY_POINT(self):
-        package = self.helpers.current_package
-        point = {
-            'x': package[0],
-            'y': package[1],
-            'angle': package[2],
-            'pos_unit': POSITION_UNIT.PIXELS, 
-            'ang_unit': ANGLE_UNIT.DEGREES,
-            **NAVIGATION_OPTIONS
-        }
+        point = await self.helpers.get_current_package_point()
         # TODO add department name to the title
         text = UI_SCREEN_NAV_TO_PACKAGE_POINT['title'] 
         await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_PACKAGE_POINT)

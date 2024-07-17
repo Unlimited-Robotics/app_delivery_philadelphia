@@ -89,6 +89,8 @@ class Actions(CommonAction):
 
 
     async def enter_ATTACH_TO_CART(self):
+        EXECUTION_ARG_ATTACH_SKILL['target_tags'] = [self.app.cart_number]
+        
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_ATTACHING_TO_CART
@@ -137,16 +139,8 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_LEAVING_WAREHOUSE
         )
-        package = self.app.locations[0]
-        point = {
-            'x': package[0],
-            'y': package[1],
-            'angle': package[2],
-            'pos_unit': POSITION_UNIT.PIXELS, 
-            'ang_unit': ANGLE_UNIT.DEGREES,
-            **NAVIGATION_OPTIONS
-        }
-        text = (   
+        point = await self.helpers.get_current_package_point()
+        text = (
             f'Delivering package 1 of {len(self.app.locations)}'
         )
         UI_SCREEN_LEAVE_WAREHOUSE['subtitle'] = text

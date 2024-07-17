@@ -16,6 +16,8 @@ class CommonHelpers:
     
     def __init__(self, app: RayaApplication):        
         self.app = app
+        self.index_package = 0
+        self.current_package = self.app.locations[self.index_package]
         self.detectors = dict()
         self._tags = dict()
         self.task_timer_name = 'timer_tag_door'
@@ -23,6 +25,28 @@ class CommonHelpers:
         self.__obstacle_tries = 0
         self.__navigating_tries = 0
         self._last_failed_state = ''
+
+
+    async def check_if_more_packages(self):
+        return self.index_package < len(self.app.locations) - 1
+
+
+    async def set_next_package(self):
+        self.index_package += 1
+        self.current_package = self.app.locations[self.index_package]
+
+
+    async def get_current_package_point(self):
+        package = self.current_package
+        point = {
+            'x': float(package['x']),
+            'y': float(package['y']),
+            'angle': float(package['angle']),
+            'pos_unit': POSITION_UNIT.PIXELS, 
+            'ang_unit': ANGLE_UNIT.DEGREES,
+            **NAVIGATION_OPTIONS_WITH_CART
+        }
+        return point
 
 
     async def get_home_position(self):
@@ -35,7 +59,7 @@ class CommonHelpers:
             'x': self.home_location[0],
             'y': self.home_location[1],
             'angle': self.home_location[2],
-            **NAVIGATION_OPTIONS_HOME
+            **NAVIGATION_OPTIONS_WITHOUT_CART
         }
         return home
 

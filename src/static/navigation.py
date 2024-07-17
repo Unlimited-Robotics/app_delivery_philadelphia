@@ -51,13 +51,13 @@ def set_nav_data(map_name):
     NAV_CART_LOAD_POINT = NAV[map_name]["data"]["NAV_CART_LOAD_POINT"]
     NAV_CART_UNLOAD_POINT = NAV[map_name]["data"]["NAV_CART_UNLOAD_POINT"]
 
-NAVIGATION_OPTIONS = {
+NAVIGATION_OPTIONS_WITH_CART = {
     'options': {
         'behavior_tree': 'replan_if_needed_long_footprint'
     }
 }
 
-NAVIGATION_OPTIONS_HOME = {
+NAVIGATION_OPTIONS_WITHOUT_CART = {
     'options': {
         'behavior_tree': 'navigate_and_replan_if_needed'
     },
@@ -79,7 +79,7 @@ NAV_WAREHOUSE_ENTRANCE = {
         'angle':    66.88, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 
 NAV_WAREHOUSE_EXIT = {
@@ -88,7 +88,7 @@ NAV_WAREHOUSE_EXIT = {
         'angle':    -105.5634, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 
 NAV_CART_LOAD_POINT = {
@@ -97,7 +97,7 @@ NAV_CART_LOAD_POINT = {
         'angle':    -2.35, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_CART_UNLOAD_POINT = {
         'x':        453.0,
@@ -105,7 +105,7 @@ NAV_CART_UNLOAD_POINT = {
         'angle':    -2.35, 
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 
 
@@ -121,7 +121,7 @@ NAV_WAREHOUSE_ENTRANCE = {
         'angle':    178.69,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_WAREHOUSE_EXIT = {
         'x':        234.0,
@@ -129,7 +129,7 @@ NAV_WAREHOUSE_EXIT = {
         'angle':    -6.19,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_CART_LOAD_POINT = {
         'x':        170.0,
@@ -137,7 +137,7 @@ NAV_CART_LOAD_POINT = {
         'angle':    -93.94,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_CART_UNLOAD_POINT = {
         'x':        170.0,
@@ -145,7 +145,7 @@ NAV_CART_UNLOAD_POINT = {
         'angle':    -93.94,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 
 NAV[NAV_WAREHOUSE_MAP_NAME] = {
@@ -171,7 +171,7 @@ NAV_WAREHOUSE_ENTRANCE = {
         'angle':    -0.4119695245183761,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_WAREHOUSE_EXIT = {
         'x':        2019.0,
@@ -179,7 +179,7 @@ NAV_WAREHOUSE_EXIT = {
         'angle':    179.133528312283026,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_CART_LOAD_POINT = {
         'x':        3574.0,
@@ -187,7 +187,7 @@ NAV_CART_LOAD_POINT = {
         'angle':    -104.0,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_HOME
+        **NAVIGATION_OPTIONS_WITHOUT_CART
     }
 NAV_CART_UNLOAD_POINT = {
         'x':        3232.0,
@@ -195,7 +195,7 @@ NAV_CART_UNLOAD_POINT = {
         'angle':    7.40,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 
 NAV[NAV_WAREHOUSE_MAP_NAME] = {

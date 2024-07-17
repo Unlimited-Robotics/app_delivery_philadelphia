@@ -1,3 +1,5 @@
+import json
+
 from raya.application_base import RayaApplicationBase
 from raya.controllers.navigation_controller import NavigationController
 from raya.controllers.leds_controller import LedsController
@@ -111,8 +113,21 @@ class RayaApplication(RayaApplicationBase):
 
     
     def get_arguments(self):
-        max_packages = 2
         self.locations = []
+        location_fake = "{'x': 747, 'y': 472, 'angle': 0.1, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
+        
+        max_packages = self.get_argument(
+            '--max_packages',
+            type=int,
+            help='Number of packages to deliver',
+            required=False,
+            default=1
+        )
+        
+        self.run_from_console = self.get_flag_argument(
+            '--fake',
+            help='If enabled it will run the app from the fleet'
+        )
         
         self.continue_cart = self.get_flag_argument(
             '--cart',
@@ -130,33 +145,38 @@ class RayaApplication(RayaApplicationBase):
             default=True,
         )
         
+        # get locations
         for index in range(1, max_packages+1):
-            location = self.get_argument(
-                f'--location{index}',
-                type=str,
-                help=('Location to deliver the packages, '
-                    f'ex: --location{index} '
-                    f'"[381, 655, 1.57, \'point{index}\']"'
-                ),
-                required=False,
-                default='',
-            )
+            if self.run_from_console:
+                location = location_fake
+            else:
+                location = self.get_argument(
+                    f'--location{index}',
+                    type=str,
+                    help=(
+                        'Location to deliver the package(formated as json), '
+                        f'ex : {location_fake}'
+                    ),
+                    required=False,
+                    default='',
+                )
+            location = location.replace("\'", "\"")
             self.log.info(f'Location: {location}')
             if location != '':
-                self.log.warn(f'locations:{location}')
-                location = location.strip('[]"')
-                location = location.split(',')
-                location_coordinates = [float(axys.strip()) for axys in location[:3]]\
-
-                location_name = location[3].strip() if len(location) > 3 else ''
-                location_map = location[4].strip() if len(location) > 4 else ''
-                location_coordinates.append(location_name)
-                location_coordinates.append(location_map)
-
-                self.locations.append(location_coordinates)
-        self.log.info('App is running with there args:')
+                self.locations.append(json.loads(location))
+        
+        # get cart umber
+        cart_number = self.get_argument(
+            '--cart_number',
+            type=str,
+            help='Id of the cart to use for the delivery',
+            required=True,
+        )
+        self.cart_number = str(int(cart_number))
+        self.log.warn('App is running with there args:')
+        self.log.warn(f'Cart number: {self.cart_number}')
         for location in zip(self.locations):
-            self.log.info(f'\tLocation: {location}')
+            self.log.warn(f'\tLocation: {location}')
 
 
     async def set_gary_footprint(self, footprint):
