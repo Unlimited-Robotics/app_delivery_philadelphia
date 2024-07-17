@@ -24,6 +24,10 @@ FLEET_REQUEST_ACTION_USER = {
     'timeout': 60
 }
 
+FLEET_CALL_MESSAGE = {
+    'message': 'Hello i`m Gary, please pick up the package.'
+}
+
 # FLEET STATUS
 
 FLEET_MESSAGE_WAITING_PACKAGE_LOAD = 'The robot is waiting for the package to be loaded.'

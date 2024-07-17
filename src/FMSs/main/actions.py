@@ -58,14 +58,7 @@ class Actions(CommonAction):
 
 
     async def enter_NOTIFY_ORDER_ARRIVED(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=(
-                    f'The package {self.helpers.index_package + 1} '
-                    'has arrived at the delivery point.'
-                )
-            )
-        self.app.log.warn('NOTIFY_ORDER_ARRIVED')
+        await self.helpers.notify_order_arrived()
 
 
     async def leave_NOTIFY_ORDER_ARRIVED(self):

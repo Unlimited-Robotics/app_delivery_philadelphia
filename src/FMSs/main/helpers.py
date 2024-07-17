@@ -41,7 +41,7 @@ class Helpers(CommonHelpers):
         result = await self.app.nav.get_status()
         is_localized = result['localized']
         map_name = result['map_name']
-        if is_localized and map_name == self.current_package[1]:
+        if is_localized and map_name == self.current_package['map_name']:
             return True
         return False
 
@@ -65,3 +65,24 @@ class Helpers(CommonHelpers):
     def cb_delivery_arrived_ui_response(self, response):
         self.selected_option_delivery_ui = response['selected_option']
 
+
+    async def notify_order_arrived(self):
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=(
+                    f'The package {self.index_package + 1} '
+                    'has arrived at the delivery point.'
+                )
+            )
+        user_id = self.current_package['user_id']
+        try:
+            await self.app.fleet.request_user_action(
+                request_type='call',
+                request_args=FLEET_CALL_MESSAGE,
+                user_id=user_id,
+                timeout=30.0,
+                wait=False,
+                callback=lambda: None
+            )
+        except RayaFleetTimeout:
+            self.app.log.error('User didn\'t answer the call')
