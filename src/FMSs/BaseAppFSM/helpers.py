@@ -48,6 +48,15 @@ class CommonHelpers:
         }
         return point
 
+    async def get_cart_load_point(self):
+        cart = self.app.cart_location
+        cart = {
+            'x': float(cart['x']),
+            'y': float(cart['y']),
+            'angle': float(cart['angle']),
+            **NAV_CART_LOAD_POINT_OPTIONS
+        }
+        return cart
 
     async def get_home_position(self):
         self.home_location = await self.app.nav.get_location(

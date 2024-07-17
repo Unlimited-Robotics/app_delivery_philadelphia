@@ -64,6 +64,12 @@ NAVIGATION_OPTIONS_WITHOUT_CART = {
     'xy_tolerance': 0.05,
 }
 
+NAV_CART_LOAD_POINT_OPTIONS = {
+        'pos_unit': POSITION_UNIT.PIXELS, 
+        'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS_WITHOUT_CART
+    }
+
 
 
 # --------------------------------------------------
@@ -180,14 +186,6 @@ NAV_WAREHOUSE_EXIT = {
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS_WITH_CART
-    }
-NAV_CART_LOAD_POINT = {
-        'x':        3574.0,
-        'y':        411.0,
-        'angle':    -104.0,
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITHOUT_CART
     }
 NAV_CART_UNLOAD_POINT = {
         'x':        3232.0,

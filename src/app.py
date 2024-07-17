@@ -114,7 +114,8 @@ class RayaApplication(RayaApplicationBase):
     
     def get_arguments(self):
         self.locations = []
-        location_fake = "{'x': 747, 'y': 472, 'angle': 0.1, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
+        delivery_location_fake = "{'x': 747, 'y': 472, 'angle': 0.1, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
+        cart_location_fake = "{'x': 3574, 'y': 411, 'angle': -104, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
         
         max_packages = self.get_argument(
             '--max_packages',
@@ -148,14 +149,14 @@ class RayaApplication(RayaApplicationBase):
         # get locations
         for index in range(1, max_packages+1):
             if self.run_from_console:
-                location = location_fake
+                location = delivery_location_fake
             else:
                 location = self.get_argument(
                     f'--location{index}',
                     type=str,
                     help=(
                         'Location to deliver the package(formated as json), '
-                        f'ex : {location_fake}'
+                        f'ex : {delivery_location_fake}'
                     ),
                     required=False,
                     default='',
@@ -165,16 +166,23 @@ class RayaApplication(RayaApplicationBase):
             if location != '':
                 self.locations.append(json.loads(location))
         
-        # get cart umber
-        cart_number = self.get_argument(
-            '--cart_number',
-            type=str,
-            help='Id of the cart to use for the delivery',
-            required=True,
-        )
-        self.cart_number = str(int(cart_number))
+        # get cart number
+        if self.run_from_console:
+            cart_location = cart_location_fake
+        else:
+            cart_location: str = self.get_argument(
+                '--cart_location',
+                type=str,
+                help='Location of the cart to attach the packages',
+                required=True,
+            )
+        cart_location = cart_location.replace("\'", "\"")
+        self.cart_location = json.loads(cart_location)
+        #TODO replace this, it should take the id from the fleet
+        self.cart_number = '4'
+        
         self.log.warn('App is running with there args:')
-        self.log.warn(f'Cart number: {self.cart_number}')
+        self.log.warn(f'Cart location: {self.cart_location}')
         for location in zip(self.locations):
             self.log.warn(f'\tLocation: {location}')
 
