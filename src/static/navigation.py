@@ -182,9 +182,9 @@ NAV_WAREHOUSE_EXIT = {
         **NAVIGATION_OPTIONS
     }
 NAV_CART_LOAD_POINT = {
-        'x':        3595.0,
+        'x':        3574.0,
         'y':        411.0,
-        'angle':    -97.7,
+        'angle':    -104.0,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS_HOME
