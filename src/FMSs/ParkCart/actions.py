@@ -73,6 +73,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_DETACHING_TO_CART
         )
+        await self.app.ui.display_screen(**UI_SCREEN_RELEASE_CART)
         await self.app.skill_detach.execute_main(
             execute_args=EXECUTION_ARG_DETACH_SKILL,
             callback_done=self.helpers.cb_skill_detach_done,

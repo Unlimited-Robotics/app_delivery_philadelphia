@@ -47,6 +47,7 @@ class CommonAction(BaseActions):
             wait=False
         )
 
+
     async def aborted(self, error, msg):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.ERROR,

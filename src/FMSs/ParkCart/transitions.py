@@ -85,6 +85,7 @@ class Transitions(CommonTransitions):
 
 
     async def DETACH_CART(self):
+        self.app.log.warn('Releasing cart...')
         state = self.app.skill_detach.get_execution_state()
         
         if state == SKILL_STATE.EXECUTED:
@@ -121,7 +122,6 @@ class Transitions(CommonTransitions):
             self.app.log.debug(
                 f'DETACH_TO_CART result_finish: {result_finish}'
             )
-            # TODO: de attach skill should do this?
             await self.app.set_gary_footprint(
                 footprint=GARY_FOOTPRINT
             )

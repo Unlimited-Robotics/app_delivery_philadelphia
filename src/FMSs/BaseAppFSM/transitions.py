@@ -22,7 +22,7 @@ class CommonTransitions(BaseTransitions):
         # TODO: remove
         # self.set_state('WAIT_FOR_HELP')
         try:
-            response = await self.app.fleet.request_action(
+            response = await self.app.fleet.request_system_action(
                 title='Request for Help',
                 message='I need help, please come to my location.',
                 timeout=TIMEOUT_REQUEST_FOR_HELP
