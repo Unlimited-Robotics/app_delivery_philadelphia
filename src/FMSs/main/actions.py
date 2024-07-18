@@ -40,8 +40,7 @@ class Actions(CommonAction):
     async def enter_NAV_TO_WAITING_ELEVATOR(self):
         point = await self.helpers.get_elevator_waiting_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
-        # TODO: replace map name with location name
-        current_package_location_name = self.helpers.current_package['map_name']
+        current_package_location_name = self.helpers.current_package['name']
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
             current_package_location_name
@@ -74,8 +73,7 @@ class Actions(CommonAction):
     async def enter_NAV_TO_DELIVERY_POINT(self):
         point = await self.helpers.get_current_package_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
-        # TODO: replace map name with location name
-        current_package_location_name = self.helpers.current_package['map_name']
+        current_package_location_name = self.helpers.current_package['name']
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
             current_package_location_name
@@ -126,8 +124,6 @@ class Actions(CommonAction):
         )
         self.app.log.warn('task canceled')
         await self.app.custom_cancel_sound()
-        # TODO: remove this
-        # await self.app.motion.rotate(angle=-90.0, angular_speed=45.0, wait=True, enable_obstacles=False)
         await self.app.custome_turn_off_leds()
 
 
