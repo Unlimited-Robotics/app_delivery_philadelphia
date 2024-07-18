@@ -19,7 +19,7 @@ class Helpers(ParkCartHelpers):
 
 
     def cb_set_map_feedback(self, feedback_code, feedback_msg):
-        self.app.log.info(f'set map feedback: {feedback_code} {feedback_msg}')
+        self.app.log.debug(f'set map feedback: {feedback_code} {feedback_msg}')
 
 
     def cb_set_map_finish(self, error, error_msg):

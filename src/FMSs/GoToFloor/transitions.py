@@ -83,11 +83,10 @@ class Transitions(CommonTransitions):
     async def LOCALIZING(self):
         localizing_point = await self.helpers.get_elevator_localization_points()
         try:
-            result = await self.app.nav.set_current_pose(
+            await self.app.nav.set_current_pose(
                 **localizing_point,
                 wait=True
             )
-            self.app.log.warn(f'Localizing result: {result}')
             self.app.current_target_floor_reached()
             self.set_state('END')
         except RayaNavLocalizationRejected as e:
