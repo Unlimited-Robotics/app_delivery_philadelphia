@@ -5,6 +5,7 @@ STATES = [
         'SETUP_ACTIONS',
         'GO_TO_CART_POINT',
         'NAV_TO_WAITING_ELEVATOR',
+        
         'NAV_TO_FLOOR',
         'NOTIFY_ORDER_ARRIVED',
         
@@ -14,6 +15,7 @@ STATES = [
         
         'CHECK_IF_MORE_PACKAGES',
         
+        'NAV_TO_WAREHOUSE_FLOOR',
         'RETURN_TO_WAREHOUSE_ENTRANCE',
         'PARK_CART',
         'GO_TO_HOME_LOCATION',

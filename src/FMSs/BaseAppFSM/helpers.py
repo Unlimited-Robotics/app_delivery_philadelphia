@@ -18,7 +18,6 @@ class CommonHelpers:
         self.app = app
         self.index_package = 0
         self.current_package = self.app.locations[self.index_package]
-        self.current_target_floor = None
         self.detectors = dict()
         self._tags = dict()
         self.task_timer_name = 'timer_tag_door'
@@ -27,9 +26,7 @@ class CommonHelpers:
         self.__navigating_tries = 0
         self._last_failed_state = ''
 
-
-    def set_target_floor(self, floor: str):
-        self.current_target_floor = floor
+        self.selected_elevator = None
 
 
     async def check_if_more_packages(self):
@@ -68,7 +65,7 @@ class CommonHelpers:
     async def get_home_position(self):
         self.home_location = await self.app.nav.get_location(
             location_name = NAV_HOME_POSITION_NAME,
-            map_name = f'{NAV_WAREHOUSE_BUILDING_NAME}__{FLOORS['basement']}',
+            map_name = WAREHOUSE_MAP_NAME,
             pos_unit = POSITION_UNIT.PIXELS,
         )
         home = {

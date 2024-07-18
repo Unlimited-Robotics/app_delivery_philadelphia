@@ -23,9 +23,8 @@ class Actions(CommonAction):
 
     async def enter_SELECT_ELEVATOR(self):
         self.helpers.selected_elevator_ui = None
-        copy_ui_screen = copy(UI_SCREEN_OPTIONS_ELEVATOR)
-        current_package_location_name = self.helpers.current_package['map_name']
-        floor = current_package_location_name.split('__')[1]
+        copy_ui_screen = copy(UI_SCREEN_OPTIONS_ELEVATOR_ENTERING)
+        floor = self.app.get_current_target_floor_map_name()
         
         message = copy_ui_screen['title'].replace(
             '[floor]', floor
@@ -55,6 +54,22 @@ class Actions(CommonAction):
             callback=self.helpers.cb_teleoperation_ui_response
         )
 
+
+    async def enter_SELECT_EXIT_FROM_ELEVATOR_NUMBER(self):
+        self.helpers.selected_elevator_ui = None
+        copy_ui_screen = copy(UI_SCREEN_OPTIONS_ELEVATOR_LEAVING)
+        floor = self.app.get_current_target_floor_map_name()
+        
+        message = copy_ui_screen['title'].replace(
+            '[floor]', floor
+        )
+        copy_ui_screen['title'] = message
+        await self.app.ui.display_choice_selector(
+            **copy_ui_screen,
+            wait=False,
+            callback=self.helpers.cb_delivery_arrived_ui_response
+        )
+        
 
     async def enter_LOCALIZING(self):
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)

@@ -7,6 +7,7 @@ STATES = [
         'TELEOPERATING',
         'CHANGE_MAP',
         'TELEOPERATION_DONE',
+        'SELECT_EXIT_FROM_ELEVATOR_NUMBER',
         'LOCALIZING',
         'END',
     ]

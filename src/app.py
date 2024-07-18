@@ -86,7 +86,11 @@ class RayaApplication(RayaApplicationBase):
             )
             self.log.info(f'Detach skill setup result: {result}')
 
-
+        # elevators
+        self.current_floor_map_name = WAREHOUSE_FLOOR
+        self.current_target_floor_map_name = None
+        
+        
     async def main(self):
         try:
             await self.fsm_main_task.run_and_await()
@@ -212,3 +216,17 @@ class RayaApplication(RayaApplicationBase):
             await self.leds.turn_off_all()
         except Exception:
             pass
+
+
+    def get_current_floor_map_name(self):
+        return self.current_floor_map_name
+
+
+    def get_current_target_floor_map_name(self):
+        return self.current_target_floor_map_name
+
+
+    def current_target_floor_reached(self):
+        self.current_floor_map_name = self.current_target_floor_map_name
+        self.current_target_floor_map_name = None
+

@@ -23,7 +23,7 @@ class Actions(CommonAction):
                 message=FLEET_CHECK_IF_LOCALIZED
             )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
-        map_name = f'{NAV_WAREHOUSE_BUILDING_NAME}__{FLOORS['basement']}'
+        map_name = WAREHOUSE_MAP_NAME,
         self.app.log.warn(f'Setting map: {map_name}')
         await self.app.nav.set_map(map_name=map_name)
 
@@ -65,6 +65,8 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_FLOOR(self):
+        self.app.current_target_floor_map_name = \
+            self.helpers.current_package['map_name'].split('__')[1]
         self.helpers.fsm_go_to_floor.restart()
         await self.helpers.fsm_go_to_floor.run_in_background()
     
@@ -137,6 +139,12 @@ class Actions(CommonAction):
     async def leave_PACKAGE_NOT_DELIVERED(self):
         await self.app.custom_cancel_sound()
         await self.app.custome_turn_off_leds()
+
+
+    async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
+        self.app.current_target_floor_map_name = WAREHOUSE_FLOOR
+        self.helpers.fsm_go_to_floor.restart()
+        await self.helpers.fsm_go_to_floor.run_in_background()
 
 
     async def enter_RETURN_TO_WAREHOUSE_ENTRANCE(self):

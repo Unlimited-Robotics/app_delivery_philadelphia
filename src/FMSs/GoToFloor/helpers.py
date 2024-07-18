@@ -11,7 +11,7 @@ class Helpers(ParkCartHelpers):
 
 
     def cb_delivery_arrived_ui_response(self, response):
-        self.selected_elevator_ui = response['selected_option']
+        self.selected_elevator_ui = response['selected_option']['id']
 
 
     def cb_teleoperation_ui_response(self, response):
@@ -30,22 +30,27 @@ class Helpers(ParkCartHelpers):
 
 
     async def get_elevator_waiting_point(self):
-        self.app.log.warn(f'self.selected_elevator_ui {self.selected_elevator_ui}')
-        index_elevator = int(self.selected_elevator_ui['id'])
-        return NAV_ELEVATOR_WAITING_POINT[index_elevator]
+        current_floor = self.app.get_current_floor_map_name()
+        return FLOORS[current_floor]['waiting_elevator']
+
+
+    async def get_elevator_entering_point(self):
+        self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
+        current_floor = self.app.get_current_floor_map_name()
+        return FLOORS[current_floor]['elevator'][self.selected_elevator]['entering']
 
     
     async def get_elevator_leaving_point(self):
-        self.app.log.warn(f'self.selected_elevator_ui {self.selected_elevator_ui}')
-        index_elevator = int(self.selected_elevator_ui['id'])
-        return NAV_ELEVATOR_LEAVING_POINT[index_elevator]
+        self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
+        target_floor = self.app.get_current_target_floor_map_name()
+        return FLOORS[target_floor]['elevator'][self.selected_elevator]['leaving']
 
 
     async def get_elevator_localization_points(self):
-        index_elevator = int(self.selected_elevator_ui['id'])
+        elevator_leaving_point = await self.get_elevator_leaving_point()
         result = {
-            'x': NAV_ELEVATOR_LEAVING_POINT[index_elevator]['x'],
-            'y': NAV_ELEVATOR_LEAVING_POINT[index_elevator]['y'],
-            'angle': NAV_ELEVATOR_LEAVING_POINT[index_elevator]['angle'],
+            'x': elevator_leaving_point['x'],
+            'y': elevator_leaving_point['y'],
+            'angle': elevator_leaving_point['angle'],
         }
         return result

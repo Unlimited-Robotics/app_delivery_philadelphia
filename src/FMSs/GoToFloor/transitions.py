@@ -1,13 +1,8 @@
 import time
-from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
+from raya.exceptions import RayaNavLocalizationRejected
 
 from src.app import RayaApplication
-from src.static.constants import *
-from src.static.leds import *
-from src.static.sound import *
-from src.static.fleet import *
-from src.static.navigation import *
-from src.static.sensors import *
+from src.static import *
 
 from .helpers import Helpers
 from .errors import *
@@ -74,17 +69,34 @@ class Transitions(CommonTransitions):
             if 'action' in self.helpers.teleoperation_response.keys():
                 action = self.helpers.teleoperation_response['action']
                 if action == 'button_clicked':
-                    self.set_state('LOCALIZING')
+                    self.set_state('SELECT_EXIT_FROM_ELEVATOR_NUMBER')
 
+
+    async def SELECT_EXIT_FROM_ELEVATOR_NUMBER(self):
+        if self.helpers.selected_elevator_ui is not None:
+            selected_option = self.helpers.selected_elevator_ui
+            self.app.log.warn(f'User selected: {selected_option}')
+            self.helpers.selected_elevator = selected_option['id']
+            self.set_state('LOCALIZING')
+        
     
     async def LOCALIZING(self):
         localizing_point = await self.helpers.get_elevator_localization_points()
-        result = await self.app.nav.set_current_pose(
-            **localizing_point,
-            wait=True
-        )
-        self.app.log.warn(f'Localizing result: {result}')
-        self.set_state('END')
+        try:
+            result = await self.app.nav.set_current_pose(
+                **localizing_point,
+                wait=True
+            )
+            self.app.log.warn(f'Localizing result: {result}')
+            self.app.current_target_floor_reached()
+            self.set_state('END')
+        except RayaNavLocalizationRejected as e:
+            self.app.log.error(f'Error localizing: {e}')
+            self.helpers.set_state_wrapper(
+                new_state='REQUEST_FOR_HELP',
+                last_state='SELECT_EXIT_FROM_ELEVATOR_NUMBER',
+                transitions=self
+            )
 
         
     async def END(self):

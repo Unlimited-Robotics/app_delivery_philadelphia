@@ -35,9 +35,7 @@ class Transitions(CommonTransitions):
             self.abort(*ERR_COULD_NOT_GET_HOME_POSITION)
         
         try:
-            warehouse_map = \
-                f'{NAV_WAREHOUSE_BUILDING_NAME}__{FLOORS['basement']}'
-            await self.app.nav.get_zones_list(map_name=warehouse_map)
+            await self.app.nav.get_zones_list(map_name=WAREHOUSE_MAP_NAME)
         except RayaNavZoneNotFound:
             self.app.log.error((
                 'Could not get warehouse entrance position from navigation, '
@@ -147,7 +145,23 @@ class Transitions(CommonTransitions):
             await self.helpers.set_next_package()
             self.set_state('NAV_TO_WAITING_ELEVATOR')
         else:
-            self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
+            self.set_state('NAV_TO_WAREHOUSE_FLOOR')
+
+    
+    async def NAV_TO_WAREHOUSE_FLOOR(self):
+        try:
+            await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
+        except RayaFSMAborted:
+            self.app.log.error('FSM Aborted')
+            self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_WAREHOUSE_FLOOR',
+                    transitions=self
+                )
+        else:
+            if self.helpers.fsm_go_to_floor.has_finished() and \
+                self.helpers.fsm_go_to_floor.was_successful():
+                self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
 
 
     async def RETURN_TO_WAREHOUSE_ENTRANCE(self):

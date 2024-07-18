@@ -37,8 +37,7 @@ class Helpers(CommonHelpers):
         result = await self.app.nav.get_status()
         is_localized = result['localized']
         map_name = result['map_name']
-        map_name_warehouse = \
-            f'{NAV_WAREHOUSE_BUILDING_NAME}__{FLOORS['basement']}'
+        map_name_warehouse = WAREHOUSE_MAP_NAME
         if is_localized and map_name == map_name_warehouse:
             return True
         return False
