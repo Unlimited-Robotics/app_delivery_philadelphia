@@ -83,9 +83,9 @@ NAV_WAREHOUSE_EXIT = {
         **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_CART_UNLOAD_POINT = {
-        'x':        3142.0,
-        'y':        490.0,
-        'angle':    -2.53,
+        'x':        3190.0,
+        'y':        478.0,
+        'angle':    1.7,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS_WITH_CART
@@ -114,7 +114,7 @@ FLOORS = {
                 },
                 'leaving': {
                     'x': 667.0,
-                    'y': 545.0,
+                    'y': 480.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
@@ -132,7 +132,7 @@ FLOORS = {
                 },
                 'leaving': {
                     'x': 536.0,
-                    'y': 545.0,
+                    'y': 480.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
@@ -150,7 +150,7 @@ FLOORS = {
                 },
                 'leaving': {
                     'x': 401.0,
-                    'y': 545.0,
+                    'y': 480.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
@@ -181,7 +181,7 @@ FLOORS = {
                 },
                 'leaving': {
                     'x': 667.0,
-                    'y': 545.0,
+                    'y': 480.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
@@ -199,7 +199,7 @@ FLOORS = {
                 },
                 'leaving': {
                     'x': 536.0,
-                    'y': 545.0,
+                    'y': 480.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
@@ -217,7 +217,7 @@ FLOORS = {
                 },
                 'leaving': {
                     'x': 401.0,
-                    'y': 545.0,
+                    'y': 480.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
