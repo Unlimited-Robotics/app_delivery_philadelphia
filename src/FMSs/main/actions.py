@@ -69,7 +69,30 @@ class Actions(CommonAction):
             self.helpers.current_package['map_name'].split('__')[1]
         self.helpers.fsm_go_to_floor.restart()
         await self.helpers.fsm_go_to_floor.run_in_background()
-    
+
+
+    async def enter_NAV_TO_DELIVERY_POINT(self):
+        point = await self.helpers.get_current_package_point()
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        # TODO: replace map name with location name
+        current_package_location_name = self.helpers.current_package['map_name']
+        message = copy_ui_screen['title'].replace(
+            '[department_name]', 
+            current_package_location_name
+        )
+        copy_ui_screen['title'] = message
+        await self.app.ui.show_animation(**copy_ui_screen)
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=copy_ui_screen['title']
+            )
+        if not self.app.nav.is_navigating():
+            await self.app.nav.navigate_to_position(
+                **point,
+                callback_feedback_async=self.helpers.nav_feedback_async,
+                callback_finish_async=self.helpers.nav_finish_async,
+            )
+
 
     async def enter_NOTIFY_ORDER_ARRIVED(self):
         await self.helpers.notify_order_arrived()

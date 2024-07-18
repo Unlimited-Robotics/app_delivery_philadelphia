@@ -5,8 +5,9 @@ STATES = [
         'SETUP_ACTIONS',
         'GO_TO_CART_POINT',
         'NAV_TO_WAITING_ELEVATOR',
-        
+
         'NAV_TO_FLOOR',
+        'NAV_TO_DELIVERY_POINT',
         'NOTIFY_ORDER_ARRIVED',
         
         'WAIT_FOR_UI_CONFIRMATION',

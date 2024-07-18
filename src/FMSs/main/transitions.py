@@ -63,6 +63,9 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_WAITING_ELEVATOR(self):
+        if self.helpers.check_if_robot_in_delivery_floor():
+            self.set_state('NAV_TO_DELIVERY_POINT')
+        
         if self.app.nav.is_navigating():
             try:
                 await self.app.leds.animation(
@@ -97,7 +100,29 @@ class Transitions(CommonTransitions):
         else:
             if self.helpers.fsm_go_to_floor.has_finished() and \
                 self.helpers.fsm_go_to_floor.was_successful():
+                self.set_state('NAV_TO_DELIVERY_POINT')
+
+
+    async def NAV_TO_DELIVERY_POINT(self):
+        if self.app.nav.is_navigating():
+            try:
+                await self.app.leds.animation(
+                    **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                    wait=True
+                )
+            except RayaCommandAlreadyRunning:
+                pass
+        
+        if not self.app.nav.is_navigating():
+            nav_error = self.app.nav.get_last_result()
+            if nav_error[0] == 0:
                 self.set_state('NOTIFY_ORDER_ARRIVED')
+            else:
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_DELIVERY_POINT',
+                    transitions=self
+                )
 
 
     async def NOTIFY_ORDER_ARRIVED(self):

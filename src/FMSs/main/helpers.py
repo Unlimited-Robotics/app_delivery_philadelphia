@@ -47,12 +47,18 @@ class Helpers(CommonHelpers):
         result = await self.app.nav.get_status()
         is_localized = result['localized']
         map_name = result['map_name']
-        if is_localized and map_name == self.current_package['map_name']:
+        package_map_name = self.current_package['map_name']
+        self.app.log.warn((
+                f'current_map: {map_name}, '
+                f'package_map_name: {package_map_name}.'
+            ))
+        if is_localized and map_name == package_map_name:
+            self.app.log.warn(
+                'The robot is in the same floor as the delivery_point '
+            )
             return True
         return False
 
-
-    
 
     async def task_to_notify(self):
         text = (
