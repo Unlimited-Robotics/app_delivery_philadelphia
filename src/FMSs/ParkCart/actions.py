@@ -27,10 +27,8 @@ class Actions(CommonAction):
             message=FLEET_ENTERING_WAREHOUSE
         )
         await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
-        point = copy(NAV_WAREHOUSE_EXIT)
-        self.app.log.warn(f'NAV_WAREHOUSE_EXIT point: {point}')
-        point['angle'] += 180.0
-        self.app.log.warn(f'NAV_WAREHOUSE_EXIT new point: {point}')
+        point = copy(NAV_CART_UNLOAD_POINT)
+        self.app.log.warn(f'NAV_CART_UNLOAD_POINT point: {point}')
         await self.app.nav.navigate_to_position(
             **point,
             callback_feedback_async=self.helpers.nav_feedback_wrapper,

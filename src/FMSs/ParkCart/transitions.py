@@ -29,6 +29,10 @@ class Transitions(CommonTransitions):
     
     
     async def ENTER_WAREHOUSE(self):
+        if self.app.nav.is_navigating() and \
+            not await self.helpers.check_if_inside_zone() == True:
+            self.set_state('GO_TO_CART_POINT')
+        
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
