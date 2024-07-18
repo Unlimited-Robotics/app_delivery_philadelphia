@@ -180,17 +180,17 @@ NAV_WAREHOUSE_ENTRANCE = {
         **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_WAREHOUSE_EXIT = {
-        'x':        2019.0,
-        'y':        472.0,
+        'x':        2008.0,
+        'y':        484.0,
         'angle':    179.133528312283026,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_CART_UNLOAD_POINT = {
-        'x':        3232.0,
-        'y':        -3.90,
-        'angle':    7.40,
+        'x':        3142.0,
+        'y':        490.0,
+        'angle':    -2.53,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS_WITH_CART
