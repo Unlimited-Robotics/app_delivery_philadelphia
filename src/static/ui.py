@@ -80,6 +80,24 @@ UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
     **UI_COMMON_OPTIONS
 }
 
+UI_SCREEN_OPTIONS_ELEVATOR = {
+    'title':'I need to go to the floor [floor], Which elevator would you i use?',
+    'max_items_shown': 3,
+    'data': [
+            {'id': 0, 'name': 'Elevator 1'}, 
+            {'id': 1, 'name': 'Elevator 2'},
+            {'id': 2, 'name': 'Elevator 3'},
+        ],
+    **UI_COMMON_OPTIONS
+}
+
+UI_CALL_TO_ACTION_TELEOPERATION = {
+    'title': 'Teleoperation',
+    'subtitle': 'Please take control of the robot',
+    'button_text': 'Done 🎉',
+    **UI_COMMON_OPTIONS
+}
+
 UI_SCREEN_OBSTACLE_DETECTED = {
     'title': 'Please clear the way',
     'subtitle': 'i`m on duty',

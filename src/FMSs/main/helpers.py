@@ -6,6 +6,7 @@ from src.static import *
 
 from src.FMSs.GoToCartPoint import GoToCartPointFSM
 from src.FMSs.ParkCart import ParkCartFSM
+from src.FMSs.GoToFloor import GoToFloorFSM
 from raya.enumerations import FLEET_UPDATE_STATUS
 from src.static.constants import *
 from src.FMSs.BaseAppFSM.helpers import CommonHelpers
@@ -23,6 +24,10 @@ class Helpers(CommonHelpers):
         )
         self.fsm_park_cart = ParkCartFSM(
             name='ParkCartFSM', 
+            log_transitions=True
+        )
+        self.fsm_go_to_floor = GoToFloorFSM(
+            name='GoToFloorFSM', 
             log_transitions=True
         )
         self.selected_option_delivery_ui = None

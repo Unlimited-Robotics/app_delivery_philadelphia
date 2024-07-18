@@ -1,0 +1,5 @@
+from raya.tools.fsm import FSM
+
+class GoToFloorFSM(FSM):
+    def __init__(self, *args, **kwarg):
+        super().__init__(*args, **kwarg)

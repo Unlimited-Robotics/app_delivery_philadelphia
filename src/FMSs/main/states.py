@@ -4,7 +4,8 @@ from src.FMSs.BaseAppFSM.states import STATES as BASE_STATES
 STATES = [
         'SETUP_ACTIONS',
         'GO_TO_CART_POINT',
-        'NAV_TO_DELIVERY_POINT',
+        'NAV_TO_WAITING_ELEVATOR',
+        'NAV_TO_FLOOR',
         'NOTIFY_ORDER_ARRIVED',
         
         'WAIT_FOR_UI_CONFIRMATION',

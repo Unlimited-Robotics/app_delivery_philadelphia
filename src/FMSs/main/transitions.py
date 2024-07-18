@@ -59,10 +59,10 @@ class Transitions(CommonTransitions):
         else:
             if self.helpers.fsm_go_to_cart_point.has_finished() and \
                 self.helpers.fsm_go_to_cart_point.was_successful():
-                self.set_state('NAV_TO_DELIVERY_POINT')
+                self.set_state('NAV_TO_WAITING_ELEVATOR')
 
 
-    async def NAV_TO_DELIVERY_POINT(self):
+    async def NAV_TO_WAITING_ELEVATOR(self):
         if self.app.nav.is_navigating():
             try:
                 await self.app.leds.animation(
@@ -75,13 +75,29 @@ class Transitions(CommonTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
-                self.set_state('NOTIFY_ORDER_ARRIVED')
+                self.set_state('NAV_TO_FLOOR')
             else:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
-                    last_state='NAV_TO_DELIVERY_POINT',
+                    last_state='NAV_TO_WAITING_ELEVATOR',
                     transitions=self
                 )
+
+    
+    async def NAV_TO_FLOOR(self):
+        try:
+            await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
+        except RayaFSMAborted:
+            self.app.log.error('FSM Aborted')
+            self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_FLOOR',
+                    transitions=self
+                )
+        else:
+            if self.helpers.fsm_go_to_floor.has_finished() and \
+                self.helpers.fsm_go_to_floor.was_successful():
+                self.set_state('NOTIFY_ORDER_ARRIVED')
 
 
     async def NOTIFY_ORDER_ARRIVED(self):
@@ -125,7 +141,7 @@ class Transitions(CommonTransitions):
     async def CHECK_IF_MORE_PACKAGES(self):
         if await self.helpers.check_if_more_packages():
             await self.helpers.set_next_package()
-            self.set_state('NAV_TO_DELIVERY_POINT')
+            self.set_state('NAV_TO_WAITING_ELEVATOR')
         else:
             self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
 

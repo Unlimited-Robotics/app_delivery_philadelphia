@@ -34,10 +34,9 @@ class Actions(CommonAction):
         )
         self.helpers.fsm_go_to_cart_point.restart()
         await self.helpers.fsm_go_to_cart_point.run_in_background()
-        
 
 
-    async def enter_NAV_TO_DELIVERY_POINT(self):
+    async def enter_NAV_TO_WAITING_ELEVATOR(self):
         point = await self.helpers.get_current_package_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         # TODO: replace map name with location name
@@ -60,9 +59,14 @@ class Actions(CommonAction):
             )
 
 
-    async def leave_NAV_TO_DELIVERY_POINT(self):
+    async def leave_NAV_TO_WAITING_ELEVATOR(self):
         await self.app.custome_turn_off_leds()
 
+
+    async def enter_NAV_TO_FLOOR(self):
+        self.helpers.fsm_go_to_floor.restart()
+        await self.helpers.fsm_go_to_floor.run_in_background()
+    
 
     async def enter_NOTIFY_ORDER_ARRIVED(self):
         await self.helpers.notify_order_arrived()

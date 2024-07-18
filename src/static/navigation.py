@@ -196,6 +196,62 @@ NAV_CART_UNLOAD_POINT = {
         **NAVIGATION_OPTIONS_WITH_CART
     }
 
+
+# TODO CHANGE NAV_OPTIONS
+NAV_ELEVATOR_WAITING_POINT = [
+    {
+        'x':        3562.0,
+        'y':        338.0,
+        'angle':    -90.0,
+        'pos_unit': POSITION_UNIT.PIXELS, 
+        'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS_WITHOUT_CART   
+    },
+    {
+        'x':        3562.0,
+        'y':        338.0,
+        'angle':    0.0,
+        'pos_unit': POSITION_UNIT.PIXELS, 
+        'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS_WITHOUT_CART
+    },
+    {
+        'x':        3562.0,
+        'y':        338.0,
+        'angle':    90.0,
+        'pos_unit': POSITION_UNIT.PIXELS, 
+        'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS_WITHOUT_CART
+    }
+]
+
+NAV_ELEVATOR_LEAVING_POINT = [
+    {
+        'x':        3529.0,
+        'y':        291.0,
+        'angle':    2.27,
+        'pos_unit': POSITION_UNIT.PIXELS, 
+        'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS_WITH_CART   
+    },
+    {
+        'x':        3529.0,
+        'y':        291.0,
+        'angle':    2.27,
+        'pos_unit': POSITION_UNIT.PIXELS, 
+        'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS_WITH_CART
+    },
+    {
+        'x':        3529.0,
+        'y':        291.0,
+        'angle':    2.27,
+        'pos_unit': POSITION_UNIT.PIXELS, 
+        'ang_unit': ANGLE_UNIT.DEGREES,
+        **NAVIGATION_OPTIONS_WITH_CART
+    }
+]
+
 NAV[NAV_WAREHOUSE_MAP_NAME] = {
     "data": {
         "NAV_HOME_POSITION_NAME": NAV_HOME_POSITION_NAME,
