@@ -23,39 +23,9 @@ UI_SCREEN_NAV_TO_WAREHOUSE = {
     **UI_COMMON_OPTIONS
 }
 
-UI_SCREEN_ENTERING_TO_WAREHOUSE = {
-    'title':'Navigating', 
-    'subtitle':'Entering warehouse',
-    **UI_COMMON_OPTIONS
-}
-
 UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
     'title':'Please open the door',
     'lottie': UI_LOTTIE_DOOR,
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_NAV_TO_WAREHOUSE_EXIT = {
-    'title':'Hello! i`m Gary, your delivery robot', 
-    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_NAV_TO_HOME = {
-    'title':'Navigating', 
-    'subtitle':'Navigating to home position',
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_LEAVE_WAREHOUSE = {
-    'title':'Navigating', 
-    'subtitle':'Leaving warehouse',
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_NAV_TO_WAREHOUSE_RETURN = {
-    'title':'Hello! i`m Gary, your delivery robot', 
-    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
     **UI_COMMON_OPTIONS
 }
 
@@ -71,9 +41,8 @@ UI_SCREEN_DELIVERING_SUCCESS = {
     **UI_COMMON_OPTIONS
 }
 
-UI_SCREEN_ALL_PACKAGES_DONE = {
-    'title':'Delivering finished', 
-    'subtitle':'The app went through all the packages and parked the cart.',
+UI_PACKAGE_NOT_DELIVERED = {
+    'title':'Package deliver failed 🚫', 
     **UI_COMMON_OPTIONS
 }
 
@@ -83,10 +52,6 @@ UI_SCREEN_RELEASE_CART = {
     **UI_COMMON_OPTIONS
 }
 
-UI_PACKAGE_NOT_DELIVERED = {
-    'title':'Package deliver failed 🚫', 
-    **UI_COMMON_OPTIONS
-}
 
 UI_SCREEN_REQUEST_FOR_HELP = {
     'title':'Request for Help',

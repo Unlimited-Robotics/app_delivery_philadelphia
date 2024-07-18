@@ -1,3 +1,4 @@
+from copy import copy
 from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import FLEET_UPDATE_STATUS, POSITION_UNIT, ANGLE_UNIT
 
@@ -64,7 +65,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_NAVIGATING_TO_HOME
         )
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         home = await self.helpers.get_home_position()
         await self.app.nav.navigate_to_position(
             **home,
@@ -79,7 +80,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_MOVING_TO_ATTACH_POINT
         )
-        await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         cart_location = await self.helpers.get_cart_load_point()
         self.app.log.debug(f'navigate_to_position {cart_location}')
         await self.app.nav.navigate_to_position(
@@ -109,7 +110,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_GOING_TO_WAREHOUSE_EXIT
         )
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE_EXIT)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
             **NAV_WAREHOUSE_EXIT,
             callback_feedback_async=self.helpers.nav_feedback_async,
@@ -141,11 +142,14 @@ class Actions(CommonAction):
             message=FLEET_LEAVING_WAREHOUSE
         )
         point = await self.helpers.get_current_package_point()
-        text = (
-            f'Delivering package 1 of {len(self.app.locations)}'
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        current_package_location_name = self.helpers.current_package['map_name']
+        message = copy_ui_screen['title'].replace(
+            '[department_name]', 
+            current_package_location_name
         )
-        UI_SCREEN_LEAVE_WAREHOUSE['subtitle'] = text
-        await self.app.ui.display_screen(**UI_SCREEN_LEAVE_WAREHOUSE)
+        copy_ui_screen['title'] = message
+        await self.app.ui.show_animation(**copy_ui_screen)
         await self.app.nav.navigate_to_position(
             **point,
             callback_feedback_async=self.helpers.nav_feedback_wrapper,

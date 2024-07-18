@@ -1,3 +1,4 @@
+from copy import copy
 from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT, FLEET_UPDATE_STATUS
 from raya.exceptions import RayaCommandAlreadyRunning
@@ -38,12 +39,18 @@ class Actions(CommonAction):
 
     async def enter_NAV_TO_DELIVERY_POINT(self):
         point = await self.helpers.get_current_package_point()
-        # TODO add department name to the title
-        text = UI_SCREEN_NAV_TO_PACKAGE_POINT['title'] 
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        # TODO: replace map name with location name
+        current_package_location_name = self.helpers.current_package['map_name']
+        message = copy_ui_screen['title'].replace(
+            '[department_name]', 
+            current_package_location_name
+        )
+        copy_ui_screen['title'] = message
+        await self.app.ui.show_animation(**copy_ui_screen)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
-                message=text
+                message=copy_ui_screen['title']
             )
         if not self.app.nav.is_navigating():
             await self.app.nav.navigate_to_position(
@@ -132,7 +139,7 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_RETURNING_TO_WAREHOUSE
             )
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE_RETURN)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
                 **NAV_WAREHOUSE_ENTRANCE,
                 callback_feedback_async=self.helpers.nav_feedback_async,
@@ -158,7 +165,6 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_GOING_TO_HOME_LOCATION
             )
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
         home = await self.helpers.get_home_position()
         await self.app.nav.navigate_to_position(
             **home,
@@ -173,7 +179,6 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_ALL_POINTS_REACHED
             )
-        await self.app.ui.display_screen(**UI_SCREEN_ALL_PACKAGES_DONE)
 
 
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):

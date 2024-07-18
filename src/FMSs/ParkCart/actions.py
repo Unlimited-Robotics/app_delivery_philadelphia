@@ -26,7 +26,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ENTERING_WAREHOUSE
         )
-        await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         point = copy(NAV_WAREHOUSE_EXIT)
         self.app.log.warn(f'NAV_WAREHOUSE_EXIT point: {point}')
         point['angle'] += 180.0
@@ -57,7 +57,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_MOVING_TO_DETACH_POINT
         )
-        await self.app.ui.display_screen(**UI_SCREEN_ENTERING_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         
         point = copy(NAV_CART_UNLOAD_POINT)
         self.app.log.warn(f'NAV_CART_UNLOAD_POINT point: {point}')

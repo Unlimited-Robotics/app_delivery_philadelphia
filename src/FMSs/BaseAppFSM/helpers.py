@@ -95,7 +95,7 @@ class CommonHelpers:
             # obstacle detected
             self.__obstacle_tries += 1
             self.__navigating_tries = 0
-            await self.app.ui.show_animation(**UI_SCREEN_OBSTACLE_DETECTED)
+            # await self.app.ui.show_animation(**UI_SCREEN_OBSTACLE_DETECTED)
 
         elif code == 9:
             if self.__obstacle_tries >= OBSTACLE_DETECTION_THRESHOLDS[1]:
