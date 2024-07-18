@@ -97,7 +97,7 @@ FLOORS = {
         'waiting_elevator': {
             'x': 971.0,
             'y': 449.0,
-            'angle': -3.083,
+            'angle': -175.3,
             'pos_unit': POSITION_UNIT.PIXELS,
             'ang_unit': ANGLE_UNIT.DEGREES,
             **NAVIGATION_OPTIONS_WITH_CART
@@ -106,16 +106,16 @@ FLOORS = {
             '1': {
                 'entering': {
                     'x': 667.0,
-                    'y': 512.0,
-                    'angle': -1.5729,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
                     'x': 667.0,
-                    'y': 512.0,
-                    'angle': 1.5729,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
@@ -124,16 +124,16 @@ FLOORS = {
             '2': {
                 'entering': {
                     'x': 536.0,
-                    'y': 512.0,
-                    'angle': -1.587,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
                     'x': 536.0,
-                    'y': 512.0,
-                    'angle': -1.587,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
@@ -142,16 +142,16 @@ FLOORS = {
             '3': {
                 'entering': {
                     'x': 401.0,
-                    'y': 510.0,
-                    'angle': -1.557,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
                     'x': 401.0,
-                    'y': 510.0,
-                    'angle': -1.557,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
@@ -173,16 +173,16 @@ FLOORS = {
             '1': {
                 'entering': {
                     'x': 667.0,
-                    'y': 512.0,
-                    'angle': -1.5729,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
                     'x': 667.0,
-                    'y': 512.0,
-                    'angle': 1.5729,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
@@ -191,16 +191,16 @@ FLOORS = {
             '2': {
                 'entering': {
                     'x': 536.0,
-                    'y': 512.0,
-                    'angle': -1.587,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
                     'x': 536.0,
-                    'y': 512.0,
-                    'angle': -1.587,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
@@ -209,16 +209,16 @@ FLOORS = {
             '3': {
                 'entering': {
                     'x': 401.0,
-                    'y': 510.0,
-                    'angle': -1.557,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
                     'x': 401.0,
-                    'y': 510.0,
-                    'angle': -1.557,
+                    'y': 545.0,
+                    'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.DEGREES,
                     **NAVIGATION_OPTIONS_WITH_CART

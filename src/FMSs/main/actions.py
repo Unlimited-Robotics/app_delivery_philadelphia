@@ -38,7 +38,7 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR(self):
-        point = await self.helpers.get_current_package_point()
+        point = await self.helpers.get_elevator_waiting_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         # TODO: replace map name with location name
         current_package_location_name = self.helpers.current_package['map_name']

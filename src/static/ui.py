@@ -84,9 +84,9 @@ UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
     'title':'I need to go to the floor [floor], Which elevator would you i use?',
     'max_items_shown': 3,
     'data': [
-            {'id': 0, 'name': 'Elevator 1'}, 
-            {'id': 1, 'name': 'Elevator 2'},
-            {'id': 2, 'name': 'Elevator 3'},
+            {'id': '1', 'name': 'Elevator 1'}, 
+            {'id': '2', 'name': 'Elevator 2'},
+            {'id': '3', 'name': 'Elevator 3'},
         ],
     **UI_COMMON_OPTIONS
 }
@@ -95,9 +95,9 @@ UI_SCREEN_OPTIONS_ELEVATOR_LEAVING = {
     'title':'I think i am on [floor], from which elevator did i leave?',
     'max_items_shown': 3,
     'data': [
-            {'id': 0, 'name': 'Elevator 1'}, 
-            {'id': 1, 'name': 'Elevator 2'},
-            {'id': 2, 'name': 'Elevator 3'},
+            {'id': '1', 'name': 'Elevator 1'}, 
+            {'id': '2', 'name': 'Elevator 2'},
+            {'id': '3', 'name': 'Elevator 3'},
         ],
     **UI_COMMON_OPTIONS
 }

@@ -29,11 +29,6 @@ class Helpers(ParkCartHelpers):
             self.app.log.info('set map finish: success')
 
 
-    async def get_elevator_waiting_point(self):
-        current_floor = self.app.get_current_floor_map_name()
-        return FLOORS[current_floor]['waiting_elevator']
-
-
     async def get_elevator_entering_point(self):
         self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
         current_floor = self.app.get_current_floor_map_name()

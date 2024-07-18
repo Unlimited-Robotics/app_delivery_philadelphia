@@ -29,6 +29,11 @@ class CommonHelpers:
         self.selected_elevator = None
 
 
+    async def get_elevator_waiting_point(self):
+        current_floor = self.app.get_current_floor_map_name()
+        return FLOORS[current_floor]['waiting_elevator']
+
+
     async def check_if_more_packages(self):
         return self.index_package < len(self.app.locations) - 1
 

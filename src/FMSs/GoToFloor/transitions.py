@@ -21,7 +21,7 @@ class Transitions(CommonTransitions):
         if self.helpers.selected_elevator_ui is not None:
             selected_option = self.helpers.selected_elevator_ui
             self.app.log.warn(f'User selected: {selected_option}')
-            self.helpers.selected_elevator = selected_option['id']
+            self.helpers.selected_elevator = str(selected_option)
             self.set_state('NAV_TO_ELEVATOR')
 
 
@@ -33,7 +33,7 @@ class Transitions(CommonTransitions):
             else:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
-                    last_state='NAV_TO_ELEVATOR',
+                    last_state='SELECT_ELEVATOR',
                     transitions=self
                 )
 
@@ -76,7 +76,7 @@ class Transitions(CommonTransitions):
         if self.helpers.selected_elevator_ui is not None:
             selected_option = self.helpers.selected_elevator_ui
             self.app.log.warn(f'User selected: {selected_option}')
-            self.helpers.selected_elevator = selected_option['id']
+            self.helpers.selected_elevator = str(selected_option)
             self.set_state('LOCALIZING')
         
     
