@@ -27,14 +27,14 @@ GARY_FOOTPRINT_MEDIUM_CART = [
 ]
 
 GARY_FOOTPRINT_SMALL_CART = [
-        [-1.13,  0.20],
-        [-0.24,  0.20],
+        [-1.21,  0.25],
+        [-0.24,  0.25],
         [-0.24,  0.225],
         [ 0.24,  0.225],
         [ 0.24, -0.225],
         [-0.24, -0.225],
-        [-0.24, -0.20],
-        [-1.13,  -0.20],
+        [-0.24, -0.25],
+        [-1.21, -0.25],
 ]
 
 GARY_SELECTED_CART_FOOTPRINT = GARY_FOOTPRINT_SMALL_CART
@@ -42,9 +42,9 @@ GARY_SELECTED_CART_FOOTPRINT = GARY_FOOTPRINT_SMALL_CART
 def set_nav_data(map_name):
     global NAV_HOME_POSITION_NAME, NAV_WAREHOUSE_ENTRANCE
     global NAV_WAREHOUSE_EXIT, NAV_CART_LOAD_POINT
-    global NAV_WAREHOUSE_MAP_NAME, NAV_CART_UNLOAD_POINT
+    global NAV_WAREHOUSE_BUILDING_NAME, NAV_CART_UNLOAD_POINT
     
-    NAV_WAREHOUSE_MAP_NAME = map_name
+    NAV_WAREHOUSE_BUILDING_NAME = map_name
     NAV_HOME_POSITION_NAME = NAV[map_name]["data"]["NAV_HOME_POSITION_NAME"]
     NAV_WAREHOUSE_ENTRANCE = NAV[map_name]["data"]["NAV_WAREHOUSE_ENTRANCE"]
     NAV_WAREHOUSE_EXIT = NAV[map_name]["data"]["NAV_WAREHOUSE_EXIT"]
@@ -70,106 +70,11 @@ NAV_CART_LOAD_POINT_OPTIONS = {
         **NAVIGATION_OPTIONS_WITHOUT_CART
     }
 
-
-
-# --------------------------------------------------
-#             Bogota_Office__minigary.101
-# --------------------------------------------------
-
-NAV_WAREHOUSE_MAP_NAME = 'Bogota_Office__minigary.101'
-NAV_HOME_POSITION_NAME = 'home'
-
-NAV_WAREHOUSE_ENTRANCE = {
-        'x':        343.0,
-        'y':        430.0,
-        'angle':    66.88, 
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-
-NAV_WAREHOUSE_EXIT = {
-        'x':        367.0,
-        'y':        365.0,
-        'angle':    -105.5634, 
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-
-NAV_CART_LOAD_POINT = {
-        'x':        453.0,
-        'y':        274.0,
-        'angle':    -2.35, 
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-NAV_CART_UNLOAD_POINT = {
-        'x':        453.0,
-        'y':        274.0,
-        'angle':    -2.35, 
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-
-
-# --------------------------------------------------
-#                  elisha__part1
-# --------------------------------------------------
-
-NAV_WAREHOUSE_MAP_NAME = 'elisha__part1'
-NAV_HOME_POSITION_NAME = 'home'
-NAV_WAREHOUSE_ENTRANCE = {
-        'x':        324.0,
-        'y':        217.0,
-        'angle':    178.69,
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-NAV_WAREHOUSE_EXIT = {
-        'x':        234.0,
-        'y':        217.0,
-        'angle':    -6.19,
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-NAV_CART_LOAD_POINT = {
-        'x':        170.0,
-        'y':        217.0,
-        'angle':    -93.94,
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-NAV_CART_UNLOAD_POINT = {
-        'x':        170.0,
-        'y':        217.0,
-        'angle':    -93.94,
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-
-NAV[NAV_WAREHOUSE_MAP_NAME] = {
-    "data": {
-        "NAV_HOME_POSITION_NAME": NAV_HOME_POSITION_NAME,
-        "NAV_WAREHOUSE_ENTRANCE": NAV_WAREHOUSE_ENTRANCE,
-        "NAV_WAREHOUSE_EXIT": NAV_WAREHOUSE_EXIT,
-        "NAV_CART_LOAD_POINT": NAV_CART_LOAD_POINT,
-        "NAV_CART_UNLOAD_POINT": NAV_CART_UNLOAD_POINT
-    }
-}
-
-
 # --------------------------------------------------
 #             philly_hospital__basement
 # --------------------------------------------------
 
-NAV_WAREHOUSE_MAP_NAME = 'philly_hospital__basement'
+NAV_WAREHOUSE_BUILDING_NAME = 'philly_hospital'
 NAV_HOME_POSITION_NAME = 'home'
 NAV_WAREHOUSE_ENTRANCE = {
         'x':        1841.0,
@@ -205,7 +110,7 @@ NAV_ELEVATOR_WAITING_POINT = [
         'angle':    -90.0,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITHOUT_CART   
+        **NAVIGATION_OPTIONS_WITH_CART   
     },
     {
         'x':        3562.0,
@@ -213,7 +118,7 @@ NAV_ELEVATOR_WAITING_POINT = [
         'angle':    0.0,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITHOUT_CART
+        **NAVIGATION_OPTIONS_WITH_CART
     },
     {
         'x':        3562.0,
@@ -221,7 +126,7 @@ NAV_ELEVATOR_WAITING_POINT = [
         'angle':    90.0,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
-        **NAVIGATION_OPTIONS_WITHOUT_CART
+        **NAVIGATION_OPTIONS_WITH_CART
     }
 ]
 
@@ -252,7 +157,145 @@ NAV_ELEVATOR_LEAVING_POINT = [
     }
 ]
 
-NAV[NAV_WAREHOUSE_MAP_NAME] = {
+FLOORS = {
+    'basement': {
+        'max_elevators': 3,
+        'waiting_elevator': {
+            'x': 971.0,
+            'y': 449.0,
+            'angle': -3.083,
+            'pos_unit': POSITION_UNIT.PIXELS,
+            'ang_unit': ANGLE_UNIT.DEGREES,
+            **NAVIGATION_OPTIONS_WITH_CART
+        },
+        'elevator': {
+            '1': {
+                'ENTERING': {
+                    'x': 667.0,
+                    'y': 512.0,
+                    'angle': -1.5729,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'LEAVING': {
+                    'x': 667.0,
+                    'y': 512.0,
+                    'angle': 1.5729,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+            '2': {
+                'ENTERING': {
+                    'x': 536.0,
+                    'y': 512.0,
+                    'angle': -1.587,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'LEAVING': {
+                    'x': 536.0,
+                    'y': 512.0,
+                    'angle': -1.587,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+            '3': {
+                'ENTERING': {
+                    'x': 401.0,
+                    'y': 510.0,
+                    'angle': -1.557,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'LEAVING': {
+                    'x': 401.0,
+                    'y': 510.0,
+                    'angle': -1.557,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+        }
+    },
+    'basement2': {
+        'max_elevators': 3,
+        'waiting_elevator': {
+            'x': 227.0,
+            'y': 529.0,
+            'angle': 0.0828,
+            'pos_unit': POSITION_UNIT.PIXELS,
+            'ang_unit': ANGLE_UNIT.DEGREES,
+            **NAVIGATION_OPTIONS_WITH_CART
+        },
+        'elevator': {
+            '1': {
+                'ENTERING': {
+                    'x': 667.0,
+                    'y': 512.0,
+                    'angle': -1.5729,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'LEAVING': {
+                    'x': 667.0,
+                    'y': 512.0,
+                    'angle': 1.5729,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+            '2': {
+                'ENTERING': {
+                    'x': 536.0,
+                    'y': 512.0,
+                    'angle': -1.587,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'LEAVING': {
+                    'x': 536.0,
+                    'y': 512.0,
+                    'angle': -1.587,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+            '3': {
+                'ENTERING': {
+                    'x': 401.0,
+                    'y': 510.0,
+                    'angle': -1.557,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'LEAVING': {
+                    'x': 401.0,
+                    'y': 510.0,
+                    'angle': -1.557,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+        }
+    },
+} 
+
+
+NAV[NAV_WAREHOUSE_BUILDING_NAME] = {
     "data": {
         "NAV_HOME_POSITION_NAME": NAV_HOME_POSITION_NAME,
         "NAV_WAREHOUSE_ENTRANCE": NAV_WAREHOUSE_ENTRANCE,

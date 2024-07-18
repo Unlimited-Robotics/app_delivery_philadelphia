@@ -35,7 +35,9 @@ class Transitions(CommonTransitions):
             self.abort(*ERR_COULD_NOT_GET_HOME_POSITION)
         
         try:
-            await self.app.nav.get_zones_list(map_name=NAV_WAREHOUSE_MAP_NAME)
+            warehouse_map = \
+                f'{NAV_WAREHOUSE_BUILDING_NAME}__{FLOORS['basement']}'
+            await self.app.nav.get_zones_list(map_name=warehouse_map)
         except RayaNavZoneNotFound:
             self.app.log.error((
                 'Could not get warehouse entrance position from navigation, '
@@ -131,10 +133,12 @@ class Transitions(CommonTransitions):
 
 
     async def PACKAGE_DELIVERED(self):
+        await self.app.sleep(5)
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
 
     async def PACKAGE_NOT_DELIVERED(self):
+        await self.app.sleep(5)
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
     

@@ -23,8 +23,9 @@ class Actions(CommonAction):
                 message=FLEET_CHECK_IF_LOCALIZED
             )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
-        self.app.log.warn(f'Setting map: {NAV_WAREHOUSE_MAP_NAME}')
-        await self.app.nav.set_map(NAV_WAREHOUSE_MAP_NAME)
+        map_name = f'{NAV_WAREHOUSE_BUILDING_NAME}__{FLOORS['basement']}'
+        self.app.log.warn(f'Setting map: {map_name}')
+        await self.app.nav.set_map(map_name=map_name)
 
 
     async def enter_GO_TO_CART_POINT(self):
