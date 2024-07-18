@@ -23,7 +23,7 @@ class Actions(CommonAction):
                 message=FLEET_CHECK_IF_LOCALIZED
             )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
-        map_name = WAREHOUSE_MAP_NAME,
+        map_name = WAREHOUSE_MAP_NAME
         self.app.log.warn(f'Setting map: {map_name}')
         await self.app.nav.set_map(map_name=map_name)
 
