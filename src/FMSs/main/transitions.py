@@ -20,9 +20,13 @@ class Transitions(CommonTransitions):
 
 
     async def SETUP_ACTIONS(self):
-        if not await self.app.nav.is_localized():
+        if not await self.helpers.check_if_robot_in_warehouse_floor():
+            self.app.log.error('Robot is not in warehouse floor')
             self.abort(*ERR_COULD_NOT_LOCALIZE)
         
+        if not await self.app.nav.is_localized():
+            self.abort(*ERR_COULD_NOT_LOCALIZE)
+
         try:
             await self.helpers.get_home_position()
             self.app.log.debug('Home position obtained')
@@ -63,7 +67,7 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_WAITING_ELEVATOR(self):
-        if self.helpers.check_if_robot_in_delivery_floor():
+        if await self.helpers.check_if_robot_in_delivery_floor():
             self.set_state('NAV_TO_DELIVERY_POINT')
         
         if self.app.nav.is_navigating():
@@ -170,9 +174,34 @@ class Transitions(CommonTransitions):
             await self.helpers.set_next_package()
             self.set_state('NAV_TO_WAITING_ELEVATOR')
         else:
-            self.set_state('NAV_TO_WAREHOUSE_FLOOR')
+            self.set_state('NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE')
 
-    
+
+    async def NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
+        if await self.helpers.check_if_robot_in_warehouse_floor():
+            self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
+        
+        if self.app.nav.is_navigating():
+            try:
+                await self.app.leds.animation(
+                    **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                    wait=True
+                )
+            except RayaCommandAlreadyRunning:
+                pass
+        
+        if not self.app.nav.is_navigating():
+            nav_error = self.app.nav.get_last_result()
+            if nav_error[0] == 0:
+                self.set_state('NAV_TO_WAREHOUSE_FLOOR')
+            else:
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
+                    transitions=self
+                )
+
+
     async def NAV_TO_WAREHOUSE_FLOOR(self):
         try:
             await self.helpers.fsm_go_to_floor.raise_last_execution_exception()

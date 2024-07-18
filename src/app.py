@@ -222,8 +222,18 @@ class RayaApplication(RayaApplicationBase):
         return self.current_floor_map_name
 
 
+    def get_complete_current_floor_map_name(self):
+        floor = self.get_current_floor_map_name()
+        return f'{NAV_WAREHOUSE_BUILDING_NAME}__{floor}'
+
+
     def get_current_target_floor_map_name(self):
         return self.current_target_floor_map_name
+    
+    
+    def get_complete_target_floor_map_name(self):
+        floor = self.get_current_target_floor_map_name()
+        return f'{NAV_WAREHOUSE_BUILDING_NAME}__{floor}'
 
 
     def current_target_floor_reached(self):

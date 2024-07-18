@@ -44,9 +44,10 @@ class Transitions(CommonTransitions):
 
     async def CHANGE_MAP(self):
         start_time = time.time()
+        map_name = self.app.get_complete_target_floor_map_name()
         try:
             await self.app.nav.set_map(
-                map_name=self.helpers.current_package['map_name'],
+                map_name=map_name,
                 wait_localization=False,
                 wait=True,
                 callback_feedback=self.helpers.cb_set_map_feedback,
@@ -60,7 +61,9 @@ class Transitions(CommonTransitions):
                 transitions=self
             )
         end_time = time.time()
-        self.app.log.warn(f'Change map time: {end_time - start_time}')
+        self.app.log.warn(
+            f'Change map \'{map_name}\' time: {end_time - start_time}'
+        )
         self.set_state('TELEOPERATION_DONE')
 
     

@@ -16,6 +16,7 @@ STATES = [
         
         'CHECK_IF_MORE_PACKAGES',
         
+        'NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
         'NAV_TO_WAREHOUSE_FLOOR',
         'RETURN_TO_WAREHOUSE_ENTRANCE',
         'PARK_CART',

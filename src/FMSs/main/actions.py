@@ -164,6 +164,26 @@ class Actions(CommonAction):
         await self.app.custome_turn_off_leds()
 
 
+    async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
+        point = await self.helpers.get_elevator_waiting_point()
+        
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_GOING_TO_WAREHOUSE
+            )
+        if not self.app.nav.is_navigating():
+            await self.app.nav.navigate_to_position(
+                **point,
+                callback_feedback_async=self.helpers.nav_feedback_async,
+                callback_finish_async=self.helpers.nav_finish_async,
+            )
+
+
+    async def leave_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
+        await self.app.custome_turn_off_leds()
+
+
     async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
         self.app.current_target_floor_map_name = WAREHOUSE_FLOOR
         self.helpers.fsm_go_to_floor.restart()
