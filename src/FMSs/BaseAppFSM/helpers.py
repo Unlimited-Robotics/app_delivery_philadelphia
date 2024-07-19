@@ -246,8 +246,11 @@ class CommonHelpers:
 
 
     async def _disable_door_detection(self):
-        # timers
-        self.app.cancel_task(name=self.task_timer_name)        
+        try:
+            # timers
+            self.app.cancel_task(name=self.task_timer_name)
+        except RayaTaskNotRunning:
+            pass
 
         # models
         self.app.log.debug('Disabling models')
