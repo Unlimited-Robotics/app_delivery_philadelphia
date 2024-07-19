@@ -53,9 +53,9 @@ NAV_HOME_POSITION_NAME = 'home'
 WAREHOUSE_FLOOR = 'basement'
 WAREHOUSE_MAP_NAME = f'{NAV_WAREHOUSE_BUILDING_NAME}__{WAREHOUSE_FLOOR}'
 NAV_WAREHOUSE_ENTRANCE = {
-        'x':        1841.0,
-        'y':        436.0,
-        'angle':    -0.4119695245183761,
+        'x':        1824.0,
+        'y':        430.0,
+        'angle':    -18.06,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
         **NAVIGATION_OPTIONS_WITH_CART
