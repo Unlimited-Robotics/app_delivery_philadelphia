@@ -75,16 +75,16 @@ class RayaApplication(RayaApplicationBase):
                 setup_args=SETUP_ARG_ATTACH_SKILL,
                 wait=True
             )
-            self.log.info(f'Attach skill setup result: {result}')
+            self.log.debug(f'Attach skill setup result: {result}')
             
-            self.log.info('Registering detach skill')
+            self.log.debug('Registering detach skill')
             self.skill_detach = self.register_skill(SkillDetachCart)
-            self.log.info('Executing setup for detach skill')
+            self.log.debug('Executing setup for detach skill')
             result = await self.skill_detach.execute_setup(
                 setup_args=SETUP_ARG_DETACH_SKILL,
                 wait=True
             )
-            self.log.info(f'Detach skill setup result: {result}')
+            self.log.debug(f'Detach skill setup result: {result}')
 
         # elevators
         self.current_floor_map_name = WAREHOUSE_FLOOR
@@ -118,7 +118,7 @@ class RayaApplication(RayaApplicationBase):
     
     def get_arguments(self):
         self.locations = []
-        delivery_location_fake = "{'name': 'test_unit','x': 206, 'y': 532, 'angle': 0.07, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement2'}"
+        delivery_location_fake = "{'name': 'test_unit','x': 1642, 'y': 2266, 'angle': 1.83, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}"
         cart_location_fake = "{'name': 'cart_4', 'x': 3574, 'y': 402, 'angle': -104, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
         
         max_packages = self.get_argument(

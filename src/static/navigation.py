@@ -212,4 +212,71 @@ FLOORS = {
             },
         }
     },
+    '7': {
+        'max_elevators': 3,
+        'waiting_elevator': {
+            'x': 608.0,
+            'y': 1947.0,
+            'angle': -2.8583581509950444,
+            'pos_unit': POSITION_UNIT.PIXELS,
+            'ang_unit': ANGLE_UNIT.DEGREES,
+            **NAVIGATION_OPTIONS_WITH_CART
+        },
+        'elevator': {
+            '1': {
+                'entering': {
+                    'x': 542.0,
+                    'y': 2015.0,
+                    'angle': 1.8493291329912454,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'leaving': {
+                    'x': 556.0,
+                    'y': 2064.0,
+                    'angle': 1.8515242087385333,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+            '2': {
+                'entering': {
+                    'x': 276.0,
+                    'y': 2092.0,
+                    'angle': 1.8247921510537317,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'leaving': {
+                    'x': 286.0,
+                    'y': 2144.0,
+                    'angle': 1.80216644404184,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+            '3': {
+                'entering': {
+                    'x': 147.0,
+                    'y': 2126.0,
+                    'angle': 1.7867585067125054,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'leaving': {
+                    'x': 159.0,
+                    'y': 2176.0,
+                    'angle': 1.7948082980224243,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                }
+            },
+        }
+    },
 } 
