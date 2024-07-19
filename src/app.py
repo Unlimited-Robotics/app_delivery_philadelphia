@@ -211,11 +211,17 @@ class RayaApplication(RayaApplicationBase):
             pass
 
 
-    async def custome_turn_off_leds(self):
-        try:
-            await self.leds.turn_off_all()
-        except Exception:
-            pass
+    async def custome_turn_off_leds(self, group = ''):
+        if group != '':
+            try:
+                await self.leds.turn_off_group(group)
+            except Exception:
+                pass
+        else:
+            try:
+                await self.leds.turn_off_all()
+            except Exception:
+                pass
 
 
     def get_current_floor_map_name(self):

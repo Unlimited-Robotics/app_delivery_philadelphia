@@ -173,7 +173,7 @@ class CommonHelpers:
         ):
         try:
             if not self.app.sound.is_playing():
-                await self.app.leds.turn_off_group(group='head')
+                await self.app.custome_turn_off_leds(group='head')
                 await self.app.sleep(DELAY_BEETWEEN_SOUND_LOOP)
                 await self.app.sound.play_sound(
                     **audio,
@@ -199,7 +199,7 @@ class CommonHelpers:
                     pass
                 while self.app.sound.is_playing():
                     await self.app.sleep(0.5)
-                await self.app.leds.turn_off_group(group='head')
+                await self.app.custome_turn_off_leds(group='head')
         except RayaCommandAlreadyRunning:
             pass
 
