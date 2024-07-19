@@ -71,13 +71,10 @@ class Transitions(CommonTransitions):
             self.set_state('NAV_TO_DELIVERY_POINT')
         
         if self.app.nav.is_navigating():
-            try:
-                await self.app.leds.animation(
-                    **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                    wait=True
-                )
-            except RayaCommandAlreadyRunning:
-                pass
+            await self.app.custom_animation(
+                **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                wait=True
+            )
         
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
@@ -109,13 +106,10 @@ class Transitions(CommonTransitions):
 
     async def NAV_TO_DELIVERY_POINT(self):
         if self.app.nav.is_navigating():
-            try:
-                await self.app.leds.animation(
-                    **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                    wait=True
-                )
-            except RayaCommandAlreadyRunning:
-                pass
+            await self.app.custom_animation(
+                **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                wait=True
+            )
         
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
@@ -135,7 +129,7 @@ class Transitions(CommonTransitions):
 
     async def WAIT_FOR_UI_CONFIRMATION(self):
         if self.helpers.selected_option_delivery_ui is not None:
-            await self.app.leds.animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
+            await self.app.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
             selected_option = self.helpers.selected_option_delivery_ui
             self.app.log.warn(f'User selected: {selected_option}')
             await self.app.custom_cancel_sound()
@@ -182,13 +176,10 @@ class Transitions(CommonTransitions):
             self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
         
         if self.app.nav.is_navigating():
-            try:
-                await self.app.leds.animation(
-                    **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                    wait=True
-                )
-            except RayaCommandAlreadyRunning:
-                pass
+            await self.app.custom_animation(
+                **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                wait=True
+            )
         
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()

@@ -102,7 +102,7 @@ class Actions(CommonAction):
 
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
         self.helpers.selected_option_delivery_ui = None
-        await self.app.leds.animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
+        await self.app.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
         await self.app.ui.display_choice_selector(
                 **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
                 wait=False,

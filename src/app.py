@@ -211,6 +211,13 @@ class RayaApplication(RayaApplicationBase):
             pass
 
 
+    async def custom_animation(self, wait=True, **kwargs):
+        try:
+            await self.leds.animation(**kwargs, wait=wait)
+        except Exception:
+            pass
+
+
     async def custome_turn_off_leds(self, group = ''):
         if group != '':
             try:
