@@ -32,13 +32,17 @@ class Helpers(ParkCartHelpers):
     async def get_elevator_entering_point(self):
         self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
         current_floor = self.app.get_current_floor_map_name()
-        return FLOORS[current_floor]['elevator'][self.selected_elevator]['entering']
+        result = FLOORS[current_floor]['elevator'][self.selected_elevator]['entering']
+        self.app.log.warn(f'point: {result}')
+        return result
 
     
     async def get_elevator_leaving_point(self):
         self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
         target_floor = self.app.get_current_target_floor_map_name()
-        return FLOORS[target_floor]['elevator'][self.selected_elevator]['leaving']
+        result = FLOORS[target_floor]['elevator'][self.selected_elevator]['leaving']
+        self.app.log.warn(f'point: {result}')
+        return result
 
 
     async def get_elevator_localization_points(self):
@@ -47,5 +51,8 @@ class Helpers(ParkCartHelpers):
             'x': elevator_leaving_point['x'],
             'y': elevator_leaving_point['y'],
             'angle': elevator_leaving_point['angle'],
+            'pos_unit': elevator_leaving_point['pos_unit'],
+            'angle_unit': elevator_leaving_point['ang_unit']
         }
+        self.app.log.warn(f'point: {result}')
         return result

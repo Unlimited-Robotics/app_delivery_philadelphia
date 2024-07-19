@@ -219,61 +219,61 @@ FLOORS = {
             'y': 1947.0,
             'angle': -2.8583581509950444,
             'pos_unit': POSITION_UNIT.PIXELS,
-            'ang_unit': ANGLE_UNIT.DEGREES,
+            'ang_unit': ANGLE_UNIT.RADIANS,
             **NAVIGATION_OPTIONS_WITH_CART
         },
         'elevator': {
             '1': {
                 'entering': {
-                    'x': 542.0,
-                    'y': 2015.0,
-                    'angle': 1.8493291329912454,
+                    'x': 393.0,
+                    'y': 2000.0,
+                    'angle': 1.8395248997063303,
                     'pos_unit': POSITION_UNIT.PIXELS,
-                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
-                    'x': 556.0,
-                    'y': 2064.0,
-                    'angle': 1.8515242087385333,
+                    'x': 409.0,
+                    'y': 2052.0,
+                    'angle': 1.8419213429531647,
                     'pos_unit': POSITION_UNIT.PIXELS,
-                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
                 }
             },
             '2': {
                 'entering': {
+                    'x': 262.0,
+                    'y': 2041.0,
+                    'angle': 1.8389119201724646,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'leaving': {
                     'x': 276.0,
                     'y': 2092.0,
                     'angle': 1.8247921510537317,
                     'pos_unit': POSITION_UNIT.PIXELS,
-                    'ang_unit': ANGLE_UNIT.DEGREES,
-                    **NAVIGATION_OPTIONS_WITH_CART
-                },
-                'leaving': {
-                    'x': 286.0,
-                    'y': 2144.0,
-                    'angle': 1.80216644404184,
-                    'pos_unit': POSITION_UNIT.PIXELS,
-                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
                 }
             },
             '3': {
                 'entering': {
+                    'x': 134.0,
+                    'y': 2074.0,
+                    'angle': 1.8396149613713695,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
+                    **NAVIGATION_OPTIONS_WITH_CART
+                },
+                'leaving': {
                     'x': 147.0,
                     'y': 2126.0,
                     'angle': 1.7867585067125054,
                     'pos_unit': POSITION_UNIT.PIXELS,
-                    'ang_unit': ANGLE_UNIT.DEGREES,
-                    **NAVIGATION_OPTIONS_WITH_CART
-                },
-                'leaving': {
-                    'x': 159.0,
-                    'y': 2176.0,
-                    'angle': 1.7948082980224243,
-                    'pos_unit': POSITION_UNIT.PIXELS,
-                    'ang_unit': ANGLE_UNIT.DEGREES,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
                 }
             },
