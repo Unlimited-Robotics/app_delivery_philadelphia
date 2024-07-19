@@ -1,16 +1,16 @@
-from raya.tools.fsm import BaseTransitions
-from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
+from raya.enumerations import SKILL_STATE
 
 from src.app import RayaApplication
 from src.static import *
 
 from .helpers import Helpers
 from .errors import *
+from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
-class Transitions(BaseTransitions):
+class Transitions(CommonTransitions):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__()
+        super().__init__(app=app, helpers=helpers)
         self.app = app
         self.helpers = helpers
 
@@ -28,9 +28,20 @@ class Transitions(BaseTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
+                try:
+                    await self.app.motion.move_linear(
+                        **MOTION_HOME_BACKWARD,
+                        wait=True,
+                    )
+                except Exception:
+                    pass
                 self.set_state('GO_TO_CART_POINT')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_HOME)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_HOME_LOCATION',
+                    transitions=self
+                )
 
         
     async def GO_TO_WAREHOUSE_ENTRANCE(self):
@@ -39,7 +50,11 @@ class Transitions(BaseTransitions):
             if nav_error[0] == 0:
                 self.set_state('ENTER_WAREHOUSE')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_WAREHOUSE_ENTRANCE',
+                    transitions=self
+                )
 
     
     async def ENTER_WAREHOUSE(self):        
@@ -47,12 +62,16 @@ class Transitions(BaseTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                await self.app.leds.turn_off_all()
+                await self.app.custome_turn_off_leds()
                 self.set_state('WAIT_FOR_ENTRANCE_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_HOME_LOCATION')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='ENTER_WAREHOUSE',
+                    transitions=self
+                )
 
     
     async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
@@ -61,7 +80,7 @@ class Transitions(BaseTransitions):
         if not tag_visible:
             self.app.log.debug('The door is open, Entering the warehouse')
             await self.app.custom_cancel_sound()
-            await self.app.leds.turn_off_all()
+            await self.app.custome_turn_off_leds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
@@ -84,7 +103,11 @@ class Transitions(BaseTransitions):
                 else:
                     self.set_state('WAIT_FOR_LOAD_PACKAGE')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_CART)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_CART_POINT',
+                    transitions=self
+                )
 
 
     async def ATTACH_TO_CART(self):
@@ -101,7 +124,11 @@ class Transitions(BaseTransitions):
                     f'Error while waiting main for ATTACH_TO_CART: {e}'
                 )
             finally:
-                self.abort(*ERR_COULD_NOT_ATTACH_TO_CART)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_CART_POINT',
+                    transitions=self
+                )
         elif state == SKILL_STATE.ERROR_FINISHING:
             try:
                 await self.app.skill_att2cart.wait_finish()
@@ -110,7 +137,11 @@ class Transitions(BaseTransitions):
                     f'Error while waiting finish for ATTACH_TO_CART: {e}'
                 )
             finally:
-                self.abort(*ERR_COULD_NOT_ATTACH_TO_CART)        
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_CART_POINT',
+                    transitions=self
+                )      
         elif state == SKILL_STATE.FINISHED:
             result_finish = await self.app.skill_att2cart.wait_finish()
             self.app.log.debug(
@@ -132,7 +163,11 @@ class Transitions(BaseTransitions):
             if nav_error[0] == 0:
                 self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE_EXIT)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_WAREHOUSE_EXIT',
+                    transitions=self
+                )
 
 
     async def WAIT_FOR_EXIT_DOOR_OPEN(self):
@@ -141,7 +176,7 @@ class Transitions(BaseTransitions):
         if not tag_visible:
             self.app.log.debug('The door is open, leaving the warehouse')
             await self.app.custom_cancel_sound()
-            await self.app.leds.turn_off_all()
+            await self.app.custome_turn_off_leds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
@@ -164,12 +199,16 @@ class Transitions(BaseTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                await self.app.leds.turn_off_all()
+                await self.app.custome_turn_off_leds()
                 self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('END')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='LEAVE_WAREHOUSE',
+                    transitions=self
+                )
 
 
     async def END(self):

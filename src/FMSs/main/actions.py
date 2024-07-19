@@ -1,4 +1,5 @@
-from raya.tools.fsm import BaseActions
+from copy import copy
+from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT, FLEET_UPDATE_STATUS
 from raya.exceptions import RayaCommandAlreadyRunning
 
@@ -8,10 +9,10 @@ from src.static import *
 from .helpers import Helpers
 
 
-class Actions(BaseActions):
+class Actions(CommonAction):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__()
+        super().__init__(app=app,helpers=helpers)
         self.app = app
         self.helpers = helpers
 
@@ -22,8 +23,9 @@ class Actions(BaseActions):
                 message=FLEET_CHECK_IF_LOCALIZED
             )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
-        self.app.log.warn(f'Setting map: {NAV_WAREHOUSE_MAP_NAME}')
-        await self.app.nav.set_map(NAV_WAREHOUSE_MAP_NAME)
+        map_name = WAREHOUSE_MAP_NAME
+        self.app.log.warn(f'Setting map: {map_name}')
+        await self.app.nav.set_map(map_name=map_name)
 
 
     async def enter_GO_TO_CART_POINT(self):
@@ -33,25 +35,21 @@ class Actions(BaseActions):
         )
         self.helpers.fsm_go_to_cart_point.restart()
         await self.helpers.fsm_go_to_cart_point.run_in_background()
-        
 
 
-    async def enter_NAV_TO_DELIVERY_POINT(self):
-        package = self.helpers.current_package
-        point = {
-            'x': package[0],
-            'y': package[1],
-            'angle': package[2],
-            'pos_unit': POSITION_UNIT.PIXELS, 
-            'ang_unit': ANGLE_UNIT.DEGREES,
-            **NAVIGATION_OPTIONS
-        }
-        # TODO add department name to the title
-        text = UI_SCREEN_NAV_TO_PACKAGE_POINT['title'] 
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_PACKAGE_POINT)
+    async def enter_NAV_TO_WAITING_ELEVATOR(self):
+        point = await self.helpers.get_elevator_waiting_point()
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        current_package_location_name = self.helpers.current_package['name']
+        message = copy_ui_screen['title'].replace(
+            '[department_name]', 
+            current_package_location_name
+        )
+        copy_ui_screen['title'] = message
+        await self.app.ui.show_animation(**copy_ui_screen)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
-                message=text
+                message=copy_ui_screen['title']
             )
         if not self.app.nav.is_navigating():
             await self.app.nav.navigate_to_position(
@@ -61,23 +59,45 @@ class Actions(BaseActions):
             )
 
 
-    async def leave_NAV_TO_DELIVERY_POINT(self):
-        await self.app.leds.turn_off_all()
+    async def leave_NAV_TO_WAITING_ELEVATOR(self):
+        await self.app.custome_turn_off_leds()
+
+
+    async def enter_NAV_TO_FLOOR(self):
+        self.app.current_target_floor_map_name = \
+            self.helpers.current_package['map_name'].split('__')[1]
+        self.helpers.fsm_go_to_floor.restart()
+        await self.helpers.fsm_go_to_floor.run_in_background()
+
+
+    async def enter_NAV_TO_DELIVERY_POINT(self):
+        point = await self.helpers.get_current_package_point()
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        current_package_location_name = self.helpers.current_package['name']
+        message = copy_ui_screen['title'].replace(
+            '[department_name]', 
+            current_package_location_name
+        )
+        copy_ui_screen['title'] = message
+        await self.app.ui.show_animation(**copy_ui_screen)
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=copy_ui_screen['title']
+            )
+        if not self.app.nav.is_navigating():
+            await self.app.nav.navigate_to_position(
+                **point,
+                callback_feedback_async=self.helpers.nav_feedback_async,
+                callback_finish_async=self.helpers.nav_finish_async,
+            )
 
 
     async def enter_NOTIFY_ORDER_ARRIVED(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=(
-                    f'The package {self.helpers.index_package + 1} '
-                    'has arrived at the delivery point.'
-                )
-            )
-        self.app.log.warn('NOTIFY_ORDER_ARRIVED')
+        await self.helpers.notify_order_arrived()
 
 
     async def leave_NOTIFY_ORDER_ARRIVED(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
@@ -104,9 +124,7 @@ class Actions(BaseActions):
         )
         self.app.log.warn('task canceled')
         await self.app.custom_cancel_sound()
-        # TODO: remove this
-        # await self.app.motion.rotate(angle=-90.0, angular_speed=45.0, wait=True, enable_obstacles=False)
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_PACKAGE_DELIVERED(self):
@@ -123,7 +141,7 @@ class Actions(BaseActions):
 
 
     async def leave_PACKAGE_DELIVERED(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_PACKAGE_NOT_DELIVERED(self):
@@ -139,7 +157,33 @@ class Actions(BaseActions):
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
         await self.app.custom_cancel_sound()
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
+
+
+    async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
+        point = await self.helpers.get_elevator_waiting_point()
+        
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.INFO,
+                message=FLEET_GOING_TO_WAREHOUSE
+            )
+        if not self.app.nav.is_navigating():
+            await self.app.nav.navigate_to_position(
+                **point,
+                callback_feedback_async=self.helpers.nav_feedback_async,
+                callback_finish_async=self.helpers.nav_finish_async,
+            )
+
+
+    async def leave_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
+        await self.app.custome_turn_off_leds()
+
+
+    async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
+        self.app.current_target_floor_map_name = WAREHOUSE_FLOOR
+        self.helpers.fsm_go_to_floor.restart()
+        await self.helpers.fsm_go_to_floor.run_in_background()
 
 
     async def enter_RETURN_TO_WAREHOUSE_ENTRANCE(self):
@@ -147,7 +191,7 @@ class Actions(BaseActions):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_RETURNING_TO_WAREHOUSE
             )
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE_RETURN)
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
                 **NAV_WAREHOUSE_ENTRANCE,
                 callback_feedback_async=self.helpers.nav_feedback_async,
@@ -156,7 +200,7 @@ class Actions(BaseActions):
 
 
     async def leave_RETURN_TO_WAREHOUSE_ENTRANCE(self):
-        await self.app.leds.turn_off_all()
+        await self.app.custome_turn_off_leds()
 
 
     async def enter_PARK_CART(self):
@@ -173,7 +217,6 @@ class Actions(BaseActions):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_GOING_TO_HOME_LOCATION
             )
-        await self.app.ui.display_screen(**UI_SCREEN_NAV_TO_HOME)
         home = await self.helpers.get_home_position()
         await self.app.nav.navigate_to_position(
             **home,
@@ -188,54 +231,7 @@ class Actions(BaseActions):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_ALL_POINTS_REACHED
             )
-        await self.app.ui.display_screen(**UI_SCREEN_ALL_PACKAGES_DONE)
 
 
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
-        await self.app.leds.turn_off_all()
-
-    
-    async def aborted(self, error, msg):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.ERROR,
-                message=f'The App was aborted, error [{error}]: {msg}'
-            )
-        await self.app.ui.display_screen(
-                subtitle=f'ERROR {error}: {msg}',
-                **UI_SCREEN_FAILED
-            )
-        await self.app.sound.play_sound(name='attention')
-    
-    # REQUEST_FOR_HELP STATES
-    
-    async def enter_REQUEST_FOR_HELP(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_REQUESTING_FOR_HELP
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_REQUEST_FOR_HELP)     
-
-
-    async def enter_WAIT_FOR_HELP(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.WARNING,
-            message=FLEET_WAITING_FOR_HELP
-        )
-
-
-    async def leave_WAIT_FOR_HELP(self):
-        await self.app.leds.turn_off_all()
-
-
-    async def enter_RELEASE_CART(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_ABORT_APP_RELEASE_CART
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_RELEASE_CART)
-        await self.app.skill_detach.execute_main(
-            execute_args=EXECUTION_ARG_DETACH_SKILL,
-            callback_done=self.helpers.cb_skill_detach_done,
-            callback_feedback=self.helpers.cb_skill_dettach_feedback,
-            wait=False
-        )
+        await self.app.custome_turn_off_leds()

@@ -1,4 +1,3 @@
-from raya.tools.fsm import BaseTransitions
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
 
 from src.app import RayaApplication
@@ -11,12 +10,13 @@ from src.static.sensors import *
 
 from .helpers import Helpers
 from .errors import *
+from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
 
-class Transitions(BaseTransitions):
+class Transitions(CommonTransitions):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__()
+        super().__init__(app=app, helpers=helpers)
         self.app = app
         self.helpers = helpers
 
@@ -37,7 +37,11 @@ class Transitions(BaseTransitions):
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_CART_POINT')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_WAREHOUSE)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='ENTER_WAREHOUSE',
+                    transitions=self
+                )
 
     
     async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
@@ -46,7 +50,7 @@ class Transitions(BaseTransitions):
         if not tag_visible:
             self.app.log.debug('The door is open, Entering the warehouse')
             await self.app.custom_cancel_sound()
-            await self.app.leds.turn_off_all()
+            await self.app.custome_turn_off_leds()
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
@@ -69,7 +73,11 @@ class Transitions(BaseTransitions):
                 else:
                     self.set_state('WAIT_FOR_UNLOAD_PACKAGE')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_CART)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_CART_POINT',
+                    transitions=self
+                )
 
     
     async def WAIT_FOR_UNLOAD_PACKAGE(self):
@@ -77,11 +85,14 @@ class Transitions(BaseTransitions):
 
 
     async def DETACH_CART(self):
+        self.app.log.warn('Releasing cart...')
         state = self.app.skill_detach.get_execution_state()
         
         if state == SKILL_STATE.EXECUTED:
             result_main = await self.app.skill_detach.wait_main()
             self.app.log.debug(f'DETACH_TO_CART result_main: {result_main}')
+            # TODO fix this
+            self.set_state('END')
         elif state == SKILL_STATE.ERROR_EXECUTING:
             try:
                 await self.app.skill_detach.wait_main()
@@ -90,7 +101,11 @@ class Transitions(BaseTransitions):
                     f'Error while waiting main for DETACH_TO_CART: {e}'
                 )
             finally:
-                self.abort(*ERR_COULD_NOT_DETACH_CART)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_CART_POINT',
+                    transitions=self
+                )
         elif state == SKILL_STATE.ERROR_FINISHING:
             try:
                 await self.app.skill_detach.wait_finish()
@@ -99,13 +114,16 @@ class Transitions(BaseTransitions):
                     f'Error while waiting finish for DETACH_TO_CART: {e}'
                 )
             finally:
-                self.abort(*ERR_COULD_NOT_DETACH_CART)        
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_CART_POINT',
+                    transitions=self
+                )    
         elif state == SKILL_STATE.FINISHED:
             result_finish = await self.app.skill_detach.wait_finish()
             self.app.log.debug(
                 f'DETACH_TO_CART result_finish: {result_finish}'
             )
-            # TODO: de attach skill should do this?
             await self.app.set_gary_footprint(
                 footprint=GARY_FOOTPRINT
             )

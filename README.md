@@ -13,7 +13,7 @@ Optimize hospital logistics with our delivery app. Automate item transportation,
 
 2. Set the following coordinates. We recommend using the `nav_to_click` example to obtain the coordinates, then copy and paste the values into the `src/static/navigation.py` file:
 
-    * `NAV_CART_POINT`: Where the robot will pick up the cart. This location should have the cart tags visible from this position.
+    * `NAV_CART_LOAD_POINT`: Where the robot will pick up the cart. This location should have the cart tags visible from this position.
 
     * `NAV_WAREHOUSE_ENTRANCE`: Just in front of the door, OUTSIDE the warehouse, and facing the door.
 
@@ -53,7 +53,7 @@ Optimize hospital logistics with our delivery app. Automate item transportation,
 
     * `NAV_WAREHOUSE_MAP_NAME`: Name of the map.
 
-    * `NAV_CART_POINT`, `NAV_WAREHOUSE_ENTRANCE`, and `NAV_WAREHOUSE_EXIT`: Navigation points.
+    * `NAV_CART_LOAD_POINT`, `NAV_WAREHOUSE_ENTRANCE`, and `NAV_WAREHOUSE_EXIT`: Navigation points.
 
     * `NAV_WAREHOUSE_ZONE_NAME`: Name of the warehouse zone (`warehouse` by default).
 

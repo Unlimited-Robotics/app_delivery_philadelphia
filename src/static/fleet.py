@@ -24,6 +24,10 @@ FLEET_REQUEST_ACTION_USER = {
     'timeout': 60
 }
 
+FLEET_CALL_MESSAGE = {
+    'message': 'Hello i`m Gary, please pick up the package.'
+}
+
 # FLEET STATUS
 
 FLEET_MESSAGE_WAITING_PACKAGE_LOAD = 'The robot is waiting for the package to be loaded.'
@@ -49,6 +53,7 @@ FLEET_GOING_TO_WAREHOUSE_ENTRANCE = 'Going to the warehouse entrance.'
 FLEET_GOING_TO_WAREHOUSE_EXIT = 'Going to the warehouse exit.'
 FLEET_ENTERING_WAREHOUSE = 'Entering the warehouse.'
 FLEET_LEAVING_WAREHOUSE = 'Leaving the warehouse.'
+FLEET_GOING_TO_WAREHOUSE = 'Gary is returning to the warehouse'
 FLEET_WAIT_FOR_DOOR = 'Waiting for the door to be open.'
 FLEET_BUTTON_WAS_PRESS = 'The button was press, the robot is moving.'
 FLEET_ROBOT_NAVIGATING_TO_HOME = 'The robot is navigating to the home location.'

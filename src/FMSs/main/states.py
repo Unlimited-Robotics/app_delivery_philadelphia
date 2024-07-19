@@ -1,10 +1,13 @@
-from src.static.app_errors import *
-
+from src.FMSs.BaseAppFSM.states import STATES as BASE_STATES
 
 # The first state is always the initial one
 STATES = [
         'SETUP_ACTIONS',
         'GO_TO_CART_POINT',
+        
+        'NAV_TO_WAITING_ELEVATOR',
+        'NAV_TO_FLOOR',
+
         'NAV_TO_DELIVERY_POINT',
         'NOTIFY_ORDER_ARRIVED',
         
@@ -14,6 +17,8 @@ STATES = [
         
         'CHECK_IF_MORE_PACKAGES',
         
+        'NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
+        'NAV_TO_WAREHOUSE_FLOOR',
         'RETURN_TO_WAREHOUSE_ENTRANCE',
         'PARK_CART',
         'GO_TO_HOME_LOCATION',
@@ -24,6 +29,7 @@ STATES = [
         'WAIT_FOR_HELP',
         'RELEASE_CART',
     ]
+STATES.extend(BASE_STATES)
 
 
 # First state of FSM, if not defined, the FSM starts in the first element of
@@ -37,5 +43,5 @@ END_STATES = [
 ]
 
 STATES_TRANSITION_TIMEOUTS = {
-    'WAIT_FOR_UI_CONFIRMATION': (30.0, 'PACKAGE_NOT_DELIVERED'),
+    'WAIT_FOR_UI_CONFIRMATION': (60.0*10.0, 'PACKAGE_NOT_DELIVERED'),
 }

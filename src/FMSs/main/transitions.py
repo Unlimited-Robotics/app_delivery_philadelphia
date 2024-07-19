@@ -1,8 +1,6 @@
-from raya.tools.fsm import BaseTransitions
-from raya.exceptions import RayaFleetTimeout
 from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound
-from raya.exceptions import RayaSkillAborted, RayaCommandAlreadyRunning
-from raya.enumerations import FLEET_UPDATE_STATUS, SKILL_STATE
+from raya.exceptions import RayaCommandAlreadyRunning
+from raya.enumerations import FLEET_UPDATE_STATUS
 from raya.tools.fsm import RayaFSMAborted
 
 from src.app import RayaApplication
@@ -10,20 +8,25 @@ from src.static import *
 
 from .helpers import Helpers
 from .errors import *
+from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
 
-class Transitions(BaseTransitions):
+class Transitions(CommonTransitions):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__()
+        super().__init__(app=app, helpers=helpers)
         self.app = app
         self.helpers = helpers
 
 
     async def SETUP_ACTIONS(self):
-        if not await self.app.nav.is_localized():
+        if not await self.helpers.check_if_robot_in_warehouse_floor():
+            self.app.log.error('Robot is not in warehouse floor')
             self.abort(*ERR_COULD_NOT_LOCALIZE)
         
+        if not await self.app.nav.is_localized():
+            self.abort(*ERR_COULD_NOT_LOCALIZE)
+
         try:
             await self.helpers.get_home_position()
             self.app.log.debug('Home position obtained')
@@ -36,7 +39,7 @@ class Transitions(BaseTransitions):
             self.abort(*ERR_COULD_NOT_GET_HOME_POSITION)
         
         try:
-            await self.app.nav.get_zones_list(map_name=NAV_WAREHOUSE_MAP_NAME)
+            await self.app.nav.get_zones_list(map_name=WAREHOUSE_MAP_NAME)
         except RayaNavZoneNotFound:
             self.app.log.error((
                 'Could not get warehouse entrance position from navigation, '
@@ -52,11 +55,55 @@ class Transitions(BaseTransitions):
             await self.helpers.fsm_go_to_cart_point.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
-            self.helpers.set_last_failed_state('GO_TO_CART_POINT')
-            self.set_state('REQUEST_FOR_HELP')
+            self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_CART_POINT',
+                    transitions=self
+                )
         else:
             if self.helpers.fsm_go_to_cart_point.has_finished() and \
                 self.helpers.fsm_go_to_cart_point.was_successful():
+                self.set_state('NAV_TO_WAITING_ELEVATOR')
+
+
+    async def NAV_TO_WAITING_ELEVATOR(self):
+        if await self.helpers.check_if_robot_in_delivery_floor():
+            self.set_state('NAV_TO_DELIVERY_POINT')
+        
+        if self.app.nav.is_navigating():
+            try:
+                await self.app.leds.animation(
+                    **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                    wait=True
+                )
+            except RayaCommandAlreadyRunning:
+                pass
+        
+        if not self.app.nav.is_navigating():
+            nav_error = self.app.nav.get_last_result()
+            if nav_error[0] == 0:
+                self.set_state('NAV_TO_FLOOR')
+            else:
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_WAITING_ELEVATOR',
+                    transitions=self
+                )
+
+    
+    async def NAV_TO_FLOOR(self):
+        try:
+            await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
+        except RayaFSMAborted:
+            self.app.log.error('FSM Aborted')
+            self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_FLOOR',
+                    transitions=self
+                )
+        else:
+            if self.helpers.fsm_go_to_floor.has_finished() and \
+                self.helpers.fsm_go_to_floor.was_successful():
                 self.set_state('NAV_TO_DELIVERY_POINT')
 
 
@@ -75,8 +122,11 @@ class Transitions(BaseTransitions):
             if nav_error[0] == 0:
                 self.set_state('NOTIFY_ORDER_ARRIVED')
             else:
-                self.helpers.set_last_failed_state('NAV_TO_DELIVERY_POINT')
-                self.set_state('REQUEST_FOR_HELP')
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_DELIVERY_POINT',
+                    transitions=self
+                )
 
 
     async def NOTIFY_ORDER_ARRIVED(self):
@@ -110,19 +160,62 @@ class Transitions(BaseTransitions):
 
 
     async def PACKAGE_DELIVERED(self):
+        await self.app.sleep(5)
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
 
     async def PACKAGE_NOT_DELIVERED(self):
+        await self.app.sleep(5)
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
     
     async def CHECK_IF_MORE_PACKAGES(self):
         if await self.helpers.check_if_more_packages():
             await self.helpers.set_next_package()
-            self.set_state('NAV_TO_DELIVERY_POINT')
+            self.set_state('NAV_TO_WAITING_ELEVATOR')
         else:
+            self.set_state('NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE')
+
+
+    async def NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
+        if await self.helpers.check_if_robot_in_warehouse_floor():
             self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
+        
+        if self.app.nav.is_navigating():
+            try:
+                await self.app.leds.animation(
+                    **LEDS_NAVIGATING_TO_DELIVERY_POINT,
+                    wait=True
+                )
+            except RayaCommandAlreadyRunning:
+                pass
+        
+        if not self.app.nav.is_navigating():
+            nav_error = self.app.nav.get_last_result()
+            if nav_error[0] == 0:
+                self.set_state('NAV_TO_WAREHOUSE_FLOOR')
+            else:
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
+                    transitions=self
+                )
+
+
+    async def NAV_TO_WAREHOUSE_FLOOR(self):
+        try:
+            await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
+        except RayaFSMAborted:
+            self.app.log.error('FSM Aborted')
+            self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='NAV_TO_WAREHOUSE_FLOOR',
+                    transitions=self
+                )
+        else:
+            if self.helpers.fsm_go_to_floor.has_finished() and \
+                self.helpers.fsm_go_to_floor.was_successful():
+                self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
 
 
     async def RETURN_TO_WAREHOUSE_ENTRANCE(self):
@@ -131,8 +224,11 @@ class Transitions(BaseTransitions):
             if nav_error[0] == 0:
                 self.set_state('PARK_CART')
             else:
-                self.helpers.set_last_failed_state('RETURN_TO_WAREHOUSE_ENTRANCE')
-                self.set_state('REQUEST_FOR_HELP')
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='RETURN_TO_WAREHOUSE_ENTRANCE',
+                    transitions=self
+                )
 
 
     async def PARK_CART(self):
@@ -140,21 +236,35 @@ class Transitions(BaseTransitions):
             await self.helpers.fsm_park_cart.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
-            self.helpers.set_last_failed_state('PARK_CART')
-            self.set_state('REQUEST_FOR_HELP')
+            self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='PARK_CART',
+                    transitions=self
+                )
         else:
             if self.helpers.fsm_park_cart.has_finished() and \
                 self.helpers.fsm_park_cart.was_successful():
-                self.set_state('END')
+                self.set_state('GO_TO_HOME_LOCATION')
 
 
     async def GO_TO_HOME_LOCATION(self):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
+                try:
+                    await self.app.motion.move_linear(
+                        **MOTION_HOME_BACKWARD,
+                        wait=True,
+                    )
+                except Exception:
+                    pass
                 self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
             else:
-                self.abort(*ERR_COULD_NOT_NAV_TO_HOME)
+                self.helpers.set_state_wrapper(
+                    new_state='REQUEST_FOR_HELP',
+                    last_state='GO_TO_HOME_LOCATION',
+                    transitions=self
+                )
 
 
     async def NOTIFY_ALL_PACKAGES_STATUS(self):
@@ -163,84 +273,3 @@ class Transitions(BaseTransitions):
 
     async def END(self):
         pass
-
-    # REQUEST_FOR_HELP STATES
-    
-    async def REQUEST_FOR_HELP(self):
-        # TODO: remove
-        # self.set_state('WAIT_FOR_HELP')
-        try:
-            response = await self.app.fleet.request_action(
-                title='Request for Help',
-                message='I need help, please come to my location.',
-                timeout=TIMEOUT_REQUEST_FOR_HELP
-            )
-            response = response['data']
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=f'{FLEET_RESPONSE_TO_REQUEST_FOR_HELP} {response}'
-            )
-        except RayaFleetTimeout:
-            await self.app.fleet.update_app_status(
-                    status=FLEET_UPDATE_STATUS.WARNING,
-                    message=FLEET_TIMEOUT_REQUEST_FOR_HELP
-                )
-        self.set_state('WAIT_FOR_HELP')
-
-
-    async def WAIT_FOR_HELP(self):
-        response = await self.app.ui.display_choice_selector(
-            **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
-            wait=True
-        )
-        text = (
-            'Gary recieved help, and the option selected was: '
-            f'{response["selected_option"]}'
-        )
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.WARNING,
-            message=text
-        )
-        self.app.log.warn(f'User selected: {response}')
-        selected_option = response['selected_option']
-        if selected_option['id'] == 1:
-            self.set_state('RELEASE_CART')
-        elif selected_option['id'] == 2:
-            await self.app.sleep(1)
-            self.set_state(self.helpers.get_last_failed_state())
-
-    
-    async def RELEASE_CART(self):
-        self.app.log.warn('Releasing cart...')
-        state = self.app.skill_detach.get_execution_state()
-        
-        if state == SKILL_STATE.EXECUTED:
-            result_main = await self.app.skill_detach.wait_main()
-            self.app.log.debug(f'DETACH_TO_CART result_main: {result_main}')
-        elif state == SKILL_STATE.ERROR_EXECUTING:
-            try:
-                await self.app.skill_detach.wait_main()
-            except Exception as e:
-                self.app.log.error(
-                    f'Error while waiting main for DETACH_TO_CART: {e}'
-                )
-            finally:
-                self.abort(*ERR_COULD_NOT_DETACH_CART)
-        elif state == SKILL_STATE.ERROR_FINISHING:
-            try:
-                await self.app.skill_detach.wait_finish()
-            except Exception as e:
-                self.app.log.error(
-                    f'Error while waiting finish for DETACH_TO_CART: {e}'
-                )
-            finally:
-                self.abort(*ERR_COULD_NOT_DETACH_CART)        
-        elif state == SKILL_STATE.FINISHED:
-            result_finish = await self.app.skill_detach.wait_finish()
-            self.app.log.debug(
-                f'DETACH_TO_CART result_finish: {result_finish}'
-            )
-            await self.app.set_gary_footprint(
-                footprint=GARY_FOOTPRINT
-            )
-        self.abort(*ERR_NAVIGATION_ABORTED_BY_USER)

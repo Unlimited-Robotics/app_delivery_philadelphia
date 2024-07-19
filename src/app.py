@@ -1,3 +1,5 @@
+import json
+
 from raya.application_base import RayaApplicationBase
 from raya.controllers.navigation_controller import NavigationController
 from raya.controllers.leds_controller import LedsController
@@ -84,7 +86,11 @@ class RayaApplication(RayaApplicationBase):
             )
             self.log.info(f'Detach skill setup result: {result}')
 
-
+        # elevators
+        self.current_floor_map_name = WAREHOUSE_FLOOR
+        self.current_target_floor_map_name = None
+        
+        
     async def main(self):
         try:
             await self.fsm_main_task.run_and_await()
@@ -111,8 +117,22 @@ class RayaApplication(RayaApplicationBase):
 
     
     def get_arguments(self):
-        max_packages = 2
         self.locations = []
+        delivery_location_fake = "{'name': 'test_unit','x': 206, 'y': 532, 'angle': 0.07, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement2'}"
+        cart_location_fake = "{'name': 'cart_4', 'x': 3574, 'y': 402, 'angle': -104, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
+        
+        max_packages = self.get_argument(
+            '--max_packages',
+            type=int,
+            help='Number of packages to deliver',
+            required=False,
+            default=1
+        )
+        
+        self.run_from_console = self.get_flag_argument(
+            '--fake',
+            help='If enabled it will run the app from the fleet'
+        )
         
         self.continue_cart = self.get_flag_argument(
             '--cart',
@@ -130,33 +150,45 @@ class RayaApplication(RayaApplicationBase):
             default=True,
         )
         
+        # get locations
         for index in range(1, max_packages+1):
-            location = self.get_argument(
-                f'--location{index}',
-                type=str,
-                help=('Location to deliver the packages, '
-                    f'ex: --location{index} '
-                    f'"[381, 655, 1.57, \'point{index}\']"'
-                ),
-                required=False,
-                default='',
-            )
+            if self.run_from_console:
+                location = delivery_location_fake
+            else:
+                location = self.get_argument(
+                    f'--location{index}',
+                    type=str,
+                    help=(
+                        'Location to deliver the package(formated as json), '
+                        f'ex : {delivery_location_fake}'
+                    ),
+                    required=False,
+                    default='',
+                )
+            location = location.replace("\'", "\"")
             self.log.info(f'Location: {location}')
             if location != '':
-                self.log.warn(f'locations:{location}')
-                location = location.strip('[]"')
-                location = location.split(',')
-                location_coordinates = [float(axys.strip()) for axys in location[:3]]\
-
-                location_name = location[3].strip() if len(location) > 3 else ''
-                location_map = location[4].strip() if len(location) > 4 else ''
-                location_coordinates.append(location_name)
-                location_coordinates.append(location_map)
-
-                self.locations.append(location_coordinates)
-        self.log.info('App is running with there args:')
+                self.locations.append(json.loads(location))
+        
+        # get cart number
+        if self.run_from_console:
+            cart_location = cart_location_fake
+        else:
+            cart_location: str = self.get_argument(
+                '--cart_location',
+                type=str,
+                help='Location of the cart to attach the packages',
+                required=True,
+            )
+        cart_location = cart_location.replace("\'", "\"")
+        self.cart_location = json.loads(cart_location)
+        #TODO replace this, it should take the id from the fleet
+        self.cart_number = '4'
+        
+        self.log.warn('App is running with there args:')
+        self.log.warn(f'Cart location: {self.cart_location}')
         for location in zip(self.locations):
-            self.log.info(f'\tLocation: {location}')
+            self.log.warn(f'\tLocation: {location}')
 
 
     async def set_gary_footprint(self, footprint):
@@ -177,3 +209,34 @@ class RayaApplication(RayaApplicationBase):
             await self.sound.cancel_all_sounds()
         except Exception:
             pass
+
+
+    async def custome_turn_off_leds(self):
+        try:
+            await self.leds.turn_off_all()
+        except Exception:
+            pass
+
+
+    def get_current_floor_map_name(self):
+        return self.current_floor_map_name
+
+
+    def get_complete_current_floor_map_name(self):
+        floor = self.get_current_floor_map_name()
+        return f'{NAV_WAREHOUSE_BUILDING_NAME}__{floor}'
+
+
+    def get_current_target_floor_map_name(self):
+        return self.current_target_floor_map_name
+    
+    
+    def get_complete_target_floor_map_name(self):
+        floor = self.get_current_target_floor_map_name()
+        return f'{NAV_WAREHOUSE_BUILDING_NAME}__{floor}'
+
+
+    def current_target_floor_reached(self):
+        self.current_floor_map_name = self.current_target_floor_map_name
+        self.current_target_floor_map_name = None
+

@@ -12,50 +12,19 @@ UI_OBSTACLE_DETECTED = 'res:caution.gif'
 
 
 UI_SCREEN_LOCALIZING = {
-    'title':'Starting Application', 
-    'subtitle':'Localizing 🕵',
+    'title':'Localizing 🕵',
     **UI_COMMON_OPTIONS
 }
 
 UI_SCREEN_NAV_TO_WAREHOUSE = {
-    'title':'Hello! i`m Gary, your delivery robot',
+    'title':'Hello! I\'m Gary, your delivery robot',
     'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_ENTERING_TO_WAREHOUSE = {
-    'title':'Navigating', 
-    'subtitle':'Entering warehouse',
     **UI_COMMON_OPTIONS
 }
 
 UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
     'title':'Please open the door',
     'lottie': UI_LOTTIE_DOOR,
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_NAV_TO_WAREHOUSE_EXIT = {
-    'title':'Hello! i`m Gary, your delivery robot', 
-    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_NAV_TO_HOME = {
-    'title':'Navigating', 
-    'subtitle':'Navigating to home position',
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_LEAVE_WAREHOUSE = {
-    'title':'Navigating', 
-    'subtitle':'Leaving warehouse',
-    **UI_COMMON_OPTIONS
-}
-
-UI_SCREEN_NAV_TO_WAREHOUSE_RETURN = {
-    'title':'Hello! i`m Gary, your delivery robot', 
-    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
     **UI_COMMON_OPTIONS
 }
 
@@ -71,9 +40,8 @@ UI_SCREEN_DELIVERING_SUCCESS = {
     **UI_COMMON_OPTIONS
 }
 
-UI_SCREEN_ALL_PACKAGES_DONE = {
-    'title':'Delivering finished', 
-    'subtitle':'The app went through all the packages and parked the cart.',
+UI_PACKAGE_NOT_DELIVERED = {
+    'title':'Package deliver failed 🚫', 
     **UI_COMMON_OPTIONS
 }
 
@@ -83,10 +51,6 @@ UI_SCREEN_RELEASE_CART = {
     **UI_COMMON_OPTIONS
 }
 
-UI_PACKAGE_NOT_DELIVERED = {
-    'title':'Package deliver failed 🚫', 
-    **UI_COMMON_OPTIONS
-}
 
 UI_SCREEN_REQUEST_FOR_HELP = {
     'title':'Request for Help',
@@ -112,6 +76,35 @@ UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
             {'id': 2, 'name': 'Package not found'},
             {'id': 3, 'name': 'Problem with my package'},
         ],
+    **UI_COMMON_OPTIONS
+}
+
+UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
+    'title':'I need to go to the floor [floor], Which elevator would you i use?',
+    'max_items_shown': 3,
+    'data': [
+            {'id': '1', 'name': 'Elevator 1'}, 
+            {'id': '2', 'name': 'Elevator 2'},
+            {'id': '3', 'name': 'Elevator 3'},
+        ],
+    **UI_COMMON_OPTIONS
+}
+
+UI_SCREEN_OPTIONS_ELEVATOR_LEAVING = {
+    'title':'I think i am on [floor], from which elevator did i leave?',
+    'max_items_shown': 3,
+    'data': [
+            {'id': '1', 'name': 'Elevator 1'}, 
+            {'id': '2', 'name': 'Elevator 2'},
+            {'id': '3', 'name': 'Elevator 3'},
+        ],
+    **UI_COMMON_OPTIONS
+}
+
+UI_CALL_TO_ACTION_TELEOPERATION = {
+    'title': 'Teleoperation',
+    'subtitle': 'Please take control of the robot',
+    'button_text': 'Done 🎉',
     **UI_COMMON_OPTIONS
 }
 
