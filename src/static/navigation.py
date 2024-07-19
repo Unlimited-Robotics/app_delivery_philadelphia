@@ -225,17 +225,17 @@ FLOORS = {
         'elevator': {
             '1': {
                 'entering': {
-                    'x': 393.0,
-                    'y': 2000.0,
-                    'angle': 1.8395248997063303,
+                    'x': 134.0,
+                    'y': 2074.0,
+                    'angle': 1.8396149613713695,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
-                    'x': 409.0,
-                    'y': 2052.0,
-                    'angle': 1.8419213429531647,
+                    'x': 147.0,
+                    'y': 2126.0,
+                    'angle': 1.7867585067125054,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
@@ -261,17 +261,17 @@ FLOORS = {
             },
             '3': {
                 'entering': {
-                    'x': 134.0,
-                    'y': 2074.0,
-                    'angle': 1.8396149613713695,
+                    'x': 393.0,
+                    'y': 2000.0,
+                    'angle': 1.8395248997063303,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
-                    'x': 147.0,
-                    'y': 2126.0,
-                    'angle': 1.7867585067125054,
+                    'x': 409.0,
+                    'y': 2052.0,
+                    'angle': 1.8419213429531647,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
