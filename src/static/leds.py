@@ -1,4 +1,6 @@
 # HEAD GROUP
+from __future__ import annotations
+
 from raya.enumerations import LEDS_EXECUTION_CONTROL
 
 LEDS_NOTIFY_OBSTACLE = {
@@ -23,7 +25,7 @@ LEDS_NAVIGATING_TO_DELIVERY_POINT = {
     'animation': 'MOTION_12',
     'speed': 1,
     'repetitions': 0,
-    'execution_control': LEDS_EXECUTION_CONTROL.AFTER_CURRENT, 
+    'execution_control': LEDS_EXECUTION_CONTROL.AFTER_CURRENT,
 }
 
 LEDS_WAITING_FOR_DELIVERY_RESPONSE = {
@@ -32,7 +34,7 @@ LEDS_WAITING_FOR_DELIVERY_RESPONSE = {
     'animation': 'MOTION_1',
     'speed': 1,
     'repetitions': 0,
-    'execution_control': LEDS_EXECUTION_CONTROL.AFTER_CURRENT, 
+    'execution_control': LEDS_EXECUTION_CONTROL.AFTER_CURRENT,
 }
 
 LEDS_WAITING_FOR_DELIVERY_CHECK = {
@@ -41,5 +43,5 @@ LEDS_WAITING_FOR_DELIVERY_CHECK = {
     'animation': 'MOTION_10_VER_3',
     'speed': 1,
     'repetitions': 1,
-    'execution_control': LEDS_EXECUTION_CONTROL.OVERRIDE, 
+    'execution_control': LEDS_EXECUTION_CONTROL.OVERRIDE,
 }

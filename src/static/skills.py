@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 SETUP_ARG_ATTACH_SKILL = {
 }
 
@@ -9,9 +11,9 @@ EXECUTION_ARG_ATTACH_SKILL = {
 }
 
 SETUP_ARG_DETACH_SKILL = {
-    
+
 }
 
 EXECUTION_ARG_DETACH_SKILL = {
-    
+
 }

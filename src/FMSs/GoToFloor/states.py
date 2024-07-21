@@ -1,16 +1,18 @@
+from __future__ import annotations
+
 from src.FMSs.BaseAppFSM.states import STATES as BASE_STATES
 
 # The first state is always the initial one
 STATES = [
-        'SELECT_ELEVATOR',
-        'NAV_TO_ELEVATOR',
-        'TELEOPERATING',
-        'CHANGE_MAP',
-        'TELEOPERATION_DONE',
-        'SELECT_EXIT_FROM_ELEVATOR_NUMBER',
-        'LOCALIZING',
-        'END',
-    ]
+    'SELECT_ELEVATOR',
+    'NAV_TO_ELEVATOR',
+    'TELEOPERATING',
+    'CHANGE_MAP',
+    'TELEOPERATION_DONE',
+    'SELECT_EXIT_FROM_ELEVATOR_NUMBER',
+    'LOCALIZING',
+    'END',
+]
 STATES.extend(BASE_STATES)
 
 # First state of FSM, if not defined, the FSM starts in the first element of

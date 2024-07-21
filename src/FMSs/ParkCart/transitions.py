@@ -1,16 +1,18 @@
-from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
+from __future__ import annotations
 
+from raya.enumerations import FLEET_UPDATE_STATUS
+from raya.enumerations import SKILL_STATE
+
+from .errors import *
+from .helpers import Helpers
 from src.app import RayaApplication
+from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 from src.static.constants import *
-from src.static.leds import *
-from src.static.sound import *
 from src.static.fleet import *
+from src.static.leds import *
 from src.static.navigation import *
 from src.static.sensors import *
-
-from .helpers import Helpers
-from .errors import *
-from src.FMSs.BaseAppFSM.transitions import CommonTransitions
+from src.static.sound import *
 
 
 class Transitions(CommonTransitions):
@@ -20,14 +22,12 @@ class Transitions(CommonTransitions):
         self.app = app
         self.helpers = helpers
 
-
     async def CHECK_IF_INSIDE_ZONE(self):
         if await self.helpers.check_if_inside_zone():
             self.set_state('GO_TO_CART_POINT')
         else:
             self.set_state('ENTER_WAREHOUSE')
-    
-    
+
     async def ENTER_WAREHOUSE(self):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
@@ -40,10 +40,9 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='ENTER_WAREHOUSE',
-                    transitions=self
+                    transitions=self,
                 )
 
-    
     async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         tag = DOOR_TAG_ENTRANCE
         tag_visible = await self.helpers.tag_door_visible(tag=tag)
@@ -54,15 +53,14 @@ class Transitions(CommonTransitions):
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
-                wait=True
+                wait=True,
             )
             self.set_state('ENTER_WAREHOUSE')
-        
+
         self.app.log.debug('The door is closed, waiting for it to open')
         await self.helpers.gary_play_audio(
             audio=SOUND_OPEN_DOOR_REQUEST,
         )
-
 
     async def GO_TO_CART_POINT(self):
         if not self.app.nav.is_navigating():
@@ -76,18 +74,16 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
+                    transitions=self,
                 )
 
-    
     async def WAIT_FOR_UNLOAD_PACKAGE(self):
         self.set_state('END')
-
 
     async def DETACH_CART(self):
         self.app.log.warn('Releasing cart...')
         state = self.app.skill_detach.get_execution_state()
-        
+
         if state == SKILL_STATE.EXECUTED:
             result_main = await self.app.skill_detach.wait_main()
             self.app.log.debug(f'DETACH_TO_CART result_main: {result_main}')
@@ -98,33 +94,33 @@ class Transitions(CommonTransitions):
                 await self.app.skill_detach.wait_main()
             except Exception as e:
                 self.app.log.error(
-                    f'Error while waiting main for DETACH_TO_CART: {e}'
+                    f'Error while waiting main for DETACH_TO_CART: {e}',
                 )
             finally:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
+                    transitions=self,
                 )
         elif state == SKILL_STATE.ERROR_FINISHING:
             try:
                 await self.app.skill_detach.wait_finish()
             except Exception as e:
                 self.app.log.error(
-                    f'Error while waiting finish for DETACH_TO_CART: {e}'
+                    f'Error while waiting finish for DETACH_TO_CART: {e}',
                 )
             finally:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
-                )    
+                    transitions=self,
+                )
         elif state == SKILL_STATE.FINISHED:
             result_finish = await self.app.skill_detach.wait_finish()
             self.app.log.debug(
-                f'DETACH_TO_CART result_finish: {result_finish}'
+                f'DETACH_TO_CART result_finish: {result_finish}',
             )
             await self.app.set_gary_footprint(
-                footprint=GARY_FOOTPRINT
+                footprint=GARY_FOOTPRINT,
             )
             self.set_state('END')

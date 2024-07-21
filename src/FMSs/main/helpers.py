@@ -1,37 +1,37 @@
+from __future__ import annotations
+
+from raya.enumerations import FLEET_UPDATE_STATUS
 from raya.exceptions import *
 
 from src.app import RayaApplication
-from src.static.app_errors import *
-from src.static import *
-
-from src.FMSs.GoToCartPoint import GoToCartPointFSM
-from src.FMSs.ParkCart import ParkCartFSM
-from src.FMSs.GoToFloor import GoToFloorFSM
-from raya.enumerations import FLEET_UPDATE_STATUS
-from src.static.constants import *
 from src.FMSs.BaseAppFSM.helpers import CommonHelpers
+from src.FMSs.GoToCartPoint import GoToCartPointFSM
+from src.FMSs.GoToFloor import GoToFloorFSM
+from src.FMSs.ParkCart import ParkCartFSM
+from src.static import *
+from src.static.app_errors import *
+from src.static.constants import *
 
 
 class Helpers(CommonHelpers):
 
-    def __init__(self, app: RayaApplication):        
+    def __init__(self, app: RayaApplication):
         self.app = app
         super().__init__(app)
-        
+
         self.fsm_go_to_cart_point = GoToCartPointFSM(
-            name='GoToCartPointFSM', 
-            log_transitions=True
+            name='GoToCartPointFSM',
+            log_transitions=True,
         )
         self.fsm_park_cart = ParkCartFSM(
-            name='ParkCartFSM', 
-            log_transitions=True
+            name='ParkCartFSM',
+            log_transitions=True,
         )
         self.fsm_go_to_floor = GoToFloorFSM(
-            name='GoToFloorFSM', 
-            log_transitions=True
+            name='GoToFloorFSM',
+            log_transitions=True,
         )
         self.selected_option_delivery_ui = None
-
 
     async def check_if_robot_in_warehouse_floor(self):
         result = await self.app.nav.get_status()
@@ -39,33 +39,31 @@ class Helpers(CommonHelpers):
         map_name = result['map_name']
         map_name_warehouse = WAREHOUSE_MAP_NAME
         if is_localized and map_name == map_name_warehouse:
-            self.app.log.warn((
-                    f'current_map: {map_name}, '
-                    f'map_name_warehouse: {map_name_warehouse}.'
-                ))
             self.app.log.warn(
-                'The robot is in the warehouse_floor'
+                f'current_map: {map_name}, '
+                f'map_name_warehouse: {map_name_warehouse}.',
+            )
+            self.app.log.warn(
+                'The robot is in the warehouse_floor',
             )
             return True
         return False
-
 
     async def check_if_robot_in_delivery_floor(self):
         result = await self.app.nav.get_status()
         is_localized = result['localized']
         map_name = result['map_name']
         package_map_name = self.current_package['map_name']
-        if is_localized and map_name == package_map_name:    
-            self.app.log.warn((
-                    f'current_map: {map_name}, '
-                    f'package_map_name: {package_map_name}.'
-                ))
+        if is_localized and map_name == package_map_name:
             self.app.log.warn(
-                'The robot is in the same floor as the delivery_point '
+                f'current_map: {map_name}, '
+                f'package_map_name: {package_map_name}.',
+            )
+            self.app.log.warn(
+                'The robot is in the same floor as the delivery_point ',
             )
             return True
         return False
-
 
     async def task_to_notify(self):
         text = (
@@ -75,24 +73,22 @@ class Helpers(CommonHelpers):
         while True:
             await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
-                message=text
+                message=text,
             )
             self.app.log.warn(text)
             await self.app.sleep(TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED)
 
-
     def cb_delivery_arrived_ui_response(self, response):
         self.selected_option_delivery_ui = response['selected_option']
 
-
     async def notify_order_arrived(self):
         await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=(
-                    f'The package {self.index_package + 1} '
-                    'has arrived at the delivery point.'
-                )
-            )
+            status=FLEET_UPDATE_STATUS.WARNING,
+            message=(
+                f'The package {self.index_package + 1} '
+                'has arrived at the delivery point.'
+            ),
+        )
         user_id = self.current_package['user_id']
         try:
             await self.app.fleet.request_user_action(
@@ -101,7 +97,7 @@ class Helpers(CommonHelpers):
                 user_id=user_id,
                 timeout=30.0,
                 wait=False,
-                callback=lambda: None
+                callback=lambda: None,
             )
         except RayaFleetTimeout:
             self.app.log.error('User didn\'t answer the call')

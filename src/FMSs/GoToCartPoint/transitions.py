@@ -1,11 +1,13 @@
+from __future__ import annotations
+
 from raya.enumerations import SKILL_STATE
 
+from .errors import *
+from .helpers import Helpers
 from src.app import RayaApplication
+from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 from src.static import *
 
-from .helpers import Helpers
-from .errors import *
-from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
 class Transitions(CommonTransitions):
 
@@ -14,7 +16,6 @@ class Transitions(CommonTransitions):
         self.app = app
         self.helpers = helpers
 
-
     async def CHECK_IF_INSIDE_ZONE(self):
         # TODO: remove
         # self.abort(*ERR_COULD_NOT_LOCALIZE)
@@ -22,7 +23,6 @@ class Transitions(CommonTransitions):
             self.set_state('GO_TO_HOME_LOCATION')
         else:
             self.set_state('GO_TO_WAREHOUSE_ENTRANCE')
-
 
     async def GO_TO_HOME_LOCATION(self):
         if not self.app.nav.is_navigating():
@@ -40,10 +40,9 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_HOME_LOCATION',
-                    transitions=self
+                    transitions=self,
                 )
 
-        
     async def GO_TO_WAREHOUSE_ENTRANCE(self):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
@@ -53,11 +52,10 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_WAREHOUSE_ENTRANCE',
-                    transitions=self
+                    transitions=self,
                 )
 
-    
-    async def ENTER_WAREHOUSE(self):        
+    async def ENTER_WAREHOUSE(self):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
@@ -70,10 +68,9 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='ENTER_WAREHOUSE',
-                    transitions=self
+                    transitions=self,
                 )
 
-    
     async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         tag = DOOR_TAG_ENTRANCE
         tag_visible = await self.helpers.tag_door_visible(tag=tag)
@@ -84,15 +81,14 @@ class Transitions(CommonTransitions):
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
-                wait=True
+                wait=True,
             )
             self.set_state('ENTER_WAREHOUSE')
-        
+
         self.app.log.debug('The door is closed, waiting for it to open')
         await self.helpers.gary_play_audio(
             audio=SOUND_OPEN_DOOR_REQUEST,
         )
-
 
     async def GO_TO_CART_POINT(self):
         if not self.app.nav.is_navigating():
@@ -106,13 +102,12 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
+                    transitions=self,
                 )
-
 
     async def ATTACH_TO_CART(self):
         state = self.app.skill_att2cart.get_execution_state()
-        
+
         if state == SKILL_STATE.EXECUTED:
             result_main = await self.app.skill_att2cart.wait_main()
             self.app.log.debug(f'ATTACH_TO_CART result_main: {result_main}')
@@ -121,42 +116,40 @@ class Transitions(CommonTransitions):
                 await self.app.skill_att2cart.wait_main()
             except Exception as e:
                 self.app.log.error(
-                    f'Error while waiting main for ATTACH_TO_CART: {e}'
+                    f'Error while waiting main for ATTACH_TO_CART: {e}',
                 )
             finally:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
+                    transitions=self,
                 )
         elif state == SKILL_STATE.ERROR_FINISHING:
             try:
                 await self.app.skill_att2cart.wait_finish()
             except Exception as e:
                 self.app.log.error(
-                    f'Error while waiting finish for ATTACH_TO_CART: {e}'
+                    f'Error while waiting finish for ATTACH_TO_CART: {e}',
                 )
             finally:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
-                )      
+                    transitions=self,
+                )
         elif state == SKILL_STATE.FINISHED:
             result_finish = await self.app.skill_att2cart.wait_finish()
             self.app.log.debug(
-                f'ATTACH_TO_CART result_finish: {result_finish}'
+                f'ATTACH_TO_CART result_finish: {result_finish}',
             )
             await self.app.set_gary_footprint(
-                footprint=GARY_SELECTED_CART_FOOTPRINT
+                footprint=GARY_SELECTED_CART_FOOTPRINT,
             )
             self.set_state('GO_TO_WAREHOUSE_EXIT')
-
 
     async def WAIT_FOR_LOAD_PACKAGE(self):
         self.set_state('GO_TO_WAREHOUSE_EXIT')
 
-    
     async def GO_TO_WAREHOUSE_EXIT(self):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
@@ -166,9 +159,8 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_WAREHOUSE_EXIT',
-                    transitions=self
+                    transitions=self,
                 )
-
 
     async def WAIT_FOR_EXIT_DOOR_OPEN(self):
         tag = DOOR_TAG_EXIT
@@ -180,21 +172,20 @@ class Transitions(CommonTransitions):
             await self.helpers.gary_play_audio(
                 audio=SOUND_OPEN_DOOR_REQUEST,
                 animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
-                wait=True
+                wait=True,
             )
             self.set_state('LEAVE_WAREHOUSE')
-        
+
         self.app.log.debug('The door is closed, waiting for it to open')
         await self.helpers.gary_play_audio(
             audio=SOUND_OPEN_DOOR_REQUEST,
         )
 
-
     async def LEAVE_WAREHOUSE(self):
         if self.app.nav.is_navigating() and \
-            not await self.helpers.check_if_inside_zone() == True:
-                self.set_state('END')
-        
+                not await self.helpers.check_if_inside_zone() == True:
+            self.set_state('END')
+
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
@@ -207,9 +198,8 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='LEAVE_WAREHOUSE',
-                    transitions=self
+                    transitions=self,
                 )
-
 
     async def END(self):
         self.app.log.info('Task finished successfully')

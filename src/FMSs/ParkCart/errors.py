@@ -1,3 +1,4 @@
+from __future__ import annotations
 ERR_COULD_NOT_NAV_TO_WAREHOUSE = (1, 'Could not navigate to warehouse')
 ERR_COULD_NOT_NAV_TO_CART = (2, 'Could not navigate to cart')
 ERR_COULD_NOT_DETACH_CART = (3, 'Could not detach cart')

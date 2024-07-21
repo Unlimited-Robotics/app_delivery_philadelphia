@@ -1,5 +1,8 @@
 # SCREENS
-from raya.enumerations import UI_THEME_TYPE, UI_ANIMATION_TYPE
+from __future__ import annotations
+
+from raya.enumerations import UI_ANIMATION_TYPE
+from raya.enumerations import UI_THEME_TYPE
 
 UI_COMMON_OPTIONS = {
     'theme': UI_THEME_TYPE.WHITE,
@@ -12,100 +15,100 @@ UI_OBSTACLE_DETECTED = 'res:caution.gif'
 
 
 UI_SCREEN_LOCALIZING = {
-    'title':'Localizing 🕵',
-    **UI_COMMON_OPTIONS
+    'title': 'Localizing 🕵',
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_NAV_TO_WAREHOUSE = {
-    'title':'Hello! I\'m Gary, your delivery robot',
+    'title': 'Hello! I\'m Gary, your delivery robot',
     'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
-    **UI_COMMON_OPTIONS
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
-    'title':'Please open the door',
+    'title': 'Please open the door',
     'lottie': UI_LOTTIE_DOOR,
-    **UI_COMMON_OPTIONS
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_NAV_TO_PACKAGE_POINT = {
-    'title':'Delivering items to [department_name]',
+    'title': 'Delivering items to [department_name]',
     'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
-    **UI_COMMON_OPTIONS
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_DELIVERING_SUCCESS = {
-    'title':'Delivering Success ✅', 
-    'subtitle':'The package was delivered successfully',
-    **UI_COMMON_OPTIONS
+    'title': 'Delivering Success ✅',
+    'subtitle': 'The package was delivered successfully',
+    **UI_COMMON_OPTIONS,
 }
 
 UI_PACKAGE_NOT_DELIVERED = {
-    'title':'Package deliver failed 🚫', 
-    **UI_COMMON_OPTIONS
+    'title': 'Package deliver failed 🚫',
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_RELEASE_CART = {
-    'title':'Releasing Cart', 
-    'subtitle':'Please wait while the cart is being released.',
-    **UI_COMMON_OPTIONS
+    'title': 'Releasing Cart',
+    'subtitle': 'Please wait while the cart is being released.',
+    **UI_COMMON_OPTIONS,
 }
 
 
 UI_SCREEN_REQUEST_FOR_HELP = {
-    'title':'Request for Help',
-    'subtitle':'I\'m stuck, contacting the fleet...',
-    **UI_COMMON_OPTIONS
+    'title': 'Request for Help',
+    'subtitle': 'I\'m stuck, contacting the fleet...',
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
-    'title':'I\'m stuck, please help me, and choose an option',
+    'title': 'I\'m stuck, please help me, and choose an option',
     'max_items_shown': 2,
     'data': [
-            {'id': 1, 'name': 'Abort App 🚫'}, 
-            {'id': 2, 'name': 'Continue 🚶‍♂️'},
-        ],
-    **UI_COMMON_OPTIONS
+        {'id': 1, 'name': 'Abort App 🚫'},
+        {'id': 2, 'name': 'Continue 🚶‍♂️'},
+    ],
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
-    'title':'Delivery Confirmation',
+    'title': 'Delivery Confirmation',
     'max_items_shown': 3,
     'data': [
-            {'id': 1, 'name': 'Confirm delivery package 📦'}, 
-            {'id': 2, 'name': 'Package not found'},
-            {'id': 3, 'name': 'Problem with my package'},
-        ],
-    **UI_COMMON_OPTIONS
+        {'id': 1, 'name': 'Confirm delivery package 📦'},
+        {'id': 2, 'name': 'Package not found'},
+        {'id': 3, 'name': 'Problem with my package'},
+    ],
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
-    'title':'I need to go to the floor [floor], Which elevator would you i use?',
+    'title': 'I need to go to the floor [floor], Which elevator would you i use?',
     'max_items_shown': 3,
     'data': [
-            {'id': '1', 'name': 'Elevator 1'}, 
-            {'id': '2', 'name': 'Elevator 2'},
-            {'id': '3', 'name': 'Elevator 3'},
-        ],
-    **UI_COMMON_OPTIONS
+        {'id': '1', 'name': 'Elevator 1'},
+        {'id': '2', 'name': 'Elevator 2'},
+        {'id': '3', 'name': 'Elevator 3'},
+    ],
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_OPTIONS_ELEVATOR_LEAVING = {
-    'title':'I think i am on [floor], from which elevator did i leave?',
+    'title': 'I think i am on [floor], from which elevator did i leave?',
     'max_items_shown': 3,
     'data': [
-            {'id': '1', 'name': 'Elevator 1'}, 
-            {'id': '2', 'name': 'Elevator 2'},
-            {'id': '3', 'name': 'Elevator 3'},
-        ],
-    **UI_COMMON_OPTIONS
+        {'id': '1', 'name': 'Elevator 1'},
+        {'id': '2', 'name': 'Elevator 2'},
+        {'id': '3', 'name': 'Elevator 3'},
+    ],
+    **UI_COMMON_OPTIONS,
 }
 
 UI_CALL_TO_ACTION_TELEOPERATION = {
     'title': 'Teleoperation',
     'subtitle': 'Please take control of the robot',
     'button_text': 'Done 🎉',
-    **UI_COMMON_OPTIONS
+    **UI_COMMON_OPTIONS,
 }
 
 UI_SCREEN_OBSTACLE_DETECTED = {
@@ -113,11 +116,11 @@ UI_SCREEN_OBSTACLE_DETECTED = {
     'subtitle': 'i`m on duty',
     'path': UI_OBSTACLE_DETECTED,
     'format': UI_ANIMATION_TYPE.GIF,
-    **UI_COMMON_OPTIONS
+    **UI_COMMON_OPTIONS,
 }
 
 
 UI_SCREEN_FAILED = {
-    'title':'Failed',
-    **UI_COMMON_OPTIONS
+    'title': 'Failed',
+    **UI_COMMON_OPTIONS,
 }

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from raya.enumerations import FLEET_UPDATE_STATUS
 
 FLEET_REQUEST_HELP = {
@@ -8,7 +10,7 @@ FLEET_REQUEST_HELP = {
 FLEET_REQUEST_CONFIRMATION_PACKAGE = {
     'title': 'Requesting Confirmation',
     'message': 'The package has been delivered. Please confirm',
-    'timeout': 30.0
+    'timeout': 30.0,
 }
 
 
@@ -16,16 +18,16 @@ FLEET_REQUEST_ACTION_USER = {
     'title': 'I need help',
     'subtitle': 'can you help me?',
     'buttons': [
-        'My package was delivered successfully', 
+        'My package was delivered successfully',
         'My package is not the one that i ordered',
         'My package is damaged',
-        'My package is missing'
+        'My package is missing',
     ],
-    'timeout': 60
+    'timeout': 60,
 }
 
 FLEET_CALL_MESSAGE = {
-    'message': 'Hello i`m Gary, please pick up the package.'
+    'message': 'Hello i`m Gary, please pick up the package.',
 }
 
 # FLEET STATUS
@@ -33,7 +35,7 @@ FLEET_CALL_MESSAGE = {
 FLEET_MESSAGE_WAITING_PACKAGE_LOAD = 'The robot is waiting for the package to be loaded.'
 FLEET_MESSAGE_WAITING_CART_UNLOAD = 'The robot is waiting for the cart to be unloaded.'
 
-FLEET_STATUS_GOING_TO_CART_POINT  = 'Going to the cart point.'
+FLEET_STATUS_GOING_TO_CART_POINT = 'Going to the cart point.'
 FLEET_CHECK_IF_LOCALIZED = 'Checking if robot is localized.'
 FLEET_ALL_POINTS_REACHED = 'All packages delivered.'
 FLEET_RETURNING_TO_WAREHOUSE = 'All delivery points reached, Returning to the warehouse.'

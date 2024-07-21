@@ -1,34 +1,36 @@
+from __future__ import annotations
+
 from src.FMSs.BaseAppFSM.states import STATES as BASE_STATES
 
 # The first state is always the initial one
 STATES = [
-        'SETUP_ACTIONS',
-        'GO_TO_CART_POINT',
-        
-        'NAV_TO_WAITING_ELEVATOR',
-        'NAV_TO_FLOOR',
+    'SETUP_ACTIONS',
+    'GO_TO_CART_POINT',
 
-        'NAV_TO_DELIVERY_POINT',
-        'NOTIFY_ORDER_ARRIVED',
-        
-        'WAIT_FOR_UI_CONFIRMATION',
-            'PACKAGE_DELIVERED',
-            'PACKAGE_NOT_DELIVERED',
-        
-        'CHECK_IF_MORE_PACKAGES',
-        
-        'NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
-        'NAV_TO_WAREHOUSE_FLOOR',
-        'RETURN_TO_WAREHOUSE_ENTRANCE',
-        'PARK_CART',
-        'GO_TO_HOME_LOCATION',
-        'NOTIFY_ALL_PACKAGES_STATUS',
-        'END',
-        
-        'REQUEST_FOR_HELP',
-        'WAIT_FOR_HELP',
-        'RELEASE_CART',
-    ]
+    'NAV_TO_WAITING_ELEVATOR',
+    'NAV_TO_FLOOR',
+
+    'NAV_TO_DELIVERY_POINT',
+    'NOTIFY_ORDER_ARRIVED',
+
+    'WAIT_FOR_UI_CONFIRMATION',
+    'PACKAGE_DELIVERED',
+    'PACKAGE_NOT_DELIVERED',
+
+    'CHECK_IF_MORE_PACKAGES',
+
+    'NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
+    'NAV_TO_WAREHOUSE_FLOOR',
+    'RETURN_TO_WAREHOUSE_ENTRANCE',
+    'PARK_CART',
+    'GO_TO_HOME_LOCATION',
+    'NOTIFY_ALL_PACKAGES_STATUS',
+    'END',
+
+    'REQUEST_FOR_HELP',
+    'WAIT_FOR_HELP',
+    'RELEASE_CART',
+]
 STATES.extend(BASE_STATES)
 
 

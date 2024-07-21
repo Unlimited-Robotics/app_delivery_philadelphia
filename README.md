@@ -58,7 +58,7 @@ Optimize hospital logistics with our delivery app. Automate item transportation,
     * `NAV_WAREHOUSE_ZONE_NAME`: Name of the warehouse zone (`warehouse` by default).
 
 * In the file `src/static/skills.py`:
-    
+
     * `SETUP_ARG_ATTACH_SKILL`: Setup arguments (dict) for the attach-to-cart skill.
 
     * `EXECUTION_ARG_ATTACH_SKILL`: Execution arguments (dict) for the attach-to-cart skill.
@@ -80,7 +80,7 @@ Then run:
 ```
 rayasdk run \
     --location1 \"[260, 609, -78.39]\" \
-    --location2 \"[381, 655, 1.57]\" 
+    --location2 \"[381, 655, 1.57]\"
 ```
 
 The `--location1` are the coordinates for delivery point 1.

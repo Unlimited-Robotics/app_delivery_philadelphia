@@ -1,28 +1,33 @@
-from copy import copy
-from src.FMSs.BaseAppFSM.actions import CommonAction
-from raya.enumerations import FLEET_UPDATE_STATUS, POSITION_UNIT, ANGLE_UNIT
+from __future__ import annotations
 
-from src.app import RayaApplication
-from src.static.skills import *
-from src.static.navigation import *
-from src.static.ui import *
-from src.static.leds import *
-from src.static.fleet import *
-from src.static.constants import *
+from copy import copy
+
+from raya.enumerations import ANGLE_UNIT
+from raya.enumerations import FLEET_UPDATE_STATUS
+from raya.enumerations import POSITION_UNIT
+
 from .helpers import Helpers
+from src.app import RayaApplication
+from src.FMSs.BaseAppFSM.actions import CommonAction
+from src.static.constants import *
+from src.static.fleet import *
+from src.static.leds import *
+from src.static.navigation import *
+from src.static.skills import *
+from src.static.ui import *
+
 
 class Actions(CommonAction):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__(app=app,helpers=helpers)
+        super().__init__(app=app, helpers=helpers)
         self.app = app
         self.helpers = helpers
 
-    
     async def enter_GO_TO_WAREHOUSE_ENTRANCE(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_GOING_TO_WAREHOUSE_ENTRANCE
+            message=FLEET_GOING_TO_WAREHOUSE_ENTRANCE,
         )
         await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
@@ -31,39 +36,35 @@ class Actions(CommonAction):
             callback_finish_async=self.helpers.nav_finish_async,
         )
 
-
     async def enter_ENTER_WAREHOUSE(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ENTERING_WAREHOUSE
+            message=FLEET_ENTERING_WAREHOUSE,
         )
         home = await self.helpers.get_home_position()
         await self.app.nav.navigate_to_position(
             **home,
             callback_feedback_async=self.helpers.nav_feedback_wrapper,
             callback_finish_async=self.helpers.nav_finish_async,
-            wait=False
+            wait=False,
         )
-
 
     async def enter_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_WAIT_FOR_DOOR
+            message=FLEET_WAIT_FOR_DOOR,
         )
         await self.helpers._enable_door_detection()
         await self.app.ui.show_animation(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
 
-  
     async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.custom_cancel_sound()
         await self.app.custome_turn_off_leds()
 
-
     async def enter_GO_TO_HOME_LOCATION(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ROBOT_NAVIGATING_TO_HOME
+            message=FLEET_ROBOT_NAVIGATING_TO_HOME,
         )
         await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         home = await self.helpers.get_home_position()
@@ -71,14 +72,13 @@ class Actions(CommonAction):
             **home,
             callback_feedback_async=self.helpers.nav_feedback_async,
             callback_finish_async=self.helpers.nav_finish_async,
-            wait=False
+            wait=False,
         )
-
 
     async def enter_GO_TO_CART_POINT(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ROBOT_MOVING_TO_ATTACH_POINT
+            message=FLEET_ROBOT_MOVING_TO_ATTACH_POINT,
         )
         await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         cart_location = await self.helpers.get_cart_load_point()
@@ -89,26 +89,24 @@ class Actions(CommonAction):
             callback_finish_async=self.helpers.nav_finish_async,
         )
 
-
     async def enter_ATTACH_TO_CART(self):
         EXECUTION_ARG_ATTACH_SKILL['target_tags'] = [self.app.cart_number]
-        
+
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ROBOT_ATTACHING_TO_CART
+            message=FLEET_ROBOT_ATTACHING_TO_CART,
         )
         await self.app.skill_att2cart.execute_main(
             execute_args=EXECUTION_ARG_ATTACH_SKILL,
             callback_done=self.helpers.cb_skill_attach_done,
             callback_feedback=self.helpers.cb_skill_attach_feedback,
-            wait=False
+            wait=False,
         )
 
-    
     async def enter_GO_TO_WAREHOUSE_EXIT(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_GOING_TO_WAREHOUSE_EXIT
+            message=FLEET_GOING_TO_WAREHOUSE_EXIT,
         )
         await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.nav.navigate_to_position(
@@ -117,7 +115,6 @@ class Actions(CommonAction):
             callback_finish_async=self.helpers.nav_finish_async,
         )
 
-
     async def enter_WAIT_FOR_EXIT_DOOR_OPEN(self):
         # TODO: enable detector
         await self.helpers._enable_door_detection()
@@ -125,28 +122,25 @@ class Actions(CommonAction):
         # TODO check if this is ok
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_WAIT_FOR_DOOR
+            message=FLEET_WAIT_FOR_DOOR,
         )
-
 
     async def leave_WAIT_FOR_EXIT_DOOR_OPEN(self):
         await self.app.custom_cancel_sound()
         await self.app.custome_turn_off_leds()
 
-
-
     async def enter_LEAVE_WAREHOUSE(self):
         # TODO check if this is ok
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_LEAVING_WAREHOUSE
+            message=FLEET_LEAVING_WAREHOUSE,
         )
         point = await self.helpers.get_elevator_waiting_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         current_package_location_name = self.helpers.current_package['map_name']
         message = copy_ui_screen['title'].replace(
-            '[department_name]', 
-            current_package_location_name
+            '[department_name]',
+            current_package_location_name,
         )
         copy_ui_screen['title'] = message
         await self.app.ui.show_animation(**copy_ui_screen)
@@ -156,16 +150,14 @@ class Actions(CommonAction):
             callback_finish_async=self.helpers.nav_finish_async,
         )
 
-
     async def LEAVE_WAREHOUSE_to_END(self):
         # TODO: disable detector
         await self.helpers._disable_door_detection()
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ROBOT_OUTSIDE_WAREHOUSE
+            message=FLEET_ROBOT_OUTSIDE_WAREHOUSE,
         )
         pass
-
 
     async def aborted(self, error, msg):
         pass

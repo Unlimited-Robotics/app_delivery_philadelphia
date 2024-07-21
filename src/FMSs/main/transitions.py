@@ -1,14 +1,16 @@
-from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound
-from raya.exceptions import RayaCommandAlreadyRunning
+from __future__ import annotations
+
 from raya.enumerations import FLEET_UPDATE_STATUS
+from raya.exceptions import RayaCommandAlreadyRunning
+from raya.exceptions import RayaNavLocationNotFound
+from raya.exceptions import RayaNavZoneNotFound
 from raya.tools.fsm import RayaFSMAborted
 
-from src.app import RayaApplication
-from src.static import *
-
-from .helpers import Helpers
 from .errors import *
+from .helpers import Helpers
+from src.app import RayaApplication
 from src.FMSs.BaseAppFSM.transitions import CommonTransitions
+from src.static import *
 
 
 class Transitions(CommonTransitions):
@@ -18,12 +20,11 @@ class Transitions(CommonTransitions):
         self.app = app
         self.helpers = helpers
 
-
     async def SETUP_ACTIONS(self):
         if not await self.helpers.check_if_robot_in_warehouse_floor():
             self.app.log.error('Robot is not in warehouse floor')
             self.abort(*ERR_COULD_NOT_LOCALIZE)
-        
+
         if not await self.app.nav.is_localized():
             self.abort(*ERR_COULD_NOT_LOCALIZE)
 
@@ -32,23 +33,22 @@ class Transitions(CommonTransitions):
             self.app.log.debug('Home position obtained')
             self.app.log.debug(f'Home position: {self.helpers.home_location}')
         except RayaNavLocationNotFound:
-            self.app.log.error((
+            self.app.log.error(
                 'Could not get home position from navigation, '
-                'check if the location exist in the navigation map.'
-            ))
+                'check if the location exist in the navigation map.',
+            )
             self.abort(*ERR_COULD_NOT_GET_HOME_POSITION)
-        
+
         try:
             await self.app.nav.get_zones_list(map_name=WAREHOUSE_MAP_NAME)
         except RayaNavZoneNotFound:
-            self.app.log.error((
+            self.app.log.error(
                 'Could not get warehouse entrance position from navigation, '
-                'check if the zone exist in the navigation map.'
-            ))
+                'check if the zone exist in the navigation map.',
+            )
             self.abort(*ERR_COULD_NOT_GET_WAREHOUSE_ZONE)
 
         self.set_state('GO_TO_CART_POINT')
-
 
     async def GO_TO_CART_POINT(self):
         try:
@@ -56,26 +56,25 @@ class Transitions(CommonTransitions):
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
             self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='GO_TO_CART_POINT',
-                    transitions=self
-                )
+                new_state='REQUEST_FOR_HELP',
+                last_state='GO_TO_CART_POINT',
+                transitions=self,
+            )
         else:
             if self.helpers.fsm_go_to_cart_point.has_finished() and \
-                self.helpers.fsm_go_to_cart_point.was_successful():
+                    self.helpers.fsm_go_to_cart_point.was_successful():
                 self.set_state('NAV_TO_WAITING_ELEVATOR')
-
 
     async def NAV_TO_WAITING_ELEVATOR(self):
         if await self.helpers.check_if_robot_in_delivery_floor():
             self.set_state('NAV_TO_DELIVERY_POINT')
-        
+
         if self.app.nav.is_navigating():
             await self.app.custom_animation(
                 **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                wait=True
+                wait=True,
             )
-        
+
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
@@ -84,33 +83,31 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='NAV_TO_WAITING_ELEVATOR',
-                    transitions=self
+                    transitions=self,
                 )
 
-    
     async def NAV_TO_FLOOR(self):
         try:
             await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
             self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='NAV_TO_FLOOR',
-                    transitions=self
-                )
+                new_state='REQUEST_FOR_HELP',
+                last_state='NAV_TO_FLOOR',
+                transitions=self,
+            )
         else:
             if self.helpers.fsm_go_to_floor.has_finished() and \
-                self.helpers.fsm_go_to_floor.was_successful():
+                    self.helpers.fsm_go_to_floor.was_successful():
                 self.set_state('NAV_TO_DELIVERY_POINT')
-
 
     async def NAV_TO_DELIVERY_POINT(self):
         if self.app.nav.is_navigating():
             await self.app.custom_animation(
                 **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                wait=True
+                wait=True,
             )
-        
+
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
@@ -119,13 +116,11 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='NAV_TO_DELIVERY_POINT',
-                    transitions=self
+                    transitions=self,
                 )
-
 
     async def NOTIFY_ORDER_ARRIVED(self):
         self.set_state('WAIT_FOR_UI_CONFIRMATION')
-
 
     async def WAIT_FOR_UI_CONFIRMATION(self):
         if self.helpers.selected_option_delivery_ui is not None:
@@ -152,17 +147,14 @@ class Transitions(CommonTransitions):
                 )
                 self.set_state('PACKAGE_NOT_DELIVERED')
 
-
     async def PACKAGE_DELIVERED(self):
         await self.app.sleep(5)
         self.set_state('CHECK_IF_MORE_PACKAGES')
-
 
     async def PACKAGE_NOT_DELIVERED(self):
         await self.app.sleep(5)
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
-    
     async def CHECK_IF_MORE_PACKAGES(self):
         if await self.helpers.check_if_more_packages():
             await self.helpers.set_next_package()
@@ -170,17 +162,16 @@ class Transitions(CommonTransitions):
         else:
             self.set_state('NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE')
 
-
     async def NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
         if await self.helpers.check_if_robot_in_warehouse_floor():
             self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
-        
+
         if self.app.nav.is_navigating():
             await self.app.custom_animation(
                 **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                wait=True
+                wait=True,
             )
-        
+
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
@@ -189,9 +180,8 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
-                    transitions=self
+                    transitions=self,
                 )
-
 
     async def NAV_TO_WAREHOUSE_FLOOR(self):
         try:
@@ -199,15 +189,14 @@ class Transitions(CommonTransitions):
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
             self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='NAV_TO_WAREHOUSE_FLOOR',
-                    transitions=self
-                )
+                new_state='REQUEST_FOR_HELP',
+                last_state='NAV_TO_WAREHOUSE_FLOOR',
+                transitions=self,
+            )
         else:
             if self.helpers.fsm_go_to_floor.has_finished() and \
-                self.helpers.fsm_go_to_floor.was_successful():
+                    self.helpers.fsm_go_to_floor.was_successful():
                 self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
-
 
     async def RETURN_TO_WAREHOUSE_ENTRANCE(self):
         if not self.app.nav.is_navigating():
@@ -218,9 +207,8 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='RETURN_TO_WAREHOUSE_ENTRANCE',
-                    transitions=self
+                    transitions=self,
                 )
-
 
     async def PARK_CART(self):
         try:
@@ -228,15 +216,14 @@ class Transitions(CommonTransitions):
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
             self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='PARK_CART',
-                    transitions=self
-                )
+                new_state='REQUEST_FOR_HELP',
+                last_state='PARK_CART',
+                transitions=self,
+            )
         else:
             if self.helpers.fsm_park_cart.has_finished() and \
-                self.helpers.fsm_park_cart.was_successful():
+                    self.helpers.fsm_park_cart.was_successful():
                 self.set_state('GO_TO_HOME_LOCATION')
-
 
     async def GO_TO_HOME_LOCATION(self):
         if not self.app.nav.is_navigating():
@@ -254,13 +241,11 @@ class Transitions(CommonTransitions):
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
                     last_state='GO_TO_HOME_LOCATION',
-                    transitions=self
+                    transitions=self,
                 )
-
 
     async def NOTIFY_ALL_PACKAGES_STATUS(self):
         self.set_state('END')
-    
 
     async def END(self):
         pass
