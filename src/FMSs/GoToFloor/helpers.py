@@ -50,7 +50,9 @@ class Helpers(ParkCartHelpers):
         result = {
             'x': elevator_leaving_point['x'],
             'y': elevator_leaving_point['y'],
-            'angle': elevator_leaving_point['angle']
+            'angle': elevator_leaving_point['angle'],
+            'pos_unit': elevator_leaving_point['pos_unit'],
+            'ang_unit': elevator_leaving_point['ang_unit']
         }
         self.app.log.warn(f'point: {result}')
         return result
