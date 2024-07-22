@@ -213,6 +213,7 @@ class Actions(CommonAction):
 
 
     async def enter_GO_TO_HOME_LOCATION(self):
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_GOING_TO_HOME_LOCATION
@@ -227,6 +228,7 @@ class Actions(CommonAction):
 
 
     async def enter_NOTIFY_ALL_PACKAGES_STATUS(self):
+        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_ALL_POINTS_REACHED
