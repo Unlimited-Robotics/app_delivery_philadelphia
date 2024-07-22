@@ -55,9 +55,10 @@ class CommonTransitions(BaseTransitions):
         )
         self.app.log.warn(f'User selected: {response}')
         selected_option = response['selected_option']
-        if selected_option['id'] == 1:
+        options = UI_SCREEN_WAIT_FOR_HELP_SELECTOR['data']
+        if selected_option['name'] == options[0]['name']:
             self.set_state('RELEASE_CART')
-        elif selected_option['id'] == 2:
+        elif selected_option['name'] == options[1]['name']:
             await self.app.sleep(1)
             self.set_state(self.helpers._get_last_failed_state())
 
