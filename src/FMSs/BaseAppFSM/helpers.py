@@ -53,6 +53,7 @@ class CommonHelpers:
             'ang_unit': ANGLE_UNIT.DEGREES,
             **NAVIGATION_OPTIONS_WITH_CART
         }
+        self.app.log.debug(f'Package point: {point}')
         return point
 
 
