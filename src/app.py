@@ -118,7 +118,8 @@ class RayaApplication(RayaApplicationBase):
     
     def get_arguments(self):
         self.locations = []
-        delivery_location_fake = "{'name': 'test_unit','x': 1642, 'y': 2266, 'angle': 104.85, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}"
+        delivery_location_fake = "{'name': 'test_unit','x': 1642, 'y': 2266, 'angle': 15.47, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}"
+        # delivery_location_fake = "{'name': 'test_unit','x': 1054, 'y': 588, 'angle': 14.014528739490938136, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}"
         cart_location_fake = "{'name': 'cart_4', 'x': 3574, 'y': 402, 'angle': -104, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
         
         max_packages = self.get_argument(
