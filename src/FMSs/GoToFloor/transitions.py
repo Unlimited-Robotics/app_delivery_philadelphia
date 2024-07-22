@@ -29,6 +29,7 @@ class Transitions(CommonTransitions):
         if not self.app.nav.is_navigating():
             nav_error = self.app.nav.get_last_result()
             if nav_error[0] == 0:
+                await self.app.sleep(TIME_TO_WAIT_AFTER_SELECTION_ELEVATOR)
                 self.set_state('TELEOPERATING')
             else:
                 self.helpers.set_state_wrapper(
