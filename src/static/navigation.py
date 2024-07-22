@@ -91,7 +91,7 @@ FLOORS = {
         'elevator': {
             '1': {
                 'entering': {
-                    'x': 667.0,
+                    'x': 401.0,
                     'y': 545.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
@@ -99,7 +99,7 @@ FLOORS = {
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
-                    'x': 667.0,
+                    'x': 401.0,
                     'y': 480.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
@@ -127,7 +127,7 @@ FLOORS = {
             },
             '3': {
                 'entering': {
-                    'x': 401.0,
+                    'x': 667.0,
                     'y': 545.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
@@ -135,7 +135,7 @@ FLOORS = {
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
-                    'x': 401.0,
+                    'x': 667.0,
                     'y': 480.0,
                     'angle': -90.0,
                     'pos_unit': POSITION_UNIT.PIXELS,
@@ -215,9 +215,9 @@ FLOORS = {
     '7': {
         'max_elevators': 3,
         'waiting_elevator': {
-            'x': 608.0,
-            'y': 1947.0,
-            'angle': -2.8583581509950444,
+            'x': 602.0,
+            'y': 1960.0,
+            'angle': -2.8171463349492822,
             'pos_unit': POSITION_UNIT.PIXELS,
             'ang_unit': ANGLE_UNIT.RADIANS,
             **NAVIGATION_OPTIONS_WITH_CART
@@ -225,17 +225,17 @@ FLOORS = {
         'elevator': {
             '1': {
                 'entering': {
-                    'x': 134.0,
-                    'y': 2074.0,
-                    'angle': 1.8396149613713695,
+                    'x': 393.0,
+                    'y': 2000.0,
+                    'angle': 1.8395248997063303,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
-                    'x': 147.0,
-                    'y': 2126.0,
-                    'angle': 1.7867585067125054,
+                    'x': 409.0,
+                    'y': 2052.0,
+                    'angle': 1.8419213429531647,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
@@ -261,17 +261,17 @@ FLOORS = {
             },
             '3': {
                 'entering': {
-                    'x': 393.0,
-                    'y': 2000.0,
-                    'angle': 1.8395248997063303,
+                    'x': 134.0,
+                    'y': 2074.0,
+                    'angle': 1.8396149613713695,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
                 },
                 'leaving': {
-                    'x': 409.0,
-                    'y': 2052.0,
-                    'angle': 1.8419213429531647,
+                    'x': 147.0,
+                    'y': 2126.0,
+                    'angle': 1.7867585067125054,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
                     **NAVIGATION_OPTIONS_WITH_CART
