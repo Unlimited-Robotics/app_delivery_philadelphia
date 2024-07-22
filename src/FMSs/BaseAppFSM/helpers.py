@@ -31,7 +31,9 @@ class CommonHelpers:
 
     async def get_elevator_waiting_point(self):
         current_floor = self.app.get_current_floor_map_name()
-        return FLOORS[current_floor]['waiting_elevator']
+        point = FLOORS[current_floor]['waiting_elevator']
+        self.app.log.debug(f'Waiting elevator point: {point}')
+        return point
 
 
     async def check_if_more_packages(self):
