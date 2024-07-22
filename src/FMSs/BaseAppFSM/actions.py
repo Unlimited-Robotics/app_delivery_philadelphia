@@ -35,6 +35,7 @@ class CommonAction(BaseActions):
 
 
     async def enter_RELEASE_CART(self):
+        self.app.log.warn('Releasing cart...')
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
                 message=FLEET_ABORT_APP_RELEASE_CART

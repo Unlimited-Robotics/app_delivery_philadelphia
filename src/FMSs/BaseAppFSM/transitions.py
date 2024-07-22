@@ -64,7 +64,6 @@ class CommonTransitions(BaseTransitions):
 
     
     async def RELEASE_CART(self):
-        self.app.log.warn('Releasing cart...')
         state = self.app.skill_detach.get_execution_state()
         
         if state == SKILL_STATE.EXECUTED:

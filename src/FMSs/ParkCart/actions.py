@@ -69,6 +69,7 @@ class Actions(CommonAction):
 
 
     async def enter_DETACH_CART(self):
+        self.app.log.warn('Releasing cart...')
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_DETACHING_TO_CART

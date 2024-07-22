@@ -85,12 +85,14 @@ class Transitions(CommonTransitions):
 
 
     async def DETACH_CART(self):
-        self.app.log.warn('Releasing cart...')
         state = self.app.skill_detach.get_execution_state()
         
         if state == SKILL_STATE.EXECUTED:
             result_main = await self.app.skill_detach.wait_main()
             self.app.log.debug(f'DETACH_TO_CART result_main: {result_main}')
+            await self.app.set_gary_footprint(
+                footprint=GARY_FOOTPRINT
+            )
             # TODO fix this
             self.set_state('END')
         elif state == SKILL_STATE.ERROR_EXECUTING:
