@@ -224,7 +224,7 @@ class CommonHelpers:
         for camera in CAMERAS_DETECTING_DOOR:
             detector: TagsDetectorHandler = await self.app.cv.enable_model(
                 model='detector',type='tag',
-                name='apriltags_cpp', 
+                name='apriltags', 
                 source=camera,
                 model_params = DOOR_MODEL_PARAM
             )
