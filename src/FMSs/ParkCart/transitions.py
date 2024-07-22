@@ -50,12 +50,18 @@ class Transitions(CommonTransitions):
         if not tag_visible:
             self.app.log.debug('The door is open, Entering the warehouse')
             await self.app.custom_cancel_sound()
+            self.app.log.debug('The sound is canceled')
             await self.app.custome_turn_off_leds()
-            await self.helpers.gary_play_audio(
-                audio=SOUND_OPEN_DOOR_REQUEST,
-                animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
-                wait=True
-            )
+            self.app.log.debug('The leds are off')
+    
+            self.app.log.debug('The sound is played. Waiting for the audio to finish')
+            # TODO: check why this is frozing the app
+            # await self.helpers.gary_play_audio(
+            #     audio=SOUND_OPEN_DOOR_REQUEST,
+            #     animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
+            #     wait=True
+            # )
+            self.app.log.debug('The audio is finished')
             self.set_state('ENTER_WAREHOUSE')
         
         self.app.log.debug('The door is closed, waiting for it to open')
