@@ -90,7 +90,7 @@ FLOORS = {
         },
         'elevator': {
             '1': {
-                'entering': {
+                'entry_point': {
                     'x': 401.0,
                     'y': 545.0,
                     'angle': -90.0,
@@ -108,7 +108,7 @@ FLOORS = {
                 }
             },
             '2': {
-                'entering': {
+                'entry_point': {
                     'x': 536.0,
                     'y': 545.0,
                     'angle': -90.0,
@@ -126,7 +126,7 @@ FLOORS = {
                 }
             },
             '3': {
-                'entering': {
+                'entry_point': {
                     'x': 667.0,
                     'y': 545.0,
                     'angle': -90.0,
@@ -157,7 +157,7 @@ FLOORS = {
         },
         'elevator': {
             '1': {
-                'entering': {
+                'entry_point': {
                     'x': 667.0,
                     'y': 545.0,
                     'angle': -90.0,
@@ -175,7 +175,7 @@ FLOORS = {
                 }
             },
             '2': {
-                'entering': {
+                'entry_point': {
                     'x': 536.0,
                     'y': 545.0,
                     'angle': -90.0,
@@ -193,7 +193,7 @@ FLOORS = {
                 }
             },
             '3': {
-                'entering': {
+                'entry_point': {
                     'x': 401.0,
                     'y': 545.0,
                     'angle': -90.0,
@@ -224,7 +224,7 @@ FLOORS = {
         },
         'elevator': {
             '1': {
-                'entering': {
+                'entry_point': {
                     'x': 393.0,
                     'y': 2000.0,
                     'angle': 1.8395248997063303,
@@ -242,7 +242,7 @@ FLOORS = {
                 }
             },
             '2': {
-                'entering': {
+                'entry_point': {
                     'x': 262.0,
                     'y': 2041.0,
                     'angle': 1.8389119201724646,
@@ -260,7 +260,7 @@ FLOORS = {
                 }
             },
             '3': {
-                'entering': {
+                'entry_point': {
                     'x': 134.0,
                     'y': 2074.0,
                     'angle': 1.8396149613713695,

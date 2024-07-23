@@ -29,10 +29,10 @@ class Helpers(ParkCartHelpers):
             self.app.log.info('set map finish: success')
 
 
-    async def get_elevator_entering_point(self):
+    async def get_entry_point_to_elevator(self):
         self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
         current_floor = self.app.get_current_floor_map_name()
-        result = FLOORS[current_floor]['elevator'][self.selected_elevator]['entering']
+        result = FLOORS[current_floor]['elevator'][self.selected_elevator]['entry_point']
         self.app.log.warn(f'point: {result}')
         return result
 

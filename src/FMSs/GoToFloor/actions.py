@@ -38,7 +38,7 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_ELEVATOR(self):
-        elevator_point = await self.helpers.get_elevator_entering_point()
+        elevator_point = await self.helpers.get_entry_point_to_elevator()
         await self.app.nav.navigate_to_position(
             **elevator_point,
             callback_feedback_async=self.helpers.nav_feedback_async,
