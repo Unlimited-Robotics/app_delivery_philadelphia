@@ -23,7 +23,7 @@ LEDS_NAVIGATING_TO_DELIVERY_POINT = {
     'animation': 'MOTION_12',
     'speed': 1,
     'repetitions': 0,
-    'execution_control': LEDS_EXECUTION_CONTROL.AFTER_CURRENT, 
+    'execution_control': LEDS_EXECUTION_CONTROL.OVERRIDE, 
 }
 
 LEDS_WAITING_FOR_DELIVERY_RESPONSE = {

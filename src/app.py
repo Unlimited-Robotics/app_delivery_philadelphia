@@ -219,7 +219,7 @@ class RayaApplication(RayaApplicationBase):
             pass
 
 
-    async def custome_turn_off_leds(self, group = ''):
+    async def custom_turn_off_leds(self, group = ''):
         if group != '':
             try:
                 await self.leds.turn_off_group(group)

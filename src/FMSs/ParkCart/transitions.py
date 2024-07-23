@@ -51,7 +51,7 @@ class Transitions(CommonTransitions):
             self.app.log.debug('The door is open, Entering the warehouse')
             await self.app.custom_cancel_sound()
             self.app.log.debug('The sound is canceled')
-            await self.app.custome_turn_off_leds()
+            await self.app.custom_turn_off_leds()
             self.app.log.debug('The leds are off')
     
             self.app.log.debug('The sound is played. Waiting for the audio to finish')

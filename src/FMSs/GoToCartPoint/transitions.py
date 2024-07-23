@@ -62,7 +62,7 @@ class Transitions(CommonTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                await self.app.custome_turn_off_leds()
+                await self.app.custom_turn_off_leds()
                 self.set_state('WAIT_FOR_ENTRANCE_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('GO_TO_HOME_LOCATION')
@@ -81,7 +81,7 @@ class Transitions(CommonTransitions):
             self.app.log.debug('The door is open, Entering the warehouse')
             await self.app.custom_cancel_sound()
             self.app.log.debug('The sound is canceled')
-            await self.app.custome_turn_off_leds()
+            await self.app.custom_turn_off_leds()
             self.app.log.debug('The leds are off')
     
             self.app.log.debug('The sound is played. Waiting for the audio to finish')
@@ -183,7 +183,7 @@ class Transitions(CommonTransitions):
             self.app.log.debug('The door is open, Entering the warehouse')
             await self.app.custom_cancel_sound()
             self.app.log.debug('The sound is canceled')
-            await self.app.custome_turn_off_leds()
+            await self.app.custom_turn_off_leds()
             self.app.log.debug('The leds are off')
     
             self.app.log.debug('The sound is played. Waiting for the audio to finish')
@@ -211,7 +211,7 @@ class Transitions(CommonTransitions):
             nav_error = self.app.nav.get_last_result()
             # 18 the nav was canceled
             if nav_error[0] == 18 or nav_error[0] == 116:
-                await self.app.custome_turn_off_leds()
+                await self.app.custom_turn_off_leds()
                 self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
             elif nav_error[0] == 0:
                 self.set_state('END')

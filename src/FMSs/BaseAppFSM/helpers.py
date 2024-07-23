@@ -120,6 +120,7 @@ class CommonHelpers:
                         'resetting obstacle tries to 0'
                     )
                 self.__obstacle_tries = 0
+                await self.app.custom_turn_off_leds()
                 await self.app.custom_cancel_sound()
 
         elif code == 167:
@@ -149,7 +150,7 @@ class CommonHelpers:
                 )
         
         if not self.app.sound.is_playing():
-            await self.app.custome_turn_off_leds()
+            await self.app.custom_turn_off_leds()
 
 
     async def nav_finish_async(self, code, msg):
@@ -195,7 +196,7 @@ class CommonHelpers:
         ):
         try:
             if not self.app.sound.is_playing():
-                await self.app.custome_turn_off_leds(group='head')
+                await self.app.custom_turn_off_leds(group='head')
                 await self.app.sleep(DELAY_BEETWEEN_SOUND_LOOP)
                 await self.app.sound.play_sound(
                     **audio,
@@ -214,7 +215,7 @@ class CommonHelpers:
                 )
                 while self.app.sound.is_playing():
                     await self.app.sleep(0.5)
-                await self.app.custome_turn_off_leds(group='head')
+                await self.app.custom_turn_off_leds(group='head')
         except RayaCommandAlreadyRunning:
             pass
 

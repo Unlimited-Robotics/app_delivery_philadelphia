@@ -57,7 +57,7 @@ class Actions(CommonAction):
   
     async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
         await self.app.custom_cancel_sound()
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
     async def enter_GO_TO_HOME_LOCATION(self):
@@ -131,7 +131,7 @@ class Actions(CommonAction):
 
     async def leave_WAIT_FOR_EXIT_DOOR_OPEN(self):
         await self.app.custom_cancel_sound()
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
 

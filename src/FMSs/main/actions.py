@@ -60,7 +60,7 @@ class Actions(CommonAction):
 
 
     async def leave_NAV_TO_WAITING_ELEVATOR(self):
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
     async def enter_NAV_TO_FLOOR(self):
@@ -97,7 +97,7 @@ class Actions(CommonAction):
 
 
     async def leave_NOTIFY_ORDER_ARRIVED(self):
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
@@ -124,7 +124,7 @@ class Actions(CommonAction):
         )
         self.app.log.warn('task canceled')
         await self.app.custom_cancel_sound()
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
     async def enter_PACKAGE_DELIVERED(self):
@@ -141,7 +141,7 @@ class Actions(CommonAction):
 
 
     async def leave_PACKAGE_DELIVERED(self):
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
     async def enter_PACKAGE_NOT_DELIVERED(self):
@@ -157,7 +157,7 @@ class Actions(CommonAction):
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
         await self.app.custom_cancel_sound()
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
@@ -177,7 +177,7 @@ class Actions(CommonAction):
 
 
     async def leave_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
     async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
@@ -200,7 +200,7 @@ class Actions(CommonAction):
 
 
     async def leave_RETURN_TO_WAREHOUSE_ENTRANCE(self):
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
 
 
     async def enter_PARK_CART(self):
@@ -236,4 +236,4 @@ class Actions(CommonAction):
 
 
     async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
-        await self.app.custome_turn_off_leds()
+        await self.app.custom_turn_off_leds()
