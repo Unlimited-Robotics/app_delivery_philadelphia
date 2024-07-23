@@ -25,13 +25,13 @@ class CommonHelpers:
         self.__obstacle_tries = 0
         self.__navigating_tries = 0
         self._last_failed_state = ''
-        self._last_failed_state_counter = 0
+        self._last_failed_state_counter = 1
 
         self.selected_elevator = None
 
 
     def reset_retry_counter(self):
-        self._last_failed_state_counter = 0
+        self._last_failed_state_counter = 1
 
 
     def max_retry_reached(self):
