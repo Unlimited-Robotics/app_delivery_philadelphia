@@ -77,8 +77,6 @@ class CommonTransitions(BaseTransitions):
         if state == SKILL_STATE.EXECUTED:
             result_main = await self.app.skill_detach.wait_main()
             self.app.log.debug(f'DETACH_TO_CART result_main: {result_main}')
-            # TODO fix this
-            self.set_state('END')
         elif state == SKILL_STATE.ERROR_EXECUTING:
             try:
                 await self.app.skill_detach.wait_main()
@@ -105,7 +103,8 @@ class CommonTransitions(BaseTransitions):
             await self.app.set_gary_footprint(
                 footprint=GARY_FOOTPRINT
             )
-        self.abort(*ERR_NAVIGATION_ABORTED_BY_USER)
+            self.app.log.warn('Cart released...')
+            self.abort(*ERR_APP_ABORTED)
 
 
 class Transitions(CommonTransitions):

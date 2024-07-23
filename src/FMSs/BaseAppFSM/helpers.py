@@ -177,7 +177,7 @@ class CommonHelpers:
     async def cb_skill_detach_done(self, exception, result):
         self.app.log.info(f'cb_skill_detach_done, result: {result}')
         if exception is None:
-            await self.app.skill_att2cart.execute_finish()
+            await self.app.skill_detach.execute_finish()
         else: 
             self.app.log.warn(
                 'error occured while attaching, exception type: '
