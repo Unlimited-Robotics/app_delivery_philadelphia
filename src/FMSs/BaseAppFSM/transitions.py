@@ -21,6 +21,9 @@ class CommonTransitions(BaseTransitions):
     async def REQUEST_FOR_HELP(self):
         # TODO: remove
         # self.set_state('WAIT_FOR_HELP')
+        if not self.helpers.max_retry_reached():
+            self.set_state('CONTINUE')
+        
         try:
             response = await self.app.fleet.request_system_action(
                 title='Request for Help',
@@ -60,7 +63,12 @@ class CommonTransitions(BaseTransitions):
             self.set_state('RELEASE_CART')
         elif selected_option['name'] == options[1]['name']:
             await self.app.sleep(1)
-            self.set_state(self.helpers._get_last_failed_state())
+            self.set_state('CONTINUE')
+
+
+    async def CONTINUE(self):
+        await self.app.sleep(1)
+        self.set_state(self.helpers._get_last_failed_state())
 
     
     async def RELEASE_CART(self):

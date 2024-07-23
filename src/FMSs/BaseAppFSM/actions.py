@@ -14,20 +14,20 @@ class CommonAction(BaseActions):
         self.helpers = helpers
 
     # REQUEST_FOR_HELP STATES
-    
-    async def enter_REQUEST_FOR_HELP(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=FLEET_REQUESTING_FOR_HELP
-            )
-        await self.app.ui.display_screen(**UI_SCREEN_REQUEST_FOR_HELP)     
+        
+    async def REQUEST_FOR_HELP_to_CONTINUE(self):
+        self.helpers.increase_retry_counter()
 
 
-    async def enter_WAIT_FOR_HELP(self):
+    async def enter_WAIT_FOR_HELP(self):  
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.WARNING,
             message=FLEET_WAITING_FOR_HELP
         )
+
+
+    async def WAIT_FOR_HELP_to_CONTINUE(self):
+        self.helpers.reset_retry_counter()
 
 
     async def leave_WAIT_FOR_HELP(self):

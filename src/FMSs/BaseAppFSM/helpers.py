@@ -25,8 +25,27 @@ class CommonHelpers:
         self.__obstacle_tries = 0
         self.__navigating_tries = 0
         self._last_failed_state = ''
+        self._last_failed_state_counter = 0
 
         self.selected_elevator = None
+
+
+    def reset_retry_counter(self):
+        self._last_failed_state_counter = 0
+
+
+    def max_retry_reached(self):
+        counter = self._last_failed_state_counter > \
+            MAX_RETRY_COUNTER_REQUEST_FOR_HELP
+        self.app.log.debug((
+            f'current try: {self._last_failed_state_counter} '
+            f'of {MAX_RETRY_COUNTER_REQUEST_FOR_HELP}'
+        ))
+        return counter
+
+
+    def increase_retry_counter(self):
+        self._last_failed_state_counter += 1
 
 
     async def get_elevator_waiting_point(self):
@@ -292,6 +311,8 @@ class CommonHelpers:
     
     
     def __set_last_failed_state(self, state: str):
+        if self._last_failed_state != state:
+            self.reset_retry_counter()
         self._last_failed_state = state
 
 
