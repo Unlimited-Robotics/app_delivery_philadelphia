@@ -53,7 +53,7 @@ UI_SCREEN_RELEASE_CART = {
 
 UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
     'title':'I\'m stuck, please help me, and choose an option',
-    'max_items_shown': 2,
+    'max_items_shown': 0,
     'data': [
             {'id': 1, 'name': 'Abort App 🚫'}, 
             {'id': 2, 'name': 'Continue 🚶‍♂️'},
@@ -63,7 +63,7 @@ UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
 
 UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
     'title':'Delivery Confirmation',
-    'max_items_shown': 3,
+    'max_items_shown': 0,
     'data': [
             {'id': 1, 'name': 'Confirm delivery package 📦'}, 
             {'id': 2, 'name': 'Package not found'},
@@ -73,8 +73,8 @@ UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
 }
 
 UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
-    'title':'I need to go to the floor [floor], Which elevator would you i use?',
-    'max_items_shown': 3,
+    'title':'I need to go to the floor [floor], Which elevator should i use?',
+    'max_items_shown': 0,
     'data': [
             {'id': '1', 'name': 'Elevator 1'}, 
             {'id': '2', 'name': 'Elevator 2'},
@@ -84,8 +84,8 @@ UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
 }
 
 UI_SCREEN_OPTIONS_ELEVATOR_LEAVING = {
-    'title':'I think i am on [floor], from which elevator did i leave?',
-    'max_items_shown': 3,
+    'title':'I\'m on floor [floor], from which elevator did i leave?',
+    'max_items_shown': 0,
     'data': [
             {'id': '1', 'name': 'Elevator 1'}, 
             {'id': '2', 'name': 'Elevator 2'},
