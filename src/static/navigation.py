@@ -90,6 +90,32 @@ FLOORS = {
         },
         'elevator': {
             '1': {
+                'localization': {
+                  'inside_elevator': {
+                    'x': 398.0,
+                    'y': 342.0,
+                    'angle': -90.0,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                  },
+                  'outside_elevator': {
+                        'divisions': 3,
+                        'closest_point': {
+                            'x': 397.0,
+                            'y': 530.0,
+                            'angle': -90.0,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.DEGREES,
+                        },
+                        'farthest_point': {
+                            'x': 398.0,
+                            'y': 443.0,
+                            'angle': -90.0,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.DEGREES,
+                        },
+                  }
+                },
                 'entry_point': {
                     'x': 401.0,
                     'y': 545.0,
@@ -108,6 +134,32 @@ FLOORS = {
                 }
             },
             '2': {
+                'localization': {
+                  'inside_elevator': {
+                    'x': 537.0,
+                    'y': 344.0,
+                    'angle': -90.0,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                  },
+                  'outside_elevator': {
+                        'divisions': 3,
+                        'closest_point': {
+                            'x': 537.0,
+                            'y': 533.0,
+                            'angle': -90.0,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.DEGREES,
+                        },
+                        'farthest_point': {
+                            'x': 537.0,
+                            'y': 445.0,
+                            'angle': -90.0,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.DEGREES,
+                        },
+                  }
+                },
                 'entry_point': {
                     'x': 536.0,
                     'y': 545.0,
@@ -126,6 +178,32 @@ FLOORS = {
                 }
             },
             '3': {
+                'localization': {
+                  'inside_elevator': {
+                    'x': 670.0,
+                    'y': 341.0,
+                    'angle': -90.0,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.DEGREES,
+                  },
+                  'outside_elevator': {
+                        'divisions': 3,
+                        'closest_point': {
+                            'x': 668.0,
+                            'y': 533.0,
+                            'angle': -90.0,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.DEGREES,
+                        },
+                        'farthest_point': {
+                            'x': 667.0,
+                            'y': 446.0,
+                            'angle': -90.0,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.DEGREES,
+                        },
+                  }
+                },
                 'entry_point': {
                     'x': 667.0,
                     'y': 545.0,
@@ -226,8 +304,8 @@ FLOORS = {
             '1': {
                 'localization': {
                   'inside_elevator': {
-                    'x': 644.0,
-                    'y': 2112.0,
+                    'x': 436.0,
+                    'y': 2175.0,
                     'angle': 1.8395248997063303,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
@@ -242,8 +320,8 @@ FLOORS = {
                             'ang_unit': ANGLE_UNIT.RADIANS,
                         },
                         'farthest_point': {
-                            'x': 413.0,
-                            'y': 2100.0,
+                            'x': 412.0,
+                            'y': 2090.0,
                             'angle': 1.8419213429531647,
                             'pos_unit': POSITION_UNIT.PIXELS,
                             'ang_unit': ANGLE_UNIT.RADIANS,
@@ -270,8 +348,8 @@ FLOORS = {
             '2': {
                 'localization': {
                   'inside_elevator': {
-                    'x': 248.0,
-                    'y': 2019.0,
+                    'x': 302.0,
+                    'y': 2217.0,
                     'angle': 1.8395248997063303,
                     'pos_unit': POSITION_UNIT.PIXELS,
                     'ang_unit': ANGLE_UNIT.RADIANS,
@@ -279,15 +357,15 @@ FLOORS = {
                   'outside_elevator': {
                         'divisions': 3,
                         'closest_point': {
-                            'x': 253.0,
-                            'y': 2130.0,
+                            'x': 255.0,
+                            'y': 2044.0,
                             'angle': 1.8395248997063303,
                             'pos_unit': POSITION_UNIT.PIXELS,
                             'ang_unit': ANGLE_UNIT.RADIANS,
                         },
                         'farthest_point': {
-                            'x': 281.0,
-                            'y': 2088.0,
+                            'x': 278.0,
+                            'y': 2123.0,
                             'angle': 1.8419213429531647,
                             'pos_unit': POSITION_UNIT.PIXELS,
                             'ang_unit': ANGLE_UNIT.RADIANS,
@@ -330,8 +408,8 @@ FLOORS = {
                             'ang_unit': ANGLE_UNIT.RADIANS,
                         },
                         'farthest_point': {
-                            'x': 170.0,
-                            'y': 2216.0,
+                            'x': 148.0,
+                            'y': 2156.0,
                             'angle': 1.8419213429531647,
                             'pos_unit': POSITION_UNIT.PIXELS,
                             'ang_unit': ANGLE_UNIT.RADIANS,
