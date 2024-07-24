@@ -433,6 +433,16 @@ FLOORS = {
                     **NAVIGATION_OPTIONS_WITH_CART
                 }
             },
-        }
+        },
+        'units': {
+            'unit1' : 'test_unit',
+            'unit2' : 'test_unit_2'
+        },
     },
 } 
+
+COST_MAPS_CONFIG = {
+    'costmap_format': 'cost.[initial_point]_[final_point]',
+    'default_costmap_name': 'map',
+    'unit_identifier': 'unit',
+}
