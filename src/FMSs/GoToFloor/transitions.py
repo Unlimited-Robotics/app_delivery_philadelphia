@@ -99,6 +99,7 @@ class Transitions(CommonTransitions):
                 )
                 localization = True
                 self.app.log.warn('Localized')
+                self.app.current_target_floor_reached()
                 self.set_state('END')
             except RayaNavLocalizationRejected as e:
                 self.app.log.error(f'Error localizing: {e}')
@@ -109,7 +110,3 @@ class Transitions(CommonTransitions):
                 last_state='SELECT_EXIT_FROM_ELEVATOR_NUMBER',
                 transitions=self
             )
-
-        
-    async def END(self):
-        self.app.current_target_floor_reached()
