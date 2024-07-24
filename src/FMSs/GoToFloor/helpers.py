@@ -8,6 +8,7 @@ class Helpers(ParkCartHelpers):
         super().__init__(app)
         self.selected_elevator_ui = None
         self.teleoperation_response = None
+        self.exit_elevator_id = None
 
 
     def cb_delivery_arrived_ui_response(self, response):
@@ -29,6 +30,28 @@ class Helpers(ParkCartHelpers):
             self.app.log.info('set map finish: success')
 
 
+    async def cb_exit_elevator_skill_finish(self, 
+            finish_code, 
+            finish_msg, 
+            elevator_id: str
+        ):
+        self.app.log.debug((
+            'cb_exit_elevator_skill_finish: '
+            f'\t finish_code:{finish_code} '
+            f'\t finish_msg:{finish_msg} '
+            f'\t elevator_id:{elevator_id} '
+        ))
+        self.exit_elevator_id = str(elevator_id)
+
+
+    async def cb_exit_elevator_skill_feedback(self, 
+            feedback_code, feedback_msg
+        ):
+        self.app.log.debug((
+            f'cb_exit_elevator_skill_feedback: {feedback_code} {feedback_msg}'
+        ))
+
+
     async def get_entry_point_to_elevator(self):
         self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
         current_floor = self.app.get_current_floor_map_name()
@@ -38,7 +61,7 @@ class Helpers(ParkCartHelpers):
 
     
     async def get_elevator_leaving_point(self):
-        self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
+        self.app.log.warn(f'self.exit_elevator_id {self.exit_elevator_id}')
         target_floor = self.app.get_current_target_floor_map_name()
         result = FLOORS[target_floor]['elevator'][self.selected_elevator]
         self.app.log.warn(f'point: {result}')
