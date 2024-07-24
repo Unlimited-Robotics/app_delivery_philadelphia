@@ -86,15 +86,24 @@ class Transitions(CommonTransitions):
     
     async def LOCALIZING(self):
         localizing_point = await self.helpers.get_elevator_localization_points()
-        try:
-            await self.app.nav.set_current_pose(
-                **localizing_point,
-                wait=True
-            )
-            self.app.current_target_floor_reached()
-            self.set_state('END')
-        except RayaNavLocalizationRejected as e:
-            self.app.log.error(f'Error localizing: {e}')
+        localization = False
+        for point in localizing_point:
+            if await self.app.nav.is_localized():
+                self.app.log.warn('Already localized')
+                self.set_state('END')
+            try:
+                self.app.log.debug(f'Localizing on point: {point}')
+                await self.app.nav.set_current_pose(
+                    **point,
+                    wait=True
+                )
+                localization = True
+                self.app.log.warn('Localized')
+                self.set_state('END')
+            except RayaNavLocalizationRejected as e:
+                self.app.log.error(f'Error localizing: {e}')
+        
+        if localization is False:
             self.helpers.set_state_wrapper(
                 new_state='REQUEST_FOR_HELP',
                 last_state='SELECT_EXIT_FROM_ELEVATOR_NUMBER',
@@ -103,4 +112,4 @@ class Transitions(CommonTransitions):
 
         
     async def END(self):
-        pass
+        self.app.current_target_floor_reached()

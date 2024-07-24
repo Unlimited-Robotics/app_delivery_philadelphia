@@ -215,8 +215,8 @@ FLOORS = {
     '7': {
         'max_elevators': 3,
         'waiting_elevator': {
-            'x': 602.0,
-            'y': 1960.0,
+            'x': 620.0,
+            'y': 2025.0,
             'angle': -2.8171463349492822,
             'pos_unit': POSITION_UNIT.PIXELS,
             'ang_unit': ANGLE_UNIT.RADIANS,
@@ -224,6 +224,32 @@ FLOORS = {
         },
         'elevator': {
             '1': {
+                'localization': {
+                  'inside_elevator': {
+                    'x': 644.0,
+                    'y': 2112.0,
+                    'angle': 1.8395248997063303,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
+                  },
+                  'outside_elevator': {
+                        'divisions': 3,
+                        'closest_point': {
+                            'x': 393.0,
+                            'y': 2000.0,
+                            'angle': 1.8395248997063303,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.RADIANS,
+                        },
+                        'farthest_point': {
+                            'x': 413.0,
+                            'y': 2100.0,
+                            'angle': 1.8419213429531647,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.RADIANS,
+                        },
+                  }
+                },
                 'entry_point': {
                     'x': 393.0,
                     'y': 2000.0,
@@ -242,6 +268,32 @@ FLOORS = {
                 }
             },
             '2': {
+                'localization': {
+                  'inside_elevator': {
+                    'x': 248.0,
+                    'y': 2019.0,
+                    'angle': 1.8395248997063303,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
+                  },
+                  'outside_elevator': {
+                        'divisions': 3,
+                        'closest_point': {
+                            'x': 253.0,
+                            'y': 2130.0,
+                            'angle': 1.8395248997063303,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.RADIANS,
+                        },
+                        'farthest_point': {
+                            'x': 281.0,
+                            'y': 2088.0,
+                            'angle': 1.8419213429531647,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.RADIANS,
+                        },
+                  }
+                },
                 'entry_point': {
                     'x': 262.0,
                     'y': 2041.0,
@@ -260,6 +312,32 @@ FLOORS = {
                 }
             },
             '3': {
+                'localization': {
+                  'inside_elevator': {
+                    'x': 172.0,
+                    'y': 2253.0,
+                    'angle': 1.8395248997063303,
+                    'pos_unit': POSITION_UNIT.PIXELS,
+                    'ang_unit': ANGLE_UNIT.RADIANS,
+                  },
+                  'outside_elevator': {
+                        'divisions': 3,
+                        'closest_point': {
+                            'x': 134.0,
+                            'y': 2074.0,
+                            'angle': 1.8395248997063303,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.RADIANS,
+                        },
+                        'farthest_point': {
+                            'x': 170.0,
+                            'y': 2216.0,
+                            'angle': 1.8419213429531647,
+                            'pos_unit': POSITION_UNIT.PIXELS,
+                            'ang_unit': ANGLE_UNIT.RADIANS,
+                        },
+                  }
+                },
                 'entry_point': {
                     'x': 134.0,
                     'y': 2074.0,
