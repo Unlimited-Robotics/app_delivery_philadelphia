@@ -67,8 +67,6 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_WAITING_ELEVATOR(self):
-        if await self.helpers.check_if_robot_in_delivery_floor():
-            self.set_state('NAV_TO_DELIVERY_POINT')
         
         if self.app.nav.is_navigating():
             await self.app.custom_animation(
@@ -171,7 +169,10 @@ class Transitions(CommonTransitions):
                 initial_point=last_package,
                 final_point=self.helpers.current_package['name'],
             )
-            self.set_state('NAV_TO_WAITING_ELEVATOR')
+            if await self.helpers.check_if_robot_in_delivery_floor():
+                self.set_state('NAV_TO_DELIVERY_POINT')
+            else:
+                self.set_state('NAV_TO_WAITING_ELEVATOR')
         else:
             self.set_state('NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE')
 
