@@ -33,6 +33,19 @@ class Helpers(CommonHelpers):
         self.selected_option_delivery_ui = None
 
 
+    async def change_costmap_to_point(self, 
+            initial_point: str, 
+            final_point: str,
+            default_costmap: bool = False
+        ):
+        current_floor = await self.app.get_current_floor_map_name()
+        
+        if default_costmap:
+            res = await self.app.nav.change_costmap(costmap_name='')
+            
+        self.app.log.warn(f'Changing costmap response: {res}')    
+
+
     async def check_if_robot_in_warehouse_floor(self):
         result = await self.app.nav.get_status()
         is_localized = result['localized']

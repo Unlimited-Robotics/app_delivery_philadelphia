@@ -433,6 +433,15 @@ FLOORS = {
                     **NAVIGATION_OPTIONS_WITH_CART
                 }
             },
+        },
+        'prefered_zones': {
+            'n_units': 2,
+            'elevator_costmap_alias': 'elev',
+            'units': {
+                'unit1' : 'burn unit',
+                'unit2' : 'intensive care unit'
+            },
+            'costmap_format': 'cost.\{elev\}_\{unit\}.pgm',
         }
     },
 } 

@@ -84,12 +84,13 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=copy_ui_screen['title']
             )
-        if not self.app.nav.is_navigating():
-            await self.app.nav.navigate_to_position(
-                **point,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
+        
+        # TODO: change costmap here
+        await self.app.nav.navigate_to_position(
+            **point,
+            callback_feedback_async=self.helpers.nav_feedback_async,
+            callback_finish_async=self.helpers.nav_finish_async,
+        )
 
 
     async def enter_NOTIFY_ORDER_ARRIVED(self):
