@@ -26,6 +26,10 @@ class Actions(CommonAction):
         map_name = WAREHOUSE_MAP_NAME
         self.app.log.warn(f'Setting map: {map_name}')
         await self.app.nav.set_map(map_name=map_name)
+        await self.helpers.change_costmap_to_point(
+            initial_point='home',
+            final_point='elev',
+        )
 
 
     async def enter_GO_TO_CART_POINT(self):
@@ -51,6 +55,7 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=copy_ui_screen['title']
             )
+
         if not self.app.nav.is_navigating():
             await self.app.nav.navigate_to_position(
                 **point,
@@ -70,6 +75,13 @@ class Actions(CommonAction):
         await self.helpers.fsm_go_to_floor.run_in_background()
 
 
+    async def leave_NAV_TO_FLOOR(self):
+        await self.helpers.change_costmap_to_point(
+            initial_point='elev',
+            final_point=self.helpers.current_package['name'],
+        )
+
+
     async def enter_NAV_TO_DELIVERY_POINT(self):
         point = await self.helpers.get_current_package_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
@@ -84,8 +96,6 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=copy_ui_screen['title']
             )
-        
-        # TODO: change costmap here
         await self.app.nav.navigate_to_position(
             **point,
             callback_feedback_async=self.helpers.nav_feedback_async,
@@ -169,6 +179,10 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_GOING_TO_WAREHOUSE
             )
+        await self.helpers.change_costmap_to_point(
+            initial_point=self.helpers.current_package['name'],
+            final_point='elev',
+        )
         if not self.app.nav.is_navigating():
             await self.app.nav.navigate_to_position(
                 **point,
@@ -193,6 +207,10 @@ class Actions(CommonAction):
                 message=FLEET_RETURNING_TO_WAREHOUSE
             )
         await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.helpers.change_costmap_to_point(
+            initial_point='elev',
+            final_point='home',
+        )
         await self.app.nav.navigate_to_position(
                 **NAV_WAREHOUSE_ENTRANCE,
                 callback_feedback_async=self.helpers.nav_feedback_async,

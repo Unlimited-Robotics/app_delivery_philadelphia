@@ -434,14 +434,15 @@ FLOORS = {
                 }
             },
         },
-        'prefered_zones': {
-            'n_units': 2,
-            'elevator_costmap_alias': 'elev',
-            'units': {
-                'unit1' : 'burn unit',
-                'unit2' : 'intensive care unit'
-            },
-            'costmap_format': 'cost.\{elev\}_\{unit\}.pgm',
-        }
+        'units': {
+            'unit1' : 'test_unit',
+            'unit2' : 'test_unit_2'
+        },
     },
 } 
+
+COST_MAPS_CONFIG = {
+    'costmap_format': 'cost.[initial_point]_[final_point]',
+    'default_costmap_name': 'map',
+    'unit_identifier': 'unit',
+}

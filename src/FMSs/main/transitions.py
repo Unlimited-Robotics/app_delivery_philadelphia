@@ -165,7 +165,12 @@ class Transitions(CommonTransitions):
     
     async def CHECK_IF_MORE_PACKAGES(self):
         if await self.helpers.check_if_more_packages():
+            last_package = self.helpers.current_package['name']
             await self.helpers.set_next_package()
+            await self.helpers.change_costmap_to_point(
+                initial_point=last_package,
+                final_point=self.helpers.current_package['name'],
+            )
             self.set_state('NAV_TO_WAITING_ELEVATOR')
         else:
             self.set_state('NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE')
