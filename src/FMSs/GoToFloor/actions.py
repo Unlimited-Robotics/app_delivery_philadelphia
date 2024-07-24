@@ -55,6 +55,14 @@ class Actions(CommonAction):
         )
 
 
+    async def enter_TELEOPERATION_DONE(self):
+        await self.app.ui.display_action_screen(
+            **UI_CALL_TO_ACTION_TELEOPERATION_DONE,
+            wait=False,
+            callback=self.helpers.cb_teleoperation_ui_response
+        )
+
+
     async def enter_SELECT_EXIT_FROM_ELEVATOR_NUMBER(self):
         self.helpers.selected_elevator_ui = None
         copy_ui_screen = copy(UI_SCREEN_OPTIONS_ELEVATOR_LEAVING)

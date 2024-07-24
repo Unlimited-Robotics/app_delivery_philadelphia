@@ -97,6 +97,13 @@ UI_SCREEN_OPTIONS_ELEVATOR_LEAVING = {
 UI_CALL_TO_ACTION_TELEOPERATION = {
     'title': 'Teleoperation',
     'subtitle': 'Please take control of the robot',
+    'button_text': '',
+    **UI_COMMON_OPTIONS
+}
+
+UI_CALL_TO_ACTION_TELEOPERATION_DONE = {
+    'title': 'Teleoperation',
+    'subtitle': 'Please take control of the robot',
     'button_text': 'Done 🎉',
     **UI_COMMON_OPTIONS
 }
