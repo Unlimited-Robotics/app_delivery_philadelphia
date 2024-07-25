@@ -293,9 +293,9 @@ FLOORS = {
     '7': {
         'max_elevators': 3,
         'waiting_elevator': {
-            'x': 620.0,
-            'y': 2025.0,
-            'angle': -2.8171463349492822,
+            'x': 645.0,
+            'y': 2016.0,
+            'angle': -2.8441741285876745,
             'pos_unit': POSITION_UNIT.PIXELS,
             'ang_unit': ANGLE_UNIT.RADIANS,
             **NAVIGATION_OPTIONS_WITH_CART
