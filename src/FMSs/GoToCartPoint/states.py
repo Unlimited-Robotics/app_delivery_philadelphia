@@ -26,7 +26,7 @@ STATES.extend(BASE_STATES)
 
 # First state of FSM, if not defined, the FSM starts in the first element of
 # the STATES list
-INITIAL_STATE = 'CHECK_IF_INSIDE_ZONE'
+INITIAL_STATE = 'GO_TO_WAREHOUSE_EXIT'
 
 
 # If the FSM falls into one of these states, the execution finishes.
