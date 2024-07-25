@@ -40,7 +40,7 @@ class Helpers(CommonHelpers):
         initial_name = initial_point
         final_name = final_point
         
-        current_floor = await self.app.get_current_floor_map_name()
+        current_floor = self.app.get_current_floor_map_name()
         default_costmap_name = COST_MAPS_CONFIG['default_costmap_name']
 
         if COST_MAPS_CONFIG['unit_identifier'] in initial_point:
