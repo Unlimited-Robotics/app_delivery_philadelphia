@@ -1,3 +1,5 @@
+## PYRAYA SKILLS
+
 SETUP_ARG_ATTACH_SKILL = {
 }
 
@@ -14,4 +16,12 @@ SETUP_ARG_DETACH_SKILL = {
 
 EXECUTION_ARG_DETACH_SKILL = {
     
+}
+
+## GARY SKILLS
+SKILL_EXIT_ELEVATOR = 'exit_elevator'
+ARGS_EXIT_ELEVATOR = {
+    'skill': SKILL_EXIT_ELEVATOR,
+    'target_floor': '',
+    'move_distance': 2.5,
 }

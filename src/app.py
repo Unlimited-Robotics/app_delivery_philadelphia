@@ -10,6 +10,7 @@ from raya.controllers.sensors_controller import SensorsController
 from raya.controllers.motion_controller import MotionController
 from raya.controllers.cameras_controller import CamerasController
 from raya.controllers.cv_controller import CVController
+from raya.controllers.robot_skills_controller import RobotSkillsController
 
 from raya.enumerations import FLEET_FINISH_STATUS
 from raya.exceptions import RayaSkillAborted
@@ -39,7 +40,10 @@ class RayaApplication(RayaApplicationBase):
                 await self.enable_controller('motion')
         self.cameras: CamerasController = \
                 await self.enable_controller('cameras')
-        self.cv: CVController = await self.enable_controller('cv')
+        self.cv: CVController = \
+                await self.enable_controller('cv')
+        self.robot_skills: RobotSkillsController = \
+                await self.enable_controller('robot_skills')
     
         if not self.continue_cart:
             await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
@@ -251,6 +255,9 @@ class RayaApplication(RayaApplicationBase):
 
 
     def current_target_floor_reached(self):
+        self.log.info((
+            f'Floor \'{self.current_target_floor_map_name}\' reached.'
+        ))
         self.current_floor_map_name = self.current_target_floor_map_name
         self.current_target_floor_map_name = None
 

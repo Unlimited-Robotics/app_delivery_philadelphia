@@ -83,17 +83,6 @@ UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
     **UI_COMMON_OPTIONS
 }
 
-UI_SCREEN_OPTIONS_ELEVATOR_LEAVING = {
-    'title':'I\'m on floor [floor], from which elevator did i leave?',
-    'max_items_shown': 0,
-    'data': [
-            {'id': '1', 'name': 'Elevator 1'}, 
-            {'id': '2', 'name': 'Elevator 2'},
-            {'id': '3', 'name': 'Elevator 3'},
-        ],
-    **UI_COMMON_OPTIONS
-}
-
 UI_CALL_TO_ACTION_TELEOPERATION = {
     'title': 'Teleoperation',
     'subtitle': 'Please take control of the robot',

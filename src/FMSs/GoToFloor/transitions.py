@@ -73,14 +73,11 @@ class Transitions(CommonTransitions):
             if 'action' in self.helpers.teleoperation_response.keys():
                 action = self.helpers.teleoperation_response['action']
                 if action == 'button_clicked':
-                    self.set_state('SELECT_EXIT_FROM_ELEVATOR_NUMBER')
+                    self.set_state('EXIT_FROM_ELEVATOR')
 
 
-    async def SELECT_EXIT_FROM_ELEVATOR_NUMBER(self):
-        if self.helpers.selected_elevator_ui is not None:
-            selected_option = self.helpers.selected_elevator_ui
-            self.app.log.warn(f'User selected: {selected_option}')
-            self.helpers.selected_elevator = str(selected_option)
+    async def EXIT_FROM_ELEVATOR(self):
+        if self.helpers.exit_elevator_id is not None:
             self.set_state('LOCALIZING')
         
     
@@ -105,8 +102,9 @@ class Transitions(CommonTransitions):
                 self.app.log.error(f'Error localizing: {e}')
         
         if localization is False:
+            # TODO: check if the teleoperator can do anything
             self.helpers.set_state_wrapper(
                 new_state='REQUEST_FOR_HELP',
-                last_state='SELECT_EXIT_FROM_ELEVATOR_NUMBER',
+                last_state='LOCALIZING',
                 transitions=self
             )
