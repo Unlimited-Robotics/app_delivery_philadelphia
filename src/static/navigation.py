@@ -61,8 +61,8 @@ NAV_WAREHOUSE_ENTRANCE = {
         **NAVIGATION_OPTIONS_WITH_CART
     }
 NAV_WAREHOUSE_EXIT = {
-        'x':        2008.0,
-        'y':        484.0,
+        'x':        2016.0,
+        'y':        472.0,
         'angle':    179.133528312283026,
         'pos_unit': POSITION_UNIT.PIXELS, 
         'ang_unit': ANGLE_UNIT.DEGREES,
@@ -445,4 +445,5 @@ COST_MAPS_CONFIG = {
     'costmap_format': 'cost.[initial_point]_[final_point]',
     'default_costmap_name': 'map',
     'unit_identifier': 'unit',
+    'tries_timeout_command': 3,
 }

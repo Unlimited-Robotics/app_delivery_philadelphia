@@ -48,6 +48,7 @@ class CommonTransitions(BaseTransitions):
             **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
             wait=True
         )
+        self.app.log.warn(f'selected option: {response}')
         text = (
             'Gary recieved help, and the option selected was: '
             f'{response["selected_option"]}'

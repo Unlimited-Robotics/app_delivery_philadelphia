@@ -63,7 +63,7 @@ class Helpers(ParkCartHelpers):
     async def get_elevator_leaving_point(self):
         self.app.log.warn(f'self.exit_elevator_id {self.exit_elevator_id}')
         target_floor = self.app.get_current_target_floor_map_name()
-        result = FLOORS[target_floor]['elevator'][self.selected_elevator]
+        result = FLOORS[target_floor]['elevator'][self.exit_elevator_id]
         self.app.log.warn(f'point: {result}')
         return result
 
