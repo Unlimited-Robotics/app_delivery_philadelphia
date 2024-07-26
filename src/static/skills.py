@@ -23,5 +23,5 @@ SKILL_EXIT_ELEVATOR = 'exit_elevator'
 ARGS_EXIT_ELEVATOR = {
     'skill': SKILL_EXIT_ELEVATOR,
     'target_floor': '',
-    'move_distance': 2.5,
+    'move_distance': 3.6,
 }
