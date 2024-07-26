@@ -48,16 +48,22 @@ class CommonTransitions(BaseTransitions):
             **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
             wait=True
         )
-        self.app.log.warn(f'selected option: {response}')
-        text = (
-            'Gary recieved help, and the option selected was: '
-            f'{response["selected_option"]}'
-        )
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.WARNING,
-            message=text
-        )
         self.app.log.warn(f'User selected: {response}')
+        try:
+            text = (
+                'Gary recieved help, and the option selected was: '
+                f'{response["selected_option"]}'
+            )
+            await self.app.fleet.update_app_status(
+                status=FLEET_UPDATE_STATUS.WARNING,
+                message=text
+            )
+        except Exception as e:
+            self.app.log.error(
+                f'Error while waiting for help: {e}'
+            )
+            return
+
         selected_option = response['selected_option']
         options = UI_SCREEN_WAIT_FOR_HELP_SELECTOR['data']
         if selected_option['name'] == options[0]['name']:
