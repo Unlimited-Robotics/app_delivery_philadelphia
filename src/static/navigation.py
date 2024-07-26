@@ -13,14 +13,14 @@ GARY_FOOTPRINT = [
 ]
 
 GARY_FOOTPRINT_SMALL_CART = [
-        [-1.13,  0.20],
-        [-0.24,  0.20],
+        [-1.21,  0.25],
+        [-0.24,  0.25],
         [-0.24,  0.225],
         [ 0.24,  0.225],
         [ 0.24, -0.225],
         [-0.24, -0.225],
-        [-0.24, -0.20],
-        [-1.13,  -0.20],
+        [-0.24, -0.25],
+        [-1.21, -0.25],
 ]
 
 GARY_SELECTED_CART_FOOTPRINT = GARY_FOOTPRINT_SMALL_CART
@@ -445,4 +445,5 @@ COST_MAPS_CONFIG = {
     'costmap_format': 'cost.[initial_point]_[final_point]',
     'default_costmap_name': 'map',
     'unit_identifier': 'unit',
+    'tries_timeout_command': 3,
 }
