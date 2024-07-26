@@ -16,7 +16,7 @@ UI_SCREEN_LOCALIZING = {
     **UI_COMMON_OPTIONS
 }
 
-UI_SCREEN_NAV_TO_WAREHOUSE = {
+UI_SCREEN_NAVIGATING = {
     'title':'Hello! I\'m Gary, your delivery robot',
     'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
     **UI_COMMON_OPTIONS
@@ -97,9 +97,15 @@ UI_CALL_TO_ACTION_TELEOPERATION_DONE = {
     **UI_COMMON_OPTIONS
 }
 
+UI_SCREEN_NAV_TO_FLOOR = {
+    'title':'Navigating to floor [floor]',
+    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
+    **UI_COMMON_OPTIONS
+}
+
 UI_SCREEN_OBSTACLE_DETECTED = {
     'title': 'Please clear the way',
-    'subtitle': 'i`m on duty',
+    'subtitle': 'I\'m on duty',
     'path': UI_OBSTACLE_DETECTED,
     'format': UI_ANIMATION_TYPE.GIF,
     **UI_COMMON_OPTIONS

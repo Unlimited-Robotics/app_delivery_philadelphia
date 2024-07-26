@@ -30,6 +30,7 @@ class Actions(CommonAction):
             '[floor]', floor
         )
         copy_ui_screen['title'] = message
+        
         await self.app.ui.display_choice_selector(
             **copy_ui_screen,
             wait=False,
@@ -38,6 +39,15 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_ELEVATOR(self):
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_FLOOR)
+        floor = self.app.get_current_target_floor_map_name()
+        
+        message = copy_ui_screen['title'].replace(
+            '[floor]', floor
+        )
+        copy_ui_screen['title'] = message
+        await self.app.ui.show_animation(**copy_ui_screen)
+        
         elevator_point = await self.helpers.get_entry_point_to_elevator()
         await self.app.nav.navigate_to_position(
             **elevator_point,
@@ -64,6 +74,14 @@ class Actions(CommonAction):
 
 
     async def enter_EXIT_FROM_ELEVATOR(self):
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_FLOOR)
+        floor = self.app.get_current_target_floor_map_name()
+        message = copy_ui_screen['title'].replace(
+            '[floor]', floor
+        )
+        copy_ui_screen['title'] = message
+        await self.app.ui.show_animation(**copy_ui_screen)
+        
         self.helpers.exit_elevator_id = None
         target_floor = self.app.get_current_target_floor_map_name()
         ARGS_EXIT_ELEVATOR['target_floor'] = target_floor
@@ -77,10 +95,6 @@ class Actions(CommonAction):
 
     async def enter_LOCALIZING(self):
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
-
-
-    async def enter_END(self):
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
 
 
     async def aborted(self, error, msg):

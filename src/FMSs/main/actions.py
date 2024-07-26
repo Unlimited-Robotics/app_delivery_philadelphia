@@ -174,7 +174,7 @@ class Actions(CommonAction):
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
         point = await self.helpers.get_elevator_waiting_point()
         
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_GOING_TO_WAREHOUSE
@@ -196,6 +196,7 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         self.app.current_target_floor_map_name = WAREHOUSE_FLOOR
         self.helpers.fsm_go_to_floor.restart()
         await self.helpers.fsm_go_to_floor.run_in_background()
@@ -206,7 +207,7 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_RETURNING_TO_WAREHOUSE
             )
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
             final_point='home',
@@ -232,7 +233,7 @@ class Actions(CommonAction):
 
 
     async def enter_GO_TO_HOME_LOCATION(self):
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_GOING_TO_HOME_LOCATION
@@ -247,7 +248,7 @@ class Actions(CommonAction):
 
 
     async def enter_NOTIFY_ALL_PACKAGES_STATUS(self):
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_ALL_POINTS_REACHED

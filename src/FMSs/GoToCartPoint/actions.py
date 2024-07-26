@@ -24,7 +24,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_GOING_TO_WAREHOUSE_ENTRANCE
         )
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.app.nav.navigate_to_position(
             **NAV_WAREHOUSE_ENTRANCE,
             callback_feedback_async=self.helpers.nav_feedback_async,
@@ -65,7 +65,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_NAVIGATING_TO_HOME
         )
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         home = await self.helpers.get_home_position()
         await self.app.nav.navigate_to_position(
             **home,
@@ -80,7 +80,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_MOVING_TO_ATTACH_POINT
         )
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         cart_location = await self.helpers.get_cart_load_point()
         self.app.log.debug(f'navigate_to_position {cart_location}')
         await self.app.nav.navigate_to_position(
@@ -110,7 +110,7 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_GOING_TO_WAREHOUSE_EXIT
         )
-        await self.app.ui.show_animation(**UI_SCREEN_NAV_TO_WAREHOUSE)
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.app.nav.navigate_to_position(
             **NAV_WAREHOUSE_EXIT,
             callback_feedback_async=self.helpers.nav_feedback_async,
