@@ -68,30 +68,26 @@ class Helpers(CommonHelpers):
                 self.app.log.error((
                     f'Error getting the initial point name: {e}'
                 ))
-
-        for _ in range(COST_MAPS_CONFIG['tries_timeout_command']):
-            try:
-                format = COST_MAPS_CONFIG['costmap_format']
-                costmap_name = format.replace('[initial_point]', initial_name)
-                costmap_name = costmap_name.replace('[final_point]', final_name)
-                await self.app.nav.change_costmap(costmap_name=costmap_name)
-                self.app.log.debug((
-                    f'Costmap changed to: {costmap_name}, '
-                    f'initial_point: {initial_point}, '
-                    f'final_point: {final_point}'
-                ))
-                break
-            except RayaNavFileNotFound:
-                self.app.log.error((
-                    f'Costmap file \'{costmap_name}\' not found, '
-                    f'setting default costmap \'{default_costmap_name}\''
-                ))
-                await self.app.nav.change_costmap(
-                    costmap_name=default_costmap_name
-                )
-                break
-            except RayaCommandTimeout:
-                self.app.log.error(f'Costmap change timeout, retrying...')
+        try:
+            format = COST_MAPS_CONFIG['costmap_format']
+            costmap_name = format.replace('[initial_point]', initial_name)
+            costmap_name = costmap_name.replace('[final_point]', final_name)
+            await self.app.nav.change_costmap(costmap_name=costmap_name)
+            self.app.log.debug((
+                f'Costmap changed to: {costmap_name}, '
+                f'initial_point: {initial_point}, '
+                f'final_point: {final_point}'
+            ))
+        except RayaNavFileNotFound:
+            self.app.log.error((
+                f'Costmap file \'{costmap_name}\' not found, '
+                f'setting default costmap \'{default_costmap_name}\''
+            ))
+            await self.app.nav.change_costmap(
+                costmap_name=default_costmap_name
+            )
+        except RayaCommandTimeout:
+            self.app.log.error(f'Costmap change timeout, retrying...')
 
 
     async def check_if_robot_in_warehouse_floor(self):

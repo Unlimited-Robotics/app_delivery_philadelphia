@@ -445,5 +445,4 @@ COST_MAPS_CONFIG = {
     'costmap_format': 'cost.[initial_point]_[final_point]',
     'default_costmap_name': 'map',
     'unit_identifier': 'unit',
-    'tries_timeout_command': 3,
 }
