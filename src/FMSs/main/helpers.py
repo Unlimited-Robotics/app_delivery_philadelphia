@@ -83,11 +83,14 @@ class Helpers(CommonHelpers):
                 f'Costmap file \'{costmap_name}\' not found, '
                 f'setting default costmap \'{default_costmap_name}\''
             ))
-            await self.app.nav.change_costmap(
-                costmap_name=default_costmap_name
-            )
+            try:
+                await self.app.nav.change_costmap(
+                    costmap_name=default_costmap_name
+                )
+            except RayaCommandTimeout:
+                self.app.log.error(f'Costmap change timeout')
         except RayaCommandTimeout:
-            self.app.log.error(f'Costmap change timeout, retrying...')
+            self.app.log.error(f'Costmap change timeout')
 
 
     async def check_if_robot_in_warehouse_floor(self):
