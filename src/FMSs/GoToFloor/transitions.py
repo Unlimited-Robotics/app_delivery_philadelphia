@@ -85,9 +85,6 @@ class Transitions(CommonTransitions):
         localizing_point = await self.helpers.get_elevator_localization_points()
         localization = False
         for point in localizing_point:
-            if await self.app.nav.is_localized():
-                self.app.log.warn('Already localized')
-                self.set_state('END')
             try:
                 self.app.log.debug(f'Localizing on point: {point}')
                 await self.app.nav.set_current_pose(
