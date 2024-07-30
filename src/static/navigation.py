@@ -368,8 +368,8 @@ FLOORS = {
             },
         },
         'units': {
-            'unit1' : 'test_unit',
-            'unit2' : 'test_unit_2'
+            'unit1' : '7E',
+            'unit2' : '7W'
         },
     },
 } 

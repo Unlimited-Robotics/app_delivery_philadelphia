@@ -123,8 +123,8 @@ class RayaApplication(RayaApplicationBase):
     def get_arguments(self):
         self.locations = []
         delivery_location_fake = [
-            "{'name': 'test_unit',    'x': 1642, 'y': 2266, 'angle': 15.47, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}", 
-            "{'name': 'test_unit_2',  'x': 1054, 'y': 588, 'angle': 13.75, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}", 
+            "{'name': '7E',  'x': 1027, 'y': 593, 'angle': 13.75, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}", 
+            "{'name': '7W',  'x': 1642, 'y': 2266, 'angle': 15.47, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}", 
         ]
         cart_location_fake = "{'name': 'cart_4', 'x': 3574, 'y': 402, 'angle': -104, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
         
@@ -133,7 +133,7 @@ class RayaApplication(RayaApplicationBase):
             type=int,
             help='Number of packages to deliver',
             required=False,
-            default=2
+            default=1
         )
         
         self.run_from_console = self.get_flag_argument(
