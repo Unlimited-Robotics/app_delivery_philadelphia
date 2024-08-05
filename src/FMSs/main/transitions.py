@@ -63,7 +63,7 @@ class Transitions(CommonTransitions):
         else:
             if self.helpers.fsm_go_to_cart_point.has_finished() and \
                 self.helpers.fsm_go_to_cart_point.was_successful():
-                self.set_state('NAV_TO_WAITING_ELEVATOR')
+                self.set_state('NAV_TO_FLOOR')
 
 
     async def NAV_TO_WAITING_ELEVATOR(self):

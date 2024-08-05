@@ -1,4 +1,5 @@
 from raya.enumerations import SKILL_STATE
+from raya.exceptions import RayaSkillAborted
 
 from src.app import RayaApplication
 from src.static import *
@@ -16,12 +17,9 @@ class Transitions(CommonTransitions):
 
 
     async def CHECK_IF_INSIDE_ZONE(self):
-        # TODO: remove
-        # self.abort(*ERR_COULD_NOT_LOCALIZE)
         if await self.helpers.check_if_inside_zone():
             self.set_state('GO_TO_HOME_LOCATION')
-        else:
-            self.set_state('GO_TO_WAREHOUSE_ENTRANCE')
+        # TODO: if not inside zone, go to home using the door
 
 
     async def GO_TO_HOME_LOCATION(self):
@@ -43,62 +41,6 @@ class Transitions(CommonTransitions):
                     transitions=self
                 )
 
-        
-    async def GO_TO_WAREHOUSE_ENTRANCE(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('ENTER_WAREHOUSE')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='GO_TO_WAREHOUSE_ENTRANCE',
-                    transitions=self
-                )
-
-    
-    async def ENTER_WAREHOUSE(self):        
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            # 18 the nav was canceled
-            if nav_error[0] == 18 or nav_error[0] == 116:
-                await self.app.custom_turn_off_leds()
-                self.set_state('WAIT_FOR_ENTRANCE_DOOR_OPEN')
-            elif nav_error[0] == 0:
-                self.set_state('GO_TO_HOME_LOCATION')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='ENTER_WAREHOUSE',
-                    transitions=self
-                )
-
-    
-    async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
-        tag = DOOR_TAG_ENTRANCE
-        tag_visible = await self.helpers.tag_door_visible(tag=tag)
-        if not tag_visible:
-            self.app.log.debug('The door is open, Entering the warehouse')
-            await self.app.custom_cancel_sound()
-            self.app.log.debug('The sound is canceled')
-            await self.app.custom_turn_off_leds()
-            self.app.log.debug('The leds are off')
-    
-            self.app.log.debug('The sound is played. Waiting for the audio to finish')
-            # TODO: check why this is frozing the app
-            # await self.helpers.gary_play_audio(
-            #     audio=SOUND_OPEN_DOOR_REQUEST,
-            #     animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
-            #     wait=True
-            # )
-            self.app.log.debug('The audio is finished')
-            self.set_state('ENTER_WAREHOUSE')
-        
-        self.app.log.debug('The door is closed, waiting for it to open')
-        await self.helpers.gary_play_audio(
-            audio=SOUND_OPEN_DOOR_REQUEST,
-        )
-
 
     async def GO_TO_CART_POINT(self):
         if not self.app.nav.is_navigating():
@@ -106,8 +48,6 @@ class Transitions(CommonTransitions):
             if nav_error[0] == 0:
                 if self.app.enable_attach:
                     self.set_state('ATTACH_TO_CART')
-                else:
-                    self.set_state('WAIT_FOR_LOAD_PACKAGE')
             else:
                 self.helpers.set_state_wrapper(
                     new_state='REQUEST_FOR_HELP',
@@ -156,72 +96,27 @@ class Transitions(CommonTransitions):
             await self.app.set_gary_footprint(
                 footprint=GARY_SELECTED_CART_FOOTPRINT
             )
-            self.set_state('GO_TO_WAREHOUSE_EXIT')
+            self.set_state('GO_TO_ELEVATOR')
 
 
-    async def WAIT_FOR_LOAD_PACKAGE(self):
-        self.set_state('GO_TO_WAREHOUSE_EXIT')
+    async def GO_TO_ELEVATOR(self):
+        try:
+            result = await self.app.skill_nav_steps.wait_main()
+            self.app.log.warn(f'skill_template result: {result}')
+
+        except RayaSkillAborted as e:
+            self.app.log.error((
+                'Skill aborted with '
+                f'Error code: \'{e.error_code}\', '
+                f'Error msg: \'{e.error_msg}\'.'
+            ))
+            self.helpers.set_state_wrapper(
+                new_state='REQUEST_FOR_HELP',
+                last_state='GO_TO_ELEVATOR',
+                transitions=self
+            )
+        self.set_state('END')
 
     
-    async def GO_TO_WAREHOUSE_EXIT(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='GO_TO_WAREHOUSE_EXIT',
-                    transitions=self
-                )
-
-
-    async def WAIT_FOR_EXIT_DOOR_OPEN(self):
-        tag = DOOR_TAG_EXIT
-        tag_visible = await self.helpers.tag_door_visible(tag=tag)
-        if not tag_visible:
-            self.app.log.debug('The door is open, Entering the warehouse')
-            await self.app.custom_cancel_sound()
-            self.app.log.debug('The sound is canceled')
-            await self.app.custom_turn_off_leds()
-            self.app.log.debug('The leds are off')
-    
-            self.app.log.debug('The sound is played. Waiting for the audio to finish')
-            # TODO: check why this is frozing the app
-            # await self.helpers.gary_play_audio(
-            #     audio=SOUND_OPEN_DOOR_REQUEST,
-            #     animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
-            #     wait=True
-            # )
-            self.app.log.debug('The audio is finished')
-            self.set_state('LEAVE_WAREHOUSE')
-        
-        self.app.log.debug('The door is closed, waiting for it to open')
-        await self.helpers.gary_play_audio(
-            audio=SOUND_OPEN_DOOR_REQUEST,
-        )
-
-
-    async def LEAVE_WAREHOUSE(self):
-        if self.app.nav.is_navigating() and \
-            not await self.helpers.check_if_inside_zone() == True:
-                self.set_state('END')
-        
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            # 18 the nav was canceled
-            if nav_error[0] == 18 or nav_error[0] == 116:
-                await self.app.custom_turn_off_leds()
-                self.set_state('WAIT_FOR_EXIT_DOOR_OPEN')
-            elif nav_error[0] == 0:
-                self.set_state('END')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='LEAVE_WAREHOUSE',
-                    transitions=self
-                )
-
-
     async def END(self):
         self.app.log.info('Task finished successfully')

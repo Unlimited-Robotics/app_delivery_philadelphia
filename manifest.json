@@ -9,6 +9,10 @@
             {
                 "name": "attach_to_cart",
                 "version": "==3.0.0.dev"
+            },
+            {
+                "name": "nav_with_steps",
+                "version": "==0.0.0.dev"
             }
         ]
     },

@@ -39,7 +39,7 @@ INITIAL_STATE = 'SETUP_ACTIONS'
 
 # If the FSM falls into one of these states, the execution finishes.
 END_STATES = [
-    'END',
+    'NAV_TO_FLOOR',
 ]
 
 STATES_TRANSITION_TIMEOUTS = {

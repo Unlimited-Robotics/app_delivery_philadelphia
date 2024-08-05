@@ -18,47 +18,6 @@ class Actions(CommonAction):
         self.app = app
         self.helpers = helpers
 
-    
-    async def enter_GO_TO_WAREHOUSE_ENTRANCE(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_GOING_TO_WAREHOUSE_ENTRANCE
-        )
-        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
-        await self.app.nav.navigate_to_position(
-            **NAV_WAREHOUSE_ENTRANCE,
-            callback_feedback_async=self.helpers.nav_feedback_async,
-            callback_finish_async=self.helpers.nav_finish_async,
-        )
-
-
-    async def enter_ENTER_WAREHOUSE(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ENTERING_WAREHOUSE
-        )
-        home = await self.helpers.get_home_position()
-        await self.app.nav.navigate_to_position(
-            **home,
-            callback_feedback_async=self.helpers.nav_feedback_wrapper,
-            callback_finish_async=self.helpers.nav_finish_async,
-            wait=False
-        )
-
-
-    async def enter_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_WAIT_FOR_DOOR
-        )
-        await self.helpers._enable_door_detection()
-        await self.app.ui.show_animation(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
-
-  
-    async def leave_WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
-        await self.app.custom_cancel_sound()
-        await self.app.custom_turn_off_leds()
-
 
     async def enter_GO_TO_HOME_LOCATION(self):
         await self.app.fleet.update_app_status(
@@ -104,43 +63,8 @@ class Actions(CommonAction):
             wait=False
         )
 
-    
-    async def enter_GO_TO_WAREHOUSE_EXIT(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_GOING_TO_WAREHOUSE_EXIT
-        )
-        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
-        await self.app.nav.navigate_to_position(
-            **NAV_WAREHOUSE_EXIT,
-            callback_feedback_async=self.helpers.nav_feedback_async,
-            callback_finish_async=self.helpers.nav_finish_async,
-        )
 
-
-    async def enter_WAIT_FOR_EXIT_DOOR_OPEN(self):
-        # TODO: enable detector
-        await self.helpers._enable_door_detection()
-        await self.app.ui.show_animation(**UI_SCREEN_WAIT_FOR_DOOR_OPEN)
-        # TODO check if this is ok
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_WAIT_FOR_DOOR
-        )
-
-
-    async def leave_WAIT_FOR_EXIT_DOOR_OPEN(self):
-        await self.app.custom_cancel_sound()
-        await self.app.custom_turn_off_leds()
-
-
-
-    async def enter_LEAVE_WAREHOUSE(self):
-        # TODO check if this is ok
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_LEAVING_WAREHOUSE
-        )
+    async def enter_GO_TO_ELEVATOR(self):
         point = await self.helpers.get_elevator_waiting_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         current_package_location_name = self.helpers.current_package['map_name']
@@ -149,22 +73,17 @@ class Actions(CommonAction):
             current_package_location_name
         )
         copy_ui_screen['title'] = message
-        await self.app.ui.show_animation(**copy_ui_screen)
-        await self.app.nav.navigate_to_position(
-            **point,
-            callback_feedback_async=self.helpers.nav_feedback_wrapper,
-            callback_finish_async=self.helpers.nav_finish_async,
+        # TODO add ui screen for elevator
+        
+        execute_args = {
+            'steps': SKILL_NAVIGATION['home_elev']
+        }
+        await self.app.skill_nav_steps.execute_main(
+            execute_args=execute_args,
+            callback_done=self.helpers.cb_skill_done,
+            callback_feedback=self.helpers.cb_skill_feedback,
+            wait=False
         )
-
-
-    async def LEAVE_WAREHOUSE_to_END(self):
-        # TODO: disable detector
-        await self.helpers._disable_door_detection()
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ROBOT_OUTSIDE_WAREHOUSE
-        )
-        pass
 
 
     async def aborted(self, error, msg):

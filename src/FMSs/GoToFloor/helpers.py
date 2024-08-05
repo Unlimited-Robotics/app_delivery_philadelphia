@@ -55,7 +55,9 @@ class Helpers(ParkCartHelpers):
     async def get_entry_point_to_elevator(self):
         self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
         current_floor = self.app.get_current_floor_map_name()
-        result = FLOORS[current_floor]['elevator'][self.selected_elevator]['entry_point']
+        # TODO: check if entry point is needed
+        # result = FLOORS[current_floor]['elevator'][self.selected_elevator]['entry_point']
+        result = FLOORS[current_floor]['elevator'][self.selected_elevator]['localization']['outside_elevator']['closest_point']
         self.app.log.warn(f'point: {result}')
         return result
 
@@ -68,23 +70,13 @@ class Helpers(ParkCartHelpers):
         return result
 
 
-    async def get_elevator_localization_points(self, inside_elevator=False):
+    async def get_elevator_localization_points(self):
         elevator = await self.get_elevator_leaving_point()
         result = []
-        if inside_elevator:
-            elevator_inside = elevator['localization']['inside_elevator']
-            point = {
-                'x': float(elevator_inside['x']),
-                'y': float(elevator_inside['y']),
-                'angle': float(elevator_inside['angle']),
-                'pos_unit': elevator_inside['pos_unit'],
-                'ang_unit': elevator_inside['ang_unit']
-            }
-            result.append(point)
-        else:
-            elevator_localization_info = elevator['localization']
-            list_points = self.generate_divided_points(elevator_localization_info)
-            result = list_points
+        
+        elevator_localization_info = elevator['localization']
+        list_points = self.generate_divided_points(elevator_localization_info)
+        result = list_points
 
         self.app.log.warn(f'points: {result}')
         return result

@@ -18,6 +18,7 @@ from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
 from src.static import *
 
+from skills.NavSteps import SkillNavSteps
 from skills.attach_to_cart import SkillAttachToCart, SkillDetachCart
 
 class RayaApplication(RayaApplicationBase):
@@ -49,24 +50,20 @@ class RayaApplication(RayaApplicationBase):
             await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
         else:
             await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
-        
-        self.log.debug('Enabling cameras')
-        for camera in CAMERAS_DETECTING_DOOR:
-            await self.cameras.enable_camera(camera_name=camera)
-
-        # TODO: Chest disabled
-        # self.sensors.create_threshold_listener(
-        #     listener_name='chest_button',
-        #     callback_async=self.cb_chest_button,
-        #     sensors_paths=CHEST_LISTENER_PATHS,
-        #     lower_bound=LOWER_BOUNDS_CHEST_THRESHOLD
-        # )
     
         # FSMs
         self.fsm_main_task = MainFSM(
                 log_transitions=True,
             )
 
+        # Skills
+        self.skill_nav_steps = self.register_skill(SkillNavSteps)
+        setup_args = {}
+        result = await self.skill_nav_steps.execute_setup(
+            setup_args=setup_args
+        )
+        self.log.warn(f'setup skill_nav_steps result: {result}')
+        
         self.skill_att2cart = None
         self.skill_detach = None
         if self.enable_attach:
@@ -123,10 +120,10 @@ class RayaApplication(RayaApplicationBase):
     def get_arguments(self):
         self.locations = []
         delivery_location_fake = [
-            "{'name': '7E',  'x': 1027, 'y': 593, 'angle': 13.75, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}", 
-            "{'name': '7W',  'x': 1642, 'y': 2266, 'angle': 15.47, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__7'}", 
+            "{'name': '7E',  'x': 1027, 'y': 593, 'angle': 13.75, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__07'}", 
+            "{'name': '7W',  'x': 1642, 'y': 2266, 'angle': 15.47, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__07'}", 
         ]
-        cart_location_fake = "{'name': 'cart_4', 'x': 3574, 'y': 402, 'angle': -104, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'philly_hospital__basement'}"
+        cart_location_fake = "{'name': 'cart_4', 'x': 289, 'y': 1271, 'angle': 102, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__00'}"
         
         max_packages = self.get_argument(
             '--max_packages',
@@ -244,7 +241,7 @@ class RayaApplication(RayaApplicationBase):
 
     def get_complete_current_floor_map_name(self):
         floor = self.get_current_floor_map_name()
-        return f'{NAV_WAREHOUSE_BUILDING_NAME}__{floor}'
+        return f'{NAV_MAP_NAME}__{floor}'
 
 
     def get_current_target_floor_map_name(self):
@@ -253,7 +250,7 @@ class RayaApplication(RayaApplicationBase):
     
     def get_complete_target_floor_map_name(self):
         floor = self.get_current_target_floor_map_name()
-        return f'{NAV_WAREHOUSE_BUILDING_NAME}__{floor}'
+        return f'{NAV_MAP_NAME}__{floor}'
 
 
     def current_target_floor_reached(self):

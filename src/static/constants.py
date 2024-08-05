@@ -9,24 +9,5 @@ TIMEOUT_REQUEST_FOR_HELP = 1.0
 
 CHEST_LISTENER_PATHS = ['/chest_button']
 
-# door
-CAMERAS_DETECTING_DOOR = ['nav_bottom']
-DOOR_TAG_EXIT = 25
-DOOR_TAG_ENTRANCE = 26
-DOOR_TAGS = {
-    'tag36h11': [DOOR_TAG_EXIT, DOOR_TAG_ENTRANCE]
-}
-DOOR_MODEL_PARAM = {
-    'families' : 'tag36h11',
-    'nthreads' : 4,
-    'quad_decimate' : 2.0,
-    'quad_sigma': 0.0,
-    'decode_sharpening' : 0.25,
-    'refine_edges' : 1,
-    'tag_size' : 0.12,
-}
-DOOR_TAG_CALLBACK_TIMER = 1.0
-DOOR_TAG_TIMEOUT = 3.0
-
 # go to floor
 TIME_TO_WAIT_AFTER_SELECTION_ELEVATOR = 3.0
