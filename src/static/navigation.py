@@ -1,4 +1,25 @@
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
+import math
+
+def rotate_180(nav_point):
+    if nav_point['ang_unit'] == ANGLE_UNIT.RADIANS:
+        new_angle = nav_point['angle'] + math.pi
+        # Ensure the angle is within the range [-pi, pi]
+        if new_angle > math.pi:
+            new_angle -= 2 * math.pi
+    elif nav_point['ang_unit'] == ANGLE_UNIT.DEGREES:
+        new_angle = nav_point['angle'] + 180
+        # Ensure the angle is within the range [-180, 180]
+        if new_angle > 180:
+            new_angle -= 360
+    else:
+        raise ValueError("Unsupported angle unit")
+    
+    return {
+        **nav_point,
+        'angle': new_angle,
+    }
+
 
 NAV = dict()
 
@@ -59,7 +80,7 @@ NAV_WAREHOUSE_ENTRANCE = {
         'x':        2010.0,
         'y':        879.0,
         'angle':    -2.9266371161831866,
-        'pos_unit': POSITION_UNIT.PIXELS, 
+        'pos_unit': POSITION_UNIT.PIXELS,
         'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
     }
@@ -68,18 +89,17 @@ NAV_WAREHOUSE_EXIT = {
         'x':        1761.0,
         'y':        904.0,
         'angle':    0.22435328773765226,
-        'pos_unit': POSITION_UNIT.PIXELS, 
+        'pos_unit': POSITION_UNIT.PIXELS,
         'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
     }
 
-# TODO change this point
 NAV_CART_UNLOAD_POINT = {
-        'x':        3190.0,
-        'y':        478.0,
-        'angle':    1.7,
-        'pos_unit': POSITION_UNIT.PIXELS, 
-        'ang_unit': ANGLE_UNIT.DEGREES,
+        'x':        605.0,
+        'y':        1141.0,
+        'angle':    -2.922,
+        'pos_unit': POSITION_UNIT.PIXELS,
+        'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
     }
 
@@ -301,9 +321,8 @@ FLOORS = {
     '07': FLOOR__07
 }
 
-
-SKILL_NAVIGATION = {
-    'home_elev': [
+BASEMENT_ROUTES = {
+    'attach_elev': [
         {
             'name': 'Navigation to warehouse exit',
             'type': 'nav_to_point',
@@ -316,9 +335,9 @@ SKILL_NAVIGATION = {
             'name': 'Automatic door warehouse',
             'type': 'automatic_door',
             'after_door_point': {
-                **FLOOR__00['waiting_elevator']
+                **rotate_180(NAV_WAREHOUSE_ENTRANCE)
             },
-            'tags_ids': [25, 26],
+            'tags_ids': [25],
             'tags_sizes': [0.12],
         },
         {
@@ -329,5 +348,54 @@ SKILL_NAVIGATION = {
             },
             'teleoperator_if_fail': True,
         },
+    ],
+    'elev_detach': [
+        {
+            'name': 'Navigation to warehouse entrance',
+            'type': 'nav_to_point',
+            'point' : {
+                **NAV_WAREHOUSE_ENTRANCE
+            },
+            'teleoperator_if_fail': True,
+        },
+        {
+            'name': 'Automatic door warehouse',
+            'type': 'automatic_door',
+            'after_door_point': {
+                **rotate_180(NAV_WAREHOUSE_EXIT)
+            },
+            'tags_ids': [26],
+            'tags_sizes': [0.12],
+        },
+        {
+            'name': 'Navigation to detaching point',
+            'type': 'nav_to_point',
+            'point' : {
+                **NAV_CART_UNLOAD_POINT
+            },
+            'teleoperator_if_fail': True,
+        }
+    ],
+    
+    'home': [
+        {
+            'name': 'Navigation to home',
+            'type': 'nav_to_point',
+            'point' : {}, # it uses the home position from the map
+            'teleoperator_if_fail': True,
+        },
+    ],
+    'cart_point': [
+        {
+            'name': 'Navigation to cart point',
+            'type': 'nav_to_point',
+            'point' : {}, # it uses the home position from the map
+            'teleoperator_if_fail': True,
+        },
     ]
+    
+}
+
+SKILL_NAVIGATION = {
+    **BASEMENT_ROUTES,
 }

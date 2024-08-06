@@ -241,27 +241,7 @@ class Transitions(CommonTransitions):
         else:
             if self.helpers.fsm_park_cart.has_finished() and \
                 self.helpers.fsm_park_cart.was_successful():
-                self.set_state('GO_TO_HOME_LOCATION')
-
-
-    async def GO_TO_HOME_LOCATION(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                try:
-                    await self.app.motion.move_linear(
-                        **MOTION_HOME_BACKWARD,
-                        wait=True,
-                    )
-                except Exception:
-                    pass
-                self.set_state('NOTIFY_ALL_PACKAGES_STATUS')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='GO_TO_HOME_LOCATION',
-                    transitions=self
-                )
+                self.set_state('END')
 
 
     async def NOTIFY_ALL_PACKAGES_STATUS(self):

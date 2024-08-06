@@ -23,37 +23,22 @@ class Transitions(CommonTransitions):
 
 
     async def GO_TO_HOME_LOCATION(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                try:
-                    await self.app.motion.move_linear(
-                        **MOTION_HOME_BACKWARD,
-                        wait=True,
-                    )
-                except Exception:
-                    pass
-                self.set_state('GO_TO_CART_POINT')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='GO_TO_HOME_LOCATION',
-                    transitions=self
-                )
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        try:
+            await self.app.motion.move_linear(
+                **MOTION_HOME_BACKWARD,
+                wait=True,
+            )
+        except Exception:
+            pass
+        self.set_state('GO_TO_CART_POINT')
 
 
     async def GO_TO_CART_POINT(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                if self.app.enable_attach:
-                    self.set_state('ATTACH_TO_CART')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='GO_TO_CART_POINT',
-                    transitions=self
-                )
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        self.set_state('ATTACH_TO_CART')
 
 
     async def ATTACH_TO_CART(self):
@@ -100,21 +85,8 @@ class Transitions(CommonTransitions):
 
 
     async def GO_TO_ELEVATOR(self):
-        try:
-            result = await self.app.skill_nav_steps.wait_main()
-            self.app.log.warn(f'skill_template result: {result}')
-
-        except RayaSkillAborted as e:
-            self.app.log.error((
-                'Skill aborted with '
-                f'Error code: \'{e.error_code}\', '
-                f'Error msg: \'{e.error_msg}\'.'
-            ))
-            self.helpers.set_state_wrapper(
-                new_state='REQUEST_FOR_HELP',
-                last_state='GO_TO_ELEVATOR',
-                transitions=self
-            )
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
         self.set_state('END')
 
     

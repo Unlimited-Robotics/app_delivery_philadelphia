@@ -1,12 +1,8 @@
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
+from raya.exceptions import RayaSkillAborted
 
 from src.app import RayaApplication
-from src.static.constants import *
-from src.static.leds import *
-from src.static.sound import *
-from src.static.fleet import *
-from src.static.navigation import *
-from src.static.sensors import *
+from src.static import *
 
 from .helpers import Helpers
 from .errors import *
@@ -21,73 +17,10 @@ class Transitions(CommonTransitions):
         self.helpers = helpers
 
 
-    async def CHECK_IF_INSIDE_ZONE(self):
-        if await self.helpers.check_if_inside_zone():
-            self.set_state('GO_TO_CART_POINT')
-        else:
-            self.set_state('ENTER_WAREHOUSE')
-    
-    
-    async def ENTER_WAREHOUSE(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            # 18 the nav was canceled
-            if nav_error[0] == 18 or nav_error[0] == 116:
-                self.set_state('WAIT_FOR_ENTRANCE_DOOR_OPEN')
-            elif nav_error[0] == 0:
-                self.set_state('GO_TO_CART_POINT')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='ENTER_WAREHOUSE',
-                    transitions=self
-                )
-
-    
-    async def WAIT_FOR_ENTRANCE_DOOR_OPEN(self):
-        tag = DOOR_TAG_ENTRANCE
-        tag_visible = await self.helpers.tag_door_visible(tag=tag)
-        if not tag_visible:
-            self.app.log.debug('The door is open, Entering the warehouse')
-            await self.app.custom_cancel_sound()
-            self.app.log.debug('The sound is canceled')
-            await self.app.custom_turn_off_leds()
-            self.app.log.debug('The leds are off')
-    
-            self.app.log.debug('The sound is played. Waiting for the audio to finish')
-            # TODO: check why this is frozing the app
-            # await self.helpers.gary_play_audio(
-            #     audio=SOUND_OPEN_DOOR_REQUEST,
-            #     animation_head_leds=LEDS_WAITING_FOR_DELIVERY_CHECK,
-            #     wait=True
-            # )
-            self.app.log.debug('The audio is finished')
-            self.set_state('ENTER_WAREHOUSE')
-        
-        self.app.log.debug('The door is closed, waiting for it to open')
-        await self.helpers.gary_play_audio(
-            audio=SOUND_OPEN_DOOR_REQUEST,
-        )
-
-
-    async def GO_TO_CART_POINT(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                if self.app.enable_attach:
-                    self.set_state('DETACH_CART')
-                else:
-                    self.set_state('WAIT_FOR_UNLOAD_PACKAGE')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='GO_TO_CART_POINT',
-                    transitions=self
-                )
-
-    
-    async def WAIT_FOR_UNLOAD_PACKAGE(self):
-        self.set_state('END')
+    async def GO_TO_DETACH_CART_POINT(self):
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        self.set_state('DETACH_CART')
 
 
     async def DETACH_CART(self):
@@ -127,8 +60,22 @@ class Transitions(CommonTransitions):
             self.app.log.debug(
                 f'DETACH_TO_CART result_finish: {result_finish}'
             )
-            await self.app.set_gary_footprint(
-                footprint=GARY_FOOTPRINT
-            )
             self.app.log.warn('Cart released...')
-            self.set_state('END')
+            self.set_state('GO_TO_HOME_LOCATION')
+
+
+    async def GO_TO_HOME_LOCATION(self):
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        try:
+            await self.app.motion.move_linear(
+                **MOTION_HOME_BACKWARD,
+                wait=True,
+            )
+        except Exception:
+            pass
+        self.set_state('END')
+
+
+    async def END(self):
+        pass

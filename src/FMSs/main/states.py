@@ -21,7 +21,6 @@ STATES = [
         'NAV_TO_WAREHOUSE_FLOOR',
         'RETURN_TO_WAREHOUSE_ENTRANCE',
         'PARK_CART',
-        'GO_TO_HOME_LOCATION',
         'NOTIFY_ALL_PACKAGES_STATUS',
         'END',
         

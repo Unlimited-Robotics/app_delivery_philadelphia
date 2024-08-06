@@ -20,32 +20,37 @@ class Actions(CommonAction):
 
 
     async def enter_GO_TO_HOME_LOCATION(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ROBOT_NAVIGATING_TO_HOME
+        await self.app.set_gary_footprint(
+            footprint=GARY_FOOTPRINT
         )
-        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
-        home = await self.helpers.get_home_position()
-        await self.app.nav.navigate_to_position(
-            **home,
-            callback_feedback_async=self.helpers.nav_feedback_async,
-            callback_finish_async=self.helpers.nav_finish_async,
+        
+        home_steps = copy(BASEMENT_ROUTES['home'])
+        home_steps[0]['point'] = await self.helpers.get_home_position()
+        execute_args = {
+            'steps': home_steps
+        }
+        await self.app.skill_nav_steps.execute_main(
+            execute_args=execute_args,
+            callback_done=self.helpers.cb_skill_done,
+            callback_feedback=self.helpers.cb_skill_feedback,
             wait=False
         )
 
 
     async def enter_GO_TO_CART_POINT(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_ROBOT_MOVING_TO_ATTACH_POINT
-        )
-        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         cart_location = await self.helpers.get_cart_load_point()
         self.app.log.debug(f'navigate_to_position {cart_location}')
-        await self.app.nav.navigate_to_position(
-            **cart_location,
-            callback_feedback_async=self.helpers.nav_feedback_async,
-            callback_finish_async=self.helpers.nav_finish_async,
+        
+        cart_steps = copy(BASEMENT_ROUTES['cart_point'])
+        cart_steps[0]['point'] = cart_location
+        execute_args = {
+            'steps': cart_steps
+        }
+        await self.app.skill_nav_steps.execute_main(
+            execute_args=execute_args,
+            callback_done=self.helpers.cb_skill_done,
+            callback_feedback=self.helpers.cb_skill_feedback,
+            wait=False
         )
 
 
@@ -76,7 +81,7 @@ class Actions(CommonAction):
         # TODO add ui screen for elevator
         
         execute_args = {
-            'steps': SKILL_NAVIGATION['home_elev']
+            'steps': SKILL_NAVIGATION['attach_elev']
         }
         await self.app.skill_nav_steps.execute_main(
             execute_args=execute_args,
