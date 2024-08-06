@@ -212,20 +212,7 @@ class Transitions(CommonTransitions):
         else:
             if self.helpers.fsm_go_to_floor.has_finished() and \
                 self.helpers.fsm_go_to_floor.was_successful():
-                self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
-
-
-    async def RETURN_TO_WAREHOUSE_ENTRANCE(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
                 self.set_state('PARK_CART')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='RETURN_TO_WAREHOUSE_ENTRANCE',
-                    transitions=self
-                )
 
 
     async def PARK_CART(self):

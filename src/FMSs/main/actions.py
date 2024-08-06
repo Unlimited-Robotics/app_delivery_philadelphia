@@ -202,28 +202,11 @@ class Actions(CommonAction):
         await self.helpers.fsm_go_to_floor.run_in_background()
 
 
-    async def enter_RETURN_TO_WAREHOUSE_ENTRANCE(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_RETURNING_TO_WAREHOUSE
-            )
-        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
+    async def enter_PARK_CART(self):
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
             final_point='home',
         )
-        await self.app.nav.navigate_to_position(
-                **NAV_WAREHOUSE_ENTRANCE,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
-
-
-    async def leave_RETURN_TO_WAREHOUSE_ENTRANCE(self):
-        await self.app.custom_turn_off_leds()
-
-
-    async def enter_PARK_CART(self):
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_PARKING_CART
