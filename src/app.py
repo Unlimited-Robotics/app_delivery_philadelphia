@@ -46,7 +46,7 @@ class RayaApplication(RayaApplicationBase):
         self.robot_skills: RobotSkillsController = \
                 await self.enable_controller('robot_skills')
     
-        if not self.continue_cart:
+        if not self.continue_with_cart_footprint:
             await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
         else:
             await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
@@ -138,8 +138,8 @@ class RayaApplication(RayaApplicationBase):
             help='If enabled it will run the app from the fleet'
         )
         
-        self.continue_cart = self.get_flag_argument(
-            '--cart',
+        self.continue_with_cart_footprint = self.get_flag_argument(
+            '--cart_footprint',
             help='If enabled it will set start the app with the footprint of gary with cart attached'
         )
         
@@ -186,8 +186,8 @@ class RayaApplication(RayaApplicationBase):
             )
         cart_location = cart_location.replace("\'", "\"")
         self.cart_location = json.loads(cart_location)
-        #TODO replace this, it should take the id from the fleet
-        self.cart_number = '4'
+        self.cart_number = self.cart_location['name'].split('_')[1]
+        self.log.debug(f'Cart location: {self.cart_number}')
         
         self.log.warn('App is running with there args:')
         self.log.warn(f'Cart location: {self.cart_location}')
