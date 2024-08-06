@@ -35,8 +35,8 @@ class Actions(CommonAction):
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_STATUS_GOING_TO_CART_POINT
         )
-        self.helpers.fsm_go_to_cart_point.restart()
-        await self.helpers.fsm_go_to_cart_point.run_in_background()
+        self.helpers.fsm_take_cart.restart()
+        await self.helpers.fsm_take_cart.run_in_background()
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR(self):

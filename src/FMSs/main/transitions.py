@@ -50,7 +50,7 @@ class Transitions(CommonTransitions):
 
     async def GO_TO_CART_POINT(self):
         try:
-            await self.helpers.fsm_go_to_cart_point.raise_last_execution_exception()
+            await self.helpers.fsm_take_cart.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
             self.helpers.retry_step(
@@ -58,8 +58,8 @@ class Transitions(CommonTransitions):
                     last_state='GO_TO_CART_POINT',
                 )
         else:
-            if self.helpers.fsm_go_to_cart_point.has_finished() and \
-                self.helpers.fsm_go_to_cart_point.was_successful():
+            if self.helpers.fsm_take_cart.has_finished() and \
+                self.helpers.fsm_take_cart.was_successful():
                 self.set_state('NAV_TO_FLOOR')
 
 

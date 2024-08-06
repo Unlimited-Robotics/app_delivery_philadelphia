@@ -3,7 +3,7 @@ from raya.exceptions import *
 from src.static.app_errors import *
 from src.static import *
 
-from src.FMSs.GoToCartPoint import GoToCartPointFSM
+from src.FMSs.TakeCart import TakeCartFSM
 from src.FMSs.ParkCart import ParkCartFSM
 from src.FMSs.GoToFloor import GoToFloorFSM
 
@@ -18,8 +18,8 @@ class Helpers(CommonHelpers):
     def __init__(self, app):
         super().__init__(app=app)
         
-        self.fsm_go_to_cart_point = GoToCartPointFSM(
-            name='GoToCartPointFSM', 
+        self.fsm_take_cart = TakeCartFSM(
+            name='TakeCartFSM', 
             log_transitions=True
         )
         self.fsm_park_cart = ParkCartFSM(
