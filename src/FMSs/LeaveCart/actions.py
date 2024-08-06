@@ -65,8 +65,6 @@ class Actions(CommonAction):
 
 
     async def enter_END(self):
-        # TODO: disable detector
-        await self.helpers._disable_door_detection()
         await self.app.custom_cancel_sound()
         await self.app.custom_turn_off_leds()
         await self.app.fleet.update_app_status(
