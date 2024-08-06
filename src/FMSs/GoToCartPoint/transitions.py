@@ -1,7 +1,5 @@
 from raya.enumerations import SKILL_STATE
-from raya.exceptions import RayaSkillAborted
 
-from src.app import RayaApplication
 from src.static import *
 
 from .helpers import Helpers
@@ -10,10 +8,9 @@ from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
 class Transitions(CommonTransitions):
 
-    def __init__(self, app: RayaApplication, helpers: Helpers):
+    def __init__(self, app, helpers: Helpers):
         super().__init__(app=app, helpers=helpers)
-        self.app = app
-        self.helpers = helpers
+        self.helpers: Helpers
 
 
     async def CHECK_IF_INSIDE_ZONE(self):
@@ -55,10 +52,9 @@ class Transitions(CommonTransitions):
                     f'Error while waiting main for ATTACH_TO_CART: {e}'
                 )
             finally:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+                self.helpers.retry_step(
+                    transitions=self,
                     last_state='ATTACH_TO_CART',
-                    transitions=self
                 )
         elif state == SKILL_STATE.ERROR_FINISHING:
             try:
@@ -68,10 +64,9 @@ class Transitions(CommonTransitions):
                     f'Error while waiting finish for ATTACH_TO_CART: {e}'
                 )
             finally:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='GO_TO_CART_POINT',
-                    transitions=self
+                self.helpers.retry_step(
+                    transitions=self,
+                    last_state='ATTACH_TO_CART',
                 )      
         elif state == SKILL_STATE.FINISHED:
             result_finish = await self.app.skill_att2cart.wait_finish()

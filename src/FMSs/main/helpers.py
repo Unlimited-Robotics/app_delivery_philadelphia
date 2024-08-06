@@ -1,22 +1,22 @@
 from raya.exceptions import *
 
-from src.app import RayaApplication
 from src.static.app_errors import *
 from src.static import *
 
 from src.FMSs.GoToCartPoint import GoToCartPointFSM
 from src.FMSs.ParkCart import ParkCartFSM
 from src.FMSs.GoToFloor import GoToFloorFSM
+
 from raya.enumerations import FLEET_UPDATE_STATUS
+
 from src.static.constants import *
 from src.FMSs.BaseAppFSM.helpers import CommonHelpers
 
 
 class Helpers(CommonHelpers):
 
-    def __init__(self, app: RayaApplication):        
-        self.app = app
-        super().__init__(app)
+    def __init__(self, app):
+        super().__init__(app=app)
         
         self.fsm_go_to_cart_point = GoToCartPointFSM(
             name='GoToCartPointFSM', 

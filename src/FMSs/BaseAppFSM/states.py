@@ -1,6 +1,5 @@
+from src.PartialsFSM.RetryState import states as RetryStates
+ 
 STATES = [
-    'REQUEST_FOR_HELP',
-    'WAIT_FOR_HELP',
-    'CONTINUE',
-    'RELEASE_CART',
+    *RetryStates.STATES,
 ]

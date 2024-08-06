@@ -1,16 +1,14 @@
 from src.FMSs.BaseAppFSM.helpers import CommonHelpers
 
 from src.static.constants import *
-from src.app import RayaApplication
 from src.static.leds import *
 from src.static.sound import *
 from src.static.constants import NAV_WAREHOUSE_ZONE_NAME
 
 class Helpers(CommonHelpers):
 
-    def __init__(self, app: RayaApplication):
-        super().__init__(app)
-        self.app = app
+    def __init__(self, app):
+        super().__init__(app=app)
 
 
     async def check_if_inside_zone(self):

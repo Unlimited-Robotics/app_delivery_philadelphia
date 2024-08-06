@@ -1,22 +1,20 @@
 from raya.exceptions import RayaNavLocationNotFound, RayaNavZoneNotFound
-from raya.exceptions import RayaCommandAlreadyRunning
 from raya.enumerations import FLEET_UPDATE_STATUS
 from raya.tools.fsm import RayaFSMAborted
 
-from src.app import RayaApplication
+
+from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 from src.static import *
 
 from .helpers import Helpers
 from .errors import *
-from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
 
 class Transitions(CommonTransitions):
 
-    def __init__(self, app: RayaApplication, helpers: Helpers):
+    def __init__(self, app, helpers: Helpers):
         super().__init__(app=app, helpers=helpers)
-        self.app = app
-        self.helpers = helpers
+        self.helpers: Helpers 
 
 
     async def SETUP_ACTIONS(self):
@@ -55,10 +53,9 @@ class Transitions(CommonTransitions):
             await self.helpers.fsm_go_to_cart_point.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
-            self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+            self.helpers.retry_step(
+                    transitions=self,
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
                 )
         else:
             if self.helpers.fsm_go_to_cart_point.has_finished() and \
@@ -79,10 +76,9 @@ class Transitions(CommonTransitions):
             if nav_error[0] == 0:
                 self.set_state('NAV_TO_FLOOR')
             else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+                self.helpers.retry_step(
+                    transitions=self,
                     last_state='NAV_TO_WAITING_ELEVATOR',
-                    transitions=self
                 )
 
     
@@ -91,10 +87,9 @@ class Transitions(CommonTransitions):
             await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
-            self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+            self.helpers.retry_step(
+                    transitions=self,
                     last_state='NAV_TO_FLOOR',
-                    transitions=self
                 )
         else:
             if self.helpers.fsm_go_to_floor.has_finished() and \
@@ -114,10 +109,9 @@ class Transitions(CommonTransitions):
             if nav_error[0] == 0:
                 self.set_state('NOTIFY_ORDER_ARRIVED')
             else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+                self.helpers.retry_step(
+                    transitions=self,
                     last_state='NAV_TO_DELIVERY_POINT',
-                    transitions=self
                 )
 
 
@@ -192,10 +186,9 @@ class Transitions(CommonTransitions):
             if nav_error[0] == 0:
                 self.set_state('NAV_TO_WAREHOUSE_FLOOR')
             else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+                self.helpers.retry_step(
+                    transitions=self,
                     last_state='NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
-                    transitions=self
                 )
 
 
@@ -204,10 +197,9 @@ class Transitions(CommonTransitions):
             await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
-            self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+            self.helpers.retry_step(
+                    transitions=self,
                     last_state='NAV_TO_WAREHOUSE_FLOOR',
-                    transitions=self
                 )
         else:
             if self.helpers.fsm_go_to_floor.has_finished() and \
@@ -220,19 +212,14 @@ class Transitions(CommonTransitions):
             await self.helpers.fsm_park_cart.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
-            self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+            self.helpers.retry_step(
+                    transitions=self,
                     last_state='PARK_CART',
-                    transitions=self
                 )
         else:
             if self.helpers.fsm_park_cart.has_finished() and \
                 self.helpers.fsm_park_cart.was_successful():
                 self.set_state('END')
-
-
-    async def NOTIFY_ALL_PACKAGES_STATUS(self):
-        self.set_state('END')
     
 
     async def END(self):

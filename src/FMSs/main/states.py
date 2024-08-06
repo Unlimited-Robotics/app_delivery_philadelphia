@@ -20,12 +20,7 @@ STATES = [
         'NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
         'NAV_TO_WAREHOUSE_FLOOR',
         'PARK_CART',
-        'NOTIFY_ALL_PACKAGES_STATUS',
         'END',
-        
-        'REQUEST_FOR_HELP',
-        'WAIT_FOR_HELP',
-        'RELEASE_CART',
     ]
 STATES.extend(BASE_STATES)
 
@@ -37,7 +32,7 @@ INITIAL_STATE = 'SETUP_ACTIONS'
 
 # If the FSM falls into one of these states, the execution finishes.
 END_STATES = [
-    'NAV_TO_FLOOR',
+    'END',
 ]
 
 STATES_TRANSITION_TIMEOUTS = {

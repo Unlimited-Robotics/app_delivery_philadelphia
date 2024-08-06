@@ -2,21 +2,14 @@ from copy import copy
 from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import FLEET_UPDATE_STATUS, POSITION_UNIT, ANGLE_UNIT
 
-from src.app import RayaApplication
-from src.static.skills import *
-from src.static.navigation import *
-from src.static.ui import *
-from src.static.leds import *
-from src.static.fleet import *
-from src.static.constants import *
+from src.static import *
 from .helpers import Helpers
 
 class Actions(CommonAction):
 
-    def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__(app=app,helpers=helpers)
-        self.app = app
-        self.helpers = helpers
+    def __init__(self, app, helpers: Helpers):
+        super().__init__(app=app, helpers=helpers)
+        self.helpers: Helpers
 
 
     async def enter_GO_TO_HOME_LOCATION(self):

@@ -1,7 +1,6 @@
 import time
 from raya.exceptions import RayaNavLocalizationRejected
 
-from src.app import RayaApplication
 from src.static import *
 
 from .helpers import Helpers
@@ -11,10 +10,9 @@ from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
 class Transitions(CommonTransitions):
 
-    def __init__(self, app: RayaApplication, helpers: Helpers):
+    def __init__(self, app, helpers: Helpers):
         super().__init__(app=app, helpers=helpers)
-        self.app = app
-        self.helpers = helpers
+        self.helpers: Helpers
 
 
     async def SELECT_ELEVATOR(self):
@@ -32,10 +30,9 @@ class Transitions(CommonTransitions):
                 await self.app.sleep(TIME_TO_WAIT_AFTER_SELECTION_ELEVATOR)
                 self.set_state('TELEOPERATING')
             else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='SELECT_ELEVATOR',
-                    transitions=self
+                self.helpers.retry_step(
+                    transitions=self,
+                    last_state='NAV_TO_ELEVATOR',
                 )
 
     
@@ -56,10 +53,9 @@ class Transitions(CommonTransitions):
             )
         except Exception as e:
             self.app.log.error(f'Error changing map: {e}')
-            self.helpers.set_state_wrapper(
-                new_state='REQUEST_FOR_HELP',
+            self.helpers.retry_step(
+                transitions=self,
                 last_state='TELEOPERATING',
-                transitions=self
             )
         end_time = time.time()
         self.app.log.warn(
@@ -100,8 +96,7 @@ class Transitions(CommonTransitions):
         
         if localization is False:
             # TODO: check if the teleoperator can do anything
-            self.helpers.set_state_wrapper(
-                new_state='REQUEST_FOR_HELP',
+            self.helpers.retry_step(
+                transitions=self,
                 last_state='LOCALIZING',
-                transitions=self
             )

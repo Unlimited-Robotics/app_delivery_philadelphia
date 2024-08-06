@@ -1,5 +1,4 @@
 from raya.enumerations import SKILL_STATE, FLEET_UPDATE_STATUS
-from raya.exceptions import RayaSkillAborted
 
 from src.app import RayaApplication
 from src.static import *
@@ -13,8 +12,7 @@ class Transitions(CommonTransitions):
 
     def __init__(self, app: RayaApplication, helpers: Helpers):
         super().__init__(app=app, helpers=helpers)
-        self.app = app
-        self.helpers = helpers
+        self.helpers: Helpers
 
 
     async def GO_TO_DETACH_CART_POINT(self):
@@ -37,10 +35,9 @@ class Transitions(CommonTransitions):
                     f'Error while waiting main for DETACH_TO_CART: {e}'
                 )
             finally:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+                self.helpers.retry_step(
+                    transitions=self,
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
                 )
         elif state == SKILL_STATE.ERROR_FINISHING:
             try:
@@ -50,10 +47,9 @@ class Transitions(CommonTransitions):
                     f'Error while waiting finish for DETACH_TO_CART: {e}'
                 )
             finally:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
+                self.helpers.retry_step(
+                    transitions=self,
                     last_state='GO_TO_CART_POINT',
-                    transitions=self
                 )    
         elif state == SKILL_STATE.FINISHED:
             result_finish = await self.app.skill_detach.wait_finish()

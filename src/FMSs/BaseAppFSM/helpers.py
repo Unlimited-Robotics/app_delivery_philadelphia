@@ -1,51 +1,26 @@
-from typing import NoReturn
+import typing
+if typing.TYPE_CHECKING:
+    from src.app import RayaApplication
+    
 from raya.exceptions import *
-from raya.handlers.cv.detectors.tags_detector_handler import \
-                                                            TagsDetectorHandler
+from src.PartialsFSM.RetryState import Helpers as RetryHelpers
 
-from src.app import RayaApplication
 from src.static.app_errors import *
 from src.static import *
 from src.static.constants import *
 
-from time import time
-import datetime
 
-
-class CommonHelpers:
+class CommonHelpers(RetryHelpers):
     
-    def __init__(self, app: RayaApplication):        
-        self.app = app
+    def __init__(self, app: 'RayaApplication'):
+        super().__init__(app=app)
+        
         self.index_package = 0
         self.current_package = self.app.locations[self.index_package]
-        self.detectors = dict()
-        self._tags = dict()
-        self.task_timer_name = 'timer_tag_door'
+        
         self.last_ui: callable = None
-        self.__obstacle_tries = 0
-        self.__navigating_tries = 0
-        self._last_failed_state = ''
-        self._last_failed_state_counter = 1
 
         self.selected_elevator = None
-
-
-    def reset_retry_counter(self):
-        self._last_failed_state_counter = 1
-
-
-    def max_retry_reached(self):
-        counter = self._last_failed_state_counter > \
-            MAX_RETRY_COUNTER_REQUEST_FOR_HELP
-        self.app.log.debug((
-            f'current try: {self._last_failed_state_counter} '
-            f'of {MAX_RETRY_COUNTER_REQUEST_FOR_HELP}'
-        ))
-        return counter
-
-
-    def increase_retry_counter(self):
-        self._last_failed_state_counter += 1
 
 
     async def get_elevator_waiting_point(self):
@@ -222,118 +197,3 @@ class CommonHelpers:
 
     def sound_finish_callback(self, code, msg):
         pass
-
-
-    async def _enable_door_detection(self):
-        await self.__reset_door_tags_values()
-
-        if len(self.detectors.keys()) > 0:
-            self.app.log.error('Detectors already enabled')
-            return
-        
-        # timers
-        self.app.log.debug('Enabling timers')
-        self.app.create_task(
-            name=self.task_timer_name,
-            afunc=self.timer_reset_tags_values
-        )
-
-        # models
-        self.app.log.debug('Enabling models')
-        self.detectors = dict()
-        for camera in CAMERAS_DETECTING_DOOR:
-            detector: TagsDetectorHandler = await self.app.cv.enable_model(
-                model='detector',type='tag',
-                name='apriltags', 
-                source=camera,
-                model_params = DOOR_MODEL_PARAM
-            )
-            self.detectors[camera] = detector
-        
-        # detectors listener
-        self.app.log.debug('Enabling detectors listener')
-        for detector in self.detectors:
-            self.detectors[detector].set_img_detections_callback(
-                callback=self._door_state_tag_listener,
-                as_dict=True,
-                call_without_detections=True,
-                cameras_controller=self.app.cameras
-            )
-
-
-    async def _disable_door_detection(self):
-        try:
-            # timers
-            self.app.cancel_task(name=self.task_timer_name)
-        except RayaTaskNotRunning:
-            pass
-
-        # models
-        self.app.log.debug('Disabling models')
-        for detector in self.detectors:
-            await self.app.cv.disable_model(model_obj=self.detectors[detector])
-        await self.__reset_door_tags_values()
-
-
-    async def __reset_door_tags_values(self):
-        for tag in DOOR_TAGS['tag36h11']:
-            self._tags[tag] = {
-                'visible': False,
-                'last_time': datetime.datetime.min,
-            }
-
-
-    def _door_state_tag_listener(self, detections, image):
-        if detections:
-            for tag in detections:
-                tag_id = tag['tag_id']
-                if tag_id in DOOR_TAGS['tag36h11']:
-                    self._tags[tag_id] = {
-                        'visible': True,
-                        'last_time': datetime.datetime.now(),
-                    }
-
-
-    async def timer_reset_tags_values(self):
-        while True:
-            for tag in DOOR_TAGS['tag36h11']:
-                last_time = self._tags[tag]['last_time']
-                current_time = datetime.datetime.now()
-                if current_time - last_time >= \
-                        datetime.timedelta(
-                            seconds=DOOR_TAG_TIMEOUT
-                        ):
-                    self._tags[tag]['visible'] = False
-            await self.app.sleep(DOOR_TAG_CALLBACK_TIMER)
-
-
-    async def tag_door_visible(self, tag: int):
-        return self._tags[tag]['visible']
-    
-    
-    def __set_last_failed_state(self, state: str):
-        if self._last_failed_state != state:
-            self.reset_retry_counter()
-        self._last_failed_state = state
-
-
-    def _get_last_failed_state(self):
-        return self._last_failed_state
-
-
-    def set_state_wrapper(self,
-            new_state:str,
-            transitions, 
-            last_state:str = ''
-        ) -> NoReturn:
-        if last_state != '':
-            self.__set_last_failed_state(last_state)
-        transitions.set_state(new_state)
-        
-
-class Helpers(CommonHelpers):
-    def __init__(self, app: RayaApplication):
-        self.app = app
-        super().__init__(app)
-        self.last_ui_result = None
-

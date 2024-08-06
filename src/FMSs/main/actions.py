@@ -1,9 +1,7 @@
 from copy import copy
 from src.FMSs.BaseAppFSM.actions import CommonAction
-from raya.enumerations import POSITION_UNIT, ANGLE_UNIT, FLEET_UPDATE_STATUS
-from raya.exceptions import RayaCommandAlreadyRunning
+from raya.enumerations import FLEET_UPDATE_STATUS
 
-from src.app import RayaApplication
 from src.static import *
 
 from .helpers import Helpers
@@ -11,10 +9,10 @@ from .helpers import Helpers
 
 class Actions(CommonAction):
 
-    def __init__(self, app: RayaApplication, helpers: Helpers):
-        super().__init__(app=app,helpers=helpers)
+    def __init__(self, app, helpers: Helpers):
+        super().__init__(app=app, helpers=helpers)
         self.app = app
-        self.helpers = helpers
+        self.helpers: Helpers
 
 
     async def enter_SETUP_ACTIONS(self):
@@ -213,15 +211,3 @@ class Actions(CommonAction):
             )
         self.helpers.fsm_park_cart.restart()
         await self.helpers.fsm_park_cart.run_in_background()
-
-
-    async def enter_NOTIFY_ALL_PACKAGES_STATUS(self):
-        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_ALL_POINTS_REACHED
-            )
-
-
-    async def leave_NOTIFY_ALL_PACKAGES_STATUS(self):
-        await self.app.custom_turn_off_leds()

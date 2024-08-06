@@ -1,10 +1,9 @@
 from src.FMSs.GoToCartPoint.helpers import Helpers as ParkCartHelpers
-from src.app import RayaApplication
 from src.static import *
 
 class Helpers(ParkCartHelpers):
 
-    def __init__(self, app: RayaApplication):     
+    def __init__(self, app):     
         super().__init__(app)
         self.selected_elevator_ui = None
         self.teleoperation_response = None
