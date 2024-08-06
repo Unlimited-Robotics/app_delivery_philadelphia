@@ -209,5 +209,5 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_PARKING_CART
             )
-        self.helpers.fsm_park_cart.restart()
-        await self.helpers.fsm_park_cart.run_in_background()
+        self.helpers.fsm_leave_cart.restart()
+        await self.helpers.fsm_leave_cart.run_in_background()

@@ -4,7 +4,7 @@ from src.static.app_errors import *
 from src.static import *
 
 from src.FMSs.TakeCart import TakeCartFSM
-from src.FMSs.ParkCart import ParkCartFSM
+from src.FMSs.LeaveCart import LeaveCartFSM
 from src.FMSs.GoToFloor import GoToFloorFSM
 
 from raya.enumerations import FLEET_UPDATE_STATUS
@@ -22,8 +22,8 @@ class Helpers(CommonHelpers):
             name='TakeCartFSM', 
             log_transitions=True
         )
-        self.fsm_park_cart = ParkCartFSM(
-            name='ParkCartFSM', 
+        self.fsm_leave_cart = LeaveCartFSM(
+            name='LeaveCartFSM', 
             log_transitions=True
         )
         self.fsm_go_to_floor = GoToFloorFSM(

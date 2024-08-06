@@ -209,7 +209,7 @@ class Transitions(CommonTransitions):
 
     async def PARK_CART(self):
         try:
-            await self.helpers.fsm_park_cart.raise_last_execution_exception()
+            await self.helpers.fsm_leave_cart.raise_last_execution_exception()
         except RayaFSMAborted:
             self.app.log.error('FSM Aborted')
             self.helpers.retry_step(
@@ -217,8 +217,8 @@ class Transitions(CommonTransitions):
                     last_state='PARK_CART',
                 )
         else:
-            if self.helpers.fsm_park_cart.has_finished() and \
-                self.helpers.fsm_park_cart.was_successful():
+            if self.helpers.fsm_leave_cart.has_finished() and \
+                self.helpers.fsm_leave_cart.was_successful():
                 self.set_state('END')
     
 
