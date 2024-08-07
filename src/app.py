@@ -120,8 +120,16 @@ class RayaApplication(RayaApplicationBase):
     def get_arguments(self):
         self.locations = []
         delivery_location_fake = [
-            "{'name': '7E',  'x': 1027, 'y': 593, 'angle': 13.75, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__07'}", 
-            "{'name': '7W',  'x': 1642, 'y': 2266, 'angle': 15.47, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__07'}", 
+            # "{'name': '7E',  'x': 1027, 'y': 593, 'angle': 13.75, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__07'}", 
+            # "{'name': '7W',  'x': 1642, 'y': 2266, 'angle': 15.47, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__07'}", 
+            
+            
+            
+            "{'name': 'unit1',  'x': 519,  'y': 573, 'angle': 92.94, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
+            "{'name': 'unit2',  'x': 1895, 'y': 282, 'angle': 93.58, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
+            "{'name': 'unit3',  'x': 2063, 'y': 1027, 'angle': -106.31, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
+            "{'name': 'unit4',  'x': 3510, 'y': 1208, 'angle': -105.04, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
+            
         ]
         cart_location_fake = "{'name': 'cart_4', 'x': 289, 'y': 1271, 'angle': 102, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__00'}"
         
