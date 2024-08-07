@@ -88,8 +88,7 @@ class RayaApplication(RayaApplicationBase):
             self.log.debug(f'Detach skill setup result: {result}')
 
         # elevators
-        # TODO: add argument to set this easily
-        self.current_floor_map_name = '02'
+        self.current_floor_map_name = self.current_floor
         self.current_target_floor_map_name = None
         
         
@@ -132,6 +131,14 @@ class RayaApplication(RayaApplicationBase):
             help='Number of packages to deliver',
             required=False,
             default=1
+        )
+        
+        self.current_floor = self.get_argument(
+            '--floor',
+            type=str,
+            help='Current floor of the robot',
+            required=False,
+            default=WAREHOUSE_FLOOR    
         )
         
         self.run_from_console = self.get_flag_argument(
