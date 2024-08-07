@@ -98,21 +98,9 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_DELIVERY_POINT(self):
-        if self.app.nav.is_navigating():
-            await self.app.custom_animation(
-                **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                wait=True
-            )
-        
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('NOTIFY_ORDER_ARRIVED')
-            else:
-                self.helpers.retry_step(
-                    transitions=self,
-                    last_state='NAV_TO_DELIVERY_POINT',
-                )
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        self.set_state('NOTIFY_ORDER_ARRIVED')
 
 
     async def NOTIFY_ORDER_ARRIVED(self):

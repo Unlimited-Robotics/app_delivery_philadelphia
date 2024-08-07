@@ -81,7 +81,6 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_DELIVERY_POINT(self):
-        point = await self.helpers.get_current_package_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         current_package_location_name = self.helpers.current_package['name']
         message = copy_ui_screen['title'].replace(
@@ -94,10 +93,22 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=copy_ui_screen['title']
             )
-        await self.app.nav.navigate_to_position(
-            **point,
-            callback_feedback_async=self.helpers.nav_feedback_async,
-            callback_finish_async=self.helpers.nav_finish_async,
+        
+        floor = self.app.get_current_floor_map_name()
+        unit = self.app.get_current_unit(
+            current_package=self.helpers.current_package['name']
+        )
+        route = f'{unit}_{current_package_location_name}'
+        # TODO in case that the route is not found, it should be handled
+        steps = copy(SKILL_NAVIGATION[floor][route])
+        execute_args = {
+            'steps': steps
+        }
+        await self.app.skill_nav_steps.execute_main(
+            execute_args=execute_args,
+            callback_done=self.helpers.cb_nav_skill_done,
+            callback_feedback=self.helpers.cb_nav_skill_feedback,
+            wait=False
         )
 
 

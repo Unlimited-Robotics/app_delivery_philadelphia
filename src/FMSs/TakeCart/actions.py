@@ -74,7 +74,7 @@ class Actions(CommonAction):
         # TODO add ui screen for elevator
         
         execute_args = {
-            'steps': SKILL_NAVIGATION['attach_elev']
+            'steps': SKILL_NAVIGATION['00']['attach_elev']
         }
         await self.app.skill_nav_steps.execute_main(
             execute_args=execute_args,

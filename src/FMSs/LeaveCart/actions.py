@@ -21,7 +21,7 @@ class Actions(CommonAction):
 
     async def enter_GO_TO_DETACH_CART_POINT(self):
         execute_args = {
-            'steps': SKILL_NAVIGATION['elev_detach']
+            'steps': SKILL_NAVIGATION['00']['elev_detach']
         }
         await self.app.skill_nav_steps.execute_main(
             execute_args=execute_args,

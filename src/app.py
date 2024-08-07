@@ -88,7 +88,8 @@ class RayaApplication(RayaApplicationBase):
             self.log.debug(f'Detach skill setup result: {result}')
 
         # elevators
-        self.current_floor_map_name = WAREHOUSE_FLOOR
+        # TODO: add argument to set this easily
+        self.current_floor_map_name = '02'
         self.current_target_floor_map_name = None
         
         
@@ -260,3 +261,23 @@ class RayaApplication(RayaApplicationBase):
         self.current_floor_map_name = self.current_target_floor_map_name
         self.current_target_floor_map_name = None
 
+
+    def get_current_unit(self, current_package):
+        current_floor = self.get_current_floor_map_name()
+        
+        if COST_MAPS_CONFIG['unit_identifier'] in current_package:
+            try:
+                units = FLOORS[current_floor]['units']
+                key_unit_list = list(units.keys())
+                val_unit_list = list(units.values())
+                
+                position = val_unit_list.index(current_package)
+                final_name = key_unit_list[position]
+                return final_name
+            except Exception as e:
+                self.log.error((
+                    f'Error getting the get_current_unit: {current_package}'
+                ))
+                # TODO fix this
+                return 'elev'
+        return current_package
