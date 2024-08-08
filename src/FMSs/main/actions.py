@@ -99,6 +99,7 @@ class Actions(CommonAction):
             current_package=self.helpers.current_package['name']
         )
         route = f'{unit}_{current_package_location_name}'
+        self.log.warn(f'route #{route}')
         # TODO in case that the route is not found, it should be handled
         steps = copy(SKILL_NAVIGATION[floor][route])
         execute_args = {

@@ -125,9 +125,9 @@ class RayaApplication(RayaApplicationBase):
             
             
             
-            "{'name': 'unit1',  'x': 519,  'y': 573, 'angle': 92.94, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
-            "{'name': 'unit2',  'x': 1895, 'y': 282, 'angle': 93.58, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
-            "{'name': 'unit3',  'x': 2063, 'y': 1027, 'angle': -106.31, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
+            # "{'name': 'unit1',  'x': 519,  'y': 573, 'angle': 92.94, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
+            # "{'name': 'unit2',  'x': 1895, 'y': 282, 'angle': 93.58, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
+            # "{'name': 'unit3',  'x': 2063, 'y': 1027, 'angle': -106.31, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
             "{'name': 'unit4',  'x': 3510, 'y': 1208, 'angle': -105.04, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__02'}", 
             
         ]

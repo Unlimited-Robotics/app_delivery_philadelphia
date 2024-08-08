@@ -9,7 +9,7 @@ from .floor_07 import *
 
 NAVIGATION_OPTIONS_WITH_CART = {
     'options': {
-        'behavior_tree': 'replan_if_needed_long_footprint'
+        'behavior_tree': 'wait_and_replan_LF'
     }
 }
 

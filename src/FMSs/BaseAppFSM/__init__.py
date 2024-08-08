@@ -4,6 +4,11 @@ from .actions import CommonAction
 from .helpers import CommonHelpers
 from .transitions import CommonTransitions
 
+from raya.logger import RaYaLogger
 class BaseAppFSM(FSM):
     def __init__(self, *args, **kwarg):
+        
+        self.log = RaYaLogger(
+            name='BaseAppFSM',
+        )
         super().__init__(*args, **kwarg)
