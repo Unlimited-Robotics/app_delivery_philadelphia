@@ -21,6 +21,8 @@ from src.static import *
 from skills.NavSteps import SkillNavSteps
 from skills.attach_to_cart import SkillAttachToCart, SkillDetachCart
 
+from raya.exceptions import *
+
 class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
@@ -50,7 +52,14 @@ class RayaApplication(RayaApplicationBase):
             await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
         else:
             await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
-    
+
+        if self.set_costmap:
+            initial_point , final_point = self.set_costmap.split('_')
+            await self.change_costmap_to_point(
+                initial_point=initial_point,
+                final_point=final_point,
+            )
+        
         # FSMs
         self.fsm_main_task = MainFSM(
                 log_transitions=True,
@@ -167,6 +176,13 @@ class RayaApplication(RayaApplicationBase):
             default=True,
         )
         
+        self.set_costmap = self.get_argument(
+            '--costmap',
+            type=str,
+            required=False,
+            default=None
+        )
+        
         # get locations
         for index in range(1, max_packages+1):
             if self.run_from_console:
@@ -266,3 +282,31 @@ class RayaApplication(RayaApplicationBase):
                 # TODO fix this
                 return 'elev'
         return current_package
+
+    async def change_costmap_to_point(self, initial_point, final_point):
+        initial_name = initial_point
+        final_name = final_point
+        default_costmap_name = 'map'
+        try:
+            format = COST_MAPS_CONFIG['costmap_format']
+            costmap_name = format.replace('[initial_point]', initial_name)
+            costmap_name = costmap_name.replace('[final_point]', final_name)
+            await self.nav.change_costmap(costmap_name=costmap_name)
+            self.log.debug((
+                f'Costmap changed to: {costmap_name}, '
+                f'initial_point: {initial_point}, '
+                f'final_point: {final_point}'
+            ))
+        except RayaNavFileNotFound:
+            self.log.error((
+                f'Costmap file \'{costmap_name}\' not found, '
+                f'setting default costmap \'{default_costmap_name}\''
+            ))
+            try:
+                await self.nav.change_costmap(
+                    costmap_name=default_costmap_name
+                )
+            except RayaCommandTimeout:
+                self.log.error(f'Costmap change timeout')
+        except RayaCommandTimeout:
+            self.log.error(f'Costmap change timeout')
