@@ -157,7 +157,7 @@ FLOOR__02 = {
 }
 
 FLOOR_02_ROUTES = {
-    'unit1_unit1': [
+    'elev_unit1': [
         {
             'name': 'Automatic door unit1 entrance',
             'type': 'automatic_door',
@@ -187,7 +187,7 @@ FLOOR_02_ROUTES = {
         },
     ],
     
-    'unit2_unit2': [
+    'unit1_unit2': [
         {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
@@ -257,20 +257,20 @@ FLOOR_02_ROUTES = {
         },
     ],
     
-    'unit3_unit3': [
-        # {
-        #     'name': 'Navigation to unit2 exit',
-        #     'type': 'nav_to_point',
-        #     'point' : {
-        #         'x': float(unit_2_exit[0]),
-        #         'y': float(unit_2_exit[1]),
-        #         'angle': float(unit_2_exit[2]),
-        #         'pos_unit': POSITION_UNIT.PIXELS,
-        #         'ang_unit': ANGLE_UNIT.RADIANS,
-        #         **NAVIGATION_OPTIONS_WITH_CART
-        #     },
-        #     'teleoperator_if_fail': True,
-        # },
+    'unit2_unit3': [
+        {
+            'name': 'Navigation to unit2 exit',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_2_exit[0]),
+                'y': float(unit_2_exit[1]),
+                'angle': float(unit_2_exit[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
         {
             'name': 'Automatic door unit2 exit',
             'type': 'automatic_door',
@@ -314,7 +314,7 @@ FLOOR_02_ROUTES = {
         },
     ],
     
-    'unit4_unit4': [
+    'unit3_unit4': [
         {
             'name': 'Automatic door unit3 exit',
             'type': 'automatic_door',
@@ -329,19 +329,19 @@ FLOOR_02_ROUTES = {
             'tags_ids': [25],
             'tags_sizes': [0.12],
         },
-        # {
-        #     'name': 'Navigation to unit4 entrance',
-        #     'type': 'nav_to_point',
-        #     'point' : {
-        #         'x': float(unit_4_entrance[0]),
-        #         'y': float(unit_4_entrance[1]),
-        #         'angle': float(unit_4_entrance[2]),
-        #         'pos_unit': POSITION_UNIT.PIXELS,
-        #         'ang_unit': ANGLE_UNIT.RADIANS,
-        #         **NAVIGATION_OPTIONS_WITH_CART
-        #     },
-        #     'teleoperator_if_fail': True,
-        # },
+        {
+            'name': 'Navigation to unit4 entrance',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_4_entrance[0]),
+                'y': float(unit_4_entrance[1]),
+                'angle': float(unit_4_entrance[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
         {
             'name': 'Automatic door unit4 entrance',
             'type': 'automatic_door',
@@ -371,47 +371,47 @@ FLOOR_02_ROUTES = {
         },
     ],
     
-    # 'unit4_unit4': [
-    #     # {
-    #     #     'name': 'Navigation to unit4 exit',
-    #     #     'type': 'nav_to_point',
-    #     #     'point' : {
-    #     #         'x': float(unit_4_exit[0]),
-    #     #         'y': float(unit_4_exit[1]),
-    #     #         'angle': float(unit_4_exit[2]),
-    #     #         'pos_unit': POSITION_UNIT.PIXELS,
-    #     #         'ang_unit': ANGLE_UNIT.RADIANS,
-    #     #         **NAVIGATION_OPTIONS_WITH_CART
-    #     #     },
-    #     #     'teleoperator_if_fail': True,
-    #     # },
-    #     # {
-    #     #     'name': 'Automatic door unit4 exit',
-    #     #     'type': 'automatic_door',
-    #     #     'after_door_point': {
-    #     #         'x': float(wait_elevator_l[0]),
-    #     #         'y': float(wait_elevator_l[1]),
-    #     #         'angle': float(wait_elevator_l[2]),
-    #     #         'pos_unit': POSITION_UNIT.PIXELS,
-    #     #         'ang_unit': ANGLE_UNIT.RADIANS,
-    #     #         **NAVIGATION_OPTIONS_WITH_CART
-    #     #     },
-    #     #     'tags_ids': [25],
-    #     #     'tags_sizes': [0.12],
-    #     # },
-    #     {
-    #         'name': 'Navigation to waiting elevator',
-    #         'type': 'nav_to_point',
-    #         'point' : {
-    #             'x': float(wait_elevator_l[0]),
-    #             'y': float(wait_elevator_l[1]),
-    #             'angle': float(wait_elevator_l[2]),
-    #             'pos_unit': POSITION_UNIT.PIXELS,
-    #             'ang_unit': ANGLE_UNIT.RADIANS,
-    #             **NAVIGATION_OPTIONS_WITH_CART
-    #         },
-    #         'teleoperator_if_fail': True,
-    #     },
-    # ],
+    'unit4_elev': [
+        {
+            'name': 'Navigation to unit4 exit',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_4_exit[0]),
+                'y': float(unit_4_exit[1]),
+                'angle': float(unit_4_exit[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+        {
+            'name': 'Automatic door unit4 exit',
+            'type': 'automatic_door',
+            'after_door_point': {
+                'x': float(wait_elevator_l[0]),
+                'y': float(wait_elevator_l[1]),
+                'angle': float(wait_elevator_l[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'tags_ids': [25],
+            'tags_sizes': [0.12],
+        },
+        {
+            'name': 'Navigation to waiting elevator',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(wait_elevator_l[0]),
+                'y': float(wait_elevator_l[1]),
+                'angle': float(wait_elevator_l[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
 
 }

@@ -66,7 +66,7 @@ class Transitions(CommonTransitions):
     async def NAV_TO_WAITING_ELEVATOR(self):
         
         if self.app.nav.is_navigating():
-            await self.app.custom_animation(
+            await self.helpers.custom_animation(
                 **LEDS_NAVIGATING_TO_DELIVERY_POINT,
                 wait=True
             )
@@ -109,10 +109,10 @@ class Transitions(CommonTransitions):
 
     async def WAIT_FOR_UI_CONFIRMATION(self):
         if self.helpers.selected_option_delivery_ui is not None:
-            await self.app.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
+            await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
             selected_option = self.helpers.selected_option_delivery_ui
             self.app.log.warn(f'User selected: {selected_option}')
-            await self.app.custom_cancel_sound()
+            await self.helpers.custom_cancel_sound()
             await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_PACKAGE_CONFIRM_USING_UI,
@@ -164,7 +164,7 @@ class Transitions(CommonTransitions):
             self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
         
         if self.app.nav.is_navigating():
-            await self.app.custom_animation(
+            await self.helpers.custom_animation(
                 **LEDS_NAVIGATING_TO_DELIVERY_POINT,
                 wait=True
             )

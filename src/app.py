@@ -224,33 +224,6 @@ class RayaApplication(RayaApplicationBase):
         await self.sound.play_sound(name='success', wait=True)
 
 
-    async def custom_cancel_sound(self):
-        try:
-            await self.sound.cancel_all_sounds()
-        except Exception:
-            pass
-
-
-    async def custom_animation(self, wait=True, **kwargs):
-        try:
-            await self.leds.animation(**kwargs, wait=wait)
-        except Exception:
-            pass
-
-
-    async def custom_turn_off_leds(self, group = ''):
-        if group != '':
-            try:
-                await self.leds.turn_off_group(group)
-            except Exception:
-                pass
-        else:
-            try:
-                await self.leds.turn_off_all()
-            except Exception:
-                pass
-
-
     def get_current_floor_map_name(self):
         return self.current_floor_map_name
 

@@ -63,7 +63,7 @@ class Actions(CommonAction):
 
 
     async def leave_NAV_TO_WAITING_ELEVATOR(self):
-        await self.app.custom_turn_off_leds()
+        await self.helpers.custom_turn_off_leds()
 
 
     async def enter_NAV_TO_FLOOR(self):
@@ -118,12 +118,12 @@ class Actions(CommonAction):
 
 
     async def leave_NOTIFY_ORDER_ARRIVED(self):
-        await self.app.custom_turn_off_leds()
+        await self.helpers.custom_turn_off_leds()
 
 
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
         self.helpers.selected_option_delivery_ui = None
-        await self.app.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
+        await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
         await self.app.ui.display_choice_selector(
                 **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
                 wait=False,
@@ -144,8 +144,8 @@ class Actions(CommonAction):
             name='Notify Task'
         )
         self.app.log.warn('task canceled')
-        await self.app.custom_cancel_sound()
-        await self.app.custom_turn_off_leds()
+        await self.helpers.custom_cancel_sound()
+        await self.helpers.custom_turn_off_leds()
 
 
     async def enter_PACKAGE_DELIVERED(self):
@@ -162,7 +162,7 @@ class Actions(CommonAction):
 
 
     async def leave_PACKAGE_DELIVERED(self):
-        await self.app.custom_turn_off_leds()
+        await self.helpers.custom_turn_off_leds()
 
 
     async def enter_PACKAGE_NOT_DELIVERED(self):
@@ -177,8 +177,8 @@ class Actions(CommonAction):
 
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
-        await self.app.custom_cancel_sound()
-        await self.app.custom_turn_off_leds()
+        await self.helpers.custom_cancel_sound()
+        await self.helpers.custom_turn_off_leds()
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
@@ -202,7 +202,7 @@ class Actions(CommonAction):
 
 
     async def leave_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
-        await self.app.custom_turn_off_leds()
+        await self.helpers.custom_turn_off_leds()
 
 
     async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
