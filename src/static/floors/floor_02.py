@@ -23,6 +23,12 @@ wait_elevator_l= [1632, 1399, -1.7295066315196583]
 wait_elevator_r= [1542, 1457, -1.6905473579494434]
 wait_manual_door= [1227, 1119, 1.4647285698774566]
 
+UNIT1_ZONE_NAME = 'unit1'
+UNIT2_ZONE_NAME = 'unit2'
+UNIT3_ZONE_NAME = 'unit3'
+UNIT4_ZONE_NAME = 'unit4'
+ELEVATORS_ZONE_NAME = 'elevator_zone'
+
 FLOOR__02 = {
     'max_elevators': 3,
     'waiting_elevator': {
@@ -135,6 +141,7 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Automatic door unit1 entrance',
             'type': 'automatic_door',
+            'zone_name': UNIT1_ZONE_NAME,
             'after_door_point': {
                 'x': float(unit_1_entrance[0]),
                 'y': float(unit_1_entrance[1]),
@@ -160,6 +167,9 @@ FLOOR_02_ROUTES = {
             'teleoperator_if_fail': True,
         },
     ],
+    # 'elev_unit2': [],
+    # 'elev_unit3': [],
+    # 'elev_unit4': [],
     
     'unit1_unit2': [
         {
@@ -178,6 +188,7 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Automatic door unit1 exit',
             'type': 'automatic_door',
+            'zone_name': UNIT1_ZONE_NAME,
             'after_door_point': {
                 'x': float(unit_2_entrance[0]),
                 'y': float(unit_2_entrance[1]),
@@ -205,6 +216,7 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Automatic door unit2 entrance',
             'type': 'automatic_door',
+            'zone_name': UNIT2_ZONE_NAME,
             'after_door_point': {
                 'x': float(unit_2[0]),
                 'y': float(unit_2[1]),
@@ -230,6 +242,8 @@ FLOOR_02_ROUTES = {
             'teleoperator_if_fail': True,
         },
     ],
+    # 'unit1_unit3': [],
+    # 'unit1_unit4': [],
     
     'unit2_unit3': [
         {
@@ -248,6 +262,7 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Automatic door unit2 exit',
             'type': 'automatic_door',
+            'zone_name': UNIT2_ZONE_NAME,
             'after_door_point': {
                 'x': float(unit_3_entrance[0]),
                 'y': float(unit_3_entrance[1]),
@@ -262,6 +277,7 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Automatic door unit3 entrance',
             'type': 'automatic_door',
+            'zone_name': UNIT3_ZONE_NAME,
             'after_door_point': {
                 'x': float(unit_3[0]),
                 'y': float(unit_3[1]),
@@ -287,11 +303,13 @@ FLOOR_02_ROUTES = {
             'teleoperator_if_fail': True,
         },
     ],
+    # 'unit2_unit4': [],
     
     'unit3_unit4': [
         {
             'name': 'Automatic door unit3 exit',
             'type': 'automatic_door',
+            'zone_name': UNIT3_ZONE_NAME,
             'after_door_point': {
                 'x': float(unit_4_entrance[0]),
                 'y': float(unit_4_entrance[1]),
@@ -319,6 +337,7 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Automatic door unit4 entrance',
             'type': 'automatic_door',
+            'zone_name': UNIT4_ZONE_NAME,
             'after_door_point': {
                 'x': float(unit_4[0]),
                 'y': float(unit_4[1]),
@@ -345,6 +364,11 @@ FLOOR_02_ROUTES = {
         },
     ],
     
+    
+    # 'unit1_elev':  [],
+    # 'unit2_elev':  [],
+    # 'unit3_elev':  [],
+    
     'unit4_elev': [
         {
             'name': 'Navigation to unit4 exit',
@@ -362,6 +386,7 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Automatic door unit4 exit',
             'type': 'automatic_door',
+            'zone_name': UNIT4_ZONE_NAME,
             'after_door_point': {
                 'x': float(wait_elevator_l[0]),
                 'y': float(wait_elevator_l[1]),
