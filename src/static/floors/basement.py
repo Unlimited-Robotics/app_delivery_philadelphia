@@ -2,6 +2,7 @@ from .constants import *
 
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
+WAREHOUSE_ZONE_NAME = 'warehouse'
 
 NAV_CART_LOAD_POINT_OPTIONS = {
     'pos_unit': POSITION_UNIT.PIXELS, 
@@ -150,6 +151,7 @@ BASEMENT_ROUTES = {
         {
             'name': 'Automatic door warehouse',
             'type': 'automatic_door',
+            'zone_name': WAREHOUSE_ZONE_NAME,
             'after_door_point': {
                 **rotate_180(NAV_WAREHOUSE_ENTRANCE)
             },
@@ -177,6 +179,7 @@ BASEMENT_ROUTES = {
         {
             'name': 'Automatic door warehouse',
             'type': 'automatic_door',
+            'zone_name': WAREHOUSE_ZONE_NAME,
             'after_door_point': {
                 **rotate_180(NAV_WAREHOUSE_EXIT)
             },
