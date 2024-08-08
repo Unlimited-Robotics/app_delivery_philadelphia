@@ -139,6 +139,13 @@ class RayaApplication(RayaApplicationBase):
         ]
         cart_location_fake = "{'name': 'cart_4', 'x': 289, 'y': 1271, 'angle': 102, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__00'}"
         
+        start_delivery_index = self.get_argument(
+            '--index',
+            type=int,
+            required=False,
+            default=1
+        )
+        
         max_packages = self.get_argument(
             '--max_packages',
             type=int,
@@ -184,7 +191,7 @@ class RayaApplication(RayaApplicationBase):
         )
         
         # get locations
-        for index in range(1, max_packages+1):
+        for index in range(start_delivery_index, max_packages+1):
             if self.run_from_console:
                 location = delivery_location_fake[index-1]
             else:
