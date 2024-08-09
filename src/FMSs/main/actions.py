@@ -193,12 +193,24 @@ class Actions(CommonAction):
             initial_point=self.helpers.current_package['name'],
             final_point='elev',
         )
-        if not self.app.nav.is_navigating():
-            await self.app.nav.navigate_to_position(
-                **point,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
+        
+        floor = self.app.get_current_floor_map_name()
+        unit = self.app.get_current_unit(
+            current_package=self.helpers.current_package['name']
+        )
+        route = f'{unit}_elev'
+        self.log.warn(f'route #{route}')
+        # TODO in case that the route is not found, it should be handled
+        steps = copy(SKILL_NAVIGATION[floor][route])
+        execute_args = {
+            'steps': steps
+        }
+        await self.app.skill_nav_steps.execute_main(
+            execute_args=execute_args,
+            callback_done=self.helpers.cb_nav_skill_done,
+            callback_feedback=self.helpers.cb_nav_skill_feedback,
+            wait=False
+        )
 
 
     async def leave_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):

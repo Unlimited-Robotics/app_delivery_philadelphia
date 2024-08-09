@@ -32,9 +32,9 @@ ELEVATORS_ZONE_NAME = 'elevator_zone'
 FLOOR__02 = {
     'max_elevators': 3,
     'waiting_elevator': {
-        'x': wait_elevator_l[0],
-        'y': wait_elevator_l[1],
-        'angle': wait_elevator_l[2],
+        'x': float(wait_elevator_l[0]),
+        'y': float(wait_elevator_l[1]),
+        'angle': float(wait_elevator_l[2]),
         'pos_unit': POSITION_UNIT.PIXELS,
         'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
@@ -137,15 +137,28 @@ FLOOR__02 = {
 }
 
 FLOOR_02_ROUTES = {
-    'elev_unit1': [
+    'unit1_unit1': [
+        {
+            'name': 'Navigation to unit1 entrance',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_1_entrance[0]),
+                'y': float(unit_1_entrance[1]),
+                'angle': float(unit_1_entrance[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
         {
             'name': 'Automatic door unit1 entrance',
             'type': 'automatic_door',
             'zone_name': UNIT1_ZONE_NAME,
             'after_door_point': {
-                'x': float(unit_1_entrance[0]),
-                'y': float(unit_1_entrance[1]),
-                'angle': float(unit_1_entrance[2]),
+                'x': float(unit_1[0]),
+                'y': float(unit_1[1]),
+                'angle': float(unit_1[2]),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -171,7 +184,7 @@ FLOOR_02_ROUTES = {
     # 'elev_unit3': [],
     # 'elev_unit4': [],
     
-    'unit1_unit2': [
+    'unit2_unit2': [
         {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
@@ -245,7 +258,7 @@ FLOOR_02_ROUTES = {
     # 'unit1_unit3': [],
     # 'unit1_unit4': [],
     
-    'unit2_unit3': [
+    'unit3_unit3': [
         {
             'name': 'Navigation to unit2 exit',
             'type': 'nav_to_point',
@@ -305,7 +318,7 @@ FLOOR_02_ROUTES = {
     ],
     # 'unit2_unit4': [],
     
-    'unit3_unit4': [
+    'unit4_unit4': [
         {
             'name': 'Automatic door unit3 exit',
             'type': 'automatic_door',

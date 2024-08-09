@@ -10,7 +10,7 @@ NAVIGATION_OPTIONS_WITHOUT_CART = {
 
 NAVIGATION_OPTIONS_WITH_CART = {
     'options': {
-        'behavior_tree': 'wait_and_replan_LF'
+        'behavior_tree': 'nav_with_cart_restricted5'
     }
 }
 

@@ -151,7 +151,7 @@ class RayaApplication(RayaApplicationBase):
             type=int,
             help='Number of packages to deliver',
             required=False,
-            default=1
+            default=4
         )
         
         self.current_floor = self.get_argument(
@@ -171,6 +171,7 @@ class RayaApplication(RayaApplicationBase):
             '--cart_footprint',
             help='If enabled it will set start the app with the footprint of gary with cart attached'
         )
+        self.continue_with_cart_footprint = True
         
         self.enable_attach = self.get_argument(
             '--enable_attach',
@@ -187,7 +188,7 @@ class RayaApplication(RayaApplicationBase):
             '--costmap',
             type=str,
             required=False,
-            default=None
+            default='home_elev'
         )
         
         # get locations
@@ -198,10 +199,10 @@ class RayaApplication(RayaApplicationBase):
                 location = self.get_argument(
                     f'--location{index}',
                     type=str,
-                    help=(
-                        'Location to deliver the package(formated as json), '
-                        f'ex : {delivery_location_fake[index-1]}'
-                    ),
+                    # help=(
+                    #     'Location to deliver the package(formated as json), '
+                    #     f'ex : {delivery_location_fake[index-1]}'
+                    # ),
                     required=False,
                     default='',
                 )
