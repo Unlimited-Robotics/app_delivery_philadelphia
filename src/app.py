@@ -43,8 +43,8 @@ class RayaApplication(RayaApplicationBase):
                 await self.enable_controller('motion')
         self.cameras: CamerasController = \
                 await self.enable_controller('cameras')
-        self.cv: CVController = \
-                await self.enable_controller('cv')
+        # self.cv: CVController = \
+        #         await self.enable_controller('cv')
         self.robot_skills: RobotSkillsController = \
                 await self.enable_controller('robot_skills')
     
