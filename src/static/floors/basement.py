@@ -140,14 +140,14 @@ FLOOR__00 = {
 
 BASEMENT_ROUTES = {
     'attach_elev': [
-        {
-            'name': 'Navigation to warehouse exit',
-            'type': 'nav_to_point',
-            'point' : {
-                **NAV_WAREHOUSE_EXIT
-            },
-            'teleoperator_if_fail': True,
-        },
+        # {
+        #     'name': 'Navigation to warehouse exit',
+        #     'type': 'nav_to_point',
+        #     'point' : {
+        #         **NAV_WAREHOUSE_EXIT
+        #     },
+        #     'teleoperator_if_fail': True,
+        # },
         {
             'name': 'Automatic door warehouse',
             'type': 'automatic_door',

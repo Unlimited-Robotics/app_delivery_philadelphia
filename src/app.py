@@ -233,6 +233,7 @@ class RayaApplication(RayaApplicationBase):
 
 
     async def set_gary_footprint(self, footprint):
+        return
         self.log.info(f'Setting robot footprint')
         await self.nav.update_robot_footprint(
             points=footprint
