@@ -164,7 +164,7 @@ class Transitions(CommonTransitions):
 
     async def NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
         if await self.helpers.check_if_robot_in_warehouse_floor():
-            self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
+            self.set_state('PARK_CART')
         
         result = await self.app.skill_nav_steps.wait_main()
         self.app.log.warn(f'skill_template result: {result}')
