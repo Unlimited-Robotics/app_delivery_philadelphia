@@ -1,1 +1,0 @@
-TYPE_NAME = 'test_type'
