@@ -140,20 +140,20 @@ FLOOR__00 = {
 
 BASEMENT_ROUTES = {
     'attach_elev': [
-        # {
-        #     'name': 'Navigation to warehouse exit',
-        #     'type': 'nav_to_point',
-        #     'point' : {
-        #         **NAV_WAREHOUSE_EXIT
-        #     },
-        #     'teleoperator_if_fail': True,
-        # },
+        {
+            'name': 'Navigation to warehouse exit',
+            'type': 'nav_to_point',
+            'point' : {
+                **NAV_WAREHOUSE_EXIT
+            },
+            'teleoperator_if_fail': True,
+        },
         {
             'name': 'Automatic door warehouse',
             'type': 'automatic_door',
             'zone_name': WAREHOUSE_ZONE_NAME,
             'after_door_point': {
-                **rotate_180(NAV_WAREHOUSE_ENTRANCE)
+                **FLOOR__00['waiting_elevator']
             },
             'tags_ids': [25],
             'tags_sizes': [0.12],
@@ -181,7 +181,7 @@ BASEMENT_ROUTES = {
             'type': 'automatic_door',
             'zone_name': WAREHOUSE_ZONE_NAME,
             'after_door_point': {
-                **rotate_180(NAV_WAREHOUSE_EXIT)
+                **NAV_CART_UNLOAD_POINT
             },
             'tags_ids': [26],
             'tags_sizes': [0.12],
@@ -208,7 +208,7 @@ BASEMENT_ROUTES = {
         {
             'name': 'Navigation to cart point',
             'type': 'nav_to_point',
-            'point' : {}, # it uses the home position from the map
+            'point' : {}, # it uses the cart position from the parameter of the app
             'teleoperator_if_fail': True,
         },
     ]
