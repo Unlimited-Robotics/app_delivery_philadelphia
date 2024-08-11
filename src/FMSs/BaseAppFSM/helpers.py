@@ -20,6 +20,8 @@ class CommonHelpers(RetryHelpers):
         
         self.__obstacle_tries = 0
         self.__navigating_tries = 0
+        self.last_package = dict()
+        self.last_package['name'] = self.app.default_last_package
         
         self.last_ui: callable = None
 
@@ -38,9 +40,18 @@ class CommonHelpers(RetryHelpers):
 
 
     async def set_next_package(self):
+        self.last_package = self.app.locations[self.index_package]
         self.index_package += 1
         self.current_package = self.app.locations[self.index_package]
 
+
+    def get_current_package(self) -> dict:
+        return self.current_package
+
+
+    def get_last_package(self):
+        return self.last_package
+        
 
     async def get_current_package_point(self):
         package = self.current_package

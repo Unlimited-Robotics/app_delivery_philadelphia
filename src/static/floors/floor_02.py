@@ -137,7 +137,7 @@ FLOOR__02 = {
 }
 
 FLOOR_02_ROUTES = {
-    'unit1_unit1': [
+    'elev_unit1': [
         {
             'name': 'Navigation to unit1 entrance',
             'type': 'nav_to_point',
@@ -184,7 +184,7 @@ FLOOR_02_ROUTES = {
     # 'elev_unit3': [],
     # 'elev_unit4': [],
     
-    'unit2_unit2': [
+    'unit1_unit2': [
         {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
@@ -258,7 +258,7 @@ FLOOR_02_ROUTES = {
     # 'unit1_unit3': [],
     # 'unit1_unit4': [],
     
-    'unit3_unit3': [
+    'unit2_unit3': [
         {
             'name': 'Navigation to unit2 exit',
             'type': 'nav_to_point',
@@ -318,7 +318,7 @@ FLOOR_02_ROUTES = {
     ],
     # 'unit2_unit4': [],
     
-    'unit4_unit4': [
+    'unit3_unit4': [
         {
             'name': 'Automatic door unit3 exit',
             'type': 'automatic_door',

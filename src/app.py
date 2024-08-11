@@ -191,6 +191,13 @@ class RayaApplication(RayaApplicationBase):
             default='home_elev'
         )
         
+        self.default_last_package = self.get_argument(
+            '--last_unit_visited',
+            type=str,
+            required=False,
+            default='elev'
+        )
+        
         # get locations
         for index in range(start_delivery_index, max_packages+1):
             if self.run_from_console:
@@ -199,10 +206,9 @@ class RayaApplication(RayaApplicationBase):
                 location = self.get_argument(
                     f'--location{index}',
                     type=str,
-                    # help=(
-                    #     'Location to deliver the package(formated as json), '
-                    #     f'ex : {delivery_location_fake[index-1]}'
-                    # ),
+                    help=(
+                        'Location to deliver the package(formated as json), '
+                    ),
                     required=False,
                     default='',
                 )
@@ -240,11 +246,6 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Robot footprint updated')
 
 
-    async def cb_chest_button(self):
-        self.log.warn('Chest button pressed')
-        await self.sound.play_sound(name='success', wait=True)
-
-
     def get_current_floor_map_name(self):
         return self.current_floor_map_name
 
@@ -271,25 +272,39 @@ class RayaApplication(RayaApplicationBase):
         self.current_target_floor_map_name = None
 
 
-    def get_current_unit(self, current_package):
-        current_floor = self.get_current_floor_map_name()
+    def get_unit_name(self, package_point_name, floor = ''):
+        current_floor = floor
+        if floor == '':
+            current_floor = self.get_current_floor_map_name()
         
-        if COST_MAPS_CONFIG['unit_identifier'] in current_package:
+        self.log.debug((
+            f'Replacing name of unit \'{package_point_name}\' '
+            f'on floor \'{current_floor}\'.'
+        ))
+        
+        if COST_MAPS_CONFIG['unit_identifier'] in package_point_name:
             try:
                 units = FLOORS[current_floor]['units']
                 key_unit_list = list(units.keys())
                 val_unit_list = list(units.values())
                 
-                position = val_unit_list.index(current_package)
-                final_name = key_unit_list[position]
-                return final_name
+                position = val_unit_list.index(package_point_name)
+                alias_name = key_unit_list[position]
+                self.log.debug((
+                    f'The unit name \'{package_point_name}\' is the unit alias '
+                    f'\'{alias_name}\' of the floor \'{current_floor}\''
+                ))
+                return alias_name
             except Exception as e:
                 self.log.error((
-                    f'Error getting the get_current_unit: {current_package}'
+                    f'Error getting the get_current_unit: {package_point_name}'
                 ))
                 # TODO fix this
                 return 'elev'
-        return current_package
+
+        self.log.debug(f'Alias name {package_point_name} not found')
+        return package_point_name
+
 
     async def change_costmap_to_point(self, initial_point, final_point):
         initial_name = initial_point

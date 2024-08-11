@@ -63,18 +63,18 @@ class Actions(CommonAction):
 
 
     async def enter_GO_TO_ELEVATOR(self):
-        point = await self.helpers.get_elevator_waiting_point()
+        current_package = self.helpers.get_current_package()
+                
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
-        current_package_location_name = self.helpers.current_package['map_name']
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
-            current_package_location_name
+            current_package['map_name']
         )
         copy_ui_screen['title'] = message
         # TODO add ui screen for elevator
         
         execute_args = {
-            'steps': SKILL_NAVIGATION['00']['attach_elev']
+            'steps': BASEMENT_ROUTES['attach_elev']
         }
         await self.app.skill_nav_steps.execute_main(
             execute_args=execute_args,

@@ -145,11 +145,14 @@ class Transitions(CommonTransitions):
     
     async def CHECK_IF_MORE_PACKAGES(self):
         if await self.helpers.check_if_more_packages():
-            last_package = self.helpers.current_package['name']
             await self.helpers.set_next_package()
+            
+            last_package = self.helpers.get_last_package()
+            current_package = self.helpers.get_current_package()
+            
             await self.helpers.change_costmap_to_point(
-                initial_point=last_package,
-                final_point=self.helpers.current_package['name'],
+                initial_point=last_package['name'],
+                final_point=current_package['name'],
             )
             if await self.helpers.check_if_robot_in_delivery_floor():
                 self.set_state('NAV_TO_DELIVERY_POINT')

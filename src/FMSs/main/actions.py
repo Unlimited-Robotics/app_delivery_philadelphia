@@ -42,10 +42,10 @@ class Actions(CommonAction):
     async def enter_NAV_TO_WAITING_ELEVATOR(self):
         point = await self.helpers.get_elevator_waiting_point()
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
-        current_package_location_name = self.helpers.current_package['name']
+        current_package = self.helpers.get_current_package()
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
-            current_package_location_name
+            current_package['name']
         )
         copy_ui_screen['title'] = message
         await self.app.ui.show_animation(**copy_ui_screen)
@@ -67,8 +67,9 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_FLOOR(self):
+        current_package = self.helpers.get_current_package()
         self.app.current_target_floor_map_name = \
-            self.helpers.current_package['map_name'].split('__')[1]
+            current_package['map_name'].split('__')[1]
         self.helpers.fsm_go_to_floor.restart()
         await self.helpers.fsm_go_to_floor.run_in_background()
 
@@ -76,16 +77,29 @@ class Actions(CommonAction):
     async def leave_NAV_TO_FLOOR(self):
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
-            final_point=self.helpers.current_package['name'],
+            final_point=self.helpers.get_current_package()['name'],
         )
 
 
     async def enter_NAV_TO_DELIVERY_POINT(self):
+        current_package = self.helpers.get_current_package()
+        last_package = self.helpers.get_last_package()
+        
+        floor = self.app.get_current_floor_map_name()
+        last_unit = self.app.get_unit_name(
+            package_point_name=last_package['name']
+        )
+        current_unit = self.app.get_unit_name(
+            package_point_name=current_package['name']
+        )
+        
+        route = f'{last_unit}_{current_unit}'
+        self.log.warn(f'route #{route}')
+        
         copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
-        current_package_location_name = self.helpers.current_package['name']
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
-            current_package_location_name
+            current_package['name']
         )
         copy_ui_screen['title'] = message
         await self.app.ui.show_animation(**copy_ui_screen)
@@ -94,12 +108,6 @@ class Actions(CommonAction):
                 message=copy_ui_screen['title']
             )
         
-        floor = self.app.get_current_floor_map_name()
-        unit = self.app.get_current_unit(
-            current_package=self.helpers.current_package['name']
-        )
-        route = f'{unit}_{current_package_location_name}'
-        self.log.warn(f'route #{route}')
         # TODO in case that the route is not found, it should be handled
         steps = copy(SKILL_NAVIGATION[floor][route])
         execute_args = {
@@ -182,23 +190,25 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
-        point = await self.helpers.get_elevator_waiting_point()
+        current_package = self.helpers.get_current_package()        
         
         await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_GOING_TO_WAREHOUSE
             )
+        
         await self.helpers.change_costmap_to_point(
-            initial_point=self.helpers.current_package['name'],
+            initial_point=current_package['name'],
             final_point='elev',
         )
         
         floor = self.app.get_current_floor_map_name()
-        unit = self.app.get_current_unit(
-            current_package=self.helpers.current_package['name']
+        last_unit = self.app.get_unit_name(
+            package_point_name=current_package['name']
         )
-        route = f'{unit}_elev'
+        
+        route = f'{last_unit}_elev'
         self.log.warn(f'route #{route}')
         # TODO in case that the route is not found, it should be handled
         steps = copy(SKILL_NAVIGATION[floor][route])
