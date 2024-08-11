@@ -146,6 +146,12 @@ class Helpers(CommonHelpers):
 
 
     async def notify_order_arrived(self):
+        await self.app.ui.display_choice_selector(
+                **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
+                wait=False,
+                callback=self.cb_delivery_arrived_ui_response
+            )
+        
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
                 message=(

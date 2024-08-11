@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: nav-with-steps
+Version: 0.0.0.dev1
+Summary: UNKNOWN
+Home-page: https://github.com/Unlimited-Robotics/skill_nav_with_steps
+Author: nav_with_steps
+Author-email: camilo@unlimited-robotics.com
+License: MIT
+Keywords: skills,unlimited-robotics,gary
+Platform: UNKNOWN
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+### Ra-Ya Skill - Template
+Add a description of the skill here.
+
+

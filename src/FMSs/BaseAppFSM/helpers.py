@@ -193,6 +193,8 @@ class CommonHelpers(RetryHelpers):
                 await self.custom_turn_off_leds(group='head')
         except RayaCommandAlreadyRunning:
             pass
+        except RayaCommandTimeout:
+            pass
 
 
     def sound_finish_callback(self, code, msg):

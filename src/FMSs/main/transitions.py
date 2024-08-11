@@ -163,21 +163,9 @@ class Transitions(CommonTransitions):
         if await self.helpers.check_if_robot_in_warehouse_floor():
             self.set_state('RETURN_TO_WAREHOUSE_ENTRANCE')
         
-        if self.app.nav.is_navigating():
-            await self.helpers.custom_animation(
-                **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                wait=True
-            )
-        
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('NAV_TO_WAREHOUSE_FLOOR')
-            else:
-                self.helpers.retry_step(
-                    transitions=self,
-                    last_state='NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
-                )
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        self.set_state('NAV_TO_WAREHOUSE_FLOOR')
 
 
     async def NAV_TO_WAREHOUSE_FLOOR(self):
