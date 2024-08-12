@@ -10,7 +10,7 @@ NAVIGATION_OPTIONS_WITHOUT_CART = {
 
 NAVIGATION_OPTIONS_WITH_CART = {
     'options': {
-        'behavior_tree': 'nav_with_cart_restricted'
+        'behavior_tree': 'nav_with_cart_restricted39'
     }
 }
 
