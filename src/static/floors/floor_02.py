@@ -113,10 +113,10 @@ FLOOR__02 = {
         },
     },
     'units': {
-        'unit1' : 'unit1',
-        'unit2' : 'unit2',
-        'unit3' : 'unit3',
-        'unit4' : 'unit4',
+        'unit1' : 'floor2_unit1',
+        'unit2' : 'floor2_unit2',
+        'unit3' : 'floor2_unit3',
+        'unit4' : 'floor2_unit4',
     },
 }
 
