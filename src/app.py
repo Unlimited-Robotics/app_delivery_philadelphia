@@ -148,11 +148,12 @@ class RayaApplication(RayaApplicationBase):
         
         max_packages = self.get_argument(
             '--max_packages',
-            type=int,
+            type=str,
             help='Number of packages to deliver',
             required=False,
-            default=4
+            default='4'
         )
+        max_packages = int(max_packages)
         
         self.current_floor = self.get_argument(
             '--floor',
