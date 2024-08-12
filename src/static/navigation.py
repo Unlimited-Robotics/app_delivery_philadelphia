@@ -51,4 +51,5 @@ FLOORS = {
 SKILL_NAVIGATION = {
     '00': {**BASEMENT_ROUTES},
     '02': {**FLOOR_02_ROUTES},
+    '07': {**FLOOR_07_ROUTES}
 }

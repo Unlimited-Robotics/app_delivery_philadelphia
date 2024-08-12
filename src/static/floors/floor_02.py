@@ -63,15 +63,7 @@ FLOOR__02 = {
                         **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
-            },
-            'entry_point': {
-                'x': 393.0,
-                'y': 2000.0,
-                'angle': 1.8395248997063303,
-                'pos_unit': POSITION_UNIT.PIXELS,
-                'ang_unit': ANGLE_UNIT.RADIANS,
-                **NAVIGATION_OPTIONS_WITH_CART
-            },
+            }
         },
         '2': {
             'localization': {
@@ -94,15 +86,7 @@ FLOOR__02 = {
                         **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
-            },
-            'entry_point': {
-                'x': 262.0,
-                'y': 2041.0,
-                'angle': 1.8389119201724646,
-                'pos_unit': POSITION_UNIT.PIXELS,
-                'ang_unit': ANGLE_UNIT.RADIANS,
-                **NAVIGATION_OPTIONS_WITH_CART
-            },
+            }
         },
         '3': {
             'localization': {
@@ -125,15 +109,7 @@ FLOOR__02 = {
                         **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
-            },
-            'entry_point': {
-                'x': 134.0,
-                'y': 2074.0,
-                'angle': 1.8396149613713695,
-                'pos_unit': POSITION_UNIT.PIXELS,
-                'ang_unit': ANGLE_UNIT.RADIANS,
-                **NAVIGATION_OPTIONS_WITH_CART
-            },
+            }
         },
     },
     'units': {

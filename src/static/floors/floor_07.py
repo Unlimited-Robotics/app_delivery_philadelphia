@@ -2,12 +2,30 @@ from .constants import *
 
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
+elevator_1_max = [379, 1550, 1.5901225660193579]
+elevator_1_min = [379, 1598, 1.5925596301548564]
+elevator_2_max = [242, 1553, 1.5983030069603488]
+elevator_2_min = [243, 1599, 1.5990816080196704]
+elevator_3_max = [111, 1553, 1.5891158661913567]
+elevator_3_min = [112, 1600, 1.5848444285683343]
+unit_1 = [1277, 382, 0.009900601676800371]
+unit_2 = [1473, 2124, 0.057483839596256914]
+wait_elevator_r = [582, 1557, -3.1007792281373283]
+wait_elevator_2 = [483, 1561, -3.1048970776125806]
+wait_elevator_l = [588, 1622, -3.118875630383247]
+
+UNIT1_ZONE_NAME = 'unit1'
+UNIT2_ZONE_NAME = 'unit2'
+ELEVATORS_ZONE_NAME = 'elevator_zone'
+
+SELECTED_WAITING_ELEVATOR = wait_elevator_l
+
 FLOOR__07 = {
     'max_elevators': 3,
     'waiting_elevator': {
-        'x': 645.0,
-        'y': 2016.0,
-        'angle': -2.8441741285876745,
+        'x': float(SELECTED_WAITING_ELEVATOR[0]),
+        'y': float(SELECTED_WAITING_ELEVATOR[1]),
+        'angle': float(SELECTED_WAITING_ELEVATOR[2]),
         'pos_unit': POSITION_UNIT.PIXELS,
         'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
@@ -18,91 +36,153 @@ FLOOR__07 = {
                 'outside_elevator': {
                     'divisions': 3,
                     'closest_point': {
-                        'x': 393.0,
-                        'y': 2000.0,
-                        'angle': 1.8395248997063303,
+                        'x': float(elevator_1_max[0]),
+                        'y': float(elevator_1_max[1]),
+                        'angle': float(elevator_1_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
-                        'x': 412.0,
-                        'y': 2090.0,
-                        'angle': 1.8419213429531647,
+                        'x': float(elevator_1_min[0]),
+                        'y': float(elevator_1_min[1]),
+                        'angle': float(elevator_1_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
-            },
-            'entry_point': {
-                'x': 393.0,
-                'y': 2000.0,
-                'angle': 1.8395248997063303,
-                'pos_unit': POSITION_UNIT.PIXELS,
-                'ang_unit': ANGLE_UNIT.RADIANS,
-                **NAVIGATION_OPTIONS_WITH_CART
-            },
+            }
         },
         '2': {
             'localization': {
                 'outside_elevator': {
                     'divisions': 3,
                     'closest_point': {
-                        'x': 255.0,
-                        'y': 2044.0,
-                        'angle': 1.8395248997063303,
+                        'x': float(elevator_2_max[0]),
+                        'y': float(elevator_2_max[1]),
+                        'angle': float(elevator_2_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
-                        'x': 278.0,
-                        'y': 2123.0,
-                        'angle': 1.8419213429531647,
+                        'x': float(elevator_2_min[0]),
+                        'y': float(elevator_2_min[1]),
+                        'angle': float(elevator_2_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
-            },
-            'entry_point': {
-                'x': 262.0,
-                'y': 2041.0,
-                'angle': 1.8389119201724646,
-                'pos_unit': POSITION_UNIT.PIXELS,
-                'ang_unit': ANGLE_UNIT.RADIANS,
-                **NAVIGATION_OPTIONS_WITH_CART
-            },
+            }
         },
         '3': {
             'localization': {
                 'outside_elevator': {
                     'divisions': 3,
                     'closest_point': {
-                        'x': 134.0,
-                        'y': 2074.0,
-                        'angle': 1.8395248997063303,
+                        'x': float(elevator_3_max[0]),
+                        'y': float(elevator_3_max[1]),
+                        'angle': float(elevator_3_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
-                        'x': 148.0,
-                        'y': 2156.0,
-                        'angle': 1.8419213429531647,
+                        'x': float(elevator_3_min[0]),
+                        'y': float(elevator_3_min[1]),
+                        'angle': float(elevator_3_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
-            },
-            'entry_point': {
-                'x': 134.0,
-                'y': 2074.0,
-                'angle': 1.8396149613713695,
-                'pos_unit': POSITION_UNIT.PIXELS,
-                'ang_unit': ANGLE_UNIT.RADIANS,
-                **NAVIGATION_OPTIONS_WITH_CART
-            },
+            }
         },
     },
     'units': {
         'unit1' : '7E',
         'unit2' : '7W'
     },
+}
+
+FLOOR_07_ROUTES = {
+    'elev_unit1': [
+        {
+            'name': 'Navigation to unit1',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_1[0]),
+                'y': float(unit_1[1]),
+                'angle': float(unit_1[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
+    'elev_unit2': [
+        {
+            'name': 'Navigation to unit2',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_2[0]),
+                'y': float(unit_2[1]),
+                'angle': float(unit_2[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
+    
+    'unit1_unit2': [
+        {
+            'name': 'Navigation to unit2',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_2[0]),
+                'y': float(unit_2[1]),
+                'angle': float(unit_2[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
+    
+    'unit1_elev': [
+        {
+            'name': 'Navigation to waiting elevator',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(SELECTED_WAITING_ELEVATOR[0]),
+                'y': float(SELECTED_WAITING_ELEVATOR[1]),
+                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
+    'unit2_elev': [
+        {
+            'name': 'Navigation to waiting elevator',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(SELECTED_WAITING_ELEVATOR[0]),
+                'y': float(SELECTED_WAITING_ELEVATOR[1]),
+                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
 }
