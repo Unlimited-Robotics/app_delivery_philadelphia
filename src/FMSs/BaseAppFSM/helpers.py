@@ -178,38 +178,5 @@ class CommonHelpers(RetryHelpers):
         self.app.log.info(feedback)
 
 
-    async def gary_play_audio(self, 
-            audio: dict, 
-            animation_head_leds: dict = LEDS_GARY_SPEAKING,
-            wait: bool = False
-        ):
-        try:
-            if not self.app.sound.is_playing():
-                await self.custom_turn_off_leds(group='head')
-                await self.app.sleep(DELAY_BEETWEEN_SOUND_LOOP)
-                await self.app.sound.play_sound(
-                    **audio,
-                    wait=False,
-                    callback_finish=self.sound_finish_callback
-                )
-            else:
-                await self.custom_animation(
-                    **animation_head_leds, 
-                    wait=False
-                )
-            if wait:
-                await self.custom_animation(
-                    **animation_head_leds, 
-                    wait=False
-                )
-                while self.app.sound.is_playing():
-                    await self.app.sleep(0.5)
-                await self.custom_turn_off_leds(group='head')
-        except RayaCommandAlreadyRunning:
-            pass
-        except RayaCommandTimeout:
-            pass
-
-
     def sound_finish_callback(self, code, msg):
         pass
