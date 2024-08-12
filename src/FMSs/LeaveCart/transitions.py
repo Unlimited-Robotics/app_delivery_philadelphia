@@ -37,7 +37,7 @@ class Transitions(CommonTransitions):
             finally:
                 self.helpers.retry_step(
                     transitions=self,
-                    last_state='GO_TO_CART_POINT',
+                    last_state='DETACH_CART',
                 )
         elif state == SKILL_STATE.ERROR_FINISHING:
             try:
@@ -49,7 +49,7 @@ class Transitions(CommonTransitions):
             finally:
                 self.helpers.retry_step(
                     transitions=self,
-                    last_state='GO_TO_CART_POINT',
+                    last_state='DETACH_CART',
                 )    
         elif state == SKILL_STATE.FINISHED:
             result_finish = await self.app.skill_detach.wait_finish()
