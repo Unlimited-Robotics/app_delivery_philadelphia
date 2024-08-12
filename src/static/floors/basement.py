@@ -58,6 +58,7 @@ FLOOR__00 = {
                         'angle': 1.8016715566010912,
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
                         'x': 3376.0,
@@ -65,6 +66,7 @@ FLOOR__00 = {
                         'angle': 1.7998981911927987,
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
             },
@@ -87,6 +89,7 @@ FLOOR__00 = {
                         'angle': 1.810375662278539,
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
                         'x': 3242.0,
@@ -94,6 +97,7 @@ FLOOR__00 = {
                         'angle': 1.8100282560620327,
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
             },
@@ -116,6 +120,7 @@ FLOOR__00 = {
                         'angle': 1.8079203614959949,
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
                         'x': 3114.0,
@@ -123,6 +128,7 @@ FLOOR__00 = {
                         'angle': 1.8034004002899453,
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
             },

@@ -50,6 +50,7 @@ FLOOR__02 = {
                         'angle': float(elevator_1_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
                         'x': float(elevator_1_min[0]),
@@ -57,6 +58,7 @@ FLOOR__02 = {
                         'angle': float(elevator_1_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
             },
@@ -79,6 +81,7 @@ FLOOR__02 = {
                         'angle': float(elevator_2_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
                         'x': float(elevator_2_min[0]),
@@ -86,6 +89,7 @@ FLOOR__02 = {
                         'angle': float(elevator_2_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
             },
@@ -108,6 +112,7 @@ FLOOR__02 = {
                         'angle': float(elevator_3_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
                         'x': float(elevator_3_min[0]),
@@ -115,6 +120,7 @@ FLOOR__02 = {
                         'angle': float(elevator_3_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
+                        **NAVIGATION_OPTIONS_WITH_CART
                     },
                 }
             },
