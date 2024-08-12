@@ -39,35 +39,8 @@ class Helpers(CommonHelpers):
         ):
         initial_name = initial_point
         final_name = final_point
-        
-        current_floor = self.app.get_current_floor_map_name()
         default_costmap_name = COST_MAPS_CONFIG['default_costmap_name']
 
-        if COST_MAPS_CONFIG['unit_identifier'] in initial_point:
-            try:
-                units = FLOORS[current_floor]['units']
-                key_unit_list = list(units.keys())
-                val_unit_list = list(units.values())
-                
-                position = val_unit_list.index(initial_point)
-                initial_name = key_unit_list[position]
-            except Exception as e:
-                self.app.log.error((
-                    f'Error getting the initial point name: {e}'
-                ))
-        
-        if COST_MAPS_CONFIG['unit_identifier'] in final_point:
-            try:
-                units = FLOORS[current_floor]['units']
-                key_unit_list = list(units.keys())
-                val_unit_list = list(units.values())
-                
-                position = val_unit_list.index(final_point)
-                final_name = key_unit_list[position]
-            except Exception as e:
-                self.app.log.error((
-                    f'Error getting the initial point name: {e}'
-                ))
         try:
             format = COST_MAPS_CONFIG['costmap_format']
             costmap_name = format.replace('[initial_point]', initial_name)

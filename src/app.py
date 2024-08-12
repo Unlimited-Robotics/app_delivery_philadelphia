@@ -281,29 +281,24 @@ class RayaApplication(RayaApplicationBase):
             f'Replacing name of unit \'{package_point_name}\' '
             f'on floor \'{current_floor}\'.'
         ))
-        
-        if COST_MAPS_CONFIG['unit_identifier'] in package_point_name:
-            try:
-                units = FLOORS[current_floor]['units']
-                key_unit_list = list(units.keys())
-                val_unit_list = list(units.values())
-                
-                position = val_unit_list.index(package_point_name)
-                alias_name = key_unit_list[position]
-                self.log.debug((
-                    f'The unit name \'{package_point_name}\' is the unit alias '
-                    f'\'{alias_name}\' of the floor \'{current_floor}\''
-                ))
-                return alias_name
-            except Exception as e:
-                self.log.error((
-                    f'Error getting the get_current_unit: {package_point_name}'
-                ))
-                # TODO fix this
-                return 'elev'
 
-        self.log.debug(f'Alias name {package_point_name} not found')
-        return package_point_name
+        try:
+            units = FLOORS[current_floor]['units']
+            key_unit_list = list(units.keys())
+            val_unit_list = list(units.values())
+            
+            position = val_unit_list.index(package_point_name)
+            alias_name = key_unit_list[position]
+            self.log.debug((
+                f'The unit name \'{package_point_name}\' is the unit alias '
+                f'\'{alias_name}\' of the floor \'{current_floor}\''
+            ))
+            return alias_name
+        except Exception as e:
+            self.log.error((
+                f'Error getting the get_current_unit: {package_point_name}'
+            ))
+            return 'elev'
 
 
     async def change_costmap_to_point(self, initial_point, final_point):

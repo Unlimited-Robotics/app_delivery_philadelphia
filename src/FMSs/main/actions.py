@@ -40,9 +40,18 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR(self):
-        point = await self.helpers.get_elevator_waiting_point()
-        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         current_package = self.helpers.get_current_package()
+        last_package = self.helpers.get_last_package()
+        
+        floor = self.app.get_current_floor_map_name()
+        last_unit = self.app.get_unit_name(
+            package_point_name=last_package['name']
+        )
+        
+        route = f'{last_unit}_elev'
+        self.log.warn(f'route #{route}')
+        
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
             current_package['name']
@@ -53,13 +62,18 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=copy_ui_screen['title']
             )
-
-        if not self.app.nav.is_navigating():
-            await self.app.nav.navigate_to_position(
-                **point,
-                callback_feedback_async=self.helpers.nav_feedback_async,
-                callback_finish_async=self.helpers.nav_finish_async,
-            )
+        
+        # TODO in case that the route is not found, it should be handled
+        steps = copy(SKILL_NAVIGATION[floor][route])
+        execute_args = {
+            'steps': steps
+        }
+        await self.app.skill_nav_steps.execute_main(
+            execute_args=execute_args,
+            callback_done=self.helpers.cb_nav_skill_done,
+            callback_feedback=self.helpers.cb_nav_skill_feedback,
+            wait=False
+        )
 
 
     async def leave_NAV_TO_WAITING_ELEVATOR(self):
@@ -75,9 +89,12 @@ class Actions(CommonAction):
 
 
     async def leave_NAV_TO_FLOOR(self):
+        current_package = self.helpers.get_current_package()
+        current_unit = self.app.get_unit_name(current_package['name'])
+        
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
-            final_point=self.helpers.get_current_package()['name'],
+            final_point=current_unit,
         )
 
 
@@ -190,7 +207,11 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
-        current_package = self.helpers.get_current_package()        
+        last_package = self.helpers.get_last_package()    
+        floor = self.app.get_current_floor_map_name()
+        last_unit = self.app.get_unit_name(
+            package_point_name=last_package['name']
+        )
         
         await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.app.fleet.update_app_status(
@@ -198,19 +219,13 @@ class Actions(CommonAction):
                 message=FLEET_GOING_TO_WAREHOUSE
             )
         
-        await self.helpers.change_costmap_to_point(
-            initial_point=current_package['name'],
-            final_point='elev',
-        )
-        
-        floor = self.app.get_current_floor_map_name()
-        last_unit = self.app.get_unit_name(
-            package_point_name=current_package['name']
-        )
-        
         route = f'{last_unit}_elev'
         self.log.warn(f'route #{route}')
-        # TODO in case that the route is not found, it should be handled
+        
+        await self.helpers.change_costmap_to_point(
+            initial_point=last_unit,
+            final_point='elev',
+        )
         steps = copy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'steps': steps

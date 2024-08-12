@@ -64,22 +64,9 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_WAITING_ELEVATOR(self):
-        
-        if self.app.nav.is_navigating():
-            await self.helpers.custom_animation(
-                **LEDS_NAVIGATING_TO_DELIVERY_POINT,
-                wait=True
-            )
-        
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('NAV_TO_FLOOR')
-            else:
-                self.helpers.retry_step(
-                    transitions=self,
-                    last_state='NAV_TO_WAITING_ELEVATOR',
-                )
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        self.set_state('NAV_TO_FLOOR')
 
     
     async def NAV_TO_FLOOR(self):
@@ -150,13 +137,24 @@ class Transitions(CommonTransitions):
             last_package = self.helpers.get_last_package()
             current_package = self.helpers.get_current_package()
             
-            await self.helpers.change_costmap_to_point(
-                initial_point=last_package['name'],
-                final_point=current_package['name'],
+            last_unit = self.app.get_unit_name(
+                package_point_name=last_package['name']
             )
+            
             if await self.helpers.check_if_robot_in_delivery_floor():
+                current_unit = self.app.get_unit_name(
+                    package_point_name=current_package['name']
+                )
+                await self.helpers.change_costmap_to_point(
+                    initial_point=last_unit,
+                    final_point=current_unit,
+                )
                 self.set_state('NAV_TO_DELIVERY_POINT')
             else:
+                await self.helpers.change_costmap_to_point(
+                    initial_point=last_unit,
+                    final_point='elev',
+                )
                 self.set_state('NAV_TO_WAITING_ELEVATOR')
         else:
             self.set_state('NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE')
