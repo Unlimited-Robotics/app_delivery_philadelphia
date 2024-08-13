@@ -2,6 +2,22 @@ from .constants import *
 
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
+elevator_1_max = [3364, 513, 1.8016715566010912]
+elevator_1_min = [3376, 565, 1.7998981911927987]
+elevator_2_max = [3230, 539, 1.810375662278539]
+elevator_2_min = [3242, 593, 1.8100282560620327]
+elevator_3_max = [3105, 568, 1.8079203614959949]
+elevator_3_min = [3114, 618, 1.8034004002899453]
+home_1 = [343, 1371, -2.960683543029332]
+home_2 = [354, 1417, -2.9408081170309224]
+nav_to_cart_point = [289, 1271, 1.7904618881618362]
+nav_to_cart_point_2 = [323, 1256, 2.1685452268524346]
+wait_elevator = [2833, 706, 0.2177464694155388]
+warehouse_entrance = [2010, 879, -2.9266371161831866]
+warehouse_exit = [1761, 904, 0.22435328773765226]
+warehouse_exit_c = [1748, 895, 0.26536295227317463]
+cart_unload_point = [605, 1141, -2.922]
+
 WAREHOUSE_ZONE_NAME = 'warehouse'
 
 NAV_CART_LOAD_POINT_OPTIONS = {
@@ -11,27 +27,27 @@ NAV_CART_LOAD_POINT_OPTIONS = {
 }
 
 NAV_WAREHOUSE_ENTRANCE = {
-        'x':        2010.0,
-        'y':        879.0,
-        'angle':    -2.9266371161831866,
+        'x':        float(warehouse_entrance[0]),
+        'y':        float(warehouse_entrance[1]),
+        'angle':    float(warehouse_entrance[2]),
         'pos_unit': POSITION_UNIT.PIXELS,
         'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
     }
 
 NAV_WAREHOUSE_EXIT = {
-        'x':        1761.0,
-        'y':        904.0,
-        'angle':    0.22435328773765226,
+        'x':        float(warehouse_exit[0]),
+        'y':        float(warehouse_exit[1]),
+        'angle':    float(warehouse_exit[2]),
         'pos_unit': POSITION_UNIT.PIXELS,
         'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
     }
 
 NAV_CART_UNLOAD_POINT = {
-        'x':        605.0,
-        'y':        1141.0,
-        'angle':    -2.922,
+        'x':        float(cart_unload_point[0]),
+        'y':        float(cart_unload_point[1]),
+        'angle':    float(cart_unload_point[2]),
         'pos_unit': POSITION_UNIT.PIXELS,
         'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
@@ -39,9 +55,9 @@ NAV_CART_UNLOAD_POINT = {
 
 FLOOR__00 = {
     'waiting_elevator': {
-        'x': 2833.0,
-        'y': 706.0,
-        'angle': 0.2177464694155388,
+        'x': float(wait_elevator[0]),
+        'y': float(wait_elevator[1]),
+        'angle': float(wait_elevator[2]),
         'pos_unit': POSITION_UNIT.PIXELS,
         'ang_unit': ANGLE_UNIT.RADIANS,
         **NAVIGATION_OPTIONS_WITH_CART
@@ -52,17 +68,17 @@ FLOOR__00 = {
                 'outside_elevator': {
                     'divisions': 3,
                     'closest_point': {
-                        'x': 3364.0,
-                        'y': 513.0,
-                        'angle': 1.8016715566010912,
+                        'x': float(elevator_1_max[0]),
+                        'y': float(elevator_1_max[1]),
+                        'angle': float(elevator_1_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
                         **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
-                        'x': 3376.0,
-                        'y': 565.0,
-                        'angle': 1.7998981911927987,
+                        'x': float(elevator_1_min[0]),
+                        'y': float(elevator_1_min[1]),
+                        'angle': float(elevator_1_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
                         **NAVIGATION_OPTIONS_WITH_CART
@@ -75,17 +91,17 @@ FLOOR__00 = {
                 'outside_elevator': {
                     'divisions': 3,
                     'closest_point': {
-                        'x': 3230.0,
-                        'y': 539.0,
-                        'angle': 1.810375662278539,
+                        'x': float(elevator_2_max[0]),
+                        'y': float(elevator_2_max[1]),
+                        'angle': float(elevator_2_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
                         **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
-                        'x': 3242.0,
-                        'y': 593.0,
-                        'angle': 1.8100282560620327,
+                        'x': float(elevator_2_min[0]),
+                        'y': float(elevator_2_min[1]),
+                        'angle': float(elevator_2_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
                         **NAVIGATION_OPTIONS_WITH_CART
@@ -98,17 +114,17 @@ FLOOR__00 = {
                 'outside_elevator': {
                     'divisions': 3,
                     'closest_point': {
-                        'x': 3105.0,
-                        'y': 568.0,
-                        'angle': 1.8079203614959949,
+                        'x': float(elevator_3_max[0]),
+                        'y': float(elevator_3_max[1]),
+                        'angle': float(elevator_3_max[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
                         **NAVIGATION_OPTIONS_WITH_CART
                     },
                     'farthest_point': {
-                        'x': 3114.0,
-                        'y': 618.0,
-                        'angle': 1.8034004002899453,
+                        'x': float(elevator_3_min[0]),
+                        'y': float(elevator_3_min[1]),
+                        'angle': float(elevator_3_min[2]),
                         'pos_unit': POSITION_UNIT.PIXELS,
                         'ang_unit': ANGLE_UNIT.RADIANS,
                         **NAVIGATION_OPTIONS_WITH_CART
