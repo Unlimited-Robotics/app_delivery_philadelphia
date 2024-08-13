@@ -35,6 +35,7 @@ class Helpers(CommonHelpers):
             log_transitions=True
         )
         self.selected_option_delivery_ui = None
+        self.keyboard_response = None
 
 
     async def change_costmap_to_point(self, 
@@ -132,6 +133,10 @@ class Helpers(CommonHelpers):
 
     def cb_delivery_arrived_ui_response(self, response):
         self.selected_option_delivery_ui = response['selected_option']
+
+
+    def cb_keyboard_response(self, response):
+        self.keyboard_response = response['vale']
 
 
     async def notify_order_arrived(self):

@@ -176,14 +176,11 @@ class Actions(CommonAction):
 
 
     async def enter_PACKAGE_DELIVERED(self):
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.SUCCESS,
-            message=(
-                f'The package {self.helpers.index_package + 1} '
-                'was delivered successfully.'
-            )
+        await self.app.ui.keyboard(
+            **UI_KEYBOARD,
+            wait=False,
+            async_callback=self.helpers.cb_keyboard_response
         )
-        await self.app.ui.show_animation(**UI_SCREEN_DELIVERING_SUCCESS)
 
 
     async def leave_PACKAGE_DELIVERED(self):

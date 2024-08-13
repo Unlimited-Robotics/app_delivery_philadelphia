@@ -116,7 +116,21 @@ class Transitions(CommonTransitions):
 
 
     async def PACKAGE_DELIVERED(self):
-        await self.app.sleep(5)
+        if self.helpers.keyboard_response is None:
+            return
+
+        response = self.helpers.keyboard_response
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.SUCCESS,
+            message=(
+                'The package was delivered successfully to the unit '
+                f'{self.helpers.get_current_package()["name"]}, '
+                ' and the name of the person who received it is: '
+                f'{response["value"]}'
+            )
+        )
+        self.helpers.keyboard_response = None
+        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
 
