@@ -22,6 +22,9 @@ EXECUTION_ARG_DETACH_SKILL = {
 SKILL_EXIT_ELEVATOR = 'exit_elevator'
 ARGS_EXIT_ELEVATOR = {
     'skill': SKILL_EXIT_ELEVATOR,
-    'target_floor': '',
+    'target_floor': '', # Set in the FSM
     'move_distance': 3.6,
+    'tag_source': 'front_ip',
+    'tag_family': '36h11',
+    'tag_size': 0.14
 }
