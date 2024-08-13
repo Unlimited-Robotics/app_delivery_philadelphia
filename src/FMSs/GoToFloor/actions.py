@@ -41,11 +41,24 @@ class Actions(CommonAction):
         await self.app.ui.show_animation(**copy_ui_screen)
         
         elevator_point = await self.helpers.get_entry_point_to_elevator()
-        await self.app.nav.navigate_to_position(
-            **elevator_point,
-            callback_feedback_async=self.helpers.nav_feedback_async,
-            callback_finish_async=self.helpers.nav_finish_async,
+        
+        execute_args = {
+            'steps': [
+                {
+                    'name': 'Navigation to elevator',
+                    'type': 'nav_to_point',
+                    'point' : elevator_point,
+                    'teleoperator_if_fail': True,
+                },
+            ]
+        }
+        await self.app.skill_nav_steps.execute_main(
+            execute_args=execute_args,
+            callback_done=self.helpers.cb_nav_skill_done,
+            callback_feedback=self.helpers.cb_nav_skill_feedback,
+            wait=False
         )
+        
 
 
     async def enter_TELEOPERATING(self):

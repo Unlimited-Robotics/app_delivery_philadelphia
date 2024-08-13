@@ -14,10 +14,6 @@ class Helpers(CommonHelpers):
     async def check_if_inside_zone(self):
         result = await self.app.nav.is_in_zone(zone_name=NAV_WAREHOUSE_ZONE_NAME)
         return result
-
-
-    async def nav_feedback_wrapper(self, code, msg, distance, speed):
-        await self.nav_feedback_async(code, msg, distance, speed)
         
 
     async def cb_skill_done(self, exception, result):

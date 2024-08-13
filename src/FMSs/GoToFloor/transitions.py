@@ -24,16 +24,10 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_ELEVATOR(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                await self.app.sleep(TIME_TO_WAIT_AFTER_SELECTION_ELEVATOR)
-                self.set_state('TELEOPERATING')
-            else:
-                self.helpers.retry_step(
-                    transitions=self,
-                    last_state='NAV_TO_ELEVATOR',
-                )
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        await self.app.sleep(TIME_TO_WAIT_AFTER_SELECTION_ELEVATOR)
+        self.set_state('TELEOPERATING')
 
     
     async def TELEOPERATING(self):

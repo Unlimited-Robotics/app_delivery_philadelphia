@@ -141,16 +141,4 @@ class Helpers(CommonHelpers):
                 )
             )
 
-
-    async def cb_nav_skill_done(self, exception, result):
-        self.log.debug(
-            f'Callback skill done: '
-            f'Result: \'{result}\'.'
-        )
-
-
-    async def cb_nav_skill_feedback(self, feedback):
-        self.log.debug(
-            f'Callback Feedback: \'{feedback}\''
-        )
     
