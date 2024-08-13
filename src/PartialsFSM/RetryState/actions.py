@@ -22,7 +22,8 @@ class Actions(CommonActions):
         await self.app.ui.display_choice_selector(
             **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
             wait=False,
-            async_callback=self.helpers.display_choice_selector_callback
+            async_callback=self.helpers.display_choice_selector_callback,
+            dont_save_last_ui=True
         )
         self.helpers.start_timer_teleoperator()
 

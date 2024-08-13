@@ -47,6 +47,7 @@ class Transitions(CommonTransitions):
 
     async def CONTINUE(self):
         await self.app.sleep(1)
+        await self.app.ui.show_last_animation()
         self.set_state(self.helpers._get_last_failed_state())
 
     
