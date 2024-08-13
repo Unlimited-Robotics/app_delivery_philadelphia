@@ -47,6 +47,8 @@ class RayaApplication(RayaApplicationBase):
                 await self.enable_controller('cv')
         self.robot_skills: RobotSkillsController = \
                 await self.enable_controller('robot_skills')
+        
+        await self.ui.show_animation(**UI_SCREEN_NAVIGATING)
     
         if not self.continue_with_cart_footprint:
             await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
