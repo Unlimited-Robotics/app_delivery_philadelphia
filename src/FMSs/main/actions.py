@@ -31,6 +31,7 @@ class Actions(CommonAction):
 
 
     async def enter_GO_TO_CART_POINT(self):
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_STATUS_GOING_TO_CART_POINT
@@ -74,10 +75,6 @@ class Actions(CommonAction):
             callback_feedback=self.helpers.cb_nav_skill_feedback,
             wait=False
         )
-
-
-    async def leave_NAV_TO_WAITING_ELEVATOR(self):
-        await self.helpers.custom_turn_off_leds()
 
 
     async def enter_NAV_TO_FLOOR(self):
@@ -181,9 +178,7 @@ class Actions(CommonAction):
                 'was delivered successfully.'
             )
         )
-        await self.app.ui.display_screen(
-            **UI_SCREEN_DELIVERING_SUCCESS
-        )
+        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
 
 
     async def leave_PACKAGE_DELIVERED(self):
@@ -250,6 +245,7 @@ class Actions(CommonAction):
 
 
     async def enter_PARK_CART(self):
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
             final_point='home',
