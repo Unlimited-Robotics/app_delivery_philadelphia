@@ -16,7 +16,6 @@ class Transitions(CommonTransitions):
     async def CHECK_IF_INSIDE_ZONE(self):
         if await self.helpers.check_if_inside_zone():
             self.set_state('GO_TO_HOME_LOCATION')
-        # TODO: if not inside zone, go to home using the door
 
 
     async def GO_TO_HOME_LOCATION(self):
