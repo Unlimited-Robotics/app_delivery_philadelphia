@@ -295,6 +295,10 @@ FLOOR_02_ROUTES = {
     
     'unit1_unit2': [
         {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
+        {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
             'point' : {
@@ -366,6 +370,10 @@ FLOOR_02_ROUTES = {
     ],
     'unit1_unit3': [
         {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
+        {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
             'point' : {
@@ -436,6 +444,10 @@ FLOOR_02_ROUTES = {
         },
         ],
     'unit1_unit4': [
+        {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
         {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
@@ -509,6 +521,10 @@ FLOOR_02_ROUTES = {
     
     'unit2_unit3': [
         {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
+        {
             'name': 'Navigation to unit2 exit',
             'type': 'nav_to_point',
             'point' : {
@@ -566,6 +582,10 @@ FLOOR_02_ROUTES = {
         },
     ],
     'unit2_unit4': [
+        {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
         {
             'name': 'Navigation to unit2 exit',
             'type': 'nav_to_point',
@@ -639,6 +659,10 @@ FLOOR_02_ROUTES = {
     
     'unit3_unit4': [
         {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
+        {
             'name': 'Automatic door unit3 exit',
             'type': 'automatic_door',
             'zone_name': UNIT3_ZONE_NAME,
@@ -698,6 +722,10 @@ FLOOR_02_ROUTES = {
     
     'unit1_elev':  [
         {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
+        {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
             'point' : {
@@ -740,6 +768,10 @@ FLOOR_02_ROUTES = {
         },
     ],
     'unit2_elev':  [
+        {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
         {
             'name': 'Navigation to unit2 exit',
             'type': 'nav_to_point',
@@ -784,6 +816,10 @@ FLOOR_02_ROUTES = {
     ],
     'unit3_elev':  [
         {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
+        {
             'name': 'Automatic door unit3 exit',
             'type': 'automatic_door',
             'zone_name': UNIT3_ZONE_NAME,
@@ -813,6 +849,10 @@ FLOOR_02_ROUTES = {
         },
     ],
     'unit4_elev': [
+        {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
         {
             'name': 'Navigation to unit4 exit',
             'type': 'nav_to_point',

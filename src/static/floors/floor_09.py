@@ -143,6 +143,10 @@ FLOOR_09_ROUTES = {
     
     'unit1_unit2': [
         {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
+        {
             'name': 'Navigation to unit2',
             'type': 'nav_to_point',
             'point' : {
@@ -159,6 +163,10 @@ FLOOR_09_ROUTES = {
     
     'unit1_elev': [
         {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
+        {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
             'point' : {
@@ -173,6 +181,10 @@ FLOOR_09_ROUTES = {
         },
     ],
     'unit2_elev': [
+        {
+            'name': 'Teleoperation to leave the unit',
+            'type': 'teleoperation',
+        },
         {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
