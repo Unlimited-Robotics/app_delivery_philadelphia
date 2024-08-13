@@ -11,7 +11,9 @@ elevator_3_max = [305, 1589, 1.538400902247487]
 elevator_3_min = [305, 1644, 1.5460022054648714]
 unit_1 = [1394, 1704, -3.1159257403094367]
 unit_2 = [1518, 496, -0.034326290763845885]
+unit_3_entrance = [1824, 2100, -1.5685361217325895]
 unit_3 = [1805, 2727, -1.5685361217325895]
+unit_3_exit = [1018, 2326, 1.5685361217325895]
 wait_elevator_l = [780, 1694, 3.1159257403094367]
 wait_elevator_r = [744, 1632, 3.089958415405998]
 
@@ -142,6 +144,34 @@ FLOOR_04_ROUTES = {
     ],
     'elev_unit3': [
         {
+            'name': 'Navigation to unit3 entrance',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_3_entrance[0]),
+                'y': float(unit_3_entrance[1]),
+                'angle': float(unit_3_entrance[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+        {
+            'name': 'Automatic door unit3 entrance',
+            'type': 'automatic_door',
+            'zone_name': UNIT3_ZONE_NAME,
+            'after_door_point': {
+                'x': float(unit_3[0]),
+                'y': float(unit_3[1]),
+                'angle': float(unit_3[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'tags_ids': [25],
+            'tags_sizes': [0.12],
+        },
+        {
             'name': 'Navigation to unit3',
             'type': 'nav_to_point',
             'point' : {
@@ -173,6 +203,34 @@ FLOOR_04_ROUTES = {
     ],
     'unit1_unit3': [
         {
+            'name': 'Navigation to unit3 entrance',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_3_entrance[0]),
+                'y': float(unit_3_entrance[1]),
+                'angle': float(unit_3_entrance[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+        {
+            'name': 'Automatic door unit3 entrance',
+            'type': 'automatic_door',
+            'zone_name': UNIT3_ZONE_NAME,
+            'after_door_point': {
+                'x': float(unit_3[0]),
+                'y': float(unit_3[1]),
+                'angle': float(unit_3[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'tags_ids': [25],
+            'tags_sizes': [0.12],
+        },
+        {
             'name': 'Navigation to unit3',
             'type': 'nav_to_point',
             'point' : {
@@ -188,6 +246,34 @@ FLOOR_04_ROUTES = {
     ],
     
     'unit2_unit3': [
+        {
+            'name': 'Navigation to unit3 entrance',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_3_entrance[0]),
+                'y': float(unit_3_entrance[1]),
+                'angle': float(unit_3_entrance[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+        {
+            'name': 'Automatic door unit3 entrance',
+            'type': 'automatic_door',
+            'zone_name': UNIT3_ZONE_NAME,
+            'after_door_point': {
+                'x': float(unit_3[0]),
+                'y': float(unit_3[1]),
+                'angle': float(unit_3[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'tags_ids': [25],
+            'tags_sizes': [0.12],
+        },
         {
             'name': 'Navigation to unit3',
             'type': 'nav_to_point',
@@ -233,6 +319,34 @@ FLOOR_04_ROUTES = {
         },
     ],
     'unit3_elev': [
+        {
+            'name': 'Navigation to unit3 exit',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_3_exit[0]),
+                'y': float(unit_3_exit[1]),
+                'angle': float(unit_3_exit[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+        {
+            'name': 'Automatic door unit3 entrance',
+            'type': 'automatic_door',
+            'zone_name': UNIT3_ZONE_NAME,
+            'after_door_point': {
+                'x': float(SELECTED_WAITING_ELEVATOR[0]),
+                'y': float(SELECTED_WAITING_ELEVATOR[0]),
+                'angle': float(SELECTED_WAITING_ELEVATOR[0]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'tags_ids': [25],
+            'tags_sizes': [0.12],
+        },
         {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
