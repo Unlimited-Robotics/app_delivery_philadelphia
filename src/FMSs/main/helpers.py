@@ -101,10 +101,6 @@ class Helpers(CommonHelpers):
 
 
     async def task_to_notify(self):
-        text = (
-            f'This is a reminder that the package {self.index_package + 1} '
-            'has arrived at the delivery point and hasn\'t been confirmed.'
-        )
         while True:
             await self.app.ui.display_choice_selector(
                     **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
@@ -114,6 +110,7 @@ class Helpers(CommonHelpers):
             
             await self.app.sleep(TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED)
             
+            self.log.debug('The user didn\'t select any option, calling him....')
             user_id = self.current_package['user_id']
             try:
                 await self.app.fleet.request_user_action(
