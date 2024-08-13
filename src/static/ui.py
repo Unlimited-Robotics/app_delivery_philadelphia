@@ -22,12 +22,6 @@ UI_SCREEN_NAVIGATING = {
     **UI_COMMON_OPTIONS
 }
 
-UI_SCREEN_WAIT_FOR_DOOR_OPEN = {
-    'title':'Please open the door',
-    'lottie': UI_LOTTIE_DOOR,
-    **UI_COMMON_OPTIONS
-}
-
 UI_SCREEN_NAV_TO_PACKAGE_POINT = {
     'title':'Delivering items to [department_name]',
     'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
@@ -102,15 +96,6 @@ UI_SCREEN_NAV_TO_FLOOR = {
     'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
     **UI_COMMON_OPTIONS
 }
-
-UI_SCREEN_OBSTACLE_DETECTED = {
-    'title': 'Please clear the way',
-    'subtitle': 'I\'m on duty',
-    'path': UI_OBSTACLE_DETECTED,
-    'format': UI_ANIMATION_TYPE.GIF,
-    **UI_COMMON_OPTIONS
-}
-
 
 UI_SCREEN_FAILED = {
     'title':'Failed',

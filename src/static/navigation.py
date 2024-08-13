@@ -1,10 +1,5 @@
 from .floors import *
 
-NAV = dict()
-
-NAVIGATION_TRY_LIMIT = 1
-OBSTACLE_DETECTION_THRESHOLDS = [2, 7]
-
 GARY_FOOTPRINT = [
     [-0.25,  0.28],
     [ 0.25,  0.28],

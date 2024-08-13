@@ -6,7 +6,6 @@ from raya.controllers.leds_controller import LedsController
 from raya.controllers.sound_controller import SoundController
 from raya.controllers.ui_controller import UIController
 from raya.controllers.fleet_controller import FleetController
-from raya.controllers.sensors_controller import SensorsController
 from raya.controllers.motion_controller import MotionController
 from raya.controllers.cameras_controller import CamerasController
 from raya.controllers.cv_controller import CVController
@@ -37,8 +36,6 @@ class RayaApplication(RayaApplicationBase):
                 await self.enable_controller('ui')
         self.fleet:FleetController = \
                 await self.enable_controller('fleet')
-        self.sensors:SensorsController = \
-                await self.enable_controller('sensors')
         self.motion:MotionController = \
                 await self.enable_controller('motion')
         self.cameras: CamerasController = \
