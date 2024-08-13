@@ -106,12 +106,26 @@ class Helpers(CommonHelpers):
             'has arrived at the delivery point and hasn\'t been confirmed.'
         )
         while True:
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=text
-            )
-            self.app.log.warn(text)
+            await self.app.ui.display_choice_selector(
+                    **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
+                    wait=False,
+                    callback=self.cb_delivery_arrived_ui_response
+                )
+            
             await self.app.sleep(TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED)
+            
+            user_id = self.current_package['user_id']
+            try:
+                await self.app.fleet.request_user_action(
+                    request_type='call',
+                    request_args=FLEET_CALL_MESSAGE,
+                    user_id=user_id,
+                    timeout=30.0,
+                    wait=False,
+                    callback=lambda: None
+                )
+            except RayaFleetTimeout:
+                self.app.log.error('User didn\'t answer the call')
 
 
     def cb_delivery_arrived_ui_response(self, response):
@@ -119,12 +133,6 @@ class Helpers(CommonHelpers):
 
 
     async def notify_order_arrived(self):
-        await self.app.ui.display_choice_selector(
-                **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
-                wait=False,
-                callback=self.cb_delivery_arrived_ui_response
-            )
-        
         await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.WARNING,
                 message=(
@@ -132,18 +140,6 @@ class Helpers(CommonHelpers):
                     'has arrived at the delivery point.'
                 )
             )
-        user_id = self.current_package['user_id']
-        try:
-            await self.app.fleet.request_user_action(
-                request_type='call',
-                request_args=FLEET_CALL_MESSAGE,
-                user_id=user_id,
-                timeout=30.0,
-                wait=False,
-                callback=lambda: None
-            )
-        except RayaFleetTimeout:
-            self.app.log.error('User didn\'t answer the call')
 
 
     async def cb_nav_skill_done(self, exception, result):
