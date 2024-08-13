@@ -49,18 +49,9 @@ class Transitions(CommonTransitions):
 
 
     async def GO_TO_CART_POINT(self):
-        try:
-            await self.helpers.fsm_take_cart.raise_last_execution_exception()
-        except RayaFSMAborted:
-            self.app.log.error('FSM Aborted')
-            self.helpers.retry_step(
-                    transitions=self,
-                    last_state='GO_TO_CART_POINT',
-                )
-        else:
-            if self.helpers.fsm_take_cart.has_finished() and \
-                self.helpers.fsm_take_cart.was_successful():
-                self.set_state('NAV_TO_FLOOR')
+        if self.helpers.fsm_take_cart.has_finished() and \
+            self.helpers.fsm_take_cart.was_successful():
+            self.set_state('NAV_TO_FLOOR')
 
 
     async def NAV_TO_WAITING_ELEVATOR(self):
@@ -70,18 +61,9 @@ class Transitions(CommonTransitions):
 
     
     async def NAV_TO_FLOOR(self):
-        try:
-            await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
-        except RayaFSMAborted:
-            self.app.log.error('FSM Aborted')
-            self.helpers.retry_step(
-                    transitions=self,
-                    last_state='NAV_TO_FLOOR',
-                )
-        else:
-            if self.helpers.fsm_go_to_floor.has_finished() and \
-                self.helpers.fsm_go_to_floor.was_successful():
-                self.set_state('NAV_TO_DELIVERY_POINT')
+        if self.helpers.fsm_go_to_floor.has_finished() and \
+            self.helpers.fsm_go_to_floor.was_successful():
+            self.set_state('NAV_TO_DELIVERY_POINT')
 
 
     async def NAV_TO_DELIVERY_POINT(self):
@@ -170,33 +152,15 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_WAREHOUSE_FLOOR(self):
-        try:
-            await self.helpers.fsm_go_to_floor.raise_last_execution_exception()
-        except RayaFSMAborted:
-            self.app.log.error('FSM Aborted')
-            self.helpers.retry_step(
-                    transitions=self,
-                    last_state='NAV_TO_WAREHOUSE_FLOOR',
-                )
-        else:
-            if self.helpers.fsm_go_to_floor.has_finished() and \
-                self.helpers.fsm_go_to_floor.was_successful():
-                self.set_state('PARK_CART')
+        if self.helpers.fsm_go_to_floor.has_finished() and \
+            self.helpers.fsm_go_to_floor.was_successful():
+            self.set_state('PARK_CART')
 
 
     async def PARK_CART(self):
-        try:
-            await self.helpers.fsm_leave_cart.raise_last_execution_exception()
-        except RayaFSMAborted:
-            self.app.log.error('FSM Aborted')
-            self.helpers.retry_step(
-                    transitions=self,
-                    last_state='PARK_CART',
-                )
-        else:
-            if self.helpers.fsm_leave_cart.has_finished() and \
-                self.helpers.fsm_leave_cart.was_successful():
-                self.set_state('END')
+        if self.helpers.fsm_leave_cart.has_finished() and \
+            self.helpers.fsm_leave_cart.was_successful():
+            self.set_state('END')
     
 
     async def END(self):
