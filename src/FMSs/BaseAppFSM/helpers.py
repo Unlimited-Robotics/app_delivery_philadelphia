@@ -51,20 +51,6 @@ class CommonHelpers(RetryHelpers):
 
     def get_last_package(self):
         return self.last_package
-        
-
-    async def get_current_package_point(self):
-        package = self.current_package
-        point = {
-            'x': float(package['x']),
-            'y': float(package['y']),
-            'angle': float(package['angle']),
-            'pos_unit': POSITION_UNIT.PIXELS, 
-            'ang_unit': ANGLE_UNIT.DEGREES,
-            **NAVIGATION_OPTIONS_WITH_CART
-        }
-        self.app.log.debug(f'Package point: {point}')
-        return point
 
 
     async def get_cart_load_point(self):
