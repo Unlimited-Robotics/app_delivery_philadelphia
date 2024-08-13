@@ -32,7 +32,6 @@ ELEVATORS_ZONE_NAME = 'elevator_zone'
 SELECTED_WAITING_ELEVATOR = wait_elevator_l
 
 FLOOR__02 = {
-    'max_elevators': 3,
     'waiting_elevator': {
         'x': float(SELECTED_WAITING_ELEVATOR[0]),
         'y': float(SELECTED_WAITING_ELEVATOR[1]),
@@ -113,10 +112,10 @@ FLOOR__02 = {
         },
     },
     'units': {
-        'unit1' : 'floor2_unit1',
-        'unit2' : 'floor2_unit2',
-        'unit3' : 'floor2_unit3',
-        'unit4' : 'floor2_unit4',
+        'unit1' : 'CICU',
+        'unit2' : 'HM',
+        'unit3' : 'ME',
+        'unit4' : 'E',
     },
 }
 

@@ -2,25 +2,27 @@ from .constants import *
 
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
-elevator_1_max = [379, 1550, 1.5901225660193579]
-elevator_1_min = [379, 1598, 1.5925596301548564]
-elevator_2_max = [242, 1553, 1.5983030069603488]
-elevator_2_min = [243, 1599, 1.5990816080196704]
-elevator_3_max = [111, 1553, 1.5891158661913567]
-elevator_3_min = [112, 1600, 1.5848444285683343]
-unit_1 = [1277, 382, 0.009900601676800371]
-unit_2 = [1473, 2124, 0.057483839596256914]
-wait_elevator_r = [582, 1557, -3.1007792281373283]
-wait_elevator_2 = [483, 1561, -3.1048970776125806]
-wait_elevator_l = [588, 1622, -3.118875630383247]
+elevator_1_max = [571, 1605, 1.53673564194864]
+elevator_1_min = [570, 1654, 1.54432953875892]
+elevator_2_max = [432, 1591, 1.5627812375203876]
+elevator_2_mi = [431, 1648, 1.5582898456773373]
+elevator_2_min = [431, 1648, 1.5578435379679467]
+elevator_3_max = [305, 1589, 1.538400902247487]
+elevator_3_min = [305, 1644, 1.5460022054648714]
+unit_1 = [1394, 1704, -3.1159257403094367]
+unit_2 = [1518, 496, -0.034326290763845885]
+unit_3 = [1805, 2727, -1.5685361217325895]
+wait_elevator_l = [780, 1694, 3.1159257403094367]
+wait_elevator_r = [744, 1632, 3.089958415405998]
 
 UNIT1_ZONE_NAME = 'unit1'
 UNIT2_ZONE_NAME = 'unit2'
+UNIT3_ZONE_NAME = 'unit3'
 ELEVATORS_ZONE_NAME = 'elevator_zone'
 
 SELECTED_WAITING_ELEVATOR = wait_elevator_l
 
-FLOOR__07 = {
+FLOOR__04 = {
     'waiting_elevator': {
         'x': float(SELECTED_WAITING_ELEVATOR[0]),
         'y': float(SELECTED_WAITING_ELEVATOR[1]),
@@ -101,12 +103,13 @@ FLOOR__07 = {
         },
     },
     'units': {
-        'unit1' : '7E',
-        'unit2' : '7W'
+        'unit1' : 'Burn',
+        'unit2' : '4E',
+        'unit3' : '4W'
     },
 }
 
-FLOOR_07_ROUTES = {
+FLOOR_04_ROUTES = {
     'elev_unit1': [
         {
             'name': 'Navigation to unit1',
@@ -137,6 +140,21 @@ FLOOR_07_ROUTES = {
             'teleoperator_if_fail': True,
         },
     ],
+    'elev_unit3': [
+        {
+            'name': 'Navigation to unit3',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_3[0]),
+                'y': float(unit_3[1]),
+                'angle': float(unit_3[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
     
     'unit1_unit2': [
         {
@@ -153,6 +171,36 @@ FLOOR_07_ROUTES = {
             'teleoperator_if_fail': True,
         },
     ],
+    'unit1_unit3': [
+        {
+            'name': 'Navigation to unit3',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_3[0]),
+                'y': float(unit_3[1]),
+                'angle': float(unit_3[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
+    
+    'unit2_unit3': [
+        {
+            'name': 'Navigation to unit3',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(unit_3[0]),
+                'y': float(unit_3[1]),
+                'angle': float(unit_3[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },],
     
     'unit1_elev': [
         {
@@ -170,6 +218,21 @@ FLOOR_07_ROUTES = {
         },
     ],
     'unit2_elev': [
+        {
+            'name': 'Navigation to waiting elevator',
+            'type': 'nav_to_point',
+            'point' : {
+                'x': float(SELECTED_WAITING_ELEVATOR[0]),
+                'y': float(SELECTED_WAITING_ELEVATOR[1]),
+                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+                'pos_unit': POSITION_UNIT.PIXELS,
+                'ang_unit': ANGLE_UNIT.RADIANS,
+                **NAVIGATION_OPTIONS_WITH_CART
+            },
+            'teleoperator_if_fail': True,
+        },
+    ],
+    'unit3_elev': [
         {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',

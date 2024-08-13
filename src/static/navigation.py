@@ -45,11 +45,21 @@ COST_MAPS_CONFIG = {
 FLOORS = {
     '00': FLOOR__00,
     '02': FLOOR__02,
-    '07': FLOOR__07
+    '04': FLOOR__04,
+    '05': FLOOR__05,
+    '06': FLOOR__06,
+    '07': FLOOR__07,
+    '08': FLOOR__08,
+    '09': FLOOR__09,
 }
 
 SKILL_NAVIGATION = {
     '00': {**BASEMENT_ROUTES},
     '02': {**FLOOR_02_ROUTES},
-    '07': {**FLOOR_07_ROUTES}
+    '04': {**FLOOR_04_ROUTES},
+    '05': {**FLOOR_05_ROUTES},
+    '06': {**FLOOR_06_ROUTES},
+    '07': {**FLOOR_07_ROUTES},
+    '08': {**FLOOR_08_ROUTES},
+    '09': {**FLOOR_09_ROUTES},
 }

@@ -2,17 +2,16 @@ from .constants import *
 
 from raya.enumerations import POSITION_UNIT, ANGLE_UNIT
 
-elevator_1_max = [379, 1550, 1.5901225660193579]
-elevator_1_min = [379, 1598, 1.5925596301548564]
-elevator_2_max = [242, 1553, 1.5983030069603488]
-elevator_2_min = [243, 1599, 1.5990816080196704]
-elevator_3_max = [111, 1553, 1.5891158661913567]
-elevator_3_min = [112, 1600, 1.5848444285683343]
-unit_1 = [1277, 382, 0.009900601676800371]
-unit_2 = [1473, 2124, 0.057483839596256914]
-wait_elevator_r = [582, 1557, -3.1007792281373283]
-wait_elevator_2 = [483, 1561, -3.1048970776125806]
-wait_elevator_l = [588, 1622, -3.118875630383247]
+elevator_1_max = [386, 1724, 1.7412574953071434]
+elevator_1_min = [394, 1769, 1.7434466835096198]
+elevator_2_max = [251, 1744, 1.7356976703348441]
+elevator_2_min = [258, 1790, 1.7388816530056193]
+elevator_3_max = [124, 1764, 1.7380196448684087]
+elevator_3_min = [132, 1810, 1.739540979477121]
+unit_1 = [1093, 446, 0.1539887578222113]
+unit_2 = [1380, 2125, 0.21877036470607367]
+wait_elevator_l = [629, 1769, -2.997770086985672]
+wait_elevator_r = [591, 1703, -2.9689923334600166]
 
 UNIT1_ZONE_NAME = 'unit1'
 UNIT2_ZONE_NAME = 'unit2'
@@ -20,7 +19,7 @@ ELEVATORS_ZONE_NAME = 'elevator_zone'
 
 SELECTED_WAITING_ELEVATOR = wait_elevator_l
 
-FLOOR__07 = {
+FLOOR__08 = {
     'waiting_elevator': {
         'x': float(SELECTED_WAITING_ELEVATOR[0]),
         'y': float(SELECTED_WAITING_ELEVATOR[1]),
@@ -101,12 +100,12 @@ FLOOR__07 = {
         },
     },
     'units': {
-        'unit1' : '7E',
-        'unit2' : '7W'
+        'unit1' : '8E',
+        'unit2' : '8W'
     },
 }
 
-FLOOR_07_ROUTES = {
+FLOOR_08_ROUTES = {
     'elev_unit1': [
         {
             'name': 'Navigation to unit1',

@@ -38,7 +38,6 @@ NAV_CART_UNLOAD_POINT = {
     }
 
 FLOOR__00 = {
-    'max_elevators': 3,
     'waiting_elevator': {
         'x': 2833.0,
         'y': 706.0,
