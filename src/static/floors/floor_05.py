@@ -17,7 +17,7 @@ UNIT1_ZONE_NAME = 'unit1'
 UNIT2_ZONE_NAME = 'unit2'
 ELEVATORS_ZONE_NAME = 'elevator_zone'
 
-SELECTED_WAITING_ELEVATOR = wait_elevator_l
+SELECTED_WAITING_ELEVATOR = wait_elevator_r
 
 FLOOR__05 = {
     'waiting_elevator': {

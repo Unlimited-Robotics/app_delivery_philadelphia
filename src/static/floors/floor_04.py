@@ -9,11 +9,11 @@ elevator_2_mi = [431, 1648, 1.5582898456773373]
 elevator_2_min = [431, 1648, 1.5578435379679467]
 elevator_3_max = [305, 1589, 1.538400902247487]
 elevator_3_min = [305, 1644, 1.5460022054648714]
-unit_1 = [1394, 1704, -3.1159257403094367]
+unit_1 = [1394, 1704, -0.08001595566816681]
 unit_2 = [1518, 496, -0.034326290763845885]
 unit_3_entrance = [1824, 2100, -1.5685361217325895]
 unit_3 = [1805, 2727, -1.5685361217325895]
-unit_3_exit = [1018, 2326, 1.5685361217325895]
+unit_3_exit = [1809, 2498, 1.5710059425448073]
 wait_elevator_l = [780, 1694, 3.1159257403094367]
 wait_elevator_r = [744, 1632, 3.089958415405998]
 
@@ -342,8 +342,8 @@ FLOOR_04_ROUTES = {
             'zone_name': UNIT3_ZONE_NAME,
             'after_door_point': {
                 'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[0]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[0]),
+                'y': float(SELECTED_WAITING_ELEVATOR[1]),
+                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
