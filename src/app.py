@@ -134,12 +134,12 @@ class RayaApplication(RayaApplicationBase):
             "{'name': '2ME',      'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             "{'name': '2E',       'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
-            # floor4
+            # floor4            
+            "{'name': '4BURN', 'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             "{'name': '4E',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             "{'name': '4W',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4BURN',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
-            # floor5
+            # # floor5
             "{'name': '5E',    'map_name': 'phillytemplehosp_v2__05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             "{'name': '5W',    'map_name': 'phillytemplehosp_v2__05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
@@ -152,13 +152,12 @@ class RayaApplication(RayaApplicationBase):
             "{'name': '7W',      'map_name': 'phillytemplehosp_v2__07' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         
             # floor8
-            "{'name': '8E',    'map_name': 'phillytemplehosp_v2__08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             "{'name': '8W',    'map_name': 'phillytemplehosp_v2__08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '8E',    'map_name': 'phillytemplehosp_v2__08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # floor9
             "{'name': '9E',    'map_name': 'phillytemplehosp_v2__05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             "{'name': '9W',    'map_name': 'phillytemplehosp_v2__09' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            
         ]
         cart_location_fake = "{'name': 'cart_4', 'x': 289, 'y': 1271, 'angle': 102, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__00'}"
         
