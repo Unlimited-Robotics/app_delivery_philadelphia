@@ -129,15 +129,15 @@ class RayaApplication(RayaApplicationBase):
         self.locations = []
         delivery_location_fake = [
             # floor2
-            "{'name': 'CICU',    'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'HM',      'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'ME',      'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'E',       'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '2CICU',    'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '2HM',      'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '2ME',      'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '2E',       'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor4
             "{'name': '4E',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             "{'name': '4W',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'Burn',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '4BURN',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # floor5
             "{'name': '5E',    'map_name': 'phillytemplehosp_v2__05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 

@@ -112,10 +112,10 @@ FLOOR__02 = {
         },
     },
     'units': {
-        'unit1' : 'CICU',
-        'unit2' : 'HM',
-        'unit3' : 'ME',
-        'unit4' : 'E',
+        'unit1' : '2CICU',
+        'unit2' : '2HM',
+        'unit3' : '2ME',
+        'unit4' : '2E',
     },
 }
 
