@@ -42,7 +42,10 @@ class CommonHelpers(RetryHelpers):
     async def set_next_package(self):
         self.last_package = self.app.locations[self.index_package]
         self.index_package += 1
-        self.current_package = self.app.locations[self.index_package]
+        try:
+            self.current_package = self.app.locations[self.index_package]
+        except IndexError:
+            self.current_package = self.last_package
 
 
     def get_current_package(self) -> dict:

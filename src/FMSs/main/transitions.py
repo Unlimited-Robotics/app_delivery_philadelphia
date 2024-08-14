@@ -139,6 +139,7 @@ class Transitions(CommonTransitions):
                 )
                 self.set_state('NAV_TO_WAITING_ELEVATOR')
         else:
+            await self.helpers.set_next_package()
             self.set_state('NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE')
 
 
