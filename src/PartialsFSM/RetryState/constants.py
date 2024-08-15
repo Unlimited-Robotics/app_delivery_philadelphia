@@ -10,9 +10,9 @@ UI_COMMON_OPTIONS = {
 }
 
 UI_CALL_TO_ACTION_TELEOPERATION = {
-    'title': 'Teleoperation in process...',
-    'subtitle': 'Please wait until the teleoperation is done.',
-    'button_text': 'Done',
+    'title': 'Remote Control Activation',
+    'subtitle': 'Please press to end.',
+    'button_text': 'Finish',
     **UI_COMMON_OPTIONS
 }
 
