@@ -65,8 +65,8 @@ class Helpers(CommonHelpers):
         transitions.set_state(INITIAL_STATE)
 
 
-    async def display_choice_selector_callback(self, data):
-        self.log.debug(f'display_choice_selector_callback: {data}')
+    async def ui_action_screen_callback(self, data):
+        self.log.debug(f'ui_action_screen_callback: {data}')
         self._ui_response_wait_for_help = data
 
 

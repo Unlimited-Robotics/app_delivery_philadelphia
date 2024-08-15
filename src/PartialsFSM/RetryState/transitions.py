@@ -33,21 +33,17 @@ class Transitions(CommonTransitions):
         
         response = self.helpers._ui_response_wait_for_help
         self.log.warn(f'User selected: {response}')
-        if 'selected_option' not in response:
-            return
 
-        selected_option = response['selected_option']
-        options = UI_SCREEN_WAIT_FOR_HELP_SELECTOR['data']
-        if selected_option['name'] == options[0]['name']:
-            self.set_state('ABORT')
-        elif selected_option['name'] == options[1]['name']:
-            await self.app.sleep(TIME_TO_WAIT_AFTER_CONTINUE)
-            self.set_state('CONTINUE')
+        if self.helpers._ui_response_wait_for_help is not None:
+            if 'action' in self.helpers._ui_response_wait_for_help.keys():
+                action = self.helpers._ui_response_wait_for_help['action']
+                if action == 'button_clicked':
+                    await self.app.sleep(TIME_TO_WAIT_AFTER_CONTINUE)
+                    self.set_state('CONTINUE')
 
 
     async def CONTINUE(self):
         await self.app.sleep(1)
-        await self.app.ui.show_last_animation()
         self.set_state(self.helpers._get_last_failed_state())
 
     

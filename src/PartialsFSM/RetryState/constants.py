@@ -1,6 +1,6 @@
 from .errors import *
 
-MAX_RETRY_COUNTER_REQUEST_FOR_HELP = 3
+MAX_RETRY_COUNTER_REQUEST_FOR_HELP = 1
 ERR_APP_ABORTED = (1, 'FSM aborted by user')
 
 from raya.enumerations import UI_THEME_TYPE
@@ -9,13 +9,10 @@ UI_COMMON_OPTIONS = {
     'back_button_text': '',
 }
 
-UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
-    'title':'I\'m stuck, please help me, and choose an option',
-    'max_items_shown': 0,
-    'data': [
-            {'id': 1, 'name': 'Abort App 🚫'}, 
-            {'id': 2, 'name': 'Continue 🚶‍♂️'},
-        ],
+UI_CALL_TO_ACTION_TELEOPERATION = {
+    'title': 'Teleoperation in process...',
+    'subtitle': 'Please wait until the teleoperation is done.',
+    'button_text': 'Done',
     **UI_COMMON_OPTIONS
 }
 

@@ -19,10 +19,10 @@ class Actions(CommonActions):
 
 
     async def enter_WAIT_FOR_HELP(self):  
-        await self.app.ui.display_choice_selector(
-            **UI_SCREEN_WAIT_FOR_HELP_SELECTOR,
+        await self.app.ui.display_action_screen(
+            **UI_CALL_TO_ACTION_TELEOPERATION,
             wait=False,
-            async_callback=self.helpers.display_choice_selector_callback,
+            async_callback=self.helpers.ui_action_screen_callback,
             dont_save_last_ui=True
         )
         self.helpers.start_timer_teleoperator()

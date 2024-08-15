@@ -43,16 +43,6 @@ UI_SCREEN_RELEASE_CART = {
     **UI_COMMON_OPTIONS
 }
 
-UI_SCREEN_WAIT_FOR_HELP_SELECTOR = {
-    'title':'I\'m stuck, please help me, and choose an option',
-    'max_items_shown': 0,
-    'data': [
-            {'id': 1, 'name': 'Abort App 🚫'}, 
-            {'id': 2, 'name': 'Continue 🚶‍♂️'},
-        ],
-    **UI_COMMON_OPTIONS
-}
-
 UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
     'title':'Delivery Confirmation',
     'max_items_shown': 0,
