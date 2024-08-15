@@ -8,6 +8,7 @@ UI_COMMON_OPTIONS = {
 
 UI_LOTTIE_DOOR = 'res:lottie_door.json'
 UI_LOTTIE_CHECK_DELIVERY = 'res:lottie_check.json'
+UI_LOTTIE_TELEOPERATION = 'res:lottie_teleoperation.json'
 UI_LOTTIE_DELIVERING_PACKAGE = 'res:lottie_package_walking.json'
 UI_OBSTACLE_DETECTED = 'res:caution.gif'
 
@@ -91,17 +92,17 @@ UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
     **UI_COMMON_OPTIONS
 }
 
-UI_CALL_TO_ACTION_TELEOPERATION = {
-    'title': 'Teleoperation',
-    'subtitle': 'Please take control of the robot',
-    'button_text': '',
+UI_SCREEN_TELEOPERATION = {
+    'title': 'Hello! I\'m Gary, your delivery robot',
+    'subtitle': 'Remote Control Activation',
+    'lotte': UI_LOTTIE_TELEOPERATION,
     **UI_COMMON_OPTIONS
 }
 
 UI_CALL_TO_ACTION_TELEOPERATION_DONE = {
     'title': 'Teleoperation',
     'subtitle': 'Please take control of the robot',
-    'button_text': 'Done 🎉',
+    'button_text': 'Done',
     **UI_COMMON_OPTIONS
 }
 

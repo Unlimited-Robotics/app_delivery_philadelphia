@@ -59,11 +59,7 @@ class Transitions(CommonTransitions):
 
     
     async def TELEOPERATION_DONE(self):
-        if self.helpers.teleoperation_response is not None:
-            if 'action' in self.helpers.teleoperation_response.keys():
-                action = self.helpers.teleoperation_response['action']
-                if action == 'button_clicked':
-                    self.set_state('EXIT_FROM_ELEVATOR')
+        self.set_state('EXIT_FROM_ELEVATOR')
 
 
     async def EXIT_FROM_ELEVATOR(self):
