@@ -85,7 +85,7 @@ UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
 UI_SCREEN_TELEOPERATION = {
     'title': 'Hello! I\'m Gary, your delivery robot',
     'subtitle': 'Remote Control Activation',
-    'lotte': UI_LOTTIE_TELEOPERATION,
+    'lottie': UI_LOTTIE_TELEOPERATION,
     **UI_COMMON_OPTIONS
 }
 
