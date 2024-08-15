@@ -24,12 +24,15 @@ GARY_SELECTED_CART_FOOTPRINT = GARY_FOOTPRINT_SMALL_CART
 #             philly_hospital__basement
 # --------------------------------------------------
 
+PARKING_SPOT_SUFFIX = '[INITIAL]'
+NAV_HOME_POSITION_NAME = f'home_{PARKING_SPOT_SUFFIX}'
+NAV_PARKING_POSITION_NAME = f'parking_{PARKING_SPOT_SUFFIX}'
 
 WAREHOUSE_FLOOR = '00'
-NAV_HOME_POSITION_NAME = 'home_1'
 MAP_VERSION = 'v2'
 NAV_MAP_NAME = f'phillytemplehosp_{MAP_VERSION}'
 WAREHOUSE_MAP_NAME = f'{NAV_MAP_NAME}__{WAREHOUSE_FLOOR}'
+FLOOR_PREFIX_FLEET = 'Floor '
 
 COST_MAPS_CONFIG = {
     'costmap_format': 'cost.[initial_point]_[final_point]',

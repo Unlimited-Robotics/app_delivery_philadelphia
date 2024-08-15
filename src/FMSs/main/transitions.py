@@ -26,15 +26,26 @@ class Transitions(CommonTransitions):
             self.abort(*ERR_COULD_NOT_LOCALIZE)
 
         try:
-            await self.helpers.get_home_position()
+            home_location = await self.helpers.get_home_position()
             self.app.log.debug('Home position obtained')
-            self.app.log.debug(f'Home position: {self.helpers.home_location}')
+            self.app.log.debug(f'Home position: {home_location}')
         except RayaNavLocationNotFound:
             self.app.log.error((
                 'Could not get home position from navigation, '
                 'check if the location exist in the navigation map.'
             ))
-            self.abort(*ERR_COULD_NOT_GET_HOME_POSITION)
+            self.abort(*ERR_COULD_NOT_GET_HOME_LOCATION)
+        
+        try:
+            cart_location = await self.helpers.get_cart_load_point()
+            self.app.log.debug('Parking position obtained')
+            self.app.log.debug(f'Parking position: {cart_location}')
+        except RayaNavLocationNotFound:
+            self.app.log.error((
+                'Could not get Parking position from navigation, '
+                'check if the location exist in the navigation map.'
+            ))
+            self.abort(*ERR_COULD_NOT_GET_PARKING_LOCATION)
         
         try:
             await self.app.nav.get_zones_list(map_name=WAREHOUSE_MAP_NAME)

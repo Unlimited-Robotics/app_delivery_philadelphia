@@ -131,37 +131,37 @@ class RayaApplication(RayaApplicationBase):
         self.locations = []
         delivery_location_fake = [
             # floor2
-            "{'name': 'CICU',    'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MRICU HIGH',      'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MICU',      'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MRICU ELBOW',       'map_name': 'phillytemplehosp_v2__02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'CICU',           'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'MRICU HIGH',     'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'MICU',           'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'MRICU ELBOW',    'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor4            
-            "{'name': 'BURN', 'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4E',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4W',    'map_name': 'phillytemplehosp_v2__04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '4BURN', 'map_name': 'Main__Floor 03' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '4E',    'map_name': 'Main__Floor 03' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '4W',    'map_name': 'Main__Floor 03' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # # floor5
-            "{'name': '5E',    'map_name': 'phillytemplehosp_v2__05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '5W',    'map_name': 'phillytemplehosp_v2__05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '5E',    'map_name': 'Main__Floor 05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '5W',    'map_name': 'Main__Floor 05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # floor6
-            "{'name': '6E',    'map_name': 'phillytemplehosp_v2__06' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '6W',    'map_name': 'phillytemplehosp_v2__06' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '6E',    'map_name': 'Main__Floor 06' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '6W',    'map_name': 'Main__Floor 06' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor7
-            "{'name': '7E',      'map_name': 'phillytemplehosp_v2__07' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '7W',      'map_name': 'phillytemplehosp_v2__07' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '7E',      'map_name': 'Main__Floor 07' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '7W',      'map_name': 'Main__Floor 07' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         
             # floor8
-            "{'name': '8W',    'map_name': 'phillytemplehosp_v2__08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '8E',    'map_name': 'phillytemplehosp_v2__08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '8W',    'map_name': 'Main__Floor 08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '8E',    'map_name': 'Main__Floor 08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # floor9
-            "{'name': '9E',    'map_name': 'phillytemplehosp_v2__05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '9W',    'map_name': 'phillytemplehosp_v2__09' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '9E',    'map_name': 'Main__Floor 09' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '9W',    'map_name': 'Main__Floor 09' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         ]
-        cart_location_fake = "{'name': 'cart_4', 'x': 289, 'y': 1271, 'angle': 102, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'phillytemplehosp_v2__00'}"
+        park_location_fake = "{'name': 'Parking A', 'x': 289, 'y': 1271, 'angle': 102, 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'Main__Basement'}"
         
         start_delivery_index = self.get_argument(
             '--index',
@@ -238,33 +238,40 @@ class RayaApplication(RayaApplicationBase):
                         required=False,
                         default='',
                     )
+                
                 location = location.replace("\'", "\"")
-                self.log.info(f'Location: {location}')
                 if location != '':
-                    self.locations.append(json.loads(location))
+                    location = json.loads(location)
+                    self.replace_map_name(location=location)
+                    self.locations.append(location)
             except IndexError:
                 self.log.error(f'Index {index} out of range')
                 break
         
         # get cart number
         if self.run_from_console:
-            cart_location = cart_location_fake
+            self.selected_parking = park_location_fake
         else:
-            cart_location: str = self.get_argument(
-                '--cart_location',
+            self.selected_parking: str = self.get_argument(
+                '--selected_parking',
                 type=str,
-                help='Location of the cart to attach the packages',
+                help='Parking spot of the robot',
                 required=True,
             )
-        cart_location = cart_location.replace("\'", "\"")
-        self.cart_location = json.loads(cart_location)
-        self.cart_number = self.cart_location['name'].split('_')[1]
-        self.log.debug(f'Cart location: {self.cart_number}')
-        
+        self.selected_parking = self.selected_parking.replace("\'", "\"")
+        self.selected_parking = json.loads(self.selected_parking)
+        self.selected_parking = self.selected_parking['name'].split(' ')[1]
         self.log.warn('App is running with there args:')
-        self.log.warn(f'Cart location: {self.cart_location}')
+        self.log.warn(f'Selected parking: {self.selected_parking}')
         for location in zip(self.locations):
             self.log.warn(f'\tLocation: {location}')
+
+
+    def replace_map_name(self, location):
+        _ , floor = location['map_name'].split('__')
+
+        floor, floor_number = floor.replace(FLOOR_PREFIX_FLEET, '')
+        location['map_name'] = f'{NAV_MAP_NAME}__{floor_number}'
 
 
     async def set_gary_footprint(self, footprint):

@@ -48,7 +48,6 @@ class Actions(CommonAction):
 
 
     async def enter_ATTACH_TO_CART(self):
-        EXECUTION_ARG_ATTACH_SKILL['target_tags'] = [self.app.cart_number]
         
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,

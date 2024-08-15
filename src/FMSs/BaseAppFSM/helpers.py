@@ -2,6 +2,7 @@ import typing
 if typing.TYPE_CHECKING:
     from src.app import RayaApplication
     
+from copy import deepcopy    
 from raya.exceptions import *
 from src.PartialsFSM.RetryState import Helpers as RetryHelpers
 
@@ -57,28 +58,44 @@ class CommonHelpers(RetryHelpers):
 
 
     async def get_cart_load_point(self):
-        cart = self.app.cart_location
-        cart = {
-            'x': float(cart['x']),
-            'y': float(cart['y']),
-            'angle': float(cart['angle']),
+        parking_location_name = deepcopy(NAV_PARKING_POSITION_NAME)
+        parking_location_name = parking_location_name.replace(
+            PARKING_SPOT_SUFFIX, 
+            self.app.selected_parking
+        )
+        cart = await self.app.nav.get_location(
+            location_name = parking_location_name,
+            map_name = WAREHOUSE_MAP_NAME,
+            pos_unit = POSITION_UNIT.PIXELS,
+        )
+        cart_point = {
+            'x': float(cart[0]),
+            'y': float(cart[1]),
+            'angle': float(cart[2]),
             **NAV_CART_LOAD_POINT_OPTIONS
         }
-        return cart
+        return cart_point
 
 
     async def get_home_position(self):
-        self.home_location = await self.app.nav.get_location(
-            location_name = NAV_HOME_POSITION_NAME,
+        home_location_name = deepcopy(NAV_HOME_POSITION_NAME)
+        home_location_name = home_location_name.replace(
+            PARKING_SPOT_SUFFIX, 
+            self.app.selected_parking
+        )
+        
+        home_location = await self.app.nav.get_location(
+            location_name = home_location_name,
             map_name = WAREHOUSE_MAP_NAME,
             pos_unit = POSITION_UNIT.PIXELS,
         )
         home = {
-            'x': self.home_location[0],
-            'y': self.home_location[1],
-            'angle': self.home_location[2],
-            **NAVIGATION_OPTIONS_WITHOUT_CART
+            'x': float(home_location[0]),
+            'y': float(home_location[1]),
+            'angle': float(home_location[2]),
+            **NAV_CART_LOAD_POINT_OPTIONS
         }
+        self.log.debug(f'Home position: {home}')
         return home
 
 

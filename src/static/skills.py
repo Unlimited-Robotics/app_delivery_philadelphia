@@ -1,11 +1,12 @@
 ## PYRAYA SKILLS
+POSIBLES_IDS_CART = ['4']
 
 SETUP_ARG_ATTACH_SKILL = {
 }
 
 EXECUTION_ARG_ATTACH_SKILL = {
     'tag_size': 0.12,
-    'target_tags': ['none'],
+    'target_tags': POSIBLES_IDS_CART,
     'reverse': True,
     'target_distance': 0.55,
 }
