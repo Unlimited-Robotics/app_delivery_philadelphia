@@ -59,10 +59,27 @@ UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
     'title':'Delivery Confirmation',
     'max_items_shown': 0,
     'data': [
-            {'id': 1, 'name': 'Confirm delivery package 📦'}, 
-            {'id': 2, 'name': 'Package not found'},
-            {'id': 3, 'name': 'Problem with my package'},
+            {
+                'id': 1, 
+                'name': 'Confirm Delivery Package', 
+                'imgSrc': 'res:package_confirm.png'
+            }, 
+            {
+                'id': 2, 
+                'name': 'Package Not Found', 
+                'imgSrc': 'res:package_not_found.png'
+            },
+            {
+                'id': 3, 
+                'name': 'Problem With The Package', 
+                'imgSrc': 'res:package_problem.png'
+            },
         ],
+    'custom_style': {
+        'selector': {
+            'background': '#FFFFFF',
+        },
+    },
     **UI_COMMON_OPTIONS
 }
 

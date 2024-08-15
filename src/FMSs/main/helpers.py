@@ -103,7 +103,7 @@ class Helpers(CommonHelpers):
     async def task_to_notify(self):
         while True:
             await self.app.ui.display_choice_selector(
-                    **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
+                    **self.app.delivery_options(),
                     wait=False,
                     callback=self.cb_delivery_arrived_ui_response
                 )

@@ -147,7 +147,7 @@ class Actions(CommonAction):
         self.helpers.selected_option_delivery_ui = None
         await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
         await self.app.ui.display_choice_selector(
-                **UI_SCREEN_OPTIONS_DELIVERY_ARRIVED,
+                **self.app.delivery_options(),
                 wait=False,
                 callback=self.helpers.cb_delivery_arrived_ui_response
             )
