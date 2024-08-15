@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 import json
 
 from raya.application_base import RayaApplicationBase
@@ -360,7 +360,7 @@ class RayaApplication(RayaApplicationBase):
 
 
     async def show_navigating_to_floor(self):
-        copy_ui_screen = copy(UI_SCREEN_NAV_TO_FLOOR)
+        copy_ui_screen = deepcopy(UI_SCREEN_NAV_TO_FLOOR)
         floor = self.get_current_target_floor_map_name()
         
         if floor == WAREHOUSE_FLOOR:
@@ -382,8 +382,9 @@ class RayaApplication(RayaApplicationBase):
 
 
     def delivery_options(self):
-        screen = copy(UI_SCREEN_OPTIONS_DELIVERY_ARRIVED)
+        screen = deepcopy(UI_SCREEN_OPTIONS_DELIVERY_ARRIVED)
+        
         for option in screen['data']:
-            option['imgSrc'] = f'data:image/png;base64,{\
-                self.convert_image_to_base64(resolve_path(option["imgSrc"]))}'
+            option['imgSrc'] = f'data:image/png;base64, \
+                {self.convert_image_to_base64(resolve_path(option["imgSrc"]))}'
         return screen

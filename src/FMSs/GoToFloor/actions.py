@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 
 from src.FMSs.BaseAppFSM.actions import CommonAction
 
@@ -15,7 +15,7 @@ class Actions(CommonAction):
 
     async def enter_SELECT_ELEVATOR(self):
         self.helpers.selected_elevator_ui = None
-        copy_ui_screen = copy(UI_SCREEN_OPTIONS_ELEVATOR_ENTERING)
+        copy_ui_screen = deepcopy(UI_SCREEN_OPTIONS_ELEVATOR_ENTERING)
         floor = self.app.get_current_target_floor_map_name()
         
         message = copy_ui_screen['title'].replace(

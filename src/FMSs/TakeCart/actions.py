@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import FLEET_UPDATE_STATUS, POSITION_UNIT, ANGLE_UNIT
 
@@ -17,7 +17,7 @@ class Actions(CommonAction):
             footprint=GARY_FOOTPRINT
         )
         
-        home_steps = copy(BASEMENT_ROUTES['home'])
+        home_steps = deepcopy(BASEMENT_ROUTES['home'])
         home_steps[0]['point'] = await self.helpers.get_home_position()
         execute_args = {
             'steps': home_steps
@@ -34,7 +34,7 @@ class Actions(CommonAction):
         cart_location = await self.helpers.get_cart_load_point()
         self.app.log.debug(f'navigate_to_position {cart_location}')
         
-        cart_steps = copy(BASEMENT_ROUTES['cart_point'])
+        cart_steps = deepcopy(BASEMENT_ROUTES['cart_point'])
         cart_steps[0]['point'] = cart_location
         execute_args = {
             'steps': cart_steps
@@ -65,7 +65,7 @@ class Actions(CommonAction):
     async def enter_GO_TO_ELEVATOR(self):
         current_package = self.helpers.get_current_package()
                 
-        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        copy_ui_screen = deepcopy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
             current_package['map_name']

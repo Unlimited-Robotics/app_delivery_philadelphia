@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 
 from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import FLEET_UPDATE_STATUS
@@ -51,7 +51,7 @@ class Actions(CommonAction):
             footprint=GARY_FOOTPRINT
         )
         
-        home_steps = copy(BASEMENT_ROUTES['home'])
+        home_steps = deepcopy(BASEMENT_ROUTES['home'])
         home_steps[0]['point'] = await self.helpers.get_home_position()
         execute_args = {
             'steps': home_steps

@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 from src.FMSs.BaseAppFSM.actions import CommonAction
 from raya.enumerations import FLEET_UPDATE_STATUS
 
@@ -52,7 +52,7 @@ class Actions(CommonAction):
         route = f'{last_unit}_elev'
         self.log.warn(f'route #{route}')
         
-        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        copy_ui_screen = deepcopy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
             current_package['name']
@@ -65,7 +65,7 @@ class Actions(CommonAction):
             )
         
         # TODO in case that the route is not found, it should be handled
-        steps = copy(SKILL_NAVIGATION[floor][route])
+        steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'steps': steps
         }
@@ -110,7 +110,7 @@ class Actions(CommonAction):
         route = f'{last_unit}_{current_unit}'
         self.log.warn(f'route #{route}')
         
-        copy_ui_screen = copy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
+        copy_ui_screen = deepcopy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
             current_package['name']
@@ -123,7 +123,7 @@ class Actions(CommonAction):
             )
         
         # TODO in case that the route is not found, it should be handled
-        steps = copy(SKILL_NAVIGATION[floor][route])
+        steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'steps': steps
         }
@@ -146,11 +146,6 @@ class Actions(CommonAction):
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
         self.helpers.selected_option_delivery_ui = None
         await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
-        await self.app.ui.display_choice_selector(
-                **self.app.delivery_options(),
-                wait=False,
-                callback=self.helpers.cb_delivery_arrived_ui_response
-            )
         self.app.create_task(
             name='Notify Task',
             afunc=self.helpers.task_to_notify
@@ -221,7 +216,7 @@ class Actions(CommonAction):
             initial_point=last_unit,
             final_point='elev',
         )
-        steps = copy(SKILL_NAVIGATION[floor][route])
+        steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'steps': steps
         }
