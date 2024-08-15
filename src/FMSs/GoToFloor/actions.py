@@ -56,10 +56,7 @@ class Actions(CommonAction):
 
     async def enter_TELEOPERATING(self):
         self.helpers.teleoperation_response = None
-        await self.app.ui.show_animation(
-            **UI_SCREEN_TELEOPERATION,
-            wait=False,
-        )
+        await self.app.ui.show_animation(**UI_SCREEN_TELEOPERATION)
 
 
     async def enter_EXIT_FROM_ELEVATOR(self):
