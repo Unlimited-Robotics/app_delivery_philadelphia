@@ -173,7 +173,7 @@ class RayaApplication(RayaApplicationBase):
             type=str,
             help='Number of packages to deliver',
             required=False,
-            default='4'
+            default='18'
         )
         max_packages = int(max_packages)
         
@@ -223,22 +223,26 @@ class RayaApplication(RayaApplicationBase):
         
         # get locations
         for index in range(start_delivery_index, max_packages+1):
-            if self.run_from_console:
-                location = delivery_location_fake[index-1]
-            else:
-                location = self.get_argument(
-                    f'--location{index}',
-                    type=str,
-                    help=(
-                        'Location to deliver the package(formated as json), '
-                    ),
-                    required=False,
-                    default='',
-                )
-            location = location.replace("\'", "\"")
-            self.log.info(f'Location: {location}')
-            if location != '':
-                self.locations.append(json.loads(location))
+            try:
+                if self.run_from_console:
+                    location = delivery_location_fake[index-1]
+                else:
+                    location = self.get_argument(
+                        f'--location{index}',
+                        type=str,
+                        help=(
+                            'Location to deliver the package(formated as json), '
+                        ),
+                        required=False,
+                        default='',
+                    )
+                location = location.replace("\'", "\"")
+                self.log.info(f'Location: {location}')
+                if location != '':
+                    self.locations.append(json.loads(location))
+            except IndexError:
+                self.log.error(f'Index {index} out of range')
+                break
         
         # get cart number
         if self.run_from_console:
