@@ -62,8 +62,8 @@ class Actions(CommonAction):
         )
 
 
-
     async def enter_EXIT_FROM_ELEVATOR(self):
+        self.helpers.try_rotate_localization_points = False
         await self.app.show_navigating_to_floor()
         
         self.helpers.exit_elevator_id = None
@@ -79,6 +79,20 @@ class Actions(CommonAction):
 
     async def enter_LOCALIZING(self):
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
+
+
+    async def enter_TELEOPERATE_TO_LOCALIZE(self):
+        self.helpers._ui_response_wait_for_help = None
+        self.log.warn(
+            'The localization points are going to be rotated 180 degrees !!!!'
+        )
+        self.helpers.try_rotate_localization_points = True
+        await self.app.ui.display_action_screen(
+            **UI_CALL_TO_ACTION_TELEOPERATION_DONE,
+            wait=False,
+            async_callback=self.helpers.ui_action_screen_callback,
+            dont_save_last_ui=True
+        )
 
 
     async def aborted(self, error, msg):

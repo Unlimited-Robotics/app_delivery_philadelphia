@@ -9,6 +9,8 @@ STATES = [
         'TELEOPERATION_DONE',
         'EXIT_FROM_ELEVATOR',
         'LOCALIZING',
+        'TELEOPERATE_TO_LOCALIZE',
+        'LOCALIZING_180',
         'END',
     ]
 STATES.extend(BASE_STATES)

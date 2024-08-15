@@ -1,5 +1,6 @@
 from src.FMSs.TakeCart.helpers import Helpers as ParkCartHelpers
 from src.static import *
+from src.static.floors.constants import rotate_180
 
 class Helpers(ParkCartHelpers):
 
@@ -8,6 +9,7 @@ class Helpers(ParkCartHelpers):
         self.selected_elevator_ui = None
         self.teleoperation_response = None
         self.exit_elevator_id = None
+        self.try_rotate_localization_points = False
 
 
     def cb_delivery_arrived_ui_response(self, response):
@@ -61,7 +63,7 @@ class Helpers(ParkCartHelpers):
         return result
 
     
-    async def get_elevator_leaving_point(self):
+    async def get_elevator_dictionary(self):
         self.app.log.warn(f'self.exit_elevator_id {self.exit_elevator_id}')
         target_floor = self.app.get_current_target_floor_map_name()
         result = FLOORS[target_floor]['elevator'][self.exit_elevator_id]
@@ -69,12 +71,15 @@ class Helpers(ParkCartHelpers):
         return result
 
 
-    async def get_elevator_localization_points(self):
-        elevator = await self.get_elevator_leaving_point()
+    async def get_elevator_localization_points(self, rotate_180: bool = False):
+        elevator = await self.get_elevator_dictionary()
         result = []
         
         elevator_localization_info = elevator['localization']
-        list_points = self.generate_divided_points(elevator_localization_info)
+        list_points = self.generate_divided_points(
+                localization_points=elevator_localization_info,
+                rotate_180_flag = rotate_180
+            )
         result = list_points
 
         self.app.log.warn(f'points: {result}')
@@ -151,7 +156,10 @@ class Helpers(ParkCartHelpers):
         return midpoints
 
 
-    def generate_divided_points(self, localization):
+    def generate_divided_points(self, 
+            localization_points, 
+            rotate_180_flag: bool = False
+        ):
         """
         Generate divided points based on the localization dictionary.
 
@@ -161,9 +169,13 @@ class Helpers(ParkCartHelpers):
         Returns:
             dict: A dictionary with the interpolated points.
         """
-        divisions = localization['outside_elevator']['divisions']
-        point_a = localization['outside_elevator']['closest_point']
-        point_b = localization['outside_elevator']['farthest_point']
+        divisions = localization_points['outside_elevator']['divisions']
+        
+        point_a = localization_points['outside_elevator']['closest_point']
+        point_b = localization_points['outside_elevator']['farthest_point']
+        if rotate_180_flag:
+            point_a = rotate_180(nav_point=point_b)
+            point_b = rotate_180(nav_point=point_a)
         
         divided_points = self.interpolate_points(point_a, point_b, divisions)
         return divided_points

@@ -68,7 +68,10 @@ class Transitions(CommonTransitions):
         
     
     async def LOCALIZING(self):
-        localizing_point = await self.helpers.get_elevator_localization_points()
+        localizing_point = \
+            await self.helpers.get_elevator_localization_points(
+                rotate_180=self.helpers.try_rotate_localization_points
+            )
         localization = False
         for point in localizing_point:
             try:
@@ -85,8 +88,28 @@ class Transitions(CommonTransitions):
                 self.app.log.error(f'Error localizing: {e}')
         
         if localization is False:
-            # TODO: check if the teleoperator can do anything
-            self.helpers.retry_step(
-                transitions=self,
-                last_state='LOCALIZING',
-            )
+            if self.helpers.try_rotate_localization_points:
+                self.log.error(
+                    'Localization failed, even after rotating 180 degrees'
+                )
+                self.log.error('Trying again...')
+                self.helpers.retry_step(
+                    transitions=self,
+                    last_state='LOCALIZING',
+                )
+            else:
+                self.set_state('TELEOPERATE_TO_LOCALIZE')
+
+
+    async def TELEOPERATE_TO_LOCALIZE(self):
+        if self.helpers._ui_response_wait_for_help is None:
+            return
+        
+        response = self.helpers._ui_response_wait_for_help
+        self.log.warn(f'User selected: {response}')
+
+        if self.helpers._ui_response_wait_for_help is not None:
+            if 'action' in self.helpers._ui_response_wait_for_help.keys():
+                action = self.helpers._ui_response_wait_for_help['action']
+                if action == 'button_clicked':
+                    self.set_state('LOCALIZING')
