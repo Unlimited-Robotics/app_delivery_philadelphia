@@ -7,6 +7,7 @@ UI_COMMON_OPTIONS = {
 }
 
 UI_LOTTIE_DOOR = 'res:lottie_door.json'
+UI_LOTTIE_CHECK_DELIVERY = 'res:lottie_check.json'
 UI_LOTTIE_DELIVERING_PACKAGE = 'res:lottie_package_walking.json'
 UI_OBSTACLE_DETECTED = 'res:caution.gif'
 
@@ -29,13 +30,9 @@ UI_SCREEN_NAV_TO_PACKAGE_POINT = {
 }
 
 UI_SCREEN_DELIVERING_SUCCESS = {
-    'title':'Delivering Success ✅', 
-    'subtitle':'The package was delivered successfully',
-    **UI_COMMON_OPTIONS
-}
-
-UI_PACKAGE_NOT_DELIVERED = {
-    'title':'Package deliver failed 🚫', 
+    'title':'Thank you', 
+    'subtitle':'Notification sent to the responsible',
+    'lottie': UI_LOTTIE_CHECK_DELIVERY,
     **UI_COMMON_OPTIONS
 }
 

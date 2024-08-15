@@ -178,7 +178,7 @@ class Actions(CommonAction):
                 'was delivered successfully.'
             )
         )
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
+        await self.app.ui.show_animation(**UI_SCREEN_DELIVERING_SUCCESS)
 
 
     async def leave_PACKAGE_DELIVERED(self):
@@ -193,7 +193,7 @@ class Actions(CommonAction):
                     'was not delivered.'
                 )
             )
-        await self.app.ui.display_screen(**UI_PACKAGE_NOT_DELIVERED)
+        await self.app.ui.show_animation(**UI_SCREEN_DELIVERING_SUCCESS)
 
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
