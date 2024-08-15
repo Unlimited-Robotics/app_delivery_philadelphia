@@ -1,3 +1,4 @@
+from copy import copy
 import json
 
 from raya.application_base import RayaApplicationBase
@@ -355,3 +356,18 @@ class RayaApplication(RayaApplicationBase):
                 self.log.error(f'Costmap change timeout')
         except RayaCommandTimeout:
             self.log.error(f'Costmap change timeout')
+
+
+    async def show_navigating_to_floor(self):
+        copy_ui_screen = copy(UI_SCREEN_NAV_TO_FLOOR)
+        floor = self.get_current_target_floor_map_name()
+        
+        if floor == WAREHOUSE_FLOOR:
+            message = 'On My Way Home'
+        else:
+            message = copy_ui_screen['title'].replace(
+                '[floor]', floor
+            )
+
+        copy_ui_screen['title'] = message
+        await self.ui.show_animation(**copy_ui_screen)

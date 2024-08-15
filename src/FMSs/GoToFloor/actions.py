@@ -31,14 +31,7 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_ELEVATOR(self):
-        copy_ui_screen = copy(UI_SCREEN_NAV_TO_FLOOR)
-        floor = self.app.get_current_target_floor_map_name()
-        
-        message = copy_ui_screen['title'].replace(
-            '[floor]', floor
-        )
-        copy_ui_screen['title'] = message
-        await self.app.ui.show_animation(**copy_ui_screen)
+        await self.app.show_navigating_to_floor()
         
         elevator_point = await self.helpers.get_entry_point_to_elevator()
         
@@ -79,13 +72,7 @@ class Actions(CommonAction):
 
 
     async def enter_EXIT_FROM_ELEVATOR(self):
-        copy_ui_screen = copy(UI_SCREEN_NAV_TO_FLOOR)
-        floor = self.app.get_current_target_floor_map_name()
-        message = copy_ui_screen['title'].replace(
-            '[floor]', floor
-        )
-        copy_ui_screen['title'] = message
-        await self.app.ui.show_animation(**copy_ui_screen)
+        await self.app.show_navigating_to_floor()
         
         self.helpers.exit_elevator_id = None
         target_floor = self.app.get_current_target_floor_map_name()
