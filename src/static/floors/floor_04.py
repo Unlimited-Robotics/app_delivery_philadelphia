@@ -105,7 +105,7 @@ FLOOR__04 = {
         },
     },
     'units': {
-        'unit1' : '4BURN',
+        'unit1' : 'BURN',
         'unit2' : '4E',
         'unit3' : '4W'
     },
