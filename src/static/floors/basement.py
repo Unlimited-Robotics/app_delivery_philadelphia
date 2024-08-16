@@ -20,38 +20,44 @@ cart_unload_point = [605, 1141, -2.922]
 
 WAREHOUSE_ZONE_NAME = 'warehouse'
 
+Home_Elev = [
+    [
+        [654, 1123, 0.19739555984988075],
+        [1362, 978, 0.23501221572065709],
+        warehouse_exit
+    ],
+    [
+        [2215, 805, 0.2055846397552597],
+        [2524, 742, 0.2299044281319047],
+        wait_elevator
+    ]
+]
+
+Elev_Home = [
+    [
+        [2794, 686, -2.9345199764727616],
+        [2505, 742, -2.905568974963896],
+        warehouse_entrance
+    ],
+    [
+        [1674, 900, -2.916315874375738],
+        [919, 1063, -2.93121081081974],
+        cart_unload_point
+    ]
+]
+
+
 NAV_CART_LOAD_POINT_OPTIONS = {
     'pos_unit': POSITION_UNIT.PIXELS, 
     'ang_unit': ANGLE_UNIT.RADIANS,
     **NAVIGATION_OPTIONS_WITHOUT_CART
 }
 
-NAV_WAREHOUSE_ENTRANCE = {
-        'x':        float(warehouse_entrance[0]),
-        'y':        float(warehouse_entrance[1]),
-        'angle':    float(warehouse_entrance[2]),
-        'pos_unit': POSITION_UNIT.PIXELS,
-        'ang_unit': ANGLE_UNIT.RADIANS,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-
-NAV_WAREHOUSE_EXIT = {
-        'x':        float(warehouse_exit[0]),
-        'y':        float(warehouse_exit[1]),
-        'angle':    float(warehouse_exit[2]),
-        'pos_unit': POSITION_UNIT.PIXELS,
-        'ang_unit': ANGLE_UNIT.RADIANS,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
-
-NAV_CART_UNLOAD_POINT = {
-        'x':        float(cart_unload_point[0]),
-        'y':        float(cart_unload_point[1]),
-        'angle':    float(cart_unload_point[2]),
-        'pos_unit': POSITION_UNIT.PIXELS,
-        'ang_unit': ANGLE_UNIT.RADIANS,
-        **NAVIGATION_OPTIONS_WITH_CART
-    }
+NAV_CART_OPTIONS = {
+    'pos_unit': POSITION_UNIT.PIXELS, 
+    'ang_unit': ANGLE_UNIT.RADIANS,
+    **NAVIGATION_OPTIONS_WITH_CART
+}
 
 FLOOR__00 = {
     'waiting_elevator': {
@@ -140,17 +146,19 @@ BASEMENT_ROUTES = {
         {
             'name': 'Navigation to warehouse exit',
             'type': 'nav_to_point',
-            'point' : {
-                **NAV_WAREHOUSE_EXIT
-            },
+            'points': Home_Elev[0],
             'teleoperator_if_fail': True,
+            'nav_options': NAV_CART_OPTIONS
         },
         {
             'name': 'Automatic door warehouse',
             'type': 'automatic_door',
             'zone_name': WAREHOUSE_ZONE_NAME,
             'after_door_point': {
-                **FLOOR__00['waiting_elevator']
+                'x': float(Home_Elev[1][0][0]),
+                'y': float(Home_Elev[1][0][1]),
+                'angle': float(Home_Elev[1][0][2]),
+                **NAV_CART_OPTIONS
             },
             'tags_ids': [25],
             'tags_sizes': [0.12],
@@ -158,27 +166,28 @@ BASEMENT_ROUTES = {
         {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
-            'point' : {
-                **FLOOR__00['waiting_elevator']
-            },
+            'points': Home_Elev[1],
             'teleoperator_if_fail': True,
+            'nav_options': NAV_CART_OPTIONS
         },
     ],
     'elev_detach': [
         {
             'name': 'Navigation to warehouse entrance',
             'type': 'nav_to_point',
-            'point' : {
-                **NAV_WAREHOUSE_ENTRANCE
-            },
+            'points': Elev_Home[0],
             'teleoperator_if_fail': True,
+            'nav_options': NAV_CART_OPTIONS
         },
         {
             'name': 'Automatic door warehouse',
             'type': 'automatic_door',
             'zone_name': WAREHOUSE_ZONE_NAME,
             'after_door_point': {
-                **NAV_CART_UNLOAD_POINT
+                'x': float(Elev_Home[1][0][0]),
+                'y': float(Elev_Home[1][0][1]),
+                'angle': float(Elev_Home[1][0][2]),
+                **NAV_CART_OPTIONS
             },
             'tags_ids': [26],
             'tags_sizes': [0.12],
@@ -186,10 +195,9 @@ BASEMENT_ROUTES = {
         {
             'name': 'Navigation to detaching point',
             'type': 'nav_to_point',
-            'point' : {
-                **NAV_CART_UNLOAD_POINT
-            },
+            'points': Elev_Home[1],
             'teleoperator_if_fail': True,
+            'nav_options': NAV_CART_OPTIONS
         }
     ],
     
