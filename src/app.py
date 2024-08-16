@@ -242,6 +242,8 @@ class RayaApplication(RayaApplicationBase):
                 location = location.replace("\'", "\"")
                 if location != '':
                     location = json.loads(location)
+                    if location['map_name'] == 'Main__Basement':
+                        return
                     self.replace_map_name(location=location)
                     self.locations.append(location)
             except IndexError:
