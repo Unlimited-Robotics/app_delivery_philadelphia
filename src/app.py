@@ -271,8 +271,7 @@ class RayaApplication(RayaApplicationBase):
 
     def replace_map_name(self, location):
         _ , floor = location['map_name'].split('__')
-
-        floor, floor_number = floor.replace(FLOOR_PREFIX_FLEET, '')
+        _, floor_number = floor.split(' ')
         location['map_name'] = f'{NAV_MAP_NAME}__{floor_number}'
 
 
