@@ -107,6 +107,7 @@ class Helpers(CommonHelpers):
                     wait=False,
                     callback=self.cb_delivery_arrived_ui_response
                 )
+            # TODO: add audio saying it arrived
             
             await self.app.sleep(TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED)
             
