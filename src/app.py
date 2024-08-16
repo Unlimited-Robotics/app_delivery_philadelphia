@@ -137,9 +137,9 @@ class RayaApplication(RayaApplicationBase):
             "{'name': 'MRICU ELBOW',    'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor4            
-            "{'name': '4BURN', 'map_name': 'Main__Floor 03' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4E',    'map_name': 'Main__Floor 03' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4W',    'map_name': 'Main__Floor 03' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'BURN',  'map_name': 'Main__Floor 04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '4E',    'map_name': 'Main__Floor 04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '4W',    'map_name': 'Main__Floor 04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # # floor5
             "{'name': '5E',    'map_name': 'Main__Floor 05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
