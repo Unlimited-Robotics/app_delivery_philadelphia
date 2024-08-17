@@ -146,6 +146,11 @@ class Actions(CommonAction):
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
         self.helpers.selected_option_delivery_ui = None
         await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
+        await self.app.ui.display_choice_selector(
+                **self.app.delivery_options(),
+                wait=False,
+                callback=self.helpers.cb_delivery_arrived_ui_response
+            )
         self.app.create_task(
             name='Notify Task',
             afunc=self.helpers.task_to_notify

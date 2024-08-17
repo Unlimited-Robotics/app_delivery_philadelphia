@@ -91,7 +91,7 @@ class Transitions(CommonTransitions):
         if self.helpers.selected_option_delivery_ui is not None:
             await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
             selected_option = self.helpers.selected_option_delivery_ui
-            self.app.log.warn(f'User selected: {selected_option}')
+            self.app.log.warn(f'User selected: {selected_option["id"]}')
             await self.helpers.custom_cancel_sound()
             await self.app.fleet.update_app_status(
                 status=FLEET_UPDATE_STATUS.INFO,

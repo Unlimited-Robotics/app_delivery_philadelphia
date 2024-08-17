@@ -109,10 +109,13 @@ FLOOR_06_ROUTES = {
         {
             'name': 'Navigation to unit1',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_1[0]),
-                'y': float(unit_1[1]),
-                'angle': float(unit_1[2]),
+            'points': [
+                [685, 1654, 0.013573826918369124],
+                [1157, 1474, 1.5856651194380036],
+                [1157, 862, 1.5707963267948966],
+                unit_1
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -140,10 +143,13 @@ FLOOR_06_ROUTES = {
         {
             'name': 'Navigation to unit2',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_2[0]),
-                'y': float(unit_2[1]),
-                'angle': float(unit_2[2]),
+            'points': [
+                    [1500, 737, -1.519371118776921],
+                    [1323, 1271, 3.111526528540749],
+                    [1168, 1636, -1.5458015331759765],
+                    unit_2
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -169,12 +175,16 @@ FLOOR_06_ROUTES = {
     ],
     'unit2_elev': [
         {
-            'name': 'Navigation to waiting elevator',
+            'name': 'Navigation to elevators',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+            'points': [
+                    [1533, 1677, 1.5707963267948966],
+                    [1352, 1271, -3.141592653589793],
+                    [1050, 1636, -3.109929031514179],
+                    [595, 1683, -3.101454691294845],
+                    SELECTED_WAITING_ELEVATOR
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
