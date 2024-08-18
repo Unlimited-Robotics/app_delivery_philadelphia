@@ -213,10 +213,6 @@ FLOOR_08_ROUTES = {
     
     'unit1_elev': [
         {
-            'name': 'Teleoperation to leave the unit',
-            'type': 'teleoperation',
-        },
-        {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
             'point' : {
