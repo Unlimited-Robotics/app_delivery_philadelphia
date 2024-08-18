@@ -1,5 +1,5 @@
 ## PYRAYA SKILLS
-POSIBLES_IDS_CART = ['4']
+POSIBLES_IDS_CART = ['20']
 
 SETUP_ARG_ATTACH_SKILL = {
 }
@@ -16,7 +16,7 @@ SETUP_ARG_DETACH_SKILL = {
 }
 
 EXECUTION_ARG_DETACH_SKILL = {
-    
+    'move_fowards': True,
 }
 
 ## GARY SKILLS
