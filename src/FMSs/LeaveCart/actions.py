@@ -21,7 +21,7 @@ class Actions(CommonAction):
 
     async def enter_GO_TO_DETACH_CART_POINT(self):
         execute_args = {
-            'steps': SKILL_NAVIGATION['00']['elev_detach']
+            'steps': BASEMENT_ROUTES['go_to_detach_point']
         }
         await self.app.skill_nav_steps.execute_main(
             execute_args=execute_args,
@@ -52,7 +52,7 @@ class Actions(CommonAction):
         )
         await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         
-        home_steps = deepcopy(BASEMENT_ROUTES['home'])
+        home_steps = deepcopy(BASEMENT_ROUTES['go_to_home'])
         home_steps[0]['point'] = await self.helpers.get_home_position()
         execute_args = {
             'steps': home_steps

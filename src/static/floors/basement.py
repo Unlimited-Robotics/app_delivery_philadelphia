@@ -142,7 +142,7 @@ FLOOR__00 = {
 }
 
 BASEMENT_ROUTES = {
-    'attach_elev': [
+    'go_to_elevators_after_attach': [
         {
             'name': 'Navigation to warehouse exit',
             'type': 'nav_to_point',
@@ -171,7 +171,7 @@ BASEMENT_ROUTES = {
             'nav_options': NAV_CART_OPTIONS
         },
     ],
-    'elev_detach': [
+    'go_to_detach_point': [
         {
             'name': 'Navigation to warehouse entrance',
             'type': 'nav_to_point',
@@ -201,7 +201,7 @@ BASEMENT_ROUTES = {
         }
     ],
     
-    'home': [
+    'go_to_home': [
         {
             'name': 'Navigation to home',
             'type': 'nav_to_point',
@@ -209,13 +209,12 @@ BASEMENT_ROUTES = {
             'teleoperator_if_fail': True,
         },
     ],
-    'cart_point': [
+    'go_to_parking_cart_point': [
         {
             'name': 'Navigation to cart point',
             'type': 'nav_to_point',
             'point' : {}, # it uses the cart position from the parameter of the app
             'teleoperator_if_fail': True,
         },
-    ]
-    
+    ]  
 }
