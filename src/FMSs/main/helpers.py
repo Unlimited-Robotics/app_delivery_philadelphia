@@ -1,4 +1,8 @@
+import base64
+from copy import deepcopy
+
 from raya.exceptions import *
+from raya.utils.internal_filesystem import resolve_path
 
 from src.static.app_errors import *
 from src.static import *
@@ -103,7 +107,7 @@ class Helpers(CommonHelpers):
     async def task_to_notify(self):
         while True:
             await self.app.ui.display_choice_selector(
-                    **self.app.delivery_options(),
+                    **self.delivery_options(),
                     wait=False,
                     callback=self.cb_delivery_arrived_ui_response
                 )
@@ -140,3 +144,15 @@ class Helpers(CommonHelpers):
             )
 
     
+    def convert_image_to_base64(self, image_path):
+        with open(image_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+        return encoded_string.decode('utf-8')
+
+
+    def delivery_options(self):
+        screen = deepcopy(UI_SCREEN_OPTIONS_DELIVERY_ARRIVED)
+        for option in screen['data']:
+            option['imgSrc'] = f'data:image/png;base64, \
+                {self.convert_image_to_base64(resolve_path(option["imgSrc"]))}'
+        return screen

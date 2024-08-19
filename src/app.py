@@ -15,7 +15,6 @@ from raya.controllers.robot_skills_controller import RobotSkillsController
 from raya.enumerations import FLEET_FINISH_STATUS
 from raya.exceptions import RayaSkillAborted
 from raya.tools.fsm import RayaFSMAborted
-from raya.utils.internal_filesystem import resolve_path
 from src.FMSs.main import MainFSM
 from src.static import *
 from src.static.app_errors import AppError
@@ -409,19 +408,3 @@ class RayaApplication(RayaApplicationBase):
 
         copy_ui_screen['title'] = message
         await self.ui.show_animation(**copy_ui_screen)
-
-
-    def convert_image_to_base64(self, image_path):
-        import base64
-        with open(image_path, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read())
-        return encoded_string.decode('utf-8')
-
-
-    def delivery_options(self):
-        screen = deepcopy(UI_SCREEN_OPTIONS_DELIVERY_ARRIVED)
-        
-        for option in screen['data']:
-            option['imgSrc'] = f'data:image/png;base64, \
-                {self.convert_image_to_base64(resolve_path(option["imgSrc"]))}'
-        return screen
