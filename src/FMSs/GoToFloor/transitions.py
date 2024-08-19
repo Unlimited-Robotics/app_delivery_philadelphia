@@ -37,6 +37,7 @@ class Transitions(CommonTransitions):
     async def CHANGE_MAP(self):
         start_time = time.time()
         map_name = self.helpers.get_current_target_floor_map_name()
+        self.log.warn(f'Changing map to: {map_name}')
         try:
             await self.app.nav.set_map(
                 map_name=map_name,
