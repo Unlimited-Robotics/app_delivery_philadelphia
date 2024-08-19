@@ -1,0 +1,16 @@
+from src.FMSs.BaseAppFSM.states import STATES as BASE_STATES
+
+STATES = [
+    'GO_TO_DETACH_CART_POINT',
+    'DETACH_CART',
+    'GO_TO_HOME_LOCATION',
+    'END',
+]
+
+STATES.extend(BASE_STATES)
+
+INITIAL_STATE = 'GO_TO_DETACH_CART_POINT'
+
+END_STATES = [
+    'END',
+]

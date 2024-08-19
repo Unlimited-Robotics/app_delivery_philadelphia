@@ -1,29 +1,29 @@
 from raya.exceptions import *
 
-from src.app import RayaApplication
 from src.static.app_errors import *
 from src.static import *
 
-from src.FMSs.GoToCartPoint import GoToCartPointFSM
-from src.FMSs.ParkCart import ParkCartFSM
+from src.FMSs.TakeCart import TakeCartFSM
+from src.FMSs.LeaveCart import LeaveCartFSM
 from src.FMSs.GoToFloor import GoToFloorFSM
+
 from raya.enumerations import FLEET_UPDATE_STATUS
+
 from src.static.constants import *
 from src.FMSs.BaseAppFSM.helpers import CommonHelpers
 
 
 class Helpers(CommonHelpers):
 
-    def __init__(self, app: RayaApplication):        
-        self.app = app
-        super().__init__(app)
+    def __init__(self, app):
+        super().__init__(app=app)
         
-        self.fsm_go_to_cart_point = GoToCartPointFSM(
-            name='GoToCartPointFSM', 
+        self.fsm_take_cart = TakeCartFSM(
+            name='TakeCartFSM', 
             log_transitions=True
         )
-        self.fsm_park_cart = ParkCartFSM(
-            name='ParkCartFSM', 
+        self.fsm_leave_cart = LeaveCartFSM(
+            name='LeaveCartFSM', 
             log_transitions=True
         )
         self.fsm_go_to_floor = GoToFloorFSM(
@@ -31,6 +31,39 @@ class Helpers(CommonHelpers):
             log_transitions=True
         )
         self.selected_option_delivery_ui = None
+
+
+    async def change_costmap_to_point(self, 
+            initial_point: str, 
+            final_point: str
+        ):
+        initial_name = initial_point
+        final_name = final_point
+        default_costmap_name = COST_MAPS_CONFIG['default_costmap_name']
+
+        try:
+            format = COST_MAPS_CONFIG['costmap_format']
+            costmap_name = format.replace('[initial_point]', initial_name)
+            costmap_name = costmap_name.replace('[final_point]', final_name)
+            await self.app.nav.change_costmap(costmap_name=costmap_name)
+            self.app.log.debug((
+                f'Costmap changed to: {costmap_name}, '
+                f'initial_point: {initial_point}, '
+                f'final_point: {final_point}'
+            ))
+        except RayaNavFileNotFound:
+            self.app.log.error((
+                f'Costmap file \'{costmap_name}\' not found, '
+                f'setting default costmap \'{default_costmap_name}\''
+            ))
+            try:
+                await self.app.nav.change_costmap(
+                    costmap_name=default_costmap_name
+                )
+            except RayaCommandTimeout:
+                self.app.log.error(f'Costmap change timeout')
+        except RayaCommandTimeout:
+            self.app.log.error(f'Costmap change timeout')
 
 
     async def check_if_robot_in_warehouse_floor(self):
@@ -68,17 +101,29 @@ class Helpers(CommonHelpers):
 
 
     async def task_to_notify(self):
-        text = (
-            f'This is a reminder that the package {self.index_package + 1} '
-            'has arrived at the delivery point and hasn\'t been confirmed.'
-        )
         while True:
-            await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.WARNING,
-                message=text
-            )
-            self.app.log.warn(text)
+            await self.app.ui.display_choice_selector(
+                    **self.app.delivery_options(),
+                    wait=False,
+                    callback=self.cb_delivery_arrived_ui_response
+                )
+            # TODO: add audio saying it arrived
+            
             await self.app.sleep(TIME_BEETWEEN_NOTIFICATIONS_PACKAGE_ARRIVED)
+            
+            self.log.debug('The user didn\'t select any option, calling him....')
+            user_id = self.current_package['user_id']
+            try:
+                await self.app.fleet.request_user_action(
+                    request_type='call',
+                    request_args=FLEET_CALL_MESSAGE,
+                    user_id=user_id,
+                    timeout=30.0,
+                    wait=False,
+                    callback=lambda: None
+                )
+            except RayaFleetTimeout:
+                self.app.log.error('User didn\'t answer the call')
 
 
     def cb_delivery_arrived_ui_response(self, response):
@@ -93,15 +138,5 @@ class Helpers(CommonHelpers):
                     'has arrived at the delivery point.'
                 )
             )
-        user_id = self.current_package['user_id']
-        try:
-            await self.app.fleet.request_user_action(
-                request_type='call',
-                request_args=FLEET_CALL_MESSAGE,
-                user_id=user_id,
-                timeout=30.0,
-                wait=False,
-                callback=lambda: None
-            )
-        except RayaFleetTimeout:
-            self.app.log.error('User didn\'t answer the call')
+
+    

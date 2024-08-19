@@ -19,15 +19,8 @@ STATES = [
         
         'NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE',
         'NAV_TO_WAREHOUSE_FLOOR',
-        'RETURN_TO_WAREHOUSE_ENTRANCE',
         'PARK_CART',
-        'GO_TO_HOME_LOCATION',
-        'NOTIFY_ALL_PACKAGES_STATUS',
         'END',
-        
-        'REQUEST_FOR_HELP',
-        'WAIT_FOR_HELP',
-        'RELEASE_CART',
     ]
 STATES.extend(BASE_STATES)
 

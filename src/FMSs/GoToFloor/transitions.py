@@ -1,7 +1,6 @@
 import time
 from raya.exceptions import RayaNavLocalizationRejected
 
-from src.app import RayaApplication
 from src.static import *
 
 from .helpers import Helpers
@@ -11,10 +10,9 @@ from src.FMSs.BaseAppFSM.transitions import CommonTransitions
 
 class Transitions(CommonTransitions):
 
-    def __init__(self, app: RayaApplication, helpers: Helpers):
+    def __init__(self, app, helpers: Helpers):
         super().__init__(app=app, helpers=helpers)
-        self.app = app
-        self.helpers = helpers
+        self.helpers: Helpers
 
 
     async def SELECT_ELEVATOR(self):
@@ -26,16 +24,10 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_ELEVATOR(self):
-        if not self.app.nav.is_navigating():
-            nav_error = self.app.nav.get_last_result()
-            if nav_error[0] == 0:
-                self.set_state('TELEOPERATING')
-            else:
-                self.helpers.set_state_wrapper(
-                    new_state='REQUEST_FOR_HELP',
-                    last_state='SELECT_ELEVATOR',
-                    transitions=self
-                )
+        result = await self.app.skill_nav_steps.wait_main()
+        self.app.log.warn(f'skill_template result: {result}')
+        await self.app.sleep(TIME_TO_WAIT_AFTER_SELECTION_ELEVATOR)
+        self.set_state('TELEOPERATING')
 
     
     async def TELEOPERATING(self):
@@ -55,10 +47,9 @@ class Transitions(CommonTransitions):
             )
         except Exception as e:
             self.app.log.error(f'Error changing map: {e}')
-            self.helpers.set_state_wrapper(
-                new_state='REQUEST_FOR_HELP',
+            self.helpers.retry_step(
+                transitions=self,
                 last_state='TELEOPERATING',
-                transitions=self
             )
         end_time = time.time()
         self.app.log.warn(
@@ -68,38 +59,57 @@ class Transitions(CommonTransitions):
 
     
     async def TELEOPERATION_DONE(self):
-        if self.helpers.teleoperation_response is not None:
-            if 'action' in self.helpers.teleoperation_response.keys():
-                action = self.helpers.teleoperation_response['action']
-                if action == 'button_clicked':
-                    self.set_state('SELECT_EXIT_FROM_ELEVATOR_NUMBER')
+        self.set_state('EXIT_FROM_ELEVATOR')
 
 
-    async def SELECT_EXIT_FROM_ELEVATOR_NUMBER(self):
-        if self.helpers.selected_elevator_ui is not None:
-            selected_option = self.helpers.selected_elevator_ui
-            self.app.log.warn(f'User selected: {selected_option}')
-            self.helpers.selected_elevator = str(selected_option)
+    async def EXIT_FROM_ELEVATOR(self):
+        if self.helpers.exit_elevator_id is not None:
             self.set_state('LOCALIZING')
         
     
     async def LOCALIZING(self):
-        localizing_point = await self.helpers.get_elevator_localization_points()
-        try:
-            await self.app.nav.set_current_pose(
-                **localizing_point,
-                wait=True
+        localizing_point = \
+            await self.helpers.get_elevator_localization_points(
+                rotate_180=self.helpers.try_rotate_localization_points
             )
-            self.app.current_target_floor_reached()
-            self.set_state('END')
-        except RayaNavLocalizationRejected as e:
-            self.app.log.error(f'Error localizing: {e}')
-            self.helpers.set_state_wrapper(
-                new_state='REQUEST_FOR_HELP',
-                last_state='SELECT_EXIT_FROM_ELEVATOR_NUMBER',
-                transitions=self
-            )
-
+        localization = False
+        for point in localizing_point:
+            try:
+                self.app.log.debug(f'Localizing on point: {point}')
+                await self.app.nav.set_current_pose(
+                    **point,
+                    wait=True
+                )
+                localization = True
+                self.app.log.warn('Localized')
+                self.app.current_target_floor_reached()
+                self.set_state('END')
+            except RayaNavLocalizationRejected as e:
+                self.app.log.error(f'Error localizing: {e}')
         
-    async def END(self):
-        pass
+        if localization is False:
+            if self.helpers.try_rotate_localization_points:
+                self.log.error(
+                    'Localization failed, even after rotating 180 degrees'
+                )
+                self.log.error('Trying again...')
+                self.helpers.retry_step(
+                    transitions=self,
+                    last_state='LOCALIZING',
+                )
+            else:
+                self.set_state('TELEOPERATE_TO_LOCALIZE')
+
+
+    async def TELEOPERATE_TO_LOCALIZE(self):
+        if self.helpers._ui_response_wait_for_help is None:
+            return
+        
+        response = self.helpers._ui_response_wait_for_help
+        self.log.warn(f'User selected: {response}')
+
+        if self.helpers._ui_response_wait_for_help is not None:
+            if 'action' in self.helpers._ui_response_wait_for_help.keys():
+                action = self.helpers._ui_response_wait_for_help['action']
+                if action == 'button_clicked':
+                    self.set_state('LOCALIZING')
