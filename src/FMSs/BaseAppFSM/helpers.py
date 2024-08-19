@@ -61,7 +61,7 @@ class CommonHelpers(RetryHelpers):
         parking_location_name = deepcopy(NAV_PARKING_POSITION_NAME)
         parking_location_name = parking_location_name.replace(
             PARKING_SPOT_SUFFIX, 
-            self.app.selected_parking
+            self.app.selected_parking['name']
         )
         cart = await self.app.nav.get_location(
             location_name = parking_location_name,
@@ -81,7 +81,7 @@ class CommonHelpers(RetryHelpers):
         home_location_name = deepcopy(NAV_HOME_POSITION_NAME)
         home_location_name = home_location_name.replace(
             PARKING_SPOT_SUFFIX, 
-            self.app.selected_parking
+            self.app.selected_parking['name']
         )
         
         home_location = await self.app.nav.get_location(

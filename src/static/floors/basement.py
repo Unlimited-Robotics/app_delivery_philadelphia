@@ -141,6 +141,12 @@ FLOOR__00 = {
     }
 }
 
+WAREHOUSE_DOOR = {
+    'tags_ids': [25],
+    'tags_sizes': [0.12],
+    'phone_call_user_id': '[CSR_USER_ID]'
+}
+
 BASEMENT_ROUTES = {
     'go_to_elevators_after_attach': [
         {
@@ -151,8 +157,8 @@ BASEMENT_ROUTES = {
             'nav_options': NAV_CART_OPTIONS
         },
         {
-            'name': 'Automatic door warehouse',
-            'type': 'automatic_door',
+            'name': 'Manual door warehouse',
+            'type': 'manual_door',
             'zone_name': WAREHOUSE_ZONE_NAME,
             'after_door_point': {
                 'x': float(Home_Elev[1][0][0]),
@@ -160,8 +166,7 @@ BASEMENT_ROUTES = {
                 'angle': float(Home_Elev[1][0][2]),
                 **NAV_CART_OPTIONS
             },
-            'tags_ids': [25],
-            'tags_sizes': [0.12],
+            **WAREHOUSE_DOOR
         },
         {
             'name': 'Navigation to waiting elevator',
@@ -180,8 +185,8 @@ BASEMENT_ROUTES = {
             'nav_options': NAV_CART_OPTIONS
         },
         {
-            'name': 'Automatic door warehouse',
-            'type': 'automatic_door',
+            'name': 'Manual door warehouse',
+            'type': 'manual_door',
             'zone_name': WAREHOUSE_ZONE_NAME,
             'after_door_point': {
                 'x': float(Elev_Home[1][0][0]),
@@ -189,8 +194,7 @@ BASEMENT_ROUTES = {
                 'angle': float(Elev_Home[1][0][2]),
                 **NAV_CART_OPTIONS
             },
-            'tags_ids': [26],
-            'tags_sizes': [0.12],
+            **WAREHOUSE_DOOR
         },
         {
             'name': 'Navigation to detaching point',

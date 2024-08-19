@@ -289,9 +289,13 @@ class RayaApplication(RayaApplicationBase):
                 help='Parking spot of the robot',
                 required=True,
             )
+
+        # format selected parking
         self.selected_parking = self.selected_parking.replace("\'", "\"")
         self.selected_parking = json.loads(self.selected_parking)
-        self.selected_parking = self.selected_parking['name'].split(' ')[1]
+        self.selected_parking['name'] = self.selected_parking['name'].split(' ')[1]
+        
+        # show info about the app
         self.log.warn('App is running with there args:')
         self.log.warn(f'Selected parking: {self.selected_parking}')
         for location in zip(self.locations):
