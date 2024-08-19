@@ -21,9 +21,6 @@ class Actions(CommonAction):
                 message=FLEET_CHECK_IF_LOCALIZED
             )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
-        map_name = self.app.selected_parking['map_name']
-        self.app.log.warn(f'Setting map: {map_name}')
-        await self.app.nav.set_map(map_name=map_name)
         await self.helpers.change_costmap_to_point(
             initial_point='home',
             final_point='elev',
