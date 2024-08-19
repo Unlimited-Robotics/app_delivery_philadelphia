@@ -174,8 +174,6 @@ class Actions(CommonAction):
         await self.helpers.custom_cancel_sound()
         await self.helpers.custom_turn_off_leds()
 
-
-    async def enter_PACKAGE_DELIVERED(self):
         await self.app.ui.keyboard(
             **UI_KEYBOARD,
             wait=False,
@@ -184,6 +182,7 @@ class Actions(CommonAction):
 
 
     async def leave_PACKAGE_DELIVERED(self):
+        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
         await self.helpers.custom_turn_off_leds()
 
 
@@ -199,6 +198,7 @@ class Actions(CommonAction):
 
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
+        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
         await self.helpers.custom_cancel_sound()
         await self.helpers.custom_turn_off_leds()
 

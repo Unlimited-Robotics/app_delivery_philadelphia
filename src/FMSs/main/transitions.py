@@ -100,43 +100,23 @@ class Transitions(CommonTransitions):
                 message=FLEET_PACKAGE_CONFIRM_USING_UI,
             )
             # Only id 1 is considered as a successful delivery
-            # UI_SCREEN_OPTIONS_DELIVERY_ARRIVED
-            if selected_option['id'] == 1:
-                await self.app.fleet.update_app_status(
-                    status=FLEET_UPDATE_STATUS.SUCCESS,
-                    message=f'Package status:{selected_option["name"]}',
-                )
-                self.set_state('PACKAGE_DELIVERED')
-            else:
-                await self.app.fleet.update_app_status(
-                    status=FLEET_UPDATE_STATUS.ERROR,
-                    message=f'Package status: {selected_option["name"]}',
-                )
-                self.set_state('PACKAGE_NOT_DELIVERED')
+            self.set_state('PACKAGE_DELIVERED')
 
 
     async def PACKAGE_DELIVERED(self):
         if self.helpers.keyboard_response is None:
             return
-
-        response = self.helpers.keyboard_response
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.SUCCESS,
-            message=(
-                'The package was delivered successfully to the unit '
-                f'{self.helpers.get_current_package()["name"]}, '
-                ' and the name of the person who received it is: '
-                f'{response["value"]}'
-            )
+        
+        input_name = self.helpers.keyboard_response
+        self.log.debug(f'Keyboard response: {input_name}')
+        await self.helpers.show_keyboard_input_to_fleet(
+            input_name=input_name
         )
-        self.helpers.keyboard_response = None
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
         self.set_state('CHECK_IF_MORE_PACKAGES')
 
 
     async def PACKAGE_NOT_DELIVERED(self):
-        await self.app.sleep(5)
-        self.set_state('CHECK_IF_MORE_PACKAGES')
+        pass
 
     
     async def CHECK_IF_MORE_PACKAGES(self):

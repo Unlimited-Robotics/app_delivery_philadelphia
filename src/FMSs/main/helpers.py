@@ -148,6 +148,19 @@ class Helpers(CommonHelpers):
                 )
             )
 
+    async def show_keyboard_input_to_fleet(self, input_name: str):
+        response = self.keyboard_response
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.SUCCESS,
+            message=(
+                'The Package to the delivery ',
+                f'{self.get_current_package()["name"]}, '
+                ' and the name of the person who received it is: '
+                f'{response["value"]}'
+            )
+        )
+        self.keyboard_response = None
+
     
     def convert_image_to_base64(self, image_path):
         with open(image_path, "rb") as image_file:
