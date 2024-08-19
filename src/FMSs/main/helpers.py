@@ -136,7 +136,7 @@ class Helpers(CommonHelpers):
 
 
     def cb_keyboard_response(self, response):
-        self.keyboard_response = response['vale']
+        self.keyboard_response = response['value']
 
 
     async def notify_order_arrived(self):
