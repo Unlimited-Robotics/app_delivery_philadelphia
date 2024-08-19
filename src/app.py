@@ -18,6 +18,7 @@ from raya.tools.fsm import RayaFSMAborted
 from raya.utils.internal_filesystem import resolve_path
 from src.FMSs.main import MainFSM
 from src.static import *
+from src.static.app_errors import AppError
 
 from skills.NavSteps import SkillNavSteps
 from skills.attach_to_cart import SkillAttachToCart, SkillDetachCart
@@ -100,6 +101,13 @@ class RayaApplication(RayaApplicationBase):
         # elevators
         self.current_floor_map_name = self.current_floor
         self.current_target_floor_map_name = None
+
+        # await self.fleet.finish_task(
+        #         result=FLEET_FINISH_STATUS.FAILED,
+        #         message='Hola Elisha'
+        #     )
+        
+        # self.finish_app()
         
         
     async def main(self):
@@ -245,10 +253,31 @@ class RayaApplication(RayaApplicationBase):
                     if location['map_name'] == 'Main__Basement':
                         return
                     self.replace_map_name(location=location)
+                    floor_number = location['map_name'].split('__')[-1]
+                    unit_to_internal = {value: key for key, value in FLOORS[floor_number]['units'].items()}
+                    try:
+                        location['unit_internal_name'] = unit_to_internal[location['name']]
+                    except KeyError:
+                        location['unit_internal_name'] = '__'
                     self.locations.append(location)
+                    
             except IndexError:
                 self.log.error(f'Index {index} out of range')
                 break
+
+        # Order points
+        order = {}
+        for index, item in enumerate(self.locations):
+            if item["map_name"] not in order:
+                order[item["map_name"]] = index
+        seen = set()
+        sorted_data = []
+        for item in sorted(self.locations, key=lambda x: (order[x["map_name"]], x["unit_internal_name"])):
+            identifier = (item["map_name"], item["unit_internal_name"])
+            if identifier not in seen:
+                seen.add(identifier)
+                sorted_data.append(item)
+        self.locations = sorted_data
         
         # get cart number
         if self.run_from_console:
