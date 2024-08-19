@@ -50,6 +50,7 @@ class Actions(CommonAction):
         await self.app.set_gary_footprint(
             footprint=GARY_FOOTPRINT
         )
+        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
         
         home_steps = deepcopy(BASEMENT_ROUTES['home'])
         home_steps[0]['point'] = await self.helpers.get_home_position()
