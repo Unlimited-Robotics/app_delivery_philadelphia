@@ -36,7 +36,7 @@ class Transitions(CommonTransitions):
 
     async def CHANGE_MAP(self):
         start_time = time.time()
-        map_name = self.app.get_complete_target_floor_map_name()
+        map_name = self.helpers.get_current_target_floor_map_name()
         try:
             await self.app.nav.set_map(
                 map_name=map_name,
@@ -82,7 +82,7 @@ class Transitions(CommonTransitions):
                 )
                 localization = True
                 self.app.log.warn('Localized')
-                self.app.current_target_floor_reached()
+                self.helpers.current_target_floor_reached()
                 self.set_state('END')
             except RayaNavLocalizationRejected as e:
                 self.app.log.error(f'Error localizing: {e}')

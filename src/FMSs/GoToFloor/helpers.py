@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from src.FMSs.TakeCart.helpers import Helpers as ParkCartHelpers
 from src.static import *
 from src.static.floors.constants import rotate_180
@@ -55,7 +57,7 @@ class Helpers(ParkCartHelpers):
 
     async def get_entry_point_to_elevator(self):
         self.app.log.warn(f'self.selected_elevator {self.selected_elevator}')
-        current_floor = self.app.get_current_floor_map_name()
+        current_floor = self.get_current_floor_number()
         # TODO: check if entry point is needed
         # result = FLOORS[current_floor]['elevator'][self.selected_elevator]['entry_point']
         result = FLOORS[current_floor]['elevator'][self.selected_elevator]['localization']['outside_elevator']['closest_point']
@@ -65,7 +67,7 @@ class Helpers(ParkCartHelpers):
     
     async def get_elevator_dictionary(self):
         self.app.log.warn(f'self.exit_elevator_id {self.exit_elevator_id}')
-        target_floor = self.app.get_current_target_floor_map_name()
+        target_floor = self.get_current_target_floor_number()
         result = FLOORS[target_floor]['elevator'][self.exit_elevator_id]
         self.app.log.warn(f'point: {result}')
         return result
@@ -179,3 +181,28 @@ class Helpers(ParkCartHelpers):
         
         divided_points = self.interpolate_points(point_a, point_b, divisions)
         return divided_points
+
+    
+    async def show_navigating_to_floor(self):
+        copy_ui_screen = deepcopy(UI_SCREEN_NAV_TO_FLOOR)
+        floor = self.get_current_target_floor_number()
+        
+        if floor == WAREHOUSE_FLOOR:
+            message = 'On My Way Home'
+        else:
+            message = copy_ui_screen['title'].replace(
+                '[floor]', floor
+            )
+
+        copy_ui_screen['title'] = message
+        await self.app.ui.show_animation(**copy_ui_screen)
+
+
+    def current_target_floor_reached(self):
+        target_floor = self.get_current_target_floor_map_name()
+        self.log.info((
+            f'Floor \'{target_floor}\' reached.'
+        ))
+        self.app.current_floor_map_name = target_floor
+        self.app.current_target_floor_map_name = None
+

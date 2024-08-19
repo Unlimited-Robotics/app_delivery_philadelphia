@@ -16,7 +16,7 @@ class Actions(CommonAction):
     async def enter_SELECT_ELEVATOR(self):
         self.helpers.selected_elevator_ui = None
         copy_ui_screen = deepcopy(UI_SCREEN_OPTIONS_ELEVATOR_ENTERING)
-        floor = self.app.get_current_target_floor_map_name()
+        floor = self.helpers.get_current_target_floor_number()
         
         message = copy_ui_screen['title'].replace(
             '[floor]', floor
@@ -31,7 +31,7 @@ class Actions(CommonAction):
 
 
     async def enter_NAV_TO_ELEVATOR(self):
-        await self.app.show_navigating_to_floor()
+        await self.helpers.show_navigating_to_floor()
         
         elevator_point = await self.helpers.get_entry_point_to_elevator()
         
@@ -61,10 +61,10 @@ class Actions(CommonAction):
 
     async def enter_EXIT_FROM_ELEVATOR(self):
         self.helpers.try_rotate_localization_points = False
-        await self.app.show_navigating_to_floor()
+        await self.helpers.show_navigating_to_floor()
         
         self.helpers.exit_elevator_id = None
-        target_floor = self.app.get_current_target_floor_map_name()
+        target_floor = self.helpers.get_current_target_floor_number()
         ARGS_EXIT_ELEVATOR['target_floor'] = target_floor
         await self.app.robot_skills.execute_skill(
             **ARGS_EXIT_ELEVATOR,

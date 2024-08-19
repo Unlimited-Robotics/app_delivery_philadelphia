@@ -48,7 +48,9 @@ class Transitions(CommonTransitions):
             self.abort(*ERR_COULD_NOT_GET_PARKING_LOCATION)
         
         try:
-            await self.app.nav.get_zones_list(map_name=WAREHOUSE_MAP_NAME)
+            await self.app.nav.get_zones_list(
+                map_name=self.app.selected_parking['map_name']
+            )
         except RayaNavZoneNotFound:
             self.app.log.error((
                 'Could not get warehouse entrance position from navigation, '

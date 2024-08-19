@@ -13,7 +13,6 @@ from raya.controllers.cv_controller import CVController
 from raya.controllers.robot_skills_controller import RobotSkillsController
 
 from raya.enumerations import FLEET_FINISH_STATUS
-from raya.exceptions import RayaSkillAborted
 from raya.tools.fsm import RayaFSMAborted
 from src.FMSs.main import MainFSM
 from src.static import *
@@ -49,10 +48,7 @@ class RayaApplication(RayaApplicationBase):
         
         await self.ui.show_animation(**UI_SCREEN_NAVIGATING)
     
-        if not self.continue_with_cart_footprint:
-            await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
-        else:
-            await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
+        await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
 
         if self.set_costmap:
             initial_point , final_point = self.set_costmap.split('_')
@@ -97,10 +93,6 @@ class RayaApplication(RayaApplicationBase):
             )
             self.log.debug(f'Detach skill setup result: {result}')
 
-        # elevators
-        self.current_floor_map_name = self.current_floor
-        self.current_target_floor_map_name = None
-
         # await self.fleet.finish_task(
         #         result=FLEET_FINISH_STATUS.FAILED,
         #         message='Hola Elisha'
@@ -138,35 +130,35 @@ class RayaApplication(RayaApplicationBase):
         self.locations = []
         delivery_location_fake = [
             # floor2
-            "{'name': 'CICU',           'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MRICU HIGH',     'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MICU',           'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MRICU ELBOW',    'map_name': 'Main__Floor 02' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'CICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'MRICU HIGH',     'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'MICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'MRICU ELBOW',    'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor4            
-            "{'name': 'BURN',  'map_name': 'Main__Floor 04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4E',    'map_name': 'Main__Floor 04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4W',    'map_name': 'Main__Floor 04' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'BURN',  'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '4E',    'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '4W',    'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # # floor5
-            "{'name': '5E',    'map_name': 'Main__Floor 05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '5W',    'map_name': 'Main__Floor 05' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '5E',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '5W',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # floor6
-            "{'name': '6E',    'map_name': 'Main__Floor 06' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '6W',    'map_name': 'Main__Floor 06' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '6E',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '6W',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor7
-            "{'name': '7E',      'map_name': 'Main__Floor 07' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '7W',      'map_name': 'Main__Floor 07' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '7E',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '7W',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         
             # floor8
-            "{'name': '8W',    'map_name': 'Main__Floor 08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '8E',    'map_name': 'Main__Floor 08' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '8W',    'map_name': 'Main__8' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '8E',    'map_name': 'Main__8' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # floor9
-            "{'name': '9E',    'map_name': 'Main__Floor 09' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '9W',    'map_name': 'Main__Floor 09' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '9E',    'map_name': 'Main__9' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '9W',    'map_name': 'Main__9' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         ]
         park_location_fake = "{'name': 'Parking A', 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'Main__Basement'}"
         
@@ -185,25 +177,11 @@ class RayaApplication(RayaApplicationBase):
             default='18'
         )
         max_packages = int(max_packages)
-        
-        self.current_floor = self.get_argument(
-            '--floor',
-            type=str,
-            help='Current floor of the robot',
-            required=False,
-            default=WAREHOUSE_FLOOR    
-        )
-        
+          
         self.run_from_console = self.get_flag_argument(
             '--fake',
             help='If enabled it will run the app from the fleet'
         )
-        
-        self.continue_with_cart_footprint = self.get_flag_argument(
-            '--cart_footprint',
-            help='If enabled it will set start the app with the footprint of gary with cart attached'
-        )
-        self.continue_with_cart_footprint = True
         
         self.enable_attach = self.get_argument(
             '--enable_attach',
@@ -249,10 +227,10 @@ class RayaApplication(RayaApplicationBase):
                 location = location.replace("\'", "\"")
                 if location != '':
                     location = json.loads(location)
-                    if location['map_name'] == 'Main__Basement':
-                        return
-                    self.replace_map_name(location=location)
                     floor_number = location['map_name'].split('__')[-1]
+                    location['map'] = dict()
+                    location['map']['building'], location['map']['floor'] = \
+                        location['map_name'].split('__')
                     unit_to_internal = {value: key for key, value in FLOORS[floor_number]['units'].items()}
                     try:
                         location['unit_internal_name'] = unit_to_internal[location['name']]
@@ -261,7 +239,6 @@ class RayaApplication(RayaApplicationBase):
                     self.locations.append(location)
                     
             except IndexError:
-                self.log.error(f'Index {index} out of range')
                 break
 
         # Order points
@@ -290,17 +267,23 @@ class RayaApplication(RayaApplicationBase):
             )
         self.selected_parking = self.selected_parking.replace("\'", "\"")
         self.selected_parking = json.loads(self.selected_parking)
-        self.selected_parking = self.selected_parking['name'].split(' ')[1]
+        self.selected_parking['name'] = self.selected_parking['name'].split(' ')[-1]
+        
+        current_floor = self.get_argument(
+            '--floor',
+            type=str,
+            help='Current floor of the robot',
+            required=False,
+            default=self.selected_parking['map_name']
+        )
+        self.current_floor_map_name = current_floor
+        self.current_target_floor_map_name = None
+        
+        # print info
         self.log.warn('App is running with there args:')
         self.log.warn(f'Selected parking: {self.selected_parking}')
         for location in zip(self.locations):
             self.log.warn(f'\tLocation: {location}')
-
-
-    def replace_map_name(self, location):
-        _ , floor = location['map_name'].split('__')
-        _, floor_number = floor.split(' ')
-        location['map_name'] = f'{NAV_MAP_NAME}__{floor_number}'
 
 
     async def set_gary_footprint(self, footprint):
@@ -311,65 +294,10 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('Robot footprint updated')
 
 
-    def get_current_floor_map_name(self):
-        return self.current_floor_map_name
-
-
-    def get_complete_current_floor_map_name(self):
-        floor = self.get_current_floor_map_name()
-        return f'{NAV_MAP_NAME}__{floor}'
-
-
-    def get_current_target_floor_map_name(self):
-        return self.current_target_floor_map_name
-    
-    
-    def get_complete_target_floor_map_name(self):
-        floor = self.get_current_target_floor_map_name()
-        return f'{NAV_MAP_NAME}__{floor}'
-
-
-    def current_target_floor_reached(self):
-        self.log.info((
-            f'Floor \'{self.current_target_floor_map_name}\' reached.'
-        ))
-        self.current_floor_map_name = self.current_target_floor_map_name
-        self.current_target_floor_map_name = None
-
-
-    def get_unit_name(self, package_point_name, floor = ''):
-        current_floor = floor
-        if floor == '':
-            current_floor = self.get_current_floor_map_name()
-        
-        self.log.debug((
-            f'Replacing name of unit \'{package_point_name}\' '
-            f'on floor \'{current_floor}\'.'
-        ))
-
-        try:
-            units = FLOORS[current_floor]['units']
-            key_unit_list = list(units.keys())
-            val_unit_list = list(units.values())
-            
-            position = val_unit_list.index(package_point_name)
-            alias_name = key_unit_list[position]
-            self.log.debug((
-                f'The unit name \'{package_point_name}\' is the unit alias '
-                f'\'{alias_name}\' of the floor \'{current_floor}\''
-            ))
-            return alias_name
-        except Exception as e:
-            self.log.error((
-                f'Error getting the get_current_unit: {package_point_name}'
-            ))
-            return 'elev'
-
-
     async def change_costmap_to_point(self, initial_point, final_point):
         initial_name = initial_point
         final_name = final_point
-        default_costmap_name = 'map'
+        default_costmap_name = COST_MAPS_CONFIG['default_costmap_name']
         try:
             format = COST_MAPS_CONFIG['costmap_format']
             costmap_name = format.replace('[initial_point]', initial_name)
@@ -393,18 +321,3 @@ class RayaApplication(RayaApplicationBase):
                 self.log.error(f'Costmap change timeout')
         except RayaCommandTimeout:
             self.log.error(f'Costmap change timeout')
-
-
-    async def show_navigating_to_floor(self):
-        copy_ui_screen = deepcopy(UI_SCREEN_NAV_TO_FLOOR)
-        floor = self.get_current_target_floor_map_name()
-        
-        if floor == WAREHOUSE_FLOOR:
-            message = 'On My Way Home'
-        else:
-            message = copy_ui_screen['title'].replace(
-                '[floor]', floor
-            )
-
-        copy_ui_screen['title'] = message
-        await self.ui.show_animation(**copy_ui_screen)

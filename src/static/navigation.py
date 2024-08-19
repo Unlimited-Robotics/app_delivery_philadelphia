@@ -28,11 +28,6 @@ PARKING_SPOT_SUFFIX = '[INITIAL]'
 NAV_HOME_POSITION_NAME = f'home_{PARKING_SPOT_SUFFIX}'
 NAV_PARKING_POSITION_NAME = f'parking_{PARKING_SPOT_SUFFIX}'
 
-WAREHOUSE_FLOOR = '00'
-MAP_VERSION = 'v2'
-NAV_MAP_NAME = f'phillytemplehosp_{MAP_VERSION}'
-WAREHOUSE_MAP_NAME = f'{NAV_MAP_NAME}__{WAREHOUSE_FLOOR}'
-FLOOR_PREFIX_FLEET = 'Floor '
 
 COST_MAPS_CONFIG = {
     'costmap_format': 'cost.[initial_point]_[final_point]',
@@ -40,24 +35,25 @@ COST_MAPS_CONFIG = {
     'unit_identifier': 'unit',
 }
 
+WAREHOUSE_FLOOR = 'Basement'
+
 FLOORS = {
-    '00': FLOOR__00,
-    '02': FLOOR__02,
-    '04': FLOOR__04,
-    '05': FLOOR__05,
-    '06': FLOOR__06,
-    '07': FLOOR__07,
-    '08': FLOOR__08,
-    '09': FLOOR__09,
+    WAREHOUSE_FLOOR: FLOOR__00,
+    '2': FLOOR__02,
+    '4': FLOOR__04,
+    '5': FLOOR__05,
+    '6': FLOOR__06,
+    '7': FLOOR__07,
+    '8': FLOOR__08,
+    '9': FLOOR__09,
 }
 
 SKILL_NAVIGATION = {
-    '00': {**BASEMENT_ROUTES},
-    '02': {**FLOOR_02_ROUTES},
-    '04': {**FLOOR_04_ROUTES},
-    '05': {**FLOOR_05_ROUTES},
-    '06': {**FLOOR_06_ROUTES},
-    '07': {**FLOOR_07_ROUTES},
-    '08': {**FLOOR_08_ROUTES},
-    '09': {**FLOOR_09_ROUTES},
+    '2': {**FLOOR_02_ROUTES},
+    '4': {**FLOOR_04_ROUTES},
+    '5': {**FLOOR_05_ROUTES},
+    '6': {**FLOOR_06_ROUTES},
+    '7': {**FLOOR_07_ROUTES},
+    '8': {**FLOOR_08_ROUTES},
+    '9': {**FLOOR_09_ROUTES},
 }

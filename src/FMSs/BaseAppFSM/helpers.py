@@ -30,7 +30,7 @@ class CommonHelpers(RetryHelpers):
 
 
     async def get_elevator_waiting_point(self):
-        current_floor = self.app.get_current_floor_map_name()
+        current_floor = self.get_current_floor_number()
         point = FLOORS[current_floor]['waiting_elevator']
         self.app.log.debug(f'Waiting elevator point: {point}')
         return point
@@ -65,7 +65,7 @@ class CommonHelpers(RetryHelpers):
         )
         cart = await self.app.nav.get_location(
             location_name = parking_location_name,
-            map_name = WAREHOUSE_MAP_NAME,
+            map_name = self.app.selected_parking['map_name'],
             pos_unit = POSITION_UNIT.PIXELS,
         )
         cart_point = {
@@ -86,7 +86,7 @@ class CommonHelpers(RetryHelpers):
         
         home_location = await self.app.nav.get_location(
             location_name = home_location_name,
-            map_name = WAREHOUSE_MAP_NAME,
+            map_name = self.app.selected_parking['map_name'],
             pos_unit = POSITION_UNIT.PIXELS,
         )
         home = {
@@ -131,3 +131,19 @@ class CommonHelpers(RetryHelpers):
 
     def sound_finish_callback(self, code, msg):
         pass
+
+
+    def get_current_floor_map_name(self):
+        return self.app.current_floor_map_name
+    
+
+    def get_current_target_floor_map_name(self):
+        return self.app.current_target_floor_map_name
+
+
+    def get_current_floor_number(self):
+        return self.get_current_floor_map_name().split('__')[-1]
+
+
+    def get_current_target_floor_number(self):
+        return self.get_current_target_floor_map_name().split('__')[-1]
