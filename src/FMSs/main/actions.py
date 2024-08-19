@@ -16,10 +16,6 @@ class Actions(CommonAction):
 
 
     async def enter_SETUP_ACTIONS(self):
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_CHECK_IF_LOCALIZED
-            )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
         map_name = WAREHOUSE_MAP_NAME
         self.app.log.warn(f'Setting map: {map_name}')

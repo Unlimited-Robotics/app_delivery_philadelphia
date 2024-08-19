@@ -68,10 +68,6 @@ class Actions(CommonAction):
     async def enter_END(self):
         await self.helpers.custom_cancel_sound()
         await self.helpers.custom_turn_off_leds()
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_CART_RELEASED
-            )
 
 
     async def aborted(self, error, msg):

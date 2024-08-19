@@ -312,8 +312,8 @@ FLOOR_02_ROUTES = {
             'teleoperator_if_fail': True,
         },
         {
-            'name': 'Automatic door unit1 exit',
-            'type': 'automatic_door',
+            'name': 'Manual door unit1 exit',
+            'type': 'manual_door',
             'zone_name': UNIT1_ZONE_NAME,
             'after_door_point': {
                 'x': float(unit_2_entrance[0]),
@@ -325,6 +325,7 @@ FLOOR_02_ROUTES = {
             },
             'tags_ids': [25],
             'tags_sizes': [0.12],
+            'phone_call_user_id': 'unit1',
         },
         {
             'name': 'Navigation to unit2 entrance',

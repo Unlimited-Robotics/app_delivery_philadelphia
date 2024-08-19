@@ -56,6 +56,10 @@ class Transitions(CommonTransitions):
             self.app.log.debug(
                 f'DETACH_TO_CART result_finish: {result_finish}'
             )
+            await self.app.fleet.update_app_status(
+                    status=FLEET_UPDATE_STATUS.INFO,
+                    message=FLEET_CART_RELEASED
+                )
             self.app.log.warn('Cart released...')
             self.set_state('GO_TO_HOME_LOCATION')
 

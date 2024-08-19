@@ -27,7 +27,7 @@ STATES.extend(BASE_STATES)
 
 # First state of FSM, if not defined, the FSM starts in the first element of
 # the STATES list
-INITIAL_STATE = 'SETUP_ACTIONS'
+INITIAL_STATE = 'PARK_CART'
 
 
 # If the FSM falls into one of these states, the execution finishes.

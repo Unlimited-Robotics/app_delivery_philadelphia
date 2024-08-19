@@ -161,7 +161,7 @@ class RayaApplication(RayaApplicationBase):
             "{'name': '9E',    'map_name': 'Main__Floor 09' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             "{'name': '9W',    'map_name': 'Main__Floor 09' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         ]
-        park_location_fake = "{'name': 'Parking A', 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'Main__Basement'}"
+        park_location_fake = "{'name': 'Parking B', 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'Main__Basement'}"
         
         start_delivery_index = self.get_argument(
             '--index',
