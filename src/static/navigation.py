@@ -38,14 +38,14 @@ COST_MAPS_CONFIG = {
 WAREHOUSE_FLOOR = 'Basement'
 
 FLOORS = {
-    WAREHOUSE_FLOOR: FLOOR__00,
-    '2': FLOOR__02,
-    '4': FLOOR__04,
-    '5': FLOOR__05,
-    '6': FLOOR__06,
-    '7': FLOOR__07,
-    '8': FLOOR__08,
-    '9': FLOOR__09,
+    WAREHOUSE_FLOOR: FLOOR_BASEMENT_INFO,
+    '2': FLOOR_2_INFO,
+    '4': FLOOR_4_INFO,
+    '5': FLOOR_5_INFO,
+    '6': FLOOR_6_INFO,
+    '7': FLOOR_7_INFO,
+    '8': FLOOR_8_FLOOR,
+    '9': FLOOR_9_FLOOR,
 }
 
 SKILL_NAVIGATION = {

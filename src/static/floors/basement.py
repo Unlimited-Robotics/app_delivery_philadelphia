@@ -59,7 +59,7 @@ NAV_CART_OPTIONS = {
     **NAVIGATION_OPTIONS_WITH_CART
 }
 
-FLOOR__00 = {
+FLOOR_BASEMENT_INFO = {
     'waiting_elevator': {
         'x': float(wait_elevator[0]),
         'y': float(wait_elevator[1]),
