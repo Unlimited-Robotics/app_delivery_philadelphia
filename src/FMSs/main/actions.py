@@ -41,7 +41,7 @@ class Actions(CommonAction):
         current_package = self.helpers.get_current_package()
         last_package = self.helpers.get_last_package()
         
-        last_unit = self.app.get_unit_name(
+        last_unit = self.helpers.get_unit_name(
             package_point_name=last_package['name']
         )
         
@@ -76,15 +76,14 @@ class Actions(CommonAction):
 
     async def enter_NAV_TO_FLOOR(self):
         current_package = self.helpers.get_current_package()
-        self.app.current_target_floor_map_name = \
-            current_package['map_name'].split('__')[1]
+        self.app.current_target_floor_map_name = current_package['map_name']
         self.helpers.fsm_go_to_floor.restart()
         await self.helpers.fsm_go_to_floor.run_in_background()
 
 
     async def leave_NAV_TO_FLOOR(self):
         current_package = self.helpers.get_current_package()
-        current_unit = self.app.get_unit_name(current_package['name'])
+        current_unit = self.helpers.get_unit_name(current_package['name'])
         
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
@@ -96,10 +95,10 @@ class Actions(CommonAction):
         current_package = self.helpers.get_current_package()
         last_package = self.helpers.get_last_package()
         
-        last_unit = self.app.get_unit_name(
+        last_unit = self.helpers.get_unit_name(
             package_point_name=last_package['name']
         )
-        current_unit = self.app.get_unit_name(
+        current_unit = self.helpers.get_unit_name(
             package_point_name=current_package['name']
         )
         
@@ -200,7 +199,7 @@ class Actions(CommonAction):
 
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
         last_package = self.helpers.get_last_package()    
-        last_unit = self.app.get_unit_name(
+        last_unit = self.helpers.get_unit_name(
             package_point_name=last_package['name']
         )
         
@@ -236,7 +235,8 @@ class Actions(CommonAction):
 
     async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
         await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
-        self.app.current_target_floor_map_name = WAREHOUSE_FLOOR
+        self.app.current_target_floor_map_name = \
+            self.app.selected_parking['map_name']
         self.helpers.fsm_go_to_floor.restart()
         await self.helpers.fsm_go_to_floor.run_in_background()
 
