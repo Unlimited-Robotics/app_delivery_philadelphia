@@ -21,9 +21,6 @@ class Actions(CommonAction):
                 message=FLEET_CHECK_IF_LOCALIZED
             )
         await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
-        map_name = WAREHOUSE_MAP_NAME
-        self.app.log.warn(f'Setting map: {map_name}')
-        await self.app.nav.set_map(map_name=map_name)
         await self.helpers.change_costmap_to_point(
             initial_point='home',
             final_point='elev',
@@ -44,8 +41,7 @@ class Actions(CommonAction):
         current_package = self.helpers.get_current_package()
         last_package = self.helpers.get_last_package()
         
-        floor = self.app.get_current_floor_map_name()
-        last_unit = self.app.get_unit_name(
+        last_unit = self.helpers.get_unit_name(
             package_point_name=last_package['name']
         )
         
@@ -65,6 +61,7 @@ class Actions(CommonAction):
             )
         
         # TODO in case that the route is not found, it should be handled
+        floor = self.helpers.get_current_floor_number()
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'steps': steps
@@ -79,15 +76,14 @@ class Actions(CommonAction):
 
     async def enter_NAV_TO_FLOOR(self):
         current_package = self.helpers.get_current_package()
-        self.app.current_target_floor_map_name = \
-            current_package['map_name'].split('__')[1]
+        self.app.current_target_floor_map_name = current_package['map_name']
         self.helpers.fsm_go_to_floor.restart()
         await self.helpers.fsm_go_to_floor.run_in_background()
 
 
     async def leave_NAV_TO_FLOOR(self):
         current_package = self.helpers.get_current_package()
-        current_unit = self.app.get_unit_name(current_package['name'])
+        current_unit = self.helpers.get_unit_name(current_package['name'])
         
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
@@ -99,11 +95,10 @@ class Actions(CommonAction):
         current_package = self.helpers.get_current_package()
         last_package = self.helpers.get_last_package()
         
-        floor = self.app.get_current_floor_map_name()
-        last_unit = self.app.get_unit_name(
+        last_unit = self.helpers.get_unit_name(
             package_point_name=last_package['name']
         )
-        current_unit = self.app.get_unit_name(
+        current_unit = self.helpers.get_unit_name(
             package_point_name=current_package['name']
         )
         
@@ -123,6 +118,7 @@ class Actions(CommonAction):
             )
         
         # TODO in case that the route is not found, it should be handled
+        floor = self.helpers.get_current_floor_number()
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'steps': steps
@@ -147,7 +143,7 @@ class Actions(CommonAction):
         self.helpers.selected_option_delivery_ui = None
         await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
         await self.app.ui.display_choice_selector(
-            **self.app.delivery_options(),
+            **self.helpers.delivery_options(),
             wait=False,
             callback=self.helpers.cb_delivery_arrived_ui_response
         )
@@ -203,8 +199,7 @@ class Actions(CommonAction):
 
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
         last_package = self.helpers.get_last_package()    
-        floor = self.app.get_current_floor_map_name()
-        last_unit = self.app.get_unit_name(
+        last_unit = self.helpers.get_unit_name(
             package_point_name=last_package['name']
         )
         
@@ -221,6 +216,7 @@ class Actions(CommonAction):
             initial_point=last_unit,
             final_point='elev',
         )
+        floor = self.helpers.get_current_floor_number()
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'steps': steps
@@ -239,7 +235,8 @@ class Actions(CommonAction):
 
     async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
         await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
-        self.app.current_target_floor_map_name = WAREHOUSE_FLOOR
+        self.app.current_target_floor_map_name = \
+            self.app.selected_parking['map_name']
         self.helpers.fsm_go_to_floor.restart()
         await self.helpers.fsm_go_to_floor.run_in_background()
 

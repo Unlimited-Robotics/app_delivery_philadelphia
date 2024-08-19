@@ -18,7 +18,7 @@ ELEVATORS_ZONE_NAME = 'elevator_zone'
 
 SELECTED_WAITING_ELEVATOR = wait_elevator_l
 
-FLOOR__06 = {
+FLOOR_6_INFO = {
     'waiting_elevator': {
         'x': float(SELECTED_WAITING_ELEVATOR[0]),
         'y': float(SELECTED_WAITING_ELEVATOR[1]),

@@ -17,7 +17,7 @@ class Actions(CommonAction):
             footprint=GARY_FOOTPRINT
         )
         
-        home_steps = deepcopy(BASEMENT_ROUTES['home'])
+        home_steps = deepcopy(BASEMENT_ROUTES['go_to_home'])
         home_steps[0]['point'] = await self.helpers.get_home_position()
         execute_args = {
             'steps': home_steps
@@ -34,7 +34,7 @@ class Actions(CommonAction):
         cart_location = await self.helpers.get_cart_load_point()
         self.app.log.debug(f'navigate_to_position {cart_location}')
         
-        cart_steps = deepcopy(BASEMENT_ROUTES['cart_point'])
+        cart_steps = deepcopy(BASEMENT_ROUTES['go_to_parking_cart_point'])
         cart_steps[0]['point'] = cart_location
         execute_args = {
             'steps': cart_steps
@@ -73,7 +73,7 @@ class Actions(CommonAction):
         # TODO add ui screen for elevator
         
         execute_args = {
-            'steps': BASEMENT_ROUTES['attach_elev']
+            'steps': BASEMENT_ROUTES['go_to_elevators_after_attach']
         }
         await self.app.skill_nav_steps.execute_main(
             execute_args=execute_args,

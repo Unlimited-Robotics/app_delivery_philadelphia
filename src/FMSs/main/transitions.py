@@ -48,7 +48,9 @@ class Transitions(CommonTransitions):
             self.abort(*ERR_COULD_NOT_GET_PARKING_LOCATION)
         
         try:
-            await self.app.nav.get_zones_list(map_name=WAREHOUSE_MAP_NAME)
+            await self.app.nav.get_zones_list(
+                map_name=self.app.selected_parking['map_name']
+            )
         except RayaNavZoneNotFound:
             self.app.log.error((
                 'Could not get warehouse entrance position from navigation, '
@@ -130,12 +132,12 @@ class Transitions(CommonTransitions):
             last_package = self.helpers.get_last_package()
             current_package = self.helpers.get_current_package()
             
-            last_unit = self.app.get_unit_name(
+            last_unit = self.helpers.get_unit_name(
                 package_point_name=last_package['name']
             )
             
             if await self.helpers.check_if_robot_in_delivery_floor():
-                current_unit = self.app.get_unit_name(
+                current_unit = self.helpers.get_unit_name(
                     package_point_name=current_package['name']
                 )
                 await self.helpers.change_costmap_to_point(

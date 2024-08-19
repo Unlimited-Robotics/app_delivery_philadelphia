@@ -1,4 +1,8 @@
+import base64
+from copy import deepcopy
+
 from raya.exceptions import *
+from raya.utils.internal_filesystem import resolve_path
 
 from src.static.app_errors import *
 from src.static import *
@@ -70,7 +74,7 @@ class Helpers(CommonHelpers):
         result = await self.app.nav.get_status()
         is_localized = result['localized']
         map_name = result['map_name']
-        map_name_warehouse = WAREHOUSE_MAP_NAME
+        map_name_warehouse = self.app.selected_parking['map_name']
         if is_localized and map_name == map_name_warehouse:
             self.app.log.warn((
                     f'current_map: {map_name}, '
@@ -103,7 +107,7 @@ class Helpers(CommonHelpers):
     async def task_to_notify(self):
         while True:
             await self.app.ui.display_choice_selector(
-                    **self.app.delivery_options(),
+                    **self.delivery_options(),
                     wait=False,
                     callback=self.cb_delivery_arrived_ui_response
                 )
@@ -140,3 +144,44 @@ class Helpers(CommonHelpers):
             )
 
     
+    def convert_image_to_base64(self, image_path):
+        with open(image_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+        return encoded_string.decode('utf-8')
+
+
+    def delivery_options(self):
+        screen = deepcopy(UI_SCREEN_OPTIONS_DELIVERY_ARRIVED)
+        for option in screen['data']:
+            option['imgSrc'] = f'data:image/png;base64, \
+                {self.convert_image_to_base64(resolve_path(option["imgSrc"]))}'
+        return screen
+
+    
+    def get_unit_name(self, package_point_name, floor = ''):
+        current_floor = floor
+        if floor == '':
+            current_floor = self.get_current_floor_number()
+        
+        self.log.debug((
+            f'Replacing name of unit \'{package_point_name}\' '
+            f'on floor \'{current_floor}\'.'
+        ))
+
+        try:
+            units = FLOORS[current_floor]['units']
+            key_unit_list = list(units.keys())
+            val_unit_list = list(units.values())
+            
+            position = val_unit_list.index(package_point_name)
+            alias_name = key_unit_list[position]
+            self.log.debug((
+                f'The unit name \'{package_point_name}\' is the unit alias '
+                f'\'{alias_name}\' of the floor \'{current_floor}\''
+            ))
+            return alias_name
+        except Exception as e:
+            self.log.error((
+                f'Error getting the get_current_unit: {package_point_name}'
+            ))
+            return 'elev'
