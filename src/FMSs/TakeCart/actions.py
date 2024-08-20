@@ -31,6 +31,9 @@ class Actions(CommonAction):
 
 
     async def enter_GO_TO_CART_POINT(self):
+        await self.app.set_gary_footprint(
+            footprint=GARY_FOOTPRINT
+        )
         cart_location = await self.helpers.get_cart_load_point()
         self.app.log.debug(f'navigate_to_position {cart_location}')
         
