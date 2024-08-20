@@ -231,6 +231,8 @@ class RayaApplication(RayaApplicationBase):
                     location['map'] = dict()
                     location['map']['building'], location['map']['floor'] = \
                         location['map_name'].split('__')
+                    if floor_number == WAREHOUSE_FLOOR:
+                        continue
                     unit_to_internal = {value: key for key, value in FLOORS[floor_number]['units'].items()}
                     try:
                         location['unit_internal_name'] = unit_to_internal[location['name']]
