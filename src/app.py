@@ -48,7 +48,7 @@ class RayaApplication(RayaApplicationBase):
         
         await self.ui.show_animation(**UI_SCREEN_NAVIGATING)
     
-        await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
+        await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
 
         if self.set_costmap:
             initial_point , final_point = self.set_costmap.split('_')
