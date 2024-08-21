@@ -141,6 +141,9 @@ class Actions(CommonAction):
 
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
         self.helpers.selected_option_delivery_ui = None
+        await self.helpers.gary_play_audio_predefined(
+            audio=SOUND_PLS_TAKE_PACKAGE,
+        )
         await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
         await self.app.ui.display_choice_selector(
             **self.helpers.delivery_options(),

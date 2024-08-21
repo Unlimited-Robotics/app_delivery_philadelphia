@@ -30,7 +30,7 @@ class Actions(CommonActions):
 
     async def leave_WAIT_FOR_HELP(self):
         self.helpers._ui_response_wait_for_help = None
-        await self.helpers.custom_turn_off_leds()
+        # await self.helpers.custom_turn_off_leds()
 
 
     async def WAIT_FOR_HELP_to_CONTINUE(self):
