@@ -64,6 +64,9 @@ class Actions(CommonAction):
         floor = self.helpers.get_current_floor_number()
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
+            'args': {
+                **self.app.extract_units_user_id_by_floor(floor)
+            },
             'steps': steps
         }
         await self.app.skill_nav_steps.execute_main(
@@ -121,6 +124,9 @@ class Actions(CommonAction):
         floor = self.helpers.get_current_floor_number()
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
+            'args': {
+                **self.app.extract_units_user_id_by_floor(floor)
+            },
             'steps': steps
         }
         await self.app.skill_nav_steps.execute_main(
@@ -222,6 +228,9 @@ class Actions(CommonAction):
         floor = self.helpers.get_current_floor_number()
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
+            'args': {
+                **self.app.extract_units_user_id_by_floor(floor)
+            },
             'steps': steps
         }
         await self.app.skill_nav_steps.execute_main(

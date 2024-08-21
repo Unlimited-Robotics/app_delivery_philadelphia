@@ -92,13 +92,6 @@ class RayaApplication(RayaApplicationBase):
                 wait=True
             )
             self.log.debug(f'Detach skill setup result: {result}')
-
-        # await self.fleet.finish_task(
-        #         result=FLEET_FINISH_STATUS.FAILED,
-        #         message='Hola Elisha'
-        #     )
-        
-        # self.finish_app()
         
         
     async def main(self):
@@ -125,7 +118,19 @@ class RayaApplication(RayaApplicationBase):
         self.log.info('App finished')
         await self.sleep(5)
 
-    
+
+    def extract_units_user_id_by_floor(self, selected_floor):
+        result = {}
+        for entry in self.locations:
+            map_info = entry['map']
+            floor = map_info.get('floor')
+            unit_internal_name = entry.get('unit_internal_name')
+            user_id = entry.get('user_id')
+            if floor == selected_floor:
+                result[f'{unit_internal_name}_user_id'] = user_id
+        return result
+
+
     def get_arguments(self):
         self.locations = []
         delivery_location_fake = [
