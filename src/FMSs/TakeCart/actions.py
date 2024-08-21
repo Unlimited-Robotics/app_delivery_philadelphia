@@ -76,6 +76,9 @@ class Actions(CommonAction):
         # TODO add ui screen for elevator
         
         execute_args = {
+            'args': {
+                'CSR_OWNER_USER_ID': self.app.selected_parking['user_id']
+            },
             'steps': BASEMENT_ROUTES['go_to_elevators_after_attach']
         }
         await self.app.skill_nav_steps.execute_main(

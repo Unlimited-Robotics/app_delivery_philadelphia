@@ -21,6 +21,9 @@ class Actions(CommonAction):
 
     async def enter_GO_TO_DETACH_CART_POINT(self):
         execute_args = {
+            'args': {
+                'CSR_OWNER_USER_ID': self.app.selected_parking['user_id']
+            },
             'steps': BASEMENT_ROUTES['go_to_detach_point']
         }
         await self.app.skill_nav_steps.execute_main(
