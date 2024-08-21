@@ -136,3 +136,17 @@ class CommonHelpers():
             repetitions=repetitions,
             wait=False
         )
+
+
+    async def cb_nav_skill_done(self, exception, result):
+        self.log.debug(
+            f'Callback skill done: '
+            f'Result: \'{result}\''
+            f'Exception: \'{exception}\''
+        )
+
+
+    async def cb_nav_skill_feedback(self, feedback):
+        self.log.debug(
+            f'Callback Feedback: \'{feedback}\''
+        )
