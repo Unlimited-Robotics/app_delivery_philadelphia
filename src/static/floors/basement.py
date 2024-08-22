@@ -19,6 +19,20 @@ warehouse_exit_c = [1748, 895, 0.26536295227317463]
 cart_unload_point = [605, 1141, -2.922]
 
 WAREHOUSE_ZONE_NAME = 'warehouse'
+DOOR_TAGS = {
+    'entrance' : {
+        'tags_ids': [26],
+        'tags_sizes': [0.12],
+    },
+    'exit' : {
+        'tags_ids': [25],
+        'tags_sizes': [0.12],
+    },
+}
+DOOR_OPTIONS = {
+    'zone_name': WAREHOUSE_ZONE_NAME,
+    'phone_call_user_id': '[CSR_OWNER_USER_ID]',
+}
 
 Home_Elev = [
     [
@@ -141,13 +155,6 @@ FLOOR_BASEMENT_INFO = {
     }
 }
 
-MANUAL_DOOR_OPTIONS = {
-    'zone_name': WAREHOUSE_ZONE_NAME,
-    'tags_ids': [25],
-    'tags_sizes': [0.12],   
-    'phone_call_user_id': '[CSR_OWNER_USER_ID]',
-}
-
 BASEMENT_ROUTES = {
     'go_to_elevators_after_attach': [
         {
@@ -158,15 +165,16 @@ BASEMENT_ROUTES = {
             'nav_options': NAV_CART_OPTIONS
         },
         {
-            'name': 'Manual door warehouse',
-            'type': 'manual_door',
+            'name': 'Door warehouse',
+            'type': 'automatic_door',
             'after_door_point': {
                 'x': float(Home_Elev[1][0][0]),
                 'y': float(Home_Elev[1][0][1]),
                 'angle': float(Home_Elev[1][0][2]),
                 **NAV_CART_OPTIONS
             },
-            **MANUAL_DOOR_OPTIONS,
+            **DOOR_OPTIONS,
+            **DOOR_TAGS['exit']
         },
         {
             'name': 'Navigation to waiting elevator',
@@ -185,15 +193,16 @@ BASEMENT_ROUTES = {
             'nav_options': NAV_CART_OPTIONS
         },
         {
-            'name': 'Manual door warehouse',
-            'type': 'manual_door',
+            'name': 'Door warehouse',
+            'type': 'automatic_door',
             'after_door_point': {
                 'x': float(Elev_Home[1][0][0]),
                 'y': float(Elev_Home[1][0][1]),
                 'angle': float(Elev_Home[1][0][2]),
                 **NAV_CART_OPTIONS
             },
-            **MANUAL_DOOR_OPTIONS,
+            **DOOR_OPTIONS,
+            **DOOR_TAGS['entrance']
         },
         {
             'name': 'Navigation to detaching point',

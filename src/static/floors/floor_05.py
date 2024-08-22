@@ -13,8 +13,6 @@ unit_2 = [1356, 2197, 0.11940024681964291]
 wait_elevator_l = [594, 1681, -3.0491927318206917]
 wait_elevator_r = [614, 1742, -3.0591033391988316]
 
-UNIT1_ZONE_NAME = 'unit1'
-UNIT2_ZONE_NAME = 'unit2'
 ELEVATORS_ZONE_NAME = 'elevator_zone'
 
 SELECTED_WAITING_ELEVATOR = wait_elevator_r
