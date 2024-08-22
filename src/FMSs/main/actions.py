@@ -149,6 +149,7 @@ class Actions(CommonAction):
         self.helpers.selected_option_delivery_ui = None
         await self.helpers.gary_play_audio_predefined(
             audio=SOUND_PLS_TAKE_PACKAGE,
+            wait=True
         )
         await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
         await self.app.ui.display_choice_selector(
@@ -174,15 +175,25 @@ class Actions(CommonAction):
         await self.helpers.custom_cancel_sound()
         await self.helpers.custom_turn_off_leds()
 
+
+        await self.helpers.gary_play_audio_predefined(
+            audio=SOUND_FULL_NAME,
+            wait=True
+        )
         await self.app.ui.keyboard(
             **UI_KEYBOARD,
             wait=False,
-            async_callback=self.helpers.cb_keyboard_response
+            callback=self.helpers.cb_keyboard_response
         )
 
 
     async def leave_PACKAGE_DELIVERED(self):
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
+        await self.app.ui.show_animation(**UI_SCREEN_DELIVERING_SUCCESS)
+        await self.helpers.gary_play_audio_predefined(
+            audio=SOUND_TANK_YOU,
+            wait=True
+        )
+        await self.app.sleep(5.0)
         await self.helpers.custom_turn_off_leds()
 
 
@@ -198,9 +209,7 @@ class Actions(CommonAction):
 
 
     async def leave_PACKAGE_NOT_DELIVERED(self):
-        await self.app.ui.display_screen(**UI_SCREEN_DELIVERING_SUCCESS)
-        await self.helpers.custom_cancel_sound()
-        await self.helpers.custom_turn_off_leds()
+        pass
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):

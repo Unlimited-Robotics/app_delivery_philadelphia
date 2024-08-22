@@ -154,17 +154,22 @@ class Helpers(CommonHelpers):
                 )
             )
 
+
     async def show_keyboard_input_to_fleet(self, input_name: str):
-        response = self.keyboard_response
+        current_package = self.get_current_package()
+        unit_name = current_package['name']
+        selected_option = self.selected_option_delivery_ui["name"]
+        message = (
+            f'The Package to the of the unit \'{unit_name}\' was delivered, '
+            f'and the name of the person who received it is: \'{input_name}\', '
+            f'the state of the package was \'{selected_option}\''
+        )
+        
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.SUCCESS,
-            message=(
-                'The Package to the delivery ',
-                f'{self.get_current_package()["name"]}, '
-                ' and the name of the person who received it is: '
-                f'{response["value"]}'
-            )
+            message=message
         )
+        self.log.warn(message)
         self.keyboard_response = None
 
     
@@ -183,29 +188,7 @@ class Helpers(CommonHelpers):
 
     
     def get_unit_name(self, package_point_name, floor = ''):
-        current_floor = floor
-        if floor == '':
-            current_floor = self.get_current_floor_number()
-        
-        self.log.debug((
-            f'Replacing name of unit \'{package_point_name}\' '
-            f'on floor \'{current_floor}\'.'
-        ))
-
-        try:
-            units = FLOORS[current_floor]['units']
-            key_unit_list = list(units.keys())
-            val_unit_list = list(units.values())
-            
-            position = val_unit_list.index(package_point_name)
-            alias_name = key_unit_list[position]
-            self.log.debug((
-                f'The unit name \'{package_point_name}\' is the unit alias '
-                f'\'{alias_name}\' of the floor \'{current_floor}\''
-            ))
-            return alias_name
-        except Exception as e:
-            self.log.error((
-                f'Error getting the get_current_unit: {package_point_name}'
-            ))
+        if package_point_name == 'elev':
             return 'elev'
+        name = self.get_current_package()['unit_internal_name']
+        return name

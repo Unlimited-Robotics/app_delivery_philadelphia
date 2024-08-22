@@ -110,7 +110,8 @@ class CommonHelpers():
 
     async def gary_play_audio_predefined(self, 
             audio: dict, 
-            animation_head_leds: dict = LEDS_GARY_SPEAKING
+            animation_head_leds: dict = LEDS_GARY_SPEAKING,
+            wait: bool = False
         ):
         animation_head_leds = deepcopy(animation_head_leds)
         audio = deepcopy(audio)
@@ -136,6 +137,8 @@ class CommonHelpers():
             repetitions=repetitions,
             wait=False
         )
+        if wait:
+            await self.app.sleep(audio_length)
 
 
     async def cb_nav_skill_done(self, exception, result):
