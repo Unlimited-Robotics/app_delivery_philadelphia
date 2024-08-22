@@ -1,7 +1,7 @@
 from raya.enumerations import FLEET_UPDATE_STATUS
 
 FLEET_CALL_MESSAGE = {
-    'message': 'Hello i`m Gary, please pick up the package.'
+    'message': 'Hi, I am Gary, Your delivery robot! Your package is here. Please take it and press the screen to confirm you have recived it. Thank you!',
 }
 
 # FLEET STATUS
