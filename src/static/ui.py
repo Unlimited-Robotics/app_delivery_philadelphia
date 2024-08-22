@@ -106,3 +106,8 @@ UI_SCREEN_FAILED = {
     'title':'Failed',
     **UI_COMMON_OPTIONS
 }
+
+UI_KEYBOARD = {
+    'title': 'Please type your name',
+    **UI_COMMON_OPTIONS
+}
