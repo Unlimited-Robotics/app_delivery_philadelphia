@@ -12,7 +12,7 @@
             },
             {
                 "name": "nav_with_steps",
-                "version": "==0.0.0.dev3"
+                "version": "==0.0.0.dev4"
             }
         ]
     },
