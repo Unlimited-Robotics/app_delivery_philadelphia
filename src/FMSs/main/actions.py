@@ -147,23 +147,23 @@ class Actions(CommonAction):
 
     async def enter_WAIT_FOR_UI_CONFIRMATION(self):
         self.helpers.selected_option_delivery_ui = None
-        await self.helpers.gary_play_audio_predefined(
-            audio=SOUND_PLS_TAKE_PACKAGE,
-            wait=True
+        await self.app.fleet.update_app_status(
+            status=FLEET_UPDATE_STATUS.INFO,
+            message=FLEET_WAIT_FOR_PACKAGE_CONFIRMATION
         )
-        await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
         await self.app.ui.display_choice_selector(
             **self.helpers.delivery_options(),
             wait=False,
             callback=self.helpers.cb_delivery_arrived_ui_response
         )
+        await self.helpers.gary_play_audio_predefined(
+            audio=SOUND_PLS_TAKE_PACKAGE,
+            wait=True
+        )
+        await self.helpers.custom_animation(**LEDS_WAITING_FOR_DELIVERY_RESPONSE)
         self.app.create_task(
             name='Notify Task',
             afunc=self.helpers.task_to_notify
-        )
-        await self.app.fleet.update_app_status(
-            status=FLEET_UPDATE_STATUS.INFO,
-            message=FLEET_WAIT_FOR_PACKAGE_CONFIRMATION
         )
 
 
@@ -175,15 +175,14 @@ class Actions(CommonAction):
         await self.helpers.custom_cancel_sound()
         await self.helpers.custom_turn_off_leds()
 
-
-        await self.helpers.gary_play_audio_predefined(
-            audio=SOUND_FULL_NAME,
-            wait=True
-        )
         await self.app.ui.keyboard(
             **UI_KEYBOARD,
             wait=False,
             callback=self.helpers.cb_keyboard_response
+        )
+        await self.helpers.gary_play_audio_predefined(
+            audio=SOUND_FULL_NAME,
+            wait=True
         )
 
 
