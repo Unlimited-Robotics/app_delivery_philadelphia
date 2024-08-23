@@ -124,21 +124,20 @@ class CommonHelpers():
         # self.log.debug(f'Audio length: {audio_length}')
         # self.log.debug(f'Repetitions: {repetitions}')
         
-        try:
-            await self.app.sound.play_sound(
-                **audio,
-                wait=False,
-                callback_finish=self.sound_finish_callback
-            )
-        except Exception:
-            pass
         await self.custom_animation(
             **animation_head_leds,
             repetitions=repetitions,
             wait=False
         )
-        if wait:
-            await self.app.sleep(audio_length)
+        try:
+            await self.app.sound.play_sound(
+                **audio,
+                wait=wait,
+                overwrite=True,
+                callback_finish=self.sound_finish_callback
+            )
+        except Exception as e:
+            self.log.error(f'play_sound exception {type(e)}')
 
 
     async def cb_nav_skill_done(self, exception, result):

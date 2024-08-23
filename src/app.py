@@ -26,6 +26,7 @@ from raya.exceptions import *
 class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
+        self.log.debug('Enabling controllers')
         # Controllers
         self.nav:NavigationController = \
                 await self.enable_controller('navigation')
@@ -46,10 +47,11 @@ class RayaApplication(RayaApplicationBase):
         self.robot_skills: RobotSkillsController = \
                 await self.enable_controller('robot_skills')
         
+        self.log.debug('Showing UI screen')
         await self.ui.show_animation(**UI_SCREEN_NAVIGATING)
-    
         await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
-
+        
+        self.log.debug('Setting Gary footprint')
         if self.set_costmap:
             initial_point , final_point = self.set_costmap.split('_')
             await self.change_costmap_to_point(
@@ -57,27 +59,25 @@ class RayaApplication(RayaApplicationBase):
                 final_point=final_point,
             )
         
+        self.log.debug('Setting FSM')
         # FSMs
-        self.fsm_main_task = MainFSM(
-                log_transitions=True,
-            )
+        self.fsm_main_task = MainFSM(log_transitions=True,)
 
+        self.log.debug('Setting skills')
         # Skills
         self.skill_nav_steps = self.register_skill(SkillNavSteps)
         setup_args = {}
         result = await self.skill_nav_steps.execute_setup(
             setup_args=setup_args
         )
-        self.log.warn(f'setup skill_nav_steps result: {result}')
+        self.log.debug(f'setup skill_nav_steps result: {result}')
         
         self.skill_att2cart = None
         self.skill_detach = None
         if self.enable_attach:
-            self.log.info('Attaching and detaching skills enabled')
-            
-            self.log.info('Registering attach skill')
+            self.log.debug('Registering attach skill')
             self.skill_att2cart = self.register_skill(SkillAttachToCart)
-            self.log.info('Executing setup for attach skill')
+            self.log.debug('Executing setup for attach skill')
             result = await self.skill_att2cart.execute_setup(
                 setup_args=SETUP_ARG_ATTACH_SKILL,
                 wait=True
@@ -95,6 +95,7 @@ class RayaApplication(RayaApplicationBase):
         
         
     async def main(self):
+        self.log.info('App started')
         try:
             await self.fsm_main_task.run_and_await()
             await self.fleet.finish_task(
@@ -135,35 +136,35 @@ class RayaApplication(RayaApplicationBase):
         self.locations = []
         delivery_location_fake = [
             # floor2
-            "{'name': 'CICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MRICU HIGH',     'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': 'MRICU ELBOW',    'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': 'CICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': 'MRICU HIGH',     'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': 'MICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': 'MRICU ELBOW',    'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
-            # floor4            
-            "{'name': 'BURN',  'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4E',    'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '4W',    'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # # floor4            
+            # "{'name': 'BURN',  'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '4E',    'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '4W',    'map_name': 'Main__4' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
-            # # floor5
-            "{'name': '5E',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '5W',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # # # floor5
+            # "{'name': '5E',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '5W',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
-            # floor6
-            "{'name': '6E',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '6W',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # # floor6
+            # "{'name': '6E',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '6W',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor7
             "{'name': '7E',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '7W',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '7W',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         
-            # floor8
-            "{'name': '8W',    'map_name': 'Main__8' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '8E',    'map_name': 'Main__8' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # # floor8
+            # "{'name': '8W',    'map_name': 'Main__8' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '8E',    'map_name': 'Main__8' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
-            # floor9
-            "{'name': '9E',    'map_name': 'Main__9' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '9W',    'map_name': 'Main__9' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # # floor9
+            # "{'name': '9E',    'map_name': 'Main__9' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '9W',    'map_name': 'Main__9' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         ]
         park_location_fake = "{'name': 'Parking A', 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86', 'map_name': 'Main__Basement'}"
         
