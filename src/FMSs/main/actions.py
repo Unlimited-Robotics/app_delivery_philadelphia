@@ -189,7 +189,7 @@ class Actions(CommonAction):
     async def leave_PACKAGE_DELIVERED(self):
         await self.app.ui.show_animation(**UI_SCREEN_DELIVERING_SUCCESS)
         await self.helpers.gary_play_audio_predefined(
-            audio=SOUND_TANK_YOU,
+            audio=SOUND_THANK_YOU,
             wait=True
         )
         await self.app.sleep(5.0)

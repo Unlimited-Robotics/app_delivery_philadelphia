@@ -87,7 +87,7 @@ FLOOR_BASEMENT_INFO = {
             'localization': {
                 'outside_elevator': {
                     'divisions': 3,
-                    'closest_point': {
+                    'closest_point': { # TODO: The keys are inverted!!
                         'x': float(elevator_1_max[0]),
                         'y': float(elevator_1_max[1]),
                         'angle': float(elevator_1_max[2]),

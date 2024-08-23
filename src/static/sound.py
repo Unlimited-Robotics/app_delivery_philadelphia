@@ -12,7 +12,7 @@ SOUND_PLS_TAKE_PACKAGE = {
         'duration': 9.0,
     }
 
-SOUND_TANK_YOU = {
+SOUND_THANK_YOU = {
         'name': 'thank_you_1',
         'volume': 100,
         'duration': 1.0,
