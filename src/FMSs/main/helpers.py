@@ -188,7 +188,10 @@ class Helpers(CommonHelpers):
 
     
     def get_unit_name(self, package_point_name, floor = ''):
-        if package_point_name == 'elev':
+        try:
+            if package_point_name == 'elev':
+                raise KeyError('')
+            name = package_point_name['unit_internal_name']
+            return name
+        except KeyError:
             return 'elev'
-        name = self.get_current_package()['unit_internal_name']
-        return name

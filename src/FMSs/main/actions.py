@@ -42,7 +42,7 @@ class Actions(CommonAction):
         last_package = self.helpers.get_last_package()
         
         last_unit = self.helpers.get_unit_name(
-            package_point_name=last_package['name']
+            package_point_name=last_package
         )
         
         route = f'{last_unit}_elev'
@@ -86,7 +86,7 @@ class Actions(CommonAction):
 
     async def leave_NAV_TO_FLOOR(self):
         current_package = self.helpers.get_current_package()
-        current_unit = self.helpers.get_unit_name(current_package['name'])
+        current_unit = self.helpers.get_unit_name(current_package)
         
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
@@ -99,10 +99,10 @@ class Actions(CommonAction):
         last_package = self.helpers.get_last_package()
         
         last_unit = self.helpers.get_unit_name(
-            package_point_name=last_package['name']
+            package_point_name=last_package
         )
         current_unit = self.helpers.get_unit_name(
-            package_point_name=current_package['name']
+            package_point_name=current_package
         )
         
         route = f'{last_unit}_{current_unit}'
@@ -215,7 +215,7 @@ class Actions(CommonAction):
     async def enter_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
         last_package = self.helpers.get_last_package()    
         last_unit = self.helpers.get_unit_name(
-            package_point_name=last_package['name']
+            package_point_name=last_package
         )
         
         await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)

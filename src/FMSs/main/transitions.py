@@ -130,12 +130,12 @@ class Transitions(CommonTransitions):
             current_package = self.helpers.get_current_package()
             
             last_unit = self.helpers.get_unit_name(
-                package_point_name=last_package['name']
+                package_point_name=last_package
             )
             
             if await self.helpers.check_if_robot_in_delivery_floor():
                 current_unit = self.helpers.get_unit_name(
-                    package_point_name=current_package['name']
+                    package_point_name=current_package
                 )
                 await self.helpers.change_costmap_to_point(
                     initial_point=last_unit,
