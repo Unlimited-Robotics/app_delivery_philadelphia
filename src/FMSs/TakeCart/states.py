@@ -13,7 +13,8 @@ STATES.extend(BASE_STATES)
 
 # First state of FSM, if not defined, the FSM starts in the first element of
 # the STATES list
-INITIAL_STATE = 'GO_TO_CART_POINT'
+# INITIAL_STATE = 'GO_TO_CART_POINT'
+INITIAL_STATE = 'GO_TO_ELEVATOR'
 
 
 # If the FSM falls into one of these states, the execution finishes.

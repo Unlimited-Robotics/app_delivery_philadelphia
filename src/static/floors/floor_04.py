@@ -138,7 +138,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     'elev_unit2': [
@@ -157,7 +157,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     'elev_unit3': [
@@ -175,7 +175,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
         {
             'name': 'Door unit3 entrance',
@@ -202,7 +202,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     
@@ -218,7 +218,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     'unit1_unit3': [
@@ -235,7 +235,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
         {
             'name': 'Door unit3 entrance',
@@ -262,7 +262,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     
@@ -281,7 +281,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
         {
             'name': 'door unit3 entrance',
@@ -310,7 +310,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },],
     
     'unit1_elev': [
@@ -325,7 +325,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     'unit2_elev': [
@@ -343,7 +343,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         }
     ],
     'unit3_elev': [
@@ -362,7 +362,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
         {
             'name': 'Door unit3 exit',
@@ -392,7 +392,7 @@ FLOOR_04_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
 }
