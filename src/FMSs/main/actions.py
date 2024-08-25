@@ -61,7 +61,8 @@ class Actions(CommonAction):
             )
         
         # TODO in case that the route is not found, it should be handled
-        floor = self.helpers.get_current_floor_number()
+        # floor = self.helpers.get_current_floor_number()
+        floor = current_package['map']['floor']
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'args': {
@@ -87,7 +88,7 @@ class Actions(CommonAction):
     async def leave_NAV_TO_FLOOR(self):
         current_package = self.helpers.get_current_package()
         current_unit = self.helpers.get_unit_name(current_package)
-        
+        self.helpers.clear_last_package()
         await self.helpers.change_costmap_to_point(
             initial_point='elev',
             final_point=current_unit,
@@ -121,7 +122,8 @@ class Actions(CommonAction):
             )
         
         # TODO in case that the route is not found, it should be handled
-        floor = self.helpers.get_current_floor_number()
+        # floor = self.helpers.get_current_floor_number()
+        floor = current_package['map']['floor']
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'args': {

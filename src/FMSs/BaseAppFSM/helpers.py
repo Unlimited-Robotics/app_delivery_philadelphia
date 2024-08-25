@@ -38,6 +38,11 @@ class CommonHelpers(RetryHelpers):
 
     async def check_if_more_packages(self):
         return self.index_package < len(self.app.locations) - 1
+    
+
+    def clear_last_package(self):
+        self.log.warn('Setting last package as empty dict')
+        self.last_package = dict()
 
 
     async def set_next_package(self):

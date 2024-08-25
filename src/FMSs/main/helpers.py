@@ -142,7 +142,10 @@ class Helpers(CommonHelpers):
 
 
     def cb_keyboard_response(self, response):
-        self.keyboard_response = response['value']
+        try:
+            self.keyboard_response = response['value']
+        except KeyError:
+            self.keyboard_response = 'Unknown'
 
 
     async def notify_order_arrived(self):

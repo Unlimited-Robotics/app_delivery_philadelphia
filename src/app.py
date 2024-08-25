@@ -26,6 +26,7 @@ from raya.exceptions import *
 class RayaApplication(RayaApplicationBase):
 
     async def setup(self):
+
         self.log.debug('Enabling controllers')
         # Controllers
         self.nav:NavigationController = \
@@ -50,6 +51,7 @@ class RayaApplication(RayaApplicationBase):
         self.log.debug('Showing UI screen')
         await self.ui.show_animation(**UI_SCREEN_NAVIGATING)
         await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
+        # await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
         
         self.log.debug('Setting Gary footprint')
         if self.set_costmap:
@@ -151,12 +153,12 @@ class RayaApplication(RayaApplicationBase):
             # "{'name': '5W',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # # floor6
-            # "{'name': '6E',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            # "{'name': '6W',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '6E',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '6W',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor7
             "{'name': '7E',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            # "{'name': '7W',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '7W',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         
             # # floor8
             # "{'name': '8W',    'map_name': 'Main__8' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
