@@ -26,7 +26,8 @@ class Actions(CommonAction):
         await self.app.ui.display_choice_selector(
             **copy_ui_screen,
             wait=False,
-            callback=self.helpers.cb_delivery_arrived_ui_response
+            callback=self.helpers.cb_delivery_arrived_ui_response,
+            dont_save_last_ui=False,
         )
 
 
@@ -34,6 +35,8 @@ class Actions(CommonAction):
         await self.helpers.show_navigating_to_floor()
         
         elevator_point = await self.helpers.get_entry_point_to_elevator()
+
+        await self.app.ui.show_last_animation()
         
         execute_args = {
             'steps': [
@@ -56,7 +59,10 @@ class Actions(CommonAction):
 
     async def enter_TELEOPERATING(self):
         self.helpers.teleoperation_response = None
-        await self.app.ui.show_animation(**UI_SCREEN_TELEOPERATION)
+        await self.app.ui.show_animation(
+                **UI_SCREEN_TELEOPERATION,
+                dont_save_last_ui=True,
+            )
 
 
     async def enter_EXIT_FROM_ELEVATOR(self):
