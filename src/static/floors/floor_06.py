@@ -112,7 +112,7 @@ FLOOR_06_ROUTES = {
                 [1157, 1474, 1.5856651194380036],
                 [1157, 862, 1.5707963267948966],
                 unit_1
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -146,7 +146,7 @@ FLOOR_06_ROUTES = {
                     [1323, 1271, 3.111526528540749],
                     [1168, 1636, -1.5458015331759765],
                     unit_2
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -179,7 +179,6 @@ FLOOR_06_ROUTES = {
                     [1533, 1677, 1.5707963267948966],
                     [1352, 1271, -3.141592653589793],
                     [1050, 1636, -3.109929031514179],
-                    [595, 1683, -3.101454691294845],
                     SELECTED_WAITING_ELEVATOR
                 ],
             'nav_options': {

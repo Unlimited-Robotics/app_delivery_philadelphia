@@ -151,7 +151,7 @@ FLOOR_04_ROUTES = {
                     [1478, 1492, 1.5140391689728032], 
                     [1386, 934, 1.5149538243147267],
                     unit_2
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -169,7 +169,7 @@ FLOOR_04_ROUTES = {
                     [1667, 1349, -0.0], 
                     [1865, 1699, -1.6057471233255494],
                     unit_3_entrance
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -229,7 +229,7 @@ FLOOR_04_ROUTES = {
                     [1648, 1335, -0.06746502452190475],
                     [1869, 1561, -1.5707963267948966],
                     unit_3_entrance
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -275,7 +275,7 @@ FLOOR_04_ROUTES = {
                     [1874, 1349, -1.5707963267948966],
                     [1865, 1662, -1.6107750139181867],
                     unit_3_entrance
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -300,12 +300,10 @@ FLOOR_04_ROUTES = {
         {
             'name': 'Navigation to unit3',
             'type': 'nav_to_point',
-            'points': [
-                    [1740, 852, -1.6432499228834851], 
-                    [1865, 1685, -1.5707963267948966],
-                    unit_3
-                ],
-            'nav_options': {
+            'point' : {
+                'x': float(unit_3[0]),
+                'y': float(unit_3[1]),
+                'angle': float(unit_3[2]),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -337,7 +335,7 @@ FLOOR_04_ROUTES = {
                     [1492, 1464, -1.6142472221864275], 
                     [1271, 1667, 3.074529195154124],
                     SELECTED_WAITING_ELEVATOR
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -386,7 +384,7 @@ FLOOR_04_ROUTES = {
                     [1704, 1344, -3.141592653589793], 
                     [1238, 1685, 3.115957245068116],
                     SELECTED_WAITING_ELEVATOR
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,

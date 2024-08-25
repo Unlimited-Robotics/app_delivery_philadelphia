@@ -170,11 +170,11 @@ FLOOR_08_ROUTES = {
             'name': 'Navigation to unit2',
             'type': 'nav_to_point',
             'points': [
-                [1364, 728, -1.3793708452695534],
-                [1298, 1235, -2.85878344229019],
-                [1011, 1664, -2.9639964863063053],
-                unit_2
-                ],
+                    [977, 1677, 0.11942892601833845],
+                    [1119, 1352, 1.7214322350920823],
+                    [1040, 898, 1.788350445928905],
+                    unit_2
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -220,7 +220,7 @@ FLOOR_08_ROUTES = {
                     [1302, 1260, -2.9186924212614174],
                     [1044, 940, 1.7252174463907024],
                     unit_2
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -266,7 +266,7 @@ FLOOR_08_ROUTES = {
                     [1273, 1260, -2.9219785284131934],
                     [977, 1660, -2.9501671720644502],
                     SELECTED_WAITING_ELEVATOR
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -284,7 +284,7 @@ FLOOR_08_ROUTES = {
                     [1310, 1248, -2.961096893127758],
                     [977, 1664, -2.945204142744898],
                     SELECTED_WAITING_ELEVATOR
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
