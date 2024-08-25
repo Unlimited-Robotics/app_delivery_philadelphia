@@ -523,9 +523,9 @@ FLOOR_02_ROUTES = {
             'name': 'Door unit1 exit',
             'type': 'automatic_door',
             'after_door_point': {
-                'x': float(unit_4_entrance[0]),
-                'y': float(unit_4_entrance[1]),
-                'angle': float(unit_4_entrance[2]),
+                'x': float(1465), ### FIRST PARTIAL POINT
+                'y': float(679),
+                'angle': float(-0.13722730869487104),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -795,9 +795,9 @@ FLOOR_02_ROUTES = {
             'name': 'Door unit1 exit',
             'type': 'automatic_door',
             'after_door_point': {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+                'x': float(1462), ## FIRST PARTIAL POINT
+                'y': float(689),
+                'angle': float(-0.12630811706324024),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -922,9 +922,9 @@ FLOOR_02_ROUTES = {
             'name': 'Door unit4 exit',
             'type': 'automatic_door',
             'after_door_point': {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+                'x': float(2818),### FIRST PARTIAL POINT
+                'y': float(844),
+                'angle': float(3.0639711448524),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART

@@ -365,10 +365,10 @@ FLOOR_04_ROUTES = {
         {
             'name': 'Door unit3 exit',
             'type': 'automatic_door',
-            'after_door_point': {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+            'after_door_point': { 
+                'x': float(1865), ## FIRST PARTIAL POINT
+                'y': float(1805),
+                'angle': float(1.5116548504153005),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART

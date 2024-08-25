@@ -202,9 +202,9 @@ FLOOR_08_ROUTES = {
             'name': 'Door unit1 exit',
             'type': 'automatic_door',
             'after_door_point': {
-                'x': float(unit_2[0]),
-                'y': float(unit_2[1]),
-                'angle': float(unit_2[2]),
+                'x': float(1539), ## FIRST PARTIAL POINT
+                'y': float(1722),
+                'angle': float(1.7277231956406733),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -248,9 +248,9 @@ FLOOR_08_ROUTES = {
             'name': 'Door unit1 exit',
             'type': 'automatic_door',
             'after_door_point': {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+                'x': float(1539), ### FIRST PARTIAL POINT
+                'y': float(1710),
+                'angle': float(1.7311717707708474),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
