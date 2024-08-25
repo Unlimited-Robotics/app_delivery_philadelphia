@@ -8,7 +8,7 @@ elevator_2_max = [1488, 1786, 3.0292446483202538]
 elevator_2_min = [1534, 1791, 3.0282907445522356]
 elevator_3_max = [1473, 1912, 3.011320817163363]
 elevator_3_min = [1518, 1918, 3.008351497760936]
-unit_1 = [519, 573, 1.4647285698774566]
+unit_1 = [496, 621, 1.4930313871921643]
 unit_1_entrance = [1143, 784, 3.062089912421014]
 unit_1_exit = [899, 823, -0.050289970665515694]
 unit_2= [1895, 282, 1.4751746773080279]
@@ -183,6 +183,7 @@ UNIT_4_DOOR_OPTIONS = {
 FLOOR_02_ROUTES = {
     'elev_unit1': [
         {
+            'name': 'Navigation to entrance unit1',
             'type': 'nav_to_point',
             'points': [
                     [1617, 1056, 1.4371440794777028],
@@ -508,19 +509,15 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Navigation to unit1 exit',
             'type': 'nav_to_point',
-            
-            'points': [
-                    [1465, 679, -0.13722730869487104],
-                    [2203, 769, -0.10520024942055292],
-                    [2838,  840, -0.1409040062712096],
-                    unit_4_entrance
-                ], ##CHECKED
-            'nav_options': {
+            'point' : {
+                'x': float(unit_1_exit[0]),
+                'y': float(unit_1_exit[1]),
+                'angle': float(unit_1_exit[2]),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
         },
         {
             'name': 'Door unit1 exit',
@@ -539,10 +536,13 @@ FLOOR_02_ROUTES = {
         {
             'name': 'Navigation to unit4 entrance',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_4_entrance[0]),
-                'y': float(unit_4_entrance[1]),
-                'angle': float(unit_4_entrance[2]),
+            'points': [
+                    [1465, 679, -0.13722730869487104],
+                    [2203, 769, -0.10520024942055292],
+                    [2838,  840, -0.1409040062712096],
+                    unit_4_entrance
+                ], ##CHECKED
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART

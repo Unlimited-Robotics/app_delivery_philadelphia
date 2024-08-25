@@ -61,8 +61,8 @@ class Actions(CommonAction):
             )
         
         # TODO in case that the route is not found, it should be handled
-        # floor = self.helpers.get_current_floor_number()
-        floor = current_package['map']['floor']
+        floor = self.helpers.get_current_floor_number()
+        # floor = current_package['map']['floor']
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'args': {
@@ -122,8 +122,8 @@ class Actions(CommonAction):
             )
         
         # TODO in case that the route is not found, it should be handled
-        # floor = self.helpers.get_current_floor_number()
-        floor = current_package['map']['floor']
+        floor = self.helpers.get_current_floor_number()
+        # floor = current_package['map']['floor']
         steps = deepcopy(SKILL_NAVIGATION[floor][route])
         execute_args = {
             'args': {
