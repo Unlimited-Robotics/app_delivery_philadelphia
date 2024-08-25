@@ -118,7 +118,7 @@ FLOOR_06_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
         },
     ],
     'elev_unit2': [
@@ -133,7 +133,7 @@ FLOOR_06_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
         },
     ],
     
@@ -152,7 +152,7 @@ FLOOR_06_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
         },
     ],
     
@@ -168,7 +168,7 @@ FLOOR_06_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
         },
     ],
     'unit2_elev': [
@@ -187,7 +187,7 @@ FLOOR_06_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
         },
     ],
 }

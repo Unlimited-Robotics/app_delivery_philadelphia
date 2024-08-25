@@ -37,13 +37,13 @@ DOOR_OPTIONS = {
 
 Home_Elev = [
     [
-        # [654, 1123, 0.19739555984988075],
-        # [1362, 960, 0.23501221572065709],
+        [654, 1123, 0.19739555984988075],
+        [1362, 960, 0.23501221572065709],
         warehouse_exit
     ],
     [
-        # [2215, 805, 0.2055846397552597],
-        # [2524, 742, 0.2299044281319047],
+        [2215, 805, 0.2055846397552597],
+        [2524, 742, 0.2299044281319047],
         wait_elevator
     ]
 ]
@@ -162,7 +162,7 @@ BASEMENT_ROUTES = {
             'name': 'Navigation to warehouse exit',
             'type': 'nav_to_point',
             'points': Home_Elev[0],
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
             'nav_options': NAV_CART_OPTIONS
         },
         {
@@ -181,7 +181,7 @@ BASEMENT_ROUTES = {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
             'points': Home_Elev[1],
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
             'nav_options': NAV_CART_OPTIONS
         },
     ],
@@ -190,7 +190,7 @@ BASEMENT_ROUTES = {
             'name': 'Navigation to warehouse entrance',
             'type': 'nav_to_point',
             'points': Elev_Home[0],
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
             'nav_options': NAV_CART_OPTIONS
         },
         {
@@ -209,7 +209,7 @@ BASEMENT_ROUTES = {
             'name': 'Navigation to detaching point',
             'type': 'nav_to_point',
             'points': Elev_Home[1],
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
             'nav_options': NAV_CART_OPTIONS
         }
     ],
@@ -219,7 +219,7 @@ BASEMENT_ROUTES = {
             'name': 'Navigation to home',
             'type': 'nav_to_point',
             'point' : {}, # it uses the home position from the map
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
         },
     ],
     'go_to_parking_cart_point': [
@@ -227,7 +227,7 @@ BASEMENT_ROUTES = {
             'name': 'Navigation to cart point',
             'type': 'nav_to_point',
             'point' : {}, # it uses the cart position from the parameter of the app
-            'teleoperator_if_fail': False,
+            'teleoperator_if_fail': True,
         },
     ]  
 }
