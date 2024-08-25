@@ -188,7 +188,7 @@ FLOOR_02_ROUTES = {
                     [1617, 1056, 1.4371440794777028],
                     [1523, 689, 3.038067979079249],
                     unit_1_entrance
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -313,11 +313,11 @@ FLOOR_02_ROUTES = {
             'name': 'Navigation to unit4 entrance',
             'type': 'nav_to_point',
             'points': [
-                    [2818, 844, 3.0639711448524],
-                    [2139, 763, 3.015625623899914],
-                    [1626, 959,-1.6853370235915779],
+                    [1607, 1133, 1.4020462243745955],
+                    [1961, 731, -0.12090276430269138],
+                    [2593, 811, -0.1145406967966813],
                     unit_4_entrance
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -510,11 +510,11 @@ FLOOR_02_ROUTES = {
             'type': 'nav_to_point',
             
             'points': [
-                    [1491, 679, -0.13370051685425133], 
-                    [2113, 753, -0.12591262568579822], 
-                    [2712, 827, -0.1623989134927253],
+                    [1465, 679, -0.13722730869487104],
+                    [2203, 769, -0.10520024942055292],
+                    [2838,  840, -0.1409040062712096],
                     unit_4_entrance
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -812,7 +812,7 @@ FLOOR_02_ROUTES = {
                     [1462, 689, -0.12630811706324024],
                     [1633, 998, -1.7078625011050843],
                     SELECTED_WAITING_ELEVATOR
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -936,11 +936,11 @@ FLOOR_02_ROUTES = {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
             'points': [
-                    [1465, 679, -0.13722730869487104],
-                    [2203, 769, -0.10520024942055292],
-                    [2838,  840, -0.1409040062712096],
+                    [2818, 844, 3.0639711448524],
+                    [2139, 763, 3.015625623899914],
+                    [1626, 959,-1.6853370235915779],                
                     SELECTED_WAITING_ELEVATOR
-                ],
+                ], ##CHECKED
             'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
