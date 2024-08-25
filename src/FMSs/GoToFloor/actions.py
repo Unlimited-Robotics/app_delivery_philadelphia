@@ -41,7 +41,7 @@ class Actions(CommonAction):
                     'name': 'Navigation to elevator',
                     'type': 'nav_to_point',
                     'point' : elevator_point,
-                    'teleoperator_if_fail': True,
+                    'teleoperator_if_fail': False,
                 },
             ]
         }

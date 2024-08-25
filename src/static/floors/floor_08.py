@@ -135,7 +135,7 @@ FLOOR_08_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
         {
             'name': 'Door unit1 entrance',
@@ -162,7 +162,7 @@ FLOOR_08_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     'elev_unit2': [
@@ -180,7 +180,7 @@ FLOOR_08_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     
@@ -196,7 +196,7 @@ FLOOR_08_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
         {
             'name': 'Door unit1 exit',
@@ -226,7 +226,7 @@ FLOOR_08_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     
@@ -242,7 +242,7 @@ FLOOR_08_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
         {
             'name': 'Door unit1 exit',
@@ -272,7 +272,7 @@ FLOOR_08_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
     'unit2_elev': [
@@ -290,7 +290,7 @@ FLOOR_08_ROUTES = {
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
             },
-            'teleoperator_if_fail': True,
+            'teleoperator_if_fail': False,
         },
     ],
 }
