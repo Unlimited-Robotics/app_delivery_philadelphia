@@ -16,7 +16,7 @@ wait_elevator = [2833, 706, 0.2177464694155388]
 warehouse_entrance = [2010, 879, -2.9266371161831866]
 warehouse_exit = [1807, 892, 0.22435328773765226]
 warehouse_exit_c = [1748, 895, 0.26536295227317463]
-cart_unload_point = [605, 1141, -2.922]
+cart_unload_point = [289, 1274, -1.332960399337446]
 
 WAREHOUSE_ZONE_NAME = 'warehouse'
 DOOR_TAGS = {

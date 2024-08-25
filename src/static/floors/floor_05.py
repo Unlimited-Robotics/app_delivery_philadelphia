@@ -108,10 +108,13 @@ FLOOR_05_ROUTES = {
         {
             'name': 'Navigation to unit1',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_1[0]),
-                'y': float(unit_1[1]),
-                'angle': float(unit_1[2]),
+            'points': [
+                    [798, 1693, 0.033600794415993215],
+                    [1146, 1441, 1.5978167759821613],
+                    [1112, 967, 1.6217077082512161],
+                    unit_1
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -123,10 +126,12 @@ FLOOR_05_ROUTES = {
         {
             'name': 'Navigation to unit2',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_2[0]),
-                'y': float(unit_2[1]),
-                'angle': float(unit_2[2]),
+            'points': [
+                    [833, 1704, 0.06079455587478892],
+                    [1181, 1846, -1.4950792874545444],
+                    unit_2
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -139,10 +144,13 @@ FLOOR_05_ROUTES = {
         {
             'name': 'Navigation to unit2',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_2[0]),
-                'y': float(unit_2[1]),
-                'angle': float(unit_2[2]),
+            'points': [
+                    [1425, 795, -1.4501726582147938],
+                    [1349, 1276, -2.9658543569044262],
+                    [1143, 1487, -1.5072456553694393],
+                    unit_2
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -155,10 +163,14 @@ FLOOR_05_ROUTES = {
         {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+            'points': [
+                    [1433, 634, -1.5291537476963082],
+                    [1456, 1001, -1.4341531643038095],
+                    [1345, 1280, -2.984990776607778],
+                    [1005, 1678, -3.07100306377092],                    
+                    SELECTED_WAITING_ELEVATOR
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -170,10 +182,13 @@ FLOOR_05_ROUTES = {
         {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+            'points': [
+                    [1532, 1704, 1.6819245794930706],
+                    [1357, 1257, -2.9829373914033916],
+                    [963, 1670, -2.9832651527813634],                 
+                    SELECTED_WAITING_ELEVATOR
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART

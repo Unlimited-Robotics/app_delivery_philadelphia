@@ -225,10 +225,12 @@ FLOOR_04_ROUTES = {
         {
             'name': 'Navigation to unit3 entrance',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_3_entrance[0]),
-                'y': float(unit_3_entrance[1]),
-                'angle': float(unit_3_entrance[2]),
+            'points': [
+                    [1648, 1335, -0.06746502452190475],
+                    [1869, 1561, -1.5707963267948966],
+                    unit_3_entrance
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -268,10 +270,13 @@ FLOOR_04_ROUTES = {
         {
             'name': 'Navigation to unit3 entrance',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_3_entrance[0]),
-                'y': float(unit_3_entrance[1]),
-                'angle': float(unit_3_entrance[2]),
+            'points': [
+                    [1745, 829, -1.6202608953964879],
+                    [1874, 1349, -1.5707963267948966],
+                    [1865, 1662, -1.6107750139181867],
+                    unit_3_entrance
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART

@@ -169,10 +169,13 @@ FLOOR_08_ROUTES = {
         {
             'name': 'Navigation to unit2',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_2[0]),
-                'y': float(unit_2[1]),
-                'angle': float(unit_2[2]),
+            'points': [
+                [1364, 728, -1.3793708452695534],
+                [1298, 1235, -2.85878344229019],
+                [1011, 1664, -2.9639964863063053],
+                unit_2
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -212,10 +215,13 @@ FLOOR_08_ROUTES = {
         {
             'name': 'Navigation to unit2',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(unit_2[0]),
-                'y': float(unit_2[1]),
-                'angle': float(unit_2[2]),
+            'points': [
+                    [1539, 1722, 1.7277231956406733],
+                    [1302, 1260, -2.9186924212614174],
+                    [1044, 940, 1.7252174463907024],
+                    unit_2
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -255,10 +261,13 @@ FLOOR_08_ROUTES = {
         {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+            'points': [
+                    [1539, 1710, 1.7311717707708474],
+                    [1273, 1260, -2.9219785284131934],
+                    [977, 1660, -2.9501671720644502],
+                    SELECTED_WAITING_ELEVATOR
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
@@ -270,10 +279,13 @@ FLOOR_08_ROUTES = {
         {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
-            'point' : {
-                'x': float(SELECTED_WAITING_ELEVATOR[0]),
-                'y': float(SELECTED_WAITING_ELEVATOR[1]),
-                'angle': float(SELECTED_WAITING_ELEVATOR[2]),
+            'points': [
+                    [1360, 715, -1.3530645877693281],
+                    [1310, 1248, -2.961096893127758],
+                    [977, 1664, -2.945204142744898],
+                    SELECTED_WAITING_ELEVATOR
+                ],
+            'nav_options': {
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
                 **NAVIGATION_OPTIONS_WITH_CART
