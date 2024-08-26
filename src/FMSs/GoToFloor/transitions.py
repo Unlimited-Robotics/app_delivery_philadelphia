@@ -24,10 +24,14 @@ class Transitions(CommonTransitions):
 
 
     async def NAV_TO_ELEVATOR(self):
-        result = await self.app.skill_nav_steps.wait_main()
-        self.app.log.warn(f'skill_template result: {result}')
-        await self.app.sleep(TIME_TO_WAIT_AFTER_SELECTION_ELEVATOR)
-        self.set_state('TELEOPERATING')
+        if not self.app.only_ui:
+            result = await self.app.skill_nav_steps.wait_main()
+            self.app.log.warn(f'skill_template result: {result}')
+            await self.app.sleep(TIME_TO_WAIT_AFTER_SELECTION_ELEVATOR)
+            self.set_state('TELEOPERATING')
+        else:
+            if self.app.is_timer_done('fake_nav'):
+                self.set_state('TELEOPERATING')
 
     
     async def TELEOPERATING(self):
@@ -35,28 +39,32 @@ class Transitions(CommonTransitions):
 
 
     async def CHANGE_MAP(self):
-        start_time = time.time()
-        map_name = self.helpers.get_current_target_floor_map_name()
-        self.log.warn(f'Changing map to: {map_name}')
-        try:
-            await self.app.nav.set_map(
-                map_name=map_name,
-                wait_localization=False,
-                wait=True,
-                callback_feedback=self.helpers.cb_set_map_feedback,
-                callback_finish=self.helpers.cb_set_map_finish
+        if not self.app.only_ui:
+            start_time = time.time()
+            map_name = self.helpers.get_current_target_floor_map_name()
+            self.log.warn(f'Changing map to: {map_name}')
+            try:
+                await self.app.nav.set_map(
+                    map_name=map_name,
+                    wait_localization=False,
+                    wait=True,
+                    callback_feedback=self.helpers.cb_set_map_feedback,
+                    callback_finish=self.helpers.cb_set_map_finish
+                )
+            except Exception as e:
+                self.app.log.error(f'Error changing map: {e}')
+                self.helpers.retry_step(
+                    transitions=self,
+                    last_state='TELEOPERATING',
+                )
+            end_time = time.time()
+            self.app.log.warn(
+                f'Change map \'{map_name}\' time: {end_time - start_time}'
             )
-        except Exception as e:
-            self.app.log.error(f'Error changing map: {e}')
-            self.helpers.retry_step(
-                transitions=self,
-                last_state='TELEOPERATING',
-            )
-        end_time = time.time()
-        self.app.log.warn(
-            f'Change map \'{map_name}\' time: {end_time - start_time}'
-        )
-        self.set_state('TELEOPERATION_DONE')
+            self.set_state('TELEOPERATION_DONE')
+        else:
+            if self.app.is_timer_done('fake_change_map'):
+                self.set_state('TELEOPERATION_DONE')
 
     
     async def TELEOPERATION_DONE(self):
@@ -64,43 +72,54 @@ class Transitions(CommonTransitions):
 
 
     async def EXIT_FROM_ELEVATOR(self):
-        if self.helpers.exit_elevator_id is not None:
-            self.set_state('LOCALIZING')
+        if not self.app.only_ui:
+            if self.helpers.exit_elevator_id is not None:
+                self.set_state('LOCALIZING')
+        else:
+            if self.app.is_timer_done('fake_exit_elevator'):
+                self.set_state('LOCALIZING')
         
     
     async def LOCALIZING(self):
-        localizing_point = \
-            await self.helpers.get_elevator_localization_points(
-                rotate_180=self.helpers.try_rotate_localization_points
-            )
-        localization = False
-        for point in localizing_point:
-            try:
-                self.app.log.debug(f'Localizing on point: {point}')
-                await self.app.nav.set_current_pose(
-                    **point,
-                    wait=True
+        if not self.app.only_ui:
+            localizing_point = \
+                await self.helpers.get_elevator_localization_points(
+                    rotate_180=self.helpers.try_rotate_localization_points
                 )
-                localization = True
-                self.app.log.warn('Localized')
-                self.helpers.current_target_floor_reached()
-                self.set_state('END')
-            except RayaNavLocalizationRejected as e:
-                self.app.log.error(f'Error localizing: {e}')
-        
-        if localization is False:
-            if self.helpers.try_rotate_localization_points:
-                self.log.error(
-                    'Localization failed, even after rotating 180 degrees'
-                )
-                self.log.error('Trying again...')
-                self.helpers.retry_step(
-                    transitions=self,
-                    last_state='LOCALIZING',
-                )
-            else:
-                self.set_state('TELEOPERATE_TO_LOCALIZE')
-
+            localization = False
+            for point in localizing_point:
+                try:
+                    self.app.log.debug(f'Localizing on point: {point}')
+                    await self.app.nav.set_current_pose(
+                        **point,
+                        wait=True
+                    )
+                    localization = True
+                    self.app.log.warn('Localized')
+                    self.helpers.current_target_floor_reached()
+                    self.set_state('END')
+                except RayaNavLocalizationRejected as e:
+                    self.app.log.error(f'Error localizing: {e}')
+            
+            if localization is False:
+                if self.helpers.try_rotate_localization_points:
+                    self.log.error(
+                        'Localization failed, even after rotating 180 degrees'
+                    )
+                    self.log.error('Trying again...')
+                    self.helpers.retry_step(
+                        transitions=self,
+                        last_state='LOCALIZING',
+                    )
+                else:
+                    self.set_state('TELEOPERATE_TO_LOCALIZE')
+        else:
+            if self.app.is_timer_done('fake_localizing'):
+                if self.helpers.first_fake_localize_try:
+                    self.set_state('TELEOPERATE_TO_LOCALIZE')
+                else:
+                    self.set_state('END')
+                
 
     async def TELEOPERATE_TO_LOCALIZE(self):
         if self.helpers._ui_response_wait_for_help is None:

@@ -20,21 +20,37 @@ class Actions(CommonAction):
                 status=FLEET_UPDATE_STATUS.INFO,
                 message=FLEET_CHECK_IF_LOCALIZED
             )
-        await self.app.ui.display_screen(**UI_SCREEN_LOCALIZING)
+        await self.app.ui.display_screen(
+                **UI_SCREEN_LOCALIZING,
+            )
+        try:
+            await self.app.leds.animation(**LEDS_LOCALIZING, wait=False)
+        except Exception as e:
+            self.log.error(f'animation exception {type(e)}')
         await self.helpers.change_costmap_to_point(
             initial_point='home',
             final_point='elev',
         )
+        if self.app.only_ui:
+            self.app.create_timer('fake_localizing', 3.0)
 
 
     async def enter_GO_TO_CART_POINT(self):
-        await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
+        await self.app.ui.show_animation(**UI_SCREEN_PICK_CART)
+        try:
+            await self.app.leds.animation(**LEDS_NAVIGATING, wait=False)
+        except Exception as e:
+            self.log.error(f'animation exception {type(e)}')
+        
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_STATUS_GOING_TO_CART_POINT
         )
-        self.helpers.fsm_take_cart.restart()
-        await self.helpers.fsm_take_cart.run_in_background()
+        if not self.app.only_ui:
+            self.helpers.fsm_take_cart.restart()
+            await self.helpers.fsm_take_cart.run_in_background()
+        else:
+            self.app.create_timer('fake_take_cart', 3.0)
 
 
     async def enter_NAV_TO_WAITING_ELEVATOR(self):
@@ -60,22 +76,25 @@ class Actions(CommonAction):
                 message=copy_ui_screen['title']
             )
         
-        # TODO in case that the route is not found, it should be handled
-        floor = self.helpers.get_current_floor_number()
-        # floor = current_package['map']['floor']
-        steps = deepcopy(SKILL_NAVIGATION[floor][route])
-        execute_args = {
-            'args': {
-                **self.app.extract_units_user_id_by_floor(floor)
-            },
-            'steps': steps
-        }
-        await self.app.skill_nav_steps.execute_main(
-            execute_args=execute_args,
-            callback_done=self.helpers.cb_nav_skill_done,
-            callback_feedback=self.helpers.cb_nav_skill_feedback,
-            wait=False
-        )
+        if not self.app.only_ui:
+            # TODO in case that the route is not found, it should be handled
+            floor = self.helpers.get_current_floor_number()
+            # floor = current_package['map']['floor']
+            steps = deepcopy(SKILL_NAVIGATION[floor][route])
+            execute_args = {
+                'args': {
+                    **self.app.extract_units_user_id_by_floor(floor)
+                },
+                'steps': steps
+            }
+            await self.app.skill_nav_steps.execute_main(
+                execute_args=execute_args,
+                callback_done=self.helpers.cb_nav_skill_done,
+                callback_feedback=self.helpers.cb_nav_skill_feedback,
+                wait=False
+            )
+        else:
+            self.app.create_timer('fake_nav', 5.0)
 
 
     async def enter_NAV_TO_FLOOR(self):
@@ -121,22 +140,25 @@ class Actions(CommonAction):
                 message=copy_ui_screen['title']
             )
         
-        # TODO in case that the route is not found, it should be handled
-        floor = self.helpers.get_current_floor_number()
-        # floor = current_package['map']['floor']
-        steps = deepcopy(SKILL_NAVIGATION[floor][route])
-        execute_args = {
-            'args': {
-                **self.app.extract_units_user_id_by_floor(floor)
-            },
-            'steps': steps
-        }
-        await self.app.skill_nav_steps.execute_main(
-            execute_args=execute_args,
-            callback_done=self.helpers.cb_nav_skill_done,
-            callback_feedback=self.helpers.cb_nav_skill_feedback,
-            wait=False
-        )
+        if not self.app.only_ui:
+            # TODO in case that the route is not found, it should be handled
+            floor = self.helpers.get_current_floor_number()
+            # floor = current_package['map']['floor']
+            steps = deepcopy(SKILL_NAVIGATION[floor][route])
+            execute_args = {
+                'args': {
+                    **self.app.extract_units_user_id_by_floor(floor)
+                },
+                'steps': steps
+            }
+            await self.app.skill_nav_steps.execute_main(
+                execute_args=execute_args,
+                callback_done=self.helpers.cb_nav_skill_done,
+                callback_feedback=self.helpers.cb_nav_skill_feedback,
+                wait=False
+            )
+        else:
+            self.app.create_timer('fake_nav', 5.0)
 
 
     async def enter_NOTIFY_ORDER_ARRIVED(self):
@@ -227,25 +249,32 @@ class Actions(CommonAction):
         
         route = f'{last_unit}_elev'
         self.log.warn(f'route #{route}')
+
+        if not self.app.only_ui:
         
-        await self.helpers.change_costmap_to_point(
-            initial_point=last_unit,
-            final_point='elev',
-        )
-        floor = self.helpers.get_current_floor_number()
-        steps = deepcopy(SKILL_NAVIGATION[floor][route])
-        execute_args = {
-            'args': {
-                **self.app.extract_units_user_id_by_floor(floor)
-            },
-            'steps': steps
-        }
-        await self.app.skill_nav_steps.execute_main(
-            execute_args=execute_args,
-            callback_done=self.helpers.cb_nav_skill_done,
-            callback_feedback=self.helpers.cb_nav_skill_feedback,
-            wait=False
-        )
+            await self.helpers.change_costmap_to_point(
+                initial_point=last_unit,
+                final_point='elev',
+            )
+            floor = self.helpers.get_current_floor_number()
+            steps = deepcopy(SKILL_NAVIGATION[floor][route])
+            execute_args = {
+                'args': {
+                    **self.app.extract_units_user_id_by_floor(floor)
+                },
+                'steps': steps
+            }
+            await self.app.skill_nav_steps.execute_main(
+                execute_args=execute_args,
+                callback_done=self.helpers.cb_nav_skill_done,
+                callback_feedback=self.helpers.cb_nav_skill_feedback,
+                wait=False
+            )
+
+        else:
+            self.app.create_timer('fake_nav', 5.0)
+
+
 
 
     async def leave_NAV_TO_WAITING_ELEVATOR_TO_WAREHOUSE(self):
@@ -254,21 +283,27 @@ class Actions(CommonAction):
 
     async def enter_NAV_TO_WAREHOUSE_FLOOR(self):
         await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
-        self.app.current_target_floor_map_name = \
-            self.app.selected_parking['map_name']
-        self.helpers.fsm_go_to_floor.restart()
-        await self.helpers.fsm_go_to_floor.run_in_background()
+        if not self.app.only_ui:
+            self.app.current_target_floor_map_name = \
+                self.app.selected_parking['map_name']
+            self.helpers.fsm_go_to_floor.restart()
+            await self.helpers.fsm_go_to_floor.run_in_background()
+        else:
+            self.app.create_timer('fake_nav', 5.0)
 
 
     async def enter_PARK_CART(self):
         await self.app.ui.show_animation(**UI_SCREEN_NAVIGATING)
-        await self.helpers.change_costmap_to_point(
-            initial_point='elev',
-            final_point='home',
-        )
-        await self.app.fleet.update_app_status(
-                status=FLEET_UPDATE_STATUS.INFO,
-                message=FLEET_PARKING_CART
+        if not self.app.only_ui:
+            await self.helpers.change_costmap_to_point(
+                initial_point='elev',
+                final_point='home',
             )
-        self.helpers.fsm_leave_cart.restart()
-        await self.helpers.fsm_leave_cart.run_in_background()
+            await self.app.fleet.update_app_status(
+                    status=FLEET_UPDATE_STATUS.INFO,
+                    message=FLEET_PARKING_CART
+                )
+            self.helpers.fsm_leave_cart.restart()
+            await self.helpers.fsm_leave_cart.run_in_background()
+        else:
+            self.app.create_timer('fake_park', 5.0)

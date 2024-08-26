@@ -12,6 +12,7 @@ class Helpers(ParkCartHelpers):
         self.teleoperation_response = None
         self.exit_elevator_id = None
         self.try_rotate_localization_points = False
+        self.first_fake_localize_try = False
 
 
     def cb_delivery_arrived_ui_response(self, response):

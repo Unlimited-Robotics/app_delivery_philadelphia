@@ -24,6 +24,12 @@ UI_SCREEN_NAVIGATING = {
     **UI_COMMON_OPTIONS
 }
 
+UI_SCREEN_PICK_CART = {
+    'title':'Picking your cart',
+    'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
+    **UI_COMMON_OPTIONS
+}
+
 UI_SCREEN_NAV_TO_PACKAGE_POINT = {
     'title':'Delivering items to [department_name]',
     'lottie': UI_LOTTIE_DELIVERING_PACKAGE,
@@ -72,7 +78,7 @@ UI_SCREEN_OPTIONS_DELIVERY_ARRIVED = {
 }
 
 UI_SCREEN_OPTIONS_ELEVATOR_ENTERING = {
-    'title':'I need to go to the floor [floor], Which elevator should i use?',
+    'title':'I need to go to the floor [floor], Which elevator should I use?',
     'max_items_shown': 0,
     'data': [
             {'id': '1', 'name': 'Elevator 1'}, 

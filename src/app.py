@@ -50,6 +50,11 @@ class RayaApplication(RayaApplicationBase):
         
         self.log.debug('Showing UI screen')
         await self.ui.show_animation(**UI_SCREEN_NAVIGATING)
+        try:
+            await self.leds.animation(**LEDS_NAVIGATING, wait=False)
+        except Exception as e:
+            self.log.error(f'animation exception {type(e)}')
+
         await self.set_gary_footprint(footprint=GARY_FOOTPRINT)
         # await self.set_gary_footprint(footprint=GARY_SELECTED_CART_FOOTPRINT)
         
@@ -76,7 +81,7 @@ class RayaApplication(RayaApplicationBase):
         
         self.skill_att2cart = None
         self.skill_detach = None
-        if self.enable_attach:
+        if self.enable_attach and not self.only_ui:
             self.log.debug('Registering attach skill')
             self.skill_att2cart = self.register_skill(SkillAttachToCart)
             self.log.debug('Executing setup for attach skill')
@@ -99,7 +104,9 @@ class RayaApplication(RayaApplicationBase):
     async def main(self):
         self.log.info('App started')
         try:
-            await self.fsm_main_task.run_and_await()
+            await self.fsm_main_task.run_and_await(
+                    only_ui=self.only_ui,
+                )
             await self.fleet.finish_task(
                 result=FLEET_FINISH_STATUS.SUCCESS,
                 message='Task finished successfully'
@@ -189,6 +196,11 @@ class RayaApplication(RayaApplicationBase):
         self.run_from_console = self.get_flag_argument(
             '--fake',
             help='If enabled it will run the app from the fleet'
+        )
+
+        self.only_ui = self.get_flag_argument(
+            '--only-ui',
+            help='Makes the app to skip all the navigation and not UI related stuff.'
         )
         
         self.enable_attach = self.get_argument(

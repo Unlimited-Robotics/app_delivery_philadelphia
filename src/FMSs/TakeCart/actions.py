@@ -73,7 +73,7 @@ class Actions(CommonAction):
             current_package['map_name']
         )
         copy_ui_screen['title'] = message
-        # TODO add ui screen for elevator
+        
         await self.app.ui.show_animation(**copy_ui_screen)
         
         execute_args = {
