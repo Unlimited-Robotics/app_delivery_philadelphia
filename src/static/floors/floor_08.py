@@ -10,7 +10,7 @@ elevator_3_max = [124, 1764, 1.7380196448684087]
 elevator_3_min = [132, 1810, 1.739540979477121]
 unit_1 = [1380, 2125, 0.21877036470607367]
 unit_1_entrance = [975, 1709, 0.1535117858370453]
-unit_1_exit = [1566, 1749, 1.7434466835096198]
+unit_1_exit = [1514, 1756, 1.6756732655251305]
 unit_2 = [1093, 446, 0.1539887578222113]
 wait_elevator_l = [629, 1769, -2.997770086985672]
 wait_elevator_r = [591, 1703, -2.9689923334600166]
@@ -248,8 +248,8 @@ FLOOR_08_ROUTES = {
             'name': 'Door unit1 exit',
             'type': 'automatic_door',
             'after_door_point': {
-                'x': float(1539), ### FIRST PARTIAL POINT
-                'y': float(1710),
+                'x': float(1273), ### FIRST PARTIAL POINT
+                'y': float(1260),
                 'angle': float(1.7311717707708474),
                 'pos_unit': POSITION_UNIT.PIXELS,
                 'ang_unit': ANGLE_UNIT.RADIANS,
@@ -262,7 +262,6 @@ FLOOR_08_ROUTES = {
             'name': 'Navigation to waiting elevator',
             'type': 'nav_to_point',
             'points': [
-                    [1539, 1710, 1.7311717707708474],
                     [1273, 1260, -2.9219785284131934],
                     [977, 1660, -2.9501671720644502],
                     SELECTED_WAITING_ELEVATOR
