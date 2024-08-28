@@ -70,7 +70,7 @@ class Actions(CommonAction):
         copy_ui_screen = deepcopy(UI_SCREEN_NAV_TO_PACKAGE_POINT)
         message = copy_ui_screen['title'].replace(
             '[department_name]', 
-            current_package['map_name']
+            current_package['name']
         )
         copy_ui_screen['title'] = message
         # TODO add ui screen for elevator
