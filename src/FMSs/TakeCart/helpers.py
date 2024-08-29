@@ -52,10 +52,10 @@ class Helpers(CommonHelpers):
     def cb_feedback_approach_skill(self, feedback_code, feedback_msg, x_error, y_error, angle_error):
         # Feedbacks:
         #   109: Obstacle detected
-        if feedback_code in [3]:
-            if feedback_code not in self.log_fb_approach_control or \
-                time.time()>(self.log_fb_approach_control[feedback_code] + LOG_MIN_PERIOD):
+        # if feedback_code in [3]:
+        #     if feedback_code not in self.log_fb_approach_control or \
+        #         time.time()>(self.log_fb_approach_control[feedback_code] + LOG_MIN_PERIOD):
                 self.app.log.warn('Approach skill warning:')
                 self.app.log.warn(f'  feedback_code: {feedback_code}')
                 self.app.log.warn(f'  feedback_msg: {feedback_msg}')
-                self.log_fb_approach_control[feedback_code] = time.time()
+                # self.log_fb_approach_control[feedback_code] = time.time()

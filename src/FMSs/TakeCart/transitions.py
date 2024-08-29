@@ -22,52 +22,32 @@ class Transitions(CommonTransitions):
     
     async def APPROACH_TO_CART(self):
         if self.helpers.is_approach_done():
+            print('is_approach_done')
             if self.helpers.was_approach_success():
-                self.set_state('ATTACH_TO_CART')
+                self.set_state('ATTACH_TO_CART_EXEC')
             else:
                 self.attach_fails+=1
                 self.set_state('GO_TO_CART_POINT')
 
 
-    async def ATTACH_TO_CART(self):
+    async def ATTACH_TO_CART_EXEC(self):
         state = self.app.skill_att2cart.get_execution_state()
-        
+        print(state)
         if state == SKILL_STATE.EXECUTED:
-            result_main = await self.app.skill_att2cart.wait_main()
-            self.app.log.debug(f'ATTACH_TO_CART result_main: {result_main}')
+            self.set_state('ATTACH_TO_CART_FINISH')
         elif state == SKILL_STATE.ERROR_EXECUTING:
-            try:
-                await self.app.skill_att2cart.wait_main()
-            except Exception as e:
-                self.app.log.error(
-                    f'Error while waiting main for ATTACH_TO_CART: {e}'
-                )
-            finally:
-                self.helpers.retry_step(
-                    transitions=self,
-                    last_state='ATTACH_TO_CART',
-                )
+            self.attach_fails+=1
+            self.set_state('GO_TO_CART_POINT')
+
+    
+    async def ATTACH_TO_CART_FINISH(self):
+        state = self.app.skill_att2cart.get_execution_state()
+        print(state)
+        if state == SKILL_STATE.FINISHED:
+            self.set_state('GO_TO_ELEVATOR')
         elif state == SKILL_STATE.ERROR_FINISHING:
-            try:
-                await self.app.skill_att2cart.wait_finish()
-            except Exception as e:
-                self.app.log.error(
-                    f'Error while waiting finish for ATTACH_TO_CART: {e}'
-                )
-            finally:
-                self.helpers.retry_step(
-                    transitions=self,
-                    last_state='ATTACH_TO_CART',
-                )      
-        elif state == SKILL_STATE.FINISHED:
-            result_finish = await self.app.skill_att2cart.wait_finish()
-            self.app.log.debug(
-                f'ATTACH_TO_CART result_finish: {result_finish}'
-            )
-            await self.app.set_gary_footprint(
-                footprint=GARY_SELECTED_CART_FOOTPRINT
-            )
-            self.set_state('END')
+            self.attach_fails+=1
+            self.set_state('GO_TO_CART_POINT')
 
 
     async def GO_TO_ELEVATOR(self):

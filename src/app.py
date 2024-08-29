@@ -138,7 +138,7 @@ class RayaApplication(RayaApplicationBase):
         self.locations = []
         delivery_location_fake = [
             # floor2
-            # "{'name': 'CICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': 'CICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             # "{'name': 'MRICU HIGH',     'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             # "{'name': 'MICU',           'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             # "{'name': 'MRICU ELBOW',    'map_name': 'Main__2' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
@@ -150,15 +150,15 @@ class RayaApplication(RayaApplicationBase):
 
             # # # floor5
             # "{'name': '5E',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            # "{'name': '5W',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            "{'name': '5W',    'map_name': 'Main__5' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
 
             # # floor6
-            "{'name': '6E',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '6W',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '6E',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '6W',    'map_name': 'Main__6' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
             
             # floor7
-            "{'name': '7E',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
-            "{'name': '7W',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '7E',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
+            # "{'name': '7W',      'map_name': 'Main__7' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 
         
             # # floor8
             # "{'name': '8W',    'map_name': 'Main__8' , 'user_id': '1b3b40d4-2cf0-4ea0-b484-11b7cb721f86' }", 

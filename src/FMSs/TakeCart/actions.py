@@ -46,7 +46,8 @@ class Actions(CommonAction):
         )
 
 
-    async def enter_ATTACH_TO_CART(self):
+    async def enter_ATTACH_TO_CART_EXEC(self):
+        print('enter_ATTACH_TO_CART_EXEC')
         await self.app.skill_att2cart.execute_main(
             execute_args=EXECUTION_ARG_ATTACH_SKILL,
             callback_done=self.helpers.cb_skill_attach_done,
@@ -54,8 +55,22 @@ class Actions(CommonAction):
             wait=False
         )
 
+    
+    async def enter_ATTACH_TO_CART_FINISH(self):
+        print('enter_ATTACH_TO_CART_FINISH')
+        await self.app.skill_att2cart.execute_finish(
+            callback_done=self.helpers.cb_skill_attach_done,
+            callback_feedback=self.helpers.cb_skill_attach_feedback,
+            wait=False
+        )
+        
 
     async def enter_GO_TO_ELEVATOR(self):
+
+        await self.app.set_gary_footprint(
+            footprint=GARY_SELECTED_CART_FOOTPRINT
+        )
+        
         current_package = self.helpers.get_current_package()
                 
         copy_ui_screen = deepcopy(UI_SCREEN_NAV_TO_PACKAGE_POINT)

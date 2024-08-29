@@ -1,5 +1,5 @@
 MOTION_HOME_BACKWARD = {
-    'distance': -0.45, 
+    'distance': -0.20, 
     'x_velocity': 0.1,
     'enable_obstacles': True
 }
