@@ -77,11 +77,11 @@ class Helpers(CommonHelpers):
         map_name = result['map_name']
         map_name_warehouse = self.app.selected_parking['map_name']
         if is_localized and map_name == map_name_warehouse:
-            self.app.log.warn((
+            self.app.log.info((
                     f'current_map: {map_name}, '
                     f'map_name_warehouse: {map_name_warehouse}.'
                 ))
-            self.app.log.warn(
+            self.app.log.info(
                 'The robot is in the warehouse_floor'
             )
             return True
@@ -94,11 +94,11 @@ class Helpers(CommonHelpers):
         map_name = result['map_name']
         package_map_name = self.current_package['map_name']
         if is_localized and map_name == package_map_name:    
-            self.app.log.warn((
+            self.app.log.info((
                     f'current_map: {map_name}, '
                     f'package_map_name: {package_map_name}.'
                 ))
-            self.app.log.warn(
+            self.app.log.info(
                 'The robot is in the same floor as the delivery_point '
             )
             return True

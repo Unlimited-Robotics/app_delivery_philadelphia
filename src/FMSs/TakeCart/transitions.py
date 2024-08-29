@@ -11,30 +11,22 @@ class Transitions(CommonTransitions):
     def __init__(self, app, helpers: Helpers):
         super().__init__(app=app, helpers=helpers)
         self.helpers: Helpers
-
-
-    async def CHECK_IF_INSIDE_ZONE(self):
-        if await self.helpers.check_if_inside_zone():
-            self.set_state('GO_TO_HOME_LOCATION')
-
-
-    async def GO_TO_HOME_LOCATION(self):
-        result = await self.app.skill_nav_steps.wait_main()
-        self.app.log.warn(f'skill_template result: {result}')
-        try:
-            await self.app.motion.move_linear(
-                **MOTION_HOME_BACKWARD,
-                wait=True,
-            )
-        except Exception:
-            pass
-        self.set_state('GO_TO_CART_POINT')
+        self.attach_fails = 0
 
 
     async def GO_TO_CART_POINT(self):
         result = await self.app.skill_nav_steps.wait_main()
         self.app.log.warn(f'skill_template result: {result}')
-        self.set_state('ATTACH_TO_CART')
+        self.set_state('APPROACH_TO_CART')
+
+    
+    async def APPROACH_TO_CART(self):
+        if self.helpers.is_approach_done():
+            if self.helpers.was_approach_success():
+                self.set_state('ATTACH_TO_CART')
+            else:
+                self.attach_fails+=1
+                self.set_state('GO_TO_CART_POINT')
 
 
     async def ATTACH_TO_CART(self):
@@ -75,7 +67,7 @@ class Transitions(CommonTransitions):
             await self.app.set_gary_footprint(
                 footprint=GARY_SELECTED_CART_FOOTPRINT
             )
-            self.set_state('GO_TO_ELEVATOR')
+            self.set_state('END')
 
 
     async def GO_TO_ELEVATOR(self):

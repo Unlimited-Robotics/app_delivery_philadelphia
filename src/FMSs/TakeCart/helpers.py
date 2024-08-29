@@ -1,3 +1,5 @@
+import time
+
 from src.FMSs.BaseAppFSM.helpers import CommonHelpers
 
 from src.static.constants import *
@@ -9,6 +11,8 @@ class Helpers(CommonHelpers):
 
     def __init__(self, app):
         super().__init__(app=app)
+        self.approach_error_code = None
+        self.log_fb_approach_control = {}
 
 
     async def check_if_inside_zone(self):
@@ -27,3 +31,31 @@ class Helpers(CommonHelpers):
         self.app.log.debug(
             f'Callback Feedback: \'{feedback}\''
         )
+
+
+    def is_approach_done(self):
+        return (self.approach_error_code is not None)
+
+
+    def was_approach_success(self):
+        return (self.approach_error_code==0)
+
+
+    def cb_finish_approach_skill(self, error_code, error_msg, x_error, y_error, angle_error):
+        self.approach_error_code = error_code
+        if error_code != 0:
+            self.app.log.error('Approach skill failed:')
+            self.app.log.error(f'  error_code: {error_code}')
+            self.app.log.error(f'  error_msg: {error_msg}')
+
+
+    def cb_feedback_approach_skill(self, feedback_code, feedback_msg, x_error, y_error, angle_error):
+        # Feedbacks:
+        #   109: Obstacle detected
+        if feedback_code in [3]:
+            if feedback_code not in self.log_fb_approach_control or \
+                time.time()>(self.log_fb_approach_control[feedback_code] + LOG_MIN_PERIOD):
+                self.app.log.warn('Approach skill warning:')
+                self.app.log.warn(f'  feedback_code: {feedback_code}')
+                self.app.log.warn(f'  feedback_msg: {feedback_msg}')
+                self.log_fb_approach_control[feedback_code] = time.time()

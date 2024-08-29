@@ -8,7 +8,7 @@
         "skills": [
             {
                 "name": "attach_to_cart",
-                "version": "==3.0.0.dev"
+                "version": "==4.0.2.dev"
             },
             {
                 "name": "nav_with_steps",

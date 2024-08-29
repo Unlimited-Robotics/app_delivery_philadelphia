@@ -5,10 +5,34 @@ SETUP_ARG_ATTACH_SKILL = {
 }
 
 EXECUTION_ARG_ATTACH_SKILL = {
-    'tag_size': 0.12,
-    'target_tags': POSIBLES_IDS_CART,
-    'reverse': True,
-    'target_distance': 0.55,
+    'leds_interactions': False,
+    'reverse_beeping_alert': False,
+}
+
+# Old ones (when the attach and approach were in the same skill)
+# EXECUTION_ARG_ATTACH_SKILL = {
+#     'tag_size': 0.12,
+#     'target_tags': POSIBLES_IDS_CART,
+#     'reverse': True,
+#     'target_distance': 0.55,
+# }
+
+EXECUTION_ARG_APPROACH_SKILL = {
+    'skill':'approach_to_tag',
+    'family':'36h11',
+    'tag_size':0.12,
+    'sources':['back'],
+    'target_tags':POSIBLES_IDS_CART,
+    'target_distance':0.36,
+    'wait_target_time':4.0,
+    'reverse':True,
+    'max_x_error': 0.02, 
+    'max_y_error': 0.02,
+    'low_angular_velocity':0.15,
+    'low_linear_velocity':0.2,
+    'high_linear_velocity':0.3,
+    'min_approach_distance':0.5,
+    'approach_to_center':False,
 }
 
 SETUP_ARG_DETACH_SKILL = {

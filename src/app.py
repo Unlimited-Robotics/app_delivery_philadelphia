@@ -19,7 +19,7 @@ from src.static import *
 from src.static.app_errors import AppError
 
 from skills.NavSteps import SkillNavSteps
-from skills.attach_to_cart import SkillAttachToCart, SkillDetachCart
+from skills.attach_to_cart import SkillAttachToCart, SkillDetachFromCart
 
 from raya.exceptions import *
 
@@ -87,7 +87,7 @@ class RayaApplication(RayaApplicationBase):
             self.log.debug(f'Attach skill setup result: {result}')
             
             self.log.debug('Registering detach skill')
-            self.skill_detach = self.register_skill(SkillDetachCart)
+            self.skill_detach = self.register_skill(SkillDetachFromCart)
             self.log.debug('Executing setup for detach skill')
             result = await self.skill_detach.execute_setup(
                 setup_args=SETUP_ARG_DETACH_SKILL,
@@ -290,10 +290,10 @@ class RayaApplication(RayaApplicationBase):
         self.current_target_floor_map_name = None
         
         # print info
-        self.log.warn('App is running with there args:')
-        self.log.warn(f'Selected parking: {self.selected_parking}')
+        self.log.info('App is running with there args:')
+        self.log.info(f'Selected parking: {self.selected_parking}')
         for location in zip(self.locations):
-            self.log.warn(f'\tLocation: {location}')
+            self.log.info(f'\tLocation: {location}')
 
 
     async def set_gary_footprint(self, footprint):

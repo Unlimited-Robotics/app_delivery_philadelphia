@@ -12,24 +12,6 @@ class Actions(CommonAction):
         self.helpers: Helpers
 
 
-    async def enter_GO_TO_HOME_LOCATION(self):
-        await self.app.set_gary_footprint(
-            footprint=GARY_FOOTPRINT
-        )
-        
-        home_steps = deepcopy(BASEMENT_ROUTES['go_to_home'])
-        home_steps[0]['point'] = await self.helpers.get_home_position()
-        execute_args = {
-            'steps': home_steps
-        }
-        await self.app.skill_nav_steps.execute_main(
-            execute_args=execute_args,
-            callback_done=self.helpers.cb_skill_done,
-            callback_feedback=self.helpers.cb_skill_feedback,
-            wait=False
-        )
-
-
     async def enter_GO_TO_CART_POINT(self):
         await self.app.set_gary_footprint(
             footprint=GARY_FOOTPRINT
@@ -50,12 +32,21 @@ class Actions(CommonAction):
         )
 
 
-    async def enter_ATTACH_TO_CART(self):
-        
+    async def enter_APPROACH_TO_CART(self):
         await self.app.fleet.update_app_status(
             status=FLEET_UPDATE_STATUS.INFO,
             message=FLEET_ROBOT_ATTACHING_TO_CART
         )
+        self.helpers.approach_error_code = None
+        await self.app.robot_skills.execute_skill(
+            **EXECUTION_ARG_APPROACH_SKILL,
+            callback_finish=self.helpers.cb_finish_approach_skill,
+            callback_feedback=self.helpers.cb_feedback_approach_skill,
+            wait=False,
+        )
+
+
+    async def enter_ATTACH_TO_CART(self):
         await self.app.skill_att2cart.execute_main(
             execute_args=EXECUTION_ARG_ATTACH_SKILL,
             callback_done=self.helpers.cb_skill_attach_done,
