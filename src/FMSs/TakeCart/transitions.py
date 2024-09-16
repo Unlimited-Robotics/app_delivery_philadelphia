@@ -22,7 +22,7 @@ class Transitions(CommonTransitions):
     
     async def APPROACH_TO_CART(self):
         if self.helpers.is_approach_done():
-            print('is_approach_done')
+            self.log.info('is_approach_done')
             if self.helpers.was_approach_success():
                 self.set_state('ATTACH_TO_CART_EXEC')
             else:
@@ -32,7 +32,7 @@ class Transitions(CommonTransitions):
 
     async def ATTACH_TO_CART_EXEC(self):
         state = self.app.skill_att2cart.get_execution_state()
-        print(state)
+        self.log.info(state)
         if state == SKILL_STATE.EXECUTED:
             self.set_state('ATTACH_TO_CART_FINISH')
         elif state == SKILL_STATE.ERROR_EXECUTING:
@@ -42,7 +42,7 @@ class Transitions(CommonTransitions):
     
     async def ATTACH_TO_CART_FINISH(self):
         state = self.app.skill_att2cart.get_execution_state()
-        print(state)
+        self.log.info(state)
         if state == SKILL_STATE.FINISHED:
             self.set_state('GO_TO_ELEVATOR')
         elif state == SKILL_STATE.ERROR_FINISHING:
